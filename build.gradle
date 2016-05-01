@@ -1,7 +1,10 @@
 group 'EssenseDefence'
 version '0.1'
 
-apply plugin:'java'
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "io.github.sevjet.essensedefence.Main"
 
 repositories {
     mavenCentral()
