@@ -22,13 +22,24 @@ public class Main extends SimpleApplication {
         GraphicsDevice device = GraphicsEnvironment.
                 getLocalGraphicsEnvironment().getDefaultScreenDevice();
         DisplayMode[] modes = device.getDisplayModes();
+        int high = 0;
+        for (int i = 1; i < modes.length; i++){
+            if (modes[i].getWidth()*modes[i].getHeight() > modes[high].getWidth()*modes[high].getHeight() ||
+                    (modes[i].getWidth()*modes[i].getHeight() == modes[high].getWidth()*modes[high].getHeight() &&
+                    modes[i].getRefreshRate() >= modes[high].getRefreshRate() &&
+                    modes[i].getBitDepth() >= modes[high].getBitDepth()))
+                high = i;
+//            System.out.println(i+"  "+modes[i].getWidth()+' '+modes[i].getHeight()+' '+
+//                    modes[i].getRefreshRate()+ ' ' +modes[i].getBitDepth());
 
+        }
         settings.setTitle("Our Tower Defense Demo");
         //settings.setSettingsDialogImage("Interface/splashscreen.png");
-        settings.setResolution(modes[0].getWidth(), modes[0].getHeight());
-        settings.setFrequency(modes[0].getRefreshRate());
+        settings.setResolution(modes[high].getWidth(), modes[high].getHeight());
+        settings.setFrequency(modes[high].getRefreshRate());
         settings.setFullscreen(device.isFullScreenSupported());
-        settings.setSamples(5);
+        settings.setSamples(16);
+        settings.setBitsPerPixel(modes[high].getBitDepth());
         //   settings.setDisplayFps(false);
         //     settings.setDisplayStatView(false);
 
@@ -40,7 +51,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         flyCam.setMoveSpeed(33);
-        rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
+        rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/skySphere.jpg", true));
 
         Box mesh = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", mesh);
@@ -76,20 +87,21 @@ public class Main extends SimpleApplication {
         Node axis = new Node();
         Geometry line;
 
-        line = myLine(Vector3f.ZERO,
+        line = myLine(Vector3f.UNIT_X.mult(0),
                 Vector3f.UNIT_X.mult(length),
                 ColorRGBA.Red);
         axis.attachChild(line);
 
-        line = myLine(Vector3f.ZERO,
+        line = myLine(Vector3f.UNIT_Y.mult(0),
                 Vector3f.UNIT_Y.mult(length),
                 ColorRGBA.Green);
         axis.attachChild(line);
 
-        line = myLine(Vector3f.ZERO,
+        line = myLine(Vector3f.UNIT_Z.mult(0),
                 Vector3f.UNIT_Z.mult(length),
                 ColorRGBA.Blue);
         axis.attachChild(line);
+
 
         return axis;
     }
