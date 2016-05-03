@@ -71,25 +71,18 @@ public class Main extends SimpleApplication {
         GeometryManager.setDefault(Wall.class, geom);
     }
 
-    protected void initDebug(){
-        Node debugNode = new Node();
-        debugNode.attachChild(coorAxises(1111f));
-        debugNode.attachChild(gridXY(100));
-        rootNode.attachChild(debugNode);
-    }
-
-    @Override
-    public void simpleInitApp() {
-        initStartData();
-        //initDebug();
-
-        testWall();
-        //testFieldClass();
+    protected void initStartSettings(){
         //flyCam.setEnabled(false);
         flyCam.setMoveSpeed(33);
-        rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
+        rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/Skysphere.jpg", true));
+    }
 
-        /* Useless shit
+    protected void initDebug(){
+        Node debugNode = new Node();
+        debugNode.attachChild(coorAxises(111f));
+        debugNode.attachChild(gridXY(100));
+
+//        Unuseless shit
         Box mesh = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", mesh);
         Material mat = new Material(assetManager,
@@ -97,15 +90,29 @@ public class Main extends SimpleApplication {
         mat.setColor("Color", ColorRGBA.Blue);
 //        mat.getAdditionalRenderState().setWireframe(true);
         geom.setMaterial(mat);
-        rootNode.attachChild(geom);
-         */
+        debugNode.attachChild(geom);
+
+        rootNode.attachChild(debugNode);
+    }
+
+    @Override
+    public void simpleInitApp() {
+        initStartData();
+        initStartSettings();
+        initDebug();
+
+        testWall();
+        //testFieldClass();
     }
 
     public void testWall(){
         Wall wall = new Wall();
         Field field = new Field(5, 5);
+        field.setLocalTranslation(10, 10, 1);
         field.getCell(2, 3).setBuilding(wall);
-        field.addObject(wall);
+
+        wall = new Wall();
+        field.getCell(4, 1).setBuilding(wall);
         rootNode.attachChild(field);
     }
 

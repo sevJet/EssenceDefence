@@ -86,13 +86,17 @@ public class Cell extends JME3Object {
 
     @Override
     public boolean updateGeometry() {
-        if(super.updateGeometry()) {
+        if (super.updateGeometry()) {
             getGeometry().getMaterial().setColor("Color",
                     new ColorRGBA(
                             (passable || occupiedBy != null ? 1 : 0),
                             (passable ? 1 : 0),
                             (passable && occupiedBy == null ? 1 : 0),
                             1));
+            if (getGeometry().getParent() != null &&
+                    getGeometry().getParent().getClass() == Field.class &&
+                    occupiedBy != null)
+                ((Field)this.getGeometry().getParent()).addObject(occupiedBy);
             return true;
         } else {
             return false;

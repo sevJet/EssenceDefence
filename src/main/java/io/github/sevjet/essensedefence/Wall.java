@@ -2,13 +2,13 @@ package io.github.sevjet.essensedefence;
 
 public class Wall extends Building {
 
-    private double price;
+    private int price;
 
     public Wall() {
-        this(0.0D);
+        this(0);
     }
 
-    public Wall(double price) {
+    public Wall(int price) {
         setHeight(1);
         setWidth(1);
 
@@ -20,11 +20,11 @@ public class Wall extends Building {
 
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 }
