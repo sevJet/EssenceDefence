@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Main extends SimpleApplication {
-    // FIX STATIC
-    public static HashMap <Class<? extends jme3Object>, Geometry> mapDefaultGeometry = new HashMap<>();
 
     public static void main(String[] args) {
         Main app = new Main();
@@ -55,8 +53,6 @@ public class Main extends SimpleApplication {
     }
 
     protected void initStartData(){
-        this.mapDefaultGeometry.clear();
-
         Box box = new Box(1/2f, 1/2f, 0);
         Geometry geom = new Geometry("box", box);
         Material mat = new Material(assetManager,
@@ -64,14 +60,14 @@ public class Main extends SimpleApplication {
         mat.setColor("Color", ColorRGBA.Black);
         geom.setMaterial(mat);
 
-        this.mapDefaultGeometry.put(cell.class, geom);
-
+        GeometryManager.setDefault(Cell.class, geom);
     }
+
     protected void initDebug(){
         Node debugNode = new Node();
         debugNode.attachChild(coorAxises(1111f));
         debugNode.attachChild(gridXY(100));
-        rootNode.attachChild(debugNode);
+        guiNode.attachChild(debugNode);
     }
 
     @Override
@@ -81,9 +77,9 @@ public class Main extends SimpleApplication {
 
 //        testCellClass();
         testFieldClass();
-        flyCam.setMoveSpeed(33);
-        rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/Skysphere.jpg", true));
-
+        flyCam.setEnabled(false);
+        //flyCam.setMoveSpeed(33);
+        rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
         Box mesh = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", mesh);
         Material mat = new Material(assetManager,
@@ -91,74 +87,71 @@ public class Main extends SimpleApplication {
         mat.setColor("Color", ColorRGBA.Blue);
 //        mat.getAdditionalRenderState().setWireframe(true);
         geom.setMaterial(mat);
-        rootNode.attachChild(geom);
+        guiNode.attachChild(geom);
     }
 
     public void testCellClass(){
-        cell c = new cell(3, 3, this.mapDefaultGeometry.get(cell.class).clone());
-        rootNode.attachChild(c.getGeometry());
+        Cell c = new Cell(3, 3);
+        guiNode.attachChild(c.getGeometry());
 
-        c = new cell(5, 2, this.mapDefaultGeometry.get(cell.class).clone(), new building());
-        rootNode.attachChild(c.getGeometry());
+        c = new Cell(5, 2, new Building());
+        guiNode.attachChild(c.getGeometry());
 
-        c = new cell(2, 5, this.mapDefaultGeometry.get(cell.class).clone(), true);
-        rootNode.attachChild(c.getGeometry());
+        c = new Cell(2, 5, true);
+        guiNode.attachChild(c.getGeometry());
 
-        c = new cell(6, 6, this.mapDefaultGeometry.get(cell.class).clone(), true);
-        c.setBuild(new building());
-        rootNode.attachChild(c.getGeometry());
+        c = new Cell(6, 6, true);
+        c.setBuild(new Building());
+        guiNode.attachChild(c.getGeometry());
     }
 
-    // FIX GRID INTO field CLASS
+    // FIX GRID INTO Field CLASS
     public void testFieldClass(){
         int rowNum = 5, colNum = 25;
         Node badFace = new Node();
 
-        field map = new field(rowNum, colNum);
-        badFace.attachChild(map.getCellNode());
-        map.getCellNode().setLocalTranslation(4, 0, 1);
+        Field map = new Field(rowNum, colNum);
+        badFace.attachChild(map);
+        map.setLocalTranslation(4, 0, 1);
 
         Node grid = gridXY(rowNum+1, colNum+1, 1, ColorRGBA.White);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
-        map.getCellNode().attachChild(grid);
+        map.attachChild(grid);
 
 
-        map = new field(8, 3);
-        badFace.attachChild(map.getCellNode());
-        map.getCellNode().setLocalTranslation(4, 15, 1);
+        map = new Field(8, 3);
+        badFace.attachChild(map);
+        map.setLocalTranslation(4, 15, 1);
         grid = gridXY(9, 4, 1, ColorRGBA.White);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
-        map.getCellNode().attachChild(grid);
+        map.attachChild(grid);
 
-        map = new field(8, 3);
-        badFace.attachChild(map.getCellNode());
-        map.getCellNode().setLocalTranslation(25, 15, 1);
+        map = new Field(8, 3);
+        badFace.attachChild(map);
+        map.setLocalTranslation(25, 15, 1);
         grid = gridXY(9, 4, 1, ColorRGBA.White);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
-        map.getCellNode().attachChild(grid);
+        map.attachChild(grid);
 
-        map = new field(8, 2);
-        badFace.attachChild(map.getCellNode());
-        map.getCellNode().setLocalTranslation(8, 21, 1);
-        map.getCellNode().rotate(0, 0,(float)Math.PI*45/180f);
+        map = new Field(8, 2);
+        badFace.attachChild(map);
+        map.setLocalTranslation(8, 21, 1);
+        map.rotate(0, 0,(float)Math.PI*45/180f);
         grid = gridXY(9, 3, 1, ColorRGBA.White);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
-        map.getCellNode().attachChild(grid);
+        map.attachChild(grid);
 
-        map = new field(8, 2);
-        badFace.attachChild(map.getCellNode());
-        map.getCellNode().setLocalTranslation(22, 22, 1);
-        map.getCellNode().rotate(0, 0,-(float)Math.PI*45/180f);
+        map = new Field(8, 2);
+        badFace.attachChild(map);
+        map.setLocalTranslation(22, 22, 1);
+        map.rotate(0, 0,-(float)Math.PI*45/180f);
         grid = gridXY(9, 3, 1, ColorRGBA.White);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
-        map.getCellNode().attachChild(grid);
+        map.attachChild(grid);
 
-        Random rnd = new Random();
-        if (Math.abs(rnd.nextInt())%2 == 0){
-            guiNode.attachChild(badFace);
-            badFace.scale(20);
-            badFace.setLocalTranslation(300, 200, 0);
-        } else rootNode.attachChild(badFace);
+        guiNode.attachChild(badFace);
+        badFace.scale(20);
+        badFace.setLocalTranslation(300, 200, 0);
     }
 
     @Override
