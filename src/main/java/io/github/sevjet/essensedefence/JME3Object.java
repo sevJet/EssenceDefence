@@ -26,7 +26,7 @@ public class JME3Object {
         this.y = y;
         this.geometry = (geometry != null) ? geometry : GeometryManager.getDefault(this.getClass());
 
-        updateGeometry();
+        updater();
     }
 
     public int getX() {
@@ -36,7 +36,7 @@ public class JME3Object {
     public void setX(int x) {
         this.x = x;
 
-        updateGeometry();
+        updater();
     }
 
     public int getY() {
@@ -46,7 +46,7 @@ public class JME3Object {
     public void setY(int y) {
         this.y = y;
 
-        updateGeometry();
+        updater();
     }
 
     public Geometry getGeometry() {
@@ -56,24 +56,24 @@ public class JME3Object {
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
 
-        updateGeometry();
+        updater();
     }
 
     public void move(int x, int y) {
         this.x = x;
         this.y = y;
 
-        updateGeometry();
+        updater();
     }
 
     public void moveRelative(int x, int y) {
         this.x += x;
         this.y += y;
 
-        updateGeometry();
+        updater();
     }
 
-    public boolean updateGeometry() {
+    public boolean updater() {
         if(geometry != null) {
             geometry.setLocalTranslation(x, y, z);
             return true;
