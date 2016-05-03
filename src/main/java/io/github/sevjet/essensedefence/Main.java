@@ -7,18 +7,22 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.debug.Grid;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
 
 import java.awt.*;
+import java.util.HashMap;
 
 public class Main extends SimpleApplication {
+    private HashMap <Class<? extends jme3Object>, Geometry> mapDefaultGeometry = new HashMap<>();
 
     public static void main(String[] args) {
         Main app = new Main();
         AppSettings settings = new AppSettings(true);
+
         GraphicsDevice device = GraphicsEnvironment.
                 getLocalGraphicsEnvironment().getDefaultScreenDevice();
         DisplayMode[] modes = device.getDisplayModes();
@@ -48,10 +52,36 @@ public class Main extends SimpleApplication {
         app.start();
     }
 
+    protected void initStartData(){
+        this.mapDefaultGeometry.clear();
+
+        Box box = new Box(1/2f, 1/2f, 0);
+        Geometry geom = new Geometry("box", box);
+        Material mat = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Black);
+        geom.setMaterial(mat);
+
+        this.mapDefaultGeometry.put(cell.class, geom);
+
+    }
+    protected void initDebug(){
+        Node debugNode = new Node();
+        debugNode.attachChild(coorAxises(1111f));
+        debugNode.attachChild(gridXY(100));
+        rootNode.attachChild(debugNode);
+    }
+
     @Override
     public void simpleInitApp() {
+        initStartData();
+        initDebug();
+
+        testCellClass();
+
         flyCam.setMoveSpeed(33);
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/Skysphere.jpg", true));
+
         Box mesh = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", mesh);
         Material mat = new Material(assetManager,
@@ -60,9 +90,21 @@ public class Main extends SimpleApplication {
 //        mat.getAdditionalRenderState().setWireframe(true);
         geom.setMaterial(mat);
         rootNode.attachChild(geom);
+    }
 
-        Node axisNode = coorAxises(1111f);
-        rootNode.attachChild(axisNode);
+    public void testCellClass(){
+        cell c = new cell(3, 3, this.mapDefaultGeometry.get(cell.class).clone());
+        rootNode.attachChild(c.getGeometry());
+
+        c = new cell(5, 2, this.mapDefaultGeometry.get(cell.class).clone(), new building());
+        rootNode.attachChild(c.getGeometry());
+
+        c = new cell(2, 5, this.mapDefaultGeometry.get(cell.class).clone(), true);
+        rootNode.attachChild(c.getGeometry());
+
+        c = new cell(6, 6, this.mapDefaultGeometry.get(cell.class).clone(), true);
+        c.setBuild(new building());
+        rootNode.attachChild(c.getGeometry());
     }
 
     @Override
@@ -80,6 +122,27 @@ public class Main extends SimpleApplication {
     @Override
     public void update() {
         super.update();
+    }
+
+
+    public Node gridXY(int length, ColorRGBA clr){
+        Node axis = new Node();
+        Geometry geom;
+
+        Grid grid = new Grid(length, length, 1);
+        geom = new Geometry("gridXY", grid);
+        Material mat = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", clr);
+        geom.setMaterial(mat);
+        geom.rotate(-90f*(float)Math.PI/180f, 0, 0);
+        axis.attachChild(geom);
+
+        return axis;
+    }
+
+    public Node gridXY(int length){
+        return gridXY(length, ColorRGBA.Gray);
     }
 
     public Node coorAxises(float length) {
@@ -100,7 +163,6 @@ public class Main extends SimpleApplication {
                 Vector3f.UNIT_Z.mult(length),
                 ColorRGBA.Blue);
         axis.attachChild(line);
-
 
         return axis;
     }
