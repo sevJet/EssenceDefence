@@ -14,8 +14,6 @@ import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Random;
 
 public class Main extends SimpleApplication {
 
@@ -52,7 +50,7 @@ public class Main extends SimpleApplication {
         app.start();
     }
 
-    protected void initStartData(){
+    protected void initStartData() {
         Box box = new Box(1/2f, 1/2f, 0);
         Geometry geom = new Geometry("box", box);
         Material mat = new Material(assetManager,
@@ -61,13 +59,23 @@ public class Main extends SimpleApplication {
         geom.setMaterial(mat);
 
         GeometryManager.setDefault(Cell.class, geom);
+
+
+        box = new Box(3/4f, 3/4f, 0);
+        geom = new Geometry("box", box);
+        mat = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Cyan);
+        geom.setMaterial(mat);
+
+        GeometryManager.setDefault(Wall.class, geom);
     }
 
     protected void initDebug(){
         Node debugNode = new Node();
         debugNode.attachChild(coorAxises(1111f));
         debugNode.attachChild(gridXY(100));
-        guiNode.attachChild(debugNode);
+        rootNode.attachChild(debugNode);
     }
 
     @Override
@@ -75,10 +83,10 @@ public class Main extends SimpleApplication {
         initStartData();
         initDebug();
 
-//        testCellClass();
-        testFieldClass();
-        flyCam.setEnabled(false);
-        //flyCam.setMoveSpeed(33);
+        testCellClass();
+        //testFieldClass();
+        //flyCam.setEnabled(false);
+        flyCam.setMoveSpeed(33);
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
         Box mesh = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", mesh);
@@ -87,22 +95,22 @@ public class Main extends SimpleApplication {
         mat.setColor("Color", ColorRGBA.Blue);
 //        mat.getAdditionalRenderState().setWireframe(true);
         geom.setMaterial(mat);
-        guiNode.attachChild(geom);
+        rootNode.attachChild(geom);
     }
 
     public void testCellClass(){
         Cell c = new Cell(3, 3);
-        guiNode.attachChild(c.getGeometry());
+        rootNode.attachChild(c.getGeometry());
 
-        c = new Cell(5, 2, new Building());
-        guiNode.attachChild(c.getGeometry());
+        c = new Cell(5, 2, new Wall());
+        rootNode.attachChild(c.getGeometry());
 
         c = new Cell(2, 5, true);
-        guiNode.attachChild(c.getGeometry());
+        rootNode.attachChild(c.getGeometry());
 
         c = new Cell(6, 6, true);
-        c.setBuild(new Building());
-        guiNode.attachChild(c.getGeometry());
+        c.setBuild(new Wall());
+        rootNode.attachChild(c.getGeometry());
     }
 
     // FIX GRID INTO Field CLASS
@@ -149,9 +157,9 @@ public class Main extends SimpleApplication {
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
         map.attachChild(grid);
 
-        guiNode.attachChild(badFace);
-        badFace.scale(20);
-        badFace.setLocalTranslation(300, 200, 0);
+        rootNode.attachChild(badFace);
+        //badFace.scale(20);
+        //badFace.setLocalTranslation(300, 200, 0);
     }
 
     @Override
