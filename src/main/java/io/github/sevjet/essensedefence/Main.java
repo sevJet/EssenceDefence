@@ -52,7 +52,6 @@ public class Main extends SimpleApplication {
     public void simpleInitApp() {
         flyCam.setMoveSpeed(33);
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/Skysphere.jpg", true));
-
         Box mesh = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", mesh);
         Material mat = new Material(assetManager,
