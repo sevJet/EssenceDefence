@@ -61,7 +61,7 @@ public class Main extends SimpleApplication {
         GeometryManager.setDefault(Cell.class, geom);
 
 
-        box = new Box(3/4f, 3/4f, 0);
+        box = new Box(1/4f, 1/4f, 1/2f);
         geom = new Geometry("box", box);
         mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
@@ -81,13 +81,15 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         initStartData();
-        initDebug();
+        //initDebug();
 
-        testCellClass();
+        testWall();
         //testFieldClass();
         //flyCam.setEnabled(false);
         flyCam.setMoveSpeed(33);
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
+
+        /* Useless shit
         Box mesh = new Box(1, 1, 1);
         Geometry geom = new Geometry("Box", mesh);
         Material mat = new Material(assetManager,
@@ -96,21 +98,15 @@ public class Main extends SimpleApplication {
 //        mat.getAdditionalRenderState().setWireframe(true);
         geom.setMaterial(mat);
         rootNode.attachChild(geom);
+         */
     }
 
-    public void testCellClass(){
-        Cell c = new Cell(3, 3);
-        rootNode.attachChild(c.getGeometry());
-
-        c = new Cell(5, 2, new Wall());
-        rootNode.attachChild(c.getGeometry());
-
-        c = new Cell(2, 5, true);
-        rootNode.attachChild(c.getGeometry());
-
-        c = new Cell(6, 6, true);
-        c.setBuild(new Wall());
-        rootNode.attachChild(c.getGeometry());
+    public void testWall(){
+        Wall wall = new Wall();
+        Field field = new Field(5, 5);
+        field.getCell(2, 3).setBuilding(wall);
+        field.addObject(wall);
+        rootNode.attachChild(field);
     }
 
     // FIX GRID INTO Field CLASS

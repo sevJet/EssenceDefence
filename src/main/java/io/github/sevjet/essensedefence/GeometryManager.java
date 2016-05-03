@@ -20,17 +20,19 @@ public class GeometryManager {
     }
 
     public static Geometry getDefault(Class<? extends JME3Object> clazz) {
-        return getInstance().defaultGeometry.getOrDefault(clazz, null);
+        return getDefault(clazz, null);
     }
 
     public static Geometry getDefault(Class<? extends JME3Object> clazz, Geometry defaultValue) {
-        return getInstance().defaultGeometry.getOrDefault(clazz, defaultValue);
+        Geometry needle = getInstance().defaultGeometry.getOrDefault(clazz, defaultValue);
+
+        return needle != null ? needle.clone() : null;
     }
 
     public static Geometry setDefault(Class<? extends  JME3Object> clazz, Geometry newValue) {
         GeometryManager instance = getInstance();
         Geometry oldValue = instance.defaultGeometry.get(clazz);
-        instance.defaultGeometry.put(clazz, newValue);
+        instance.defaultGeometry.put(clazz, newValue.clone());
         return oldValue;
     }
 }
