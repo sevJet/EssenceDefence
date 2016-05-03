@@ -74,7 +74,7 @@ public class Main extends SimpleApplication {
     protected void initStartSettings(){
         //flyCam.setEnabled(false);
         flyCam.setMoveSpeed(33);
-        rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/Skysphere.jpg", true));
+        rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
     }
 
     protected void initDebug(){
