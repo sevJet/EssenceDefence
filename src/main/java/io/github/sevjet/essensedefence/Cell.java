@@ -26,28 +26,28 @@ public class Cell extends JME3Object {
         super(x, y);
         this.occupiedBy = occupiedBy;
 
-        updateGeometry();
+        updater();
     }
 
     public Cell(int x, int y, Geometry geometry, Building occupiedBy) {
         super(x, y, geometry);
         this.occupiedBy = occupiedBy;
 
-        updateGeometry();
+        updater();
     }
 
     public Cell(int x, int y, boolean passable) {
         super(x, y);
         this.passable = passable;
 
-        updateGeometry();
+        updater();
     }
 
     public Cell(int x, int y, Geometry geometry, boolean passable) {
         super(x, y, geometry);
         this.passable = passable;
 
-        updateGeometry();
+        updater();
     }
 
     public Cell(int x, int y, Geometry geometry, Building occupiedBy, boolean passable) {
@@ -55,7 +55,7 @@ public class Cell extends JME3Object {
         this.occupiedBy = occupiedBy;
         this.passable = passable;
 
-        updateGeometry();
+        updater();
     }
 
     public Building getBuilding() {
@@ -67,7 +67,7 @@ public class Cell extends JME3Object {
         occupiedBy.setX(x);
         occupiedBy.setY(y);
 
-        updateGeometry();
+        updater();
     }
 
     public boolean isPassable() {
@@ -81,18 +81,22 @@ public class Cell extends JME3Object {
     public void setPassability(boolean passable) {
         this.passable = passable;
 
-        updateGeometry();
+        updater();
     }
 
     @Override
-    public boolean updateGeometry() {
-        if(super.updateGeometry()) {
+    public boolean updater() {
+        if (super.updater()) {
             getGeometry().getMaterial().setColor("Color",
                     new ColorRGBA(
                             (passable || occupiedBy != null ? 1 : 0),
                             (passable ? 1 : 0),
                             (passable && occupiedBy == null ? 1 : 0),
                             1));
+            if (getGeometry().getParent() != null &&
+                    getGeometry().getParent().getClass() == Field.class &&
+                    occupiedBy != null)
+                ((Field)this.getGeometry().getParent()).addObject(occupiedBy);
             return true;
         } else {
             return false;
