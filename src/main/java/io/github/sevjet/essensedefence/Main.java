@@ -108,6 +108,11 @@ public class Main extends SimpleApplication {
     public void testWall(){
         Wall wall = new Wall();
         Field field = new Field(5, 5);
+
+        Node grid = gridXY(5+1, 5+1, 1, ColorRGBA.White);
+        grid.setLocalTranslation(-0.5f, -0.5f, 0);
+        field.attachChild(grid);
+
         field.setLocalTranslation(10, 10, 1);
         field.getCell(2, 3).setBuilding(wall);
 
