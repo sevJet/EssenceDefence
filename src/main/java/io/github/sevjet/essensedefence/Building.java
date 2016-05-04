@@ -2,8 +2,8 @@ package io.github.sevjet.essensedefence;
 
 public abstract class Building extends JME3Object {
 
-    private int height;
-    private int width;
+    protected int height;
+    protected int width;
 
     public abstract void build();
 
@@ -22,5 +22,5 @@ public abstract class Building extends JME3Object {
     protected void setWidth(int width) {
         this.width = width;
     }
-    
+
 }
