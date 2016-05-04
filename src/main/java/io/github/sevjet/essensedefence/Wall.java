@@ -2,7 +2,7 @@ package io.github.sevjet.essensedefence;
 
 public class Wall extends Building {
 
-    private int price;
+    private int price = 0;
 
     public Wall() {
         this(0);
