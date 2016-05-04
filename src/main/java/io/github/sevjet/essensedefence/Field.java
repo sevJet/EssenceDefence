@@ -44,8 +44,8 @@ public class Field extends Node {
     public Cell getCell(Geometry geom) {
         int x, y;
         if (geom != null && geom.getParent() == this) {
-            x = (int)geom.getLocalTranslation().getX();
-            y = (int)geom.getLocalTranslation().getY();
+            x = (int) geom.getLocalTranslation().getX();
+            y = (int) geom.getLocalTranslation().getY();
             return getCell(x, y);
         }
         return null;

@@ -43,7 +43,6 @@ public class GamePlayAppState extends AbstractAppState {
     }
 
 
-
     private final static Trigger TRIGGER_BUILD =
             new KeyTrigger(KeyInput.KEY_E);
     private final static Trigger TRIGGER_ROTATE =
@@ -59,12 +58,12 @@ public class GamePlayAppState extends AbstractAppState {
                 Ray ray = new Ray(cam.getLocation(), cam.getDirection());
                 rootNode.collideWith(ray, results);
 
-                if (results.size() > 0){
+                if (results.size() > 0) {
                     Geometry target = results.getClosestCollision().getGeometry();
-                    if (target.getParent().getClass() == Field.class){
-                        ((Field)target.getParent()).getCell(target).setPassability(true);
+                    if (target.getParent().getClass() == Field.class) {
+                        ((Field) target.getParent()).getCell(target).setPassability(true);
                     }
-                }else{
+                } else {
                     System.out.println("Selection: Nothing");
                 }
             }
@@ -77,7 +76,7 @@ public class GamePlayAppState extends AbstractAppState {
 //        inputManager.addListener(actionListener, new String[]{MAPPING_BUILD});
         creater.attachCenterMark();
 
-        Box box = new Box(1/2f, 1/2f, 0f);
+        Box box = new Box(1 / 2f, 1 / 2f, 0f);
         Geometry geom = new Geometry("box", box);
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
@@ -87,7 +86,7 @@ public class GamePlayAppState extends AbstractAppState {
         GeometryManager.setDefault(Cell.class, geom);
 
 
-        box = new Box(1/4f, 1/4f, 1f);
+        box = new Box(1 / 4f, 1 / 4f, 1f);
         geom = new Geometry("box", box);
         mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
@@ -99,8 +98,7 @@ public class GamePlayAppState extends AbstractAppState {
     }
 
 
-
-    protected void initDebug(){
+    protected void initDebug() {
         Node debugNode = new Node();
         debugNode.attachChild(creater.coorAxises(111f));
 //        debugNode.attachChild(gridXY(100));

@@ -21,16 +21,16 @@ public class Main extends SimpleApplication {
     //TODO: fix it
     public static AssetManager assetManagerStatic;
 
-    public static AppSettings mySettings(){
+    public static AppSettings mySettings() {
         AppSettings settings = new AppSettings(true);
 
         GraphicsDevice device = GraphicsEnvironment.
                 getLocalGraphicsEnvironment().getDefaultScreenDevice();
         DisplayMode[] modes = device.getDisplayModes();
         int high = 0;
-        for (int i = 1; i < modes.length; i++){
-            if (modes[i].getWidth()*modes[i].getHeight() > modes[high].getWidth()*modes[high].getHeight() ||
-                    (modes[i].getWidth()*modes[i].getHeight() == modes[high].getWidth()*modes[high].getHeight() &&
+        for (int i = 1; i < modes.length; i++) {
+            if (modes[i].getWidth() * modes[i].getHeight() > modes[high].getWidth() * modes[high].getHeight() ||
+                    (modes[i].getWidth() * modes[i].getHeight() == modes[high].getWidth() * modes[high].getHeight() &&
                             modes[i].getRefreshRate() >= modes[high].getRefreshRate() &&
                             modes[i].getBitDepth() >= modes[high].getBitDepth()))
                 high = i;
@@ -59,7 +59,7 @@ public class Main extends SimpleApplication {
     }
 
 
-    protected void initStartSettings(){
+    protected void initStartSettings() {
         //flyCam.setEnabled(false);
         flyCam.setMoveSpeed(100);
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
