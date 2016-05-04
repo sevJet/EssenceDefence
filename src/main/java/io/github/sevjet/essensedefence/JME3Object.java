@@ -74,7 +74,7 @@ public class JME3Object {
     }
 
     public boolean updater() {
-        if(geometry != null) {
+        if (geometry != null) {
             geometry.setLocalTranslation(x, y, z);
             return true;
         } else {

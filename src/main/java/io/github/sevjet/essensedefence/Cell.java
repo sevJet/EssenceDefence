@@ -95,7 +95,7 @@ public class Cell extends JME3Object {
             if (getGeometry().getParent() != null &&
                     getGeometry().getParent().getClass() == Field.class &&
                     occupiedBy != null)
-                ((Field)this.getGeometry().getParent()).addObject(occupiedBy);
+                ((Field) this.getGeometry().getParent()).addObject(occupiedBy);
             return true;
         } else {
             return false;
