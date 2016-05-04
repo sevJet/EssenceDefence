@@ -5,8 +5,6 @@ public abstract class Building extends JME3Object {
     private int height;
     private int width;
 
-    public abstract void build();
-
     public int getHeight() {
         return height;
     }

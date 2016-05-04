@@ -1,18 +1,18 @@
 package io.github.sevjet.essensedefence;
 
-public class Wall extends Building {
+public class Tower extends Building{
 
     private int price = 0;
 
-    public Wall() {
+    public Tower() {
         this(0);
     }
 
-    public Wall(int price) {
-        setHeight(1);
-        setWidth(1);
+    public Tower(int price) {
+        setHeight(2);
+        setWidth(2);
 
-        this.price = price;
+        setPrice(price);
     }
 
     public int getPrice() {

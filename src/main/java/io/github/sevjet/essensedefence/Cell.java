@@ -64,8 +64,6 @@ public class Cell extends JME3Object {
 
     public void setBuilding(Building building) {
         this.occupiedBy = building;
-        occupiedBy.setX(x);
-        occupiedBy.setY(y);
 
         updater();
     }

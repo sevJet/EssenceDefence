@@ -43,6 +43,17 @@ public class Field extends Node {
         return null;
     }
 
+    //TODO THIS SHIT
+    public void build(int x, int y, Building building) {
+        for(int i = x; i < x + building.getWidth(); i++) {
+            for(int j = y; j < y + building.getHeight(); j++) {
+                cells[i][j].setBuilding(building);
+            }
+        }
+        building.setX(x);
+        building.setY(y);
+    }
+
     public boolean addObject(JME3Object object) {
         Node node = objects.get(object.getClass());
         if(node == null) {

@@ -56,6 +56,24 @@ public class GamePlayAppState extends AbstractAppState {
 
         GeometryManager.setDefault(Wall.class, geom);
 
+        box = new Box(1f, 1f, 1f);
+        geom = new Geometry("box", box);
+        mat = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Green);
+        geom.setMaterial(mat);
+
+        GeometryManager.setDefault(Tower.class, geom);
+
+        box = new Box(1/4f, 1/4f, 1f);
+        geom = new Geometry("box", box);
+        mat = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Green);
+        geom.setMaterial(mat);
+
+        GeometryManager.setDefault(Fortress.class, geom);
+
     }
 
     protected void initDebug(){
@@ -91,22 +109,47 @@ public class GamePlayAppState extends AbstractAppState {
         initDebug();
 
         testWall();
+        testTower();
+        testFortress();
 //        testFieldClass();
 
-        guiNode.attachChild(rootNode);
-        rootNode.scale(30);
+//        guiNode.attachChild(rootNode);
+//        rootNode.scale(30);
     }
 
     public void testWall(){
         Wall wall = new Wall();
+
         Field field = new Field(10, 10);
 //                wall.getGeometry().rotate((float)Math.PI*(-30)/180f, 0, 0);
         field.setLocalTranslation(10, 10, 1);
-        field.getCell(2, 3).setBuilding(wall);
+
+        field.build(2, 3, wall);
+
 
         wall = new Wall();
 //                 wall.getGeometry().rotate((float)Math.PI*(-30)/180f, 0, 0);
-        field.getCell(4, 1).setBuilding(wall);
+        field.build(1,4,wall);
+
+        rootNode.attachChild(field);
+    }
+
+    public void testTower() {
+        Tower tower = new Tower();
+        Field field = new Field(10, 10);
+        field.setLocalTranslation(21, 21, 1);
+
+        field.build(2, 3, tower);
+
+        rootNode.attachChild(field);
+    }
+
+    public void testFortress() {
+        Fortress fortress = new Fortress();
+        Field field = new Field(10, 10);
+        field.setLocalTranslation(31, 31, 1);
+
+        field.build(5, 5, fortress);
 
         rootNode.attachChild(field);
     }
