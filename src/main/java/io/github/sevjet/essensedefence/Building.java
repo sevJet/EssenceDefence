@@ -22,4 +22,5 @@ public abstract class Building extends JME3Object {
     protected void setWidth(int width) {
         this.width = width;
     }
+    
 }

@@ -18,6 +18,7 @@ import com.jme3.util.SkyFactory;
 import java.awt.*;
 
 public class Main extends SimpleApplication {
+    //TODO: fix it
     public static AssetManager assetManagerStatic;
 
     public static AppSettings mySettings(){

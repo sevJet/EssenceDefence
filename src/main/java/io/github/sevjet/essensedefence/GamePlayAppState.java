@@ -93,25 +93,24 @@ public class GamePlayAppState extends AbstractAppState {
         testWall();
 //        testFieldClass();
 
-        guiNode.attachChild(rootNode);
-        rootNode.scale(30);
+//        guiNode.attachChild(rootNode);
+//        rootNode.scale(30);
     }
 
     public void testWall(){
         Wall wall = new Wall();
         Field field = new Field(5, 5);
-                wall.getGeometry().rotate((float)Math.PI*(-30)/180f, 0, 0);
+//                wall.getGeometry().rotate((float)Math.PI*(-30)/180f, 0, 0);
         field.setLocalTranslation(10, 10, 1);
         field.getCell(2, 3).setBuilding(wall);
 
         wall = new Wall();
-                 wall.getGeometry().rotate((float)Math.PI*(-30)/180f, 0, 0);
+//                 wall.getGeometry().rotate((float)Math.PI*(-30)/180f, 0, 0);
         field.getCell(4, 1).setBuilding(wall);
 
         rootNode.attachChild(field);
     }
 
-    // FIX GRID INTO Field CLASS
     public void testFieldClass(){
         int rowNum = 5, colNum = 25;
         Node badFace = new Node();

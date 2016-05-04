@@ -26,9 +26,6 @@ public class Field extends Node {
             }
         }
 
-        //grid field
-        setLocalTranslation(4, 0, 1);
-
         Node grid = gridXY(colNum+1, rowNum+1, 1, ColorRGBA.White);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
         attachChild(grid);
@@ -68,7 +65,7 @@ public class Field extends Node {
         }
         return false;
     }
-
+    //TODO: delete this method from here
     public Node gridXY(int rowLen, int colLen, float lineDist, ColorRGBA clr){
         Node axis = new Node();
         Geometry geom;
