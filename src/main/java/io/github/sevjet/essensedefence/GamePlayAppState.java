@@ -10,8 +10,10 @@ import com.jme3.input.FlyByCamera;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
-import com.jme3.input.controls.*;
-import com.jme3.material.Material;
+import com.jme3.input.controls.AnalogListener;
+import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
+import com.jme3.input.controls.Trigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
@@ -19,11 +21,16 @@ import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 
 public class GamePlayAppState extends AbstractAppState {
 
+    private final static Trigger TRIGGER_BUILD =
+            new KeyTrigger(KeyInput.KEY_E);
+    private final static Trigger TRIGGER_ROTATE =
+            //           new KeyTrigger(KeyInput.KEY_T);
+            new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
+    private final static String MAPPING_BUILD = "Build";
     private SimpleApplication app;
     private AppStateManager appState;
     private Camera cam;
@@ -33,23 +40,8 @@ public class GamePlayAppState extends AbstractAppState {
     private AppSettings settings;
     private Node guiNode;
     private InputManager inputManager;
-
     private Creater creater;
     private Tester tester;
-
-
-    public GamePlayAppState(AppSettings settings) {
-        this.settings = settings;
-    }
-
-
-    private final static Trigger TRIGGER_BUILD =
-            new KeyTrigger(KeyInput.KEY_E);
-    private final static Trigger TRIGGER_ROTATE =
-            //           new KeyTrigger(KeyInput.KEY_T);
-            new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
-    private final static String MAPPING_BUILD = "Build";
-
     private AnalogListener analogListener = new AnalogListener() {
         public void onAnalog(String name, float intensity, float tpf) {
             if (name.equals(MAPPING_BUILD)) {
@@ -60,7 +52,7 @@ public class GamePlayAppState extends AbstractAppState {
 
                 if (results.size() > 0) {
                     Geometry target = results.getClosestCollision().getGeometry();
-                    if (target.getParent().getClass() == Field.class) {
+                    if (target.getParent() instanceof Field) {
                         ((Field) target.getParent()).getCell(target).setPassability(true);
                     }
                 } else {
@@ -70,48 +62,21 @@ public class GamePlayAppState extends AbstractAppState {
         }
     };
 
+    public GamePlayAppState(AppSettings settings) {
+        this.settings = settings;
+    }
+
     protected void initStartData() {
         inputManager.addMapping(MAPPING_BUILD, TRIGGER_BUILD);
-        inputManager.addListener(analogListener, new String[]{MAPPING_BUILD});
+        inputManager.addListener(analogListener, MAPPING_BUILD);
 //        inputManager.addListener(actionListener, new String[]{MAPPING_BUILD});
         creater.attachCenterMark();
 
-        Box box = new Box(1 / 2f, 1 / 2f, 0f);
-        Geometry geom = new Geometry("box", box);
-        Material mat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Black);
-        geom.setMaterial(mat);
-
-        GeometryManager.setDefault(Cell.class, geom);
-
-
-        box = new Box(1 / 4f, 1 / 4f, 1f);
-        geom = new Geometry("box", box);
-        mat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Cyan);
-        geom.setMaterial(mat);
-
-        GeometryManager.setDefault(Wall.class, geom);
-
-        box = new Box(1f, 1f, 1f);
-        geom = new Geometry("box", box);
-        mat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Green);
-        geom.setMaterial(mat);
-
-        GeometryManager.setDefault(Tower.class, geom);
-
-        box = new Box(1/4f, 1/4f, 1f);
-        geom = new Geometry("box", box);
-        mat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Green);
-        geom.setMaterial(mat);
-
-        GeometryManager.setDefault(Fortress.class, geom);
+        GeometryManager.setDefault(Cell.class, creater.myBox(1 / 2f, 1 / 2f));
+        GeometryManager.setDefault(Wall.class, creater.myBox(1 / 2f, 1 / 2f, 1f, ColorRGBA.Cyan));
+        GeometryManager.setDefault(Tower.class, creater.myBox(1f, 1f, 1.5f, ColorRGBA.Green));
+        GeometryManager.setDefault(Fortress.class, creater.myBox(3 / 2f, 3 / 2f, 2f, ColorRGBA.Gray));
+        GeometryManager.setDefault(Portal.class, creater.myBox(1f, 1 / 2f, 1.5f, ColorRGBA.Magenta));
 
     }
 

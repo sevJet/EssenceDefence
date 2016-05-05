@@ -82,9 +82,37 @@ public class Creater extends SupportAbstractClass {
         return line;
     }
 
+    public Geometry myBox(float x, float y) {
+        return myBox(x, y, 0, "box", Vector3f.ZERO, ColorRGBA.Black);
+    }
+
+    public Geometry myBox(float x, float y, ColorRGBA color) {
+        return myBox(x, y, 1, "box", Vector3f.ZERO, color);
+    }
+
     public Geometry myBox(String name, Vector3f loc, ColorRGBA color) {
-        Box mesh = new Box(1, 1, 1);
-        Geometry geom = new Geometry(name, mesh);
+        return myBox(1, 1, 1, name, loc, color);
+    }
+
+    public Geometry myBox(float x, float y, String name, ColorRGBA color) {
+        return myBox(x, y, 1, name, Vector3f.ZERO, color);
+    }
+
+    public Geometry myBox(float x, float y, float z, ColorRGBA color) {
+        return myBox(x, y, z, "box", Vector3f.ZERO, color);
+    }
+
+    public Geometry myBox(float x, float y, float z) {
+        return myBox(x, y, z, "box", Vector3f.ZERO, ColorRGBA.Black);
+    }
+
+    public Geometry myBox(float x, float y, String name, Vector3f loc, ColorRGBA color) {
+        return myBox(x, y, 1, name, loc, color);
+    }
+
+    public Geometry myBox(float x, float y, float z, String name, Vector3f loc, ColorRGBA color) {
+        Box mesh = new Box(x, y, z);
+        Geometry geom = new Geometry(name,mesh);
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", color);

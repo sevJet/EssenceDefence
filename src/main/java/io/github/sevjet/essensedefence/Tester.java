@@ -12,13 +12,13 @@ public class Tester extends SupportAbstractClass {
     }
 
     public void testTrigger() {
-        Wall wall = new Wall();
         Field field = new Field(50, 50);
         field.setLocalTranslation(10, 10, 1);
-        field.getCell(2, 3).setBuilding(wall);
 
-        wall = new Wall();
-        field.getCell(4, 1).setBuilding(wall);
+        field.build(1, 1, new Wall());
+        field.build(2, 1, new Tower());
+        field.build(4, 1, new Portal());
+        field.build(6, 1, new Fortress());
 
         rootNode.attachChild(field);
     }

@@ -50,6 +50,8 @@ public class Field extends Node {
         }
         building.setX(x);
         building.setY(y);
+
+        addObject(building);
     }
 
     public Cell getCell(Geometry geom) {
