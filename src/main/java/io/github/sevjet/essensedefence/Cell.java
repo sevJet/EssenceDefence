@@ -3,7 +3,9 @@ package io.github.sevjet.essensedefence;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 
-public class Cell extends JME3Object {
+import java.io.Serializable;
+
+public class Cell extends JME3Object implements Serializable{
     protected Building occupiedBy = null;
     protected boolean passable = false;
 
@@ -94,7 +96,7 @@ public class Cell extends JME3Object {
 
             if (getGeometry().getParent() != null &&
                     getGeometry().getParent().getClass() == Field.class &&
-                    occupiedBy != null)
+                    occupiedBy != null      && occupiedBy.getGeometry() != null)
                 ((Field) this.getGeometry().getParent()).addObject(occupiedBy);
             return true;
         } else {

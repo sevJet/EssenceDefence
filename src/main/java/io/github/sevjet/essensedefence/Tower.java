@@ -1,6 +1,8 @@
 package io.github.sevjet.essensedefence;
 
-public class Tower extends Building {
+import java.io.Serializable;
+
+public class Tower extends Building implements Serializable{
 
     private int price = 0;
 

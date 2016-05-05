@@ -5,7 +5,9 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
+import com.jme3.asset.plugins.FileLocator;
 import com.jme3.collision.CollisionResults;
+import com.jme3.export.binary.BinaryExporter;
 import com.jme3.input.FlyByCamera;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -23,13 +25,24 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.sun.deploy.util.SessionState.save;
+
 public class GamePlayAppState extends AbstractAppState {
+
+    //TODO fix it
+    static Field field;
 
     private final static Trigger TRIGGER_BUILD =
             new KeyTrigger(KeyInput.KEY_E);
     private final static Trigger TRIGGER_ROTATE =
             //           new KeyTrigger(KeyInput.KEY_T);
             new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
+
     private final static String MAPPING_BUILD = "Build";
     private SimpleApplication app;
     private AppStateManager appState;
@@ -42,6 +55,7 @@ public class GamePlayAppState extends AbstractAppState {
     private InputManager inputManager;
     private Creator creater;
     private Tester tester;
+
     private AnalogListener analogListener = new AnalogListener() {
         public void onAnalog(String name, float intensity, float tpf) {
             if (name.equals(MAPPING_BUILD)) {
@@ -66,6 +80,7 @@ public class GamePlayAppState extends AbstractAppState {
         this.settings = settings;
     }
 
+
     protected void initStartData() {
         inputManager.addMapping(MAPPING_BUILD, TRIGGER_BUILD);
         inputManager.addListener(analogListener, MAPPING_BUILD);
@@ -80,20 +95,17 @@ public class GamePlayAppState extends AbstractAppState {
 
     }
 
-
     protected void initDebug() {
         Node debugNode = new Node();
         debugNode.attachChild(creater.coorAxises(111f));
 //        debugNode.attachChild(gridXY(100));
 
-//        Unuseless shit
         Geometry geom;
         geom = creater.myBox("box", Vector3f.ZERO, ColorRGBA.Blue);
         debugNode.attachChild(geom);
 
         rootNode.attachChild(debugNode);
     }
-
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
@@ -110,18 +122,23 @@ public class GamePlayAppState extends AbstractAppState {
         tester = new Tester(app, appState, settings);
 
         initStartData();
-        initDebug();
 
-        tester.tests();
+        load();
+        field = tester.testSerialization();
+
 //        guiNode.attachChild(rootNode);
 //        rootNode.scale(30);
-    }
 
+
+    }
 
     @Override
     public void cleanup() {
+        if (field != null)
+            save();
         super.cleanup();
     }
+
 
     @Override
     public void update(float tpf) {
@@ -133,5 +150,20 @@ public class GamePlayAppState extends AbstractAppState {
         super.render(rm);
     }
 
-
+    //TODO move to another class, change signature
+    public void save(){
+        Field.serialize(field);
+        System.out.println(field);
+    }
+    //TODO move to another class, change signature
+    public void load(){
+        field = Field.deserialize();
+        System.out.println(field);
+        rootNode.attachChild(field);
+        field.setLocalTranslation(-55, 0, -2);
+    }
 }
+
+
+
+

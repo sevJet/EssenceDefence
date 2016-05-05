@@ -1,7 +1,9 @@
 package io.github.sevjet.essensedefence;
 
 
-public class Portal extends Building {
+import java.io.Serializable;
+
+public class Portal extends Building implements Serializable{
 
     public Portal() {
         setHeight(1);

@@ -2,11 +2,18 @@ package io.github.sevjet.essensedefence;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
+import com.jme3.asset.plugins.FileLocator;
+import com.jme3.export.binary.BinaryExporter;
 import com.jme3.renderer.RenderManager;
+import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main extends SimpleApplication {
     //TODO: fix it
@@ -33,7 +40,7 @@ public class Main extends SimpleApplication {
         //settings.setSettingsDialogImage("Interface/splashscreen.png");
         settings.setResolution(modes[high].getWidth(), modes[high].getHeight());
         settings.setFrequency(modes[high].getRefreshRate());
-        settings.setFullscreen(device.isFullScreenSupported());
+//        settings.setFullscreen(device.isFullScreenSupported());
         settings.setSamples(16);
         settings.setBitsPerPixel(modes[high].getBitDepth());
         //   settings.setDisplayFps(false);
@@ -62,6 +69,8 @@ public class Main extends SimpleApplication {
         initStartSettings();
         assetManagerStatic = assetManager;
 
+
+
         GamePlayAppState state = new GamePlayAppState(settings);
         stateManager.attach(state);
 
@@ -84,7 +93,18 @@ public class Main extends SimpleApplication {
         super.update();
     }
 
-
+    @Override
+    public void stop() {
+//        String userHome = System.getProperty("user.home");
+//        BinaryExporter exporter = BinaryExporter.getInstance();
+//        File file = new File(userHome+"/Models/"+"MyModel.j3o");
+//        try {
+//            exporter.save(rootNode, file);
+//        } catch (IOException ex) {
+//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "Error: Failed to save game!", ex);
+//        }
+        super.stop(); // continue quitting the game
+    }
 }
 
 

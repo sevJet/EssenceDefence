@@ -5,6 +5,11 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 
+import java.util.Random;
+
+import static io.github.sevjet.essensedefence.Field.serialize;
+import static io.github.sevjet.essensedefence.GamePlayAppState.field;
+
 public class Tester extends SupportAbstractClass {
 
     public Tester(Application app, AppStateManager appState, AppSettings settings) {
@@ -14,17 +19,41 @@ public class Tester extends SupportAbstractClass {
     public void tests() {
 //        testTrigger();
 //        testWall();
-        testFieldClass();
+        testAllBuildings();
     }
 
-    public void testTrigger() {
-        Field field = new Field(50, 50);
+    Random rnd = new Random();
+
+    private int gen(int to) {
+        return Math.abs(rnd.nextInt()) % to;
+    }
+
+    public Field testSerialization() {
+
+        field = new Field(50, 50);
+        field.setLocalTranslation(10, 10, 1);
+
+        field.build(1, 1, new Wall());
+        field.build(gen(20), gen(20), new Tower());
+        field.build(gen(20), gen(20), new Portal());
+        field.build(gen(20), gen(20), new Fortress());
+        rootNode.attachChild(field);
+        return field;
+    }
+
+    public void testAllBuildings() {
+        Field field = new Field(10, 10);
         field.setLocalTranslation(10, 10, 1);
 
         field.build(1, 1, new Wall());
         field.build(2, 1, new Tower());
         field.build(4, 1, new Portal());
         field.build(6, 1, new Fortress());
+    }
+
+    public void testTrigger() {
+        field = new Field(50, 50);
+        field.setLocalTranslation(10, 10, 1);
 
         rootNode.attachChild(field);
     }

@@ -1,6 +1,8 @@
 package io.github.sevjet.essensedefence;
 
-public class Wall extends Building {
+import java.io.Serializable;
+
+public class Wall extends Building implements Serializable{
 
     protected int price = 0;
 

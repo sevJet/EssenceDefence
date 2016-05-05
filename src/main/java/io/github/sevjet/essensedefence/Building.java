@@ -2,7 +2,9 @@ package io.github.sevjet.essensedefence;
 
 import com.jme3.scene.shape.Box;
 
-public abstract class Building extends JME3Object {
+import java.io.Serializable;
+
+public abstract class Building extends JME3Object implements Serializable{
 
     protected int height;
     protected int width;

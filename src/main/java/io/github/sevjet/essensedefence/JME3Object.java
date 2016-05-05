@@ -2,12 +2,14 @@ package io.github.sevjet.essensedefence;
 
 import com.jme3.scene.Geometry;
 
-public class JME3Object {
+import java.io.Serializable;
+
+public class JME3Object implements Serializable{
 
     protected static final int z = 0;
     protected int x = 0;
     protected int y = 0;
-    protected Geometry geometry = null;
+    protected transient Geometry geometry = null;
 
     public JME3Object() {
         this(0, 0, null);
