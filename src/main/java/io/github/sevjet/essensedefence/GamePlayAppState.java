@@ -40,7 +40,7 @@ public class GamePlayAppState extends AbstractAppState {
     private AppSettings settings;
     private Node guiNode;
     private InputManager inputManager;
-    private Creater creater;
+    private Creator creater;
     private Tester tester;
     private AnalogListener analogListener = new AnalogListener() {
         public void onAnalog(String name, float intensity, float tpf) {
@@ -106,13 +106,13 @@ public class GamePlayAppState extends AbstractAppState {
         this.guiNode = this.app.getGuiNode();
         this.inputManager = this.app.getInputManager();
 
-        creater = new Creater(app, appState, settings);
+        creater = new Creator(app, appState, settings);
         tester = new Tester(app, appState, settings);
 
         initStartData();
         initDebug();
 
-        tester.testTrigger();
+        tester.tests();
 //        guiNode.attachChild(rootNode);
 //        rootNode.scale(30);
     }

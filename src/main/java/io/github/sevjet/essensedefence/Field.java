@@ -5,7 +5,6 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.debug.Grid;
-import com.jme3.scene.shape.Box;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,8 +42,8 @@ public class Field extends Node {
 
     //TODO THIS SHIT
     public void build(int x, int y, Building building) {
-        for(int i = x; i < x + building.getWidth(); i++) {
-            for(int j = y; j < y + building.getHeight(); j++) {
+        for (int i = x; i < x + building.getWidth(); i++) {
+            for (int j = y; j < y + building.getHeight(); j++) {
                 cells[i][j].setBuilding(building);
             }
         }

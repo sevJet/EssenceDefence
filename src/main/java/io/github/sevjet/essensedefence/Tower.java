@@ -1,6 +1,6 @@
 package io.github.sevjet.essensedefence;
 
-public class Tower extends Building{
+public class Tower extends Building {
 
     private int price = 0;
 

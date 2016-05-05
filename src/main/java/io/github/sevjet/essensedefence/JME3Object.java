@@ -4,9 +4,9 @@ import com.jme3.scene.Geometry;
 
 public class JME3Object {
 
+    protected static final int z = 0;
     protected int x = 0;
     protected int y = 0;
-    protected static final int z = 0;
     protected Geometry geometry = null;
 
     public JME3Object() {

@@ -12,9 +12,9 @@ import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
 import com.jme3.system.AppSettings;
 
-public class Creater extends SupportAbstractClass {
+public class Creator extends SupportAbstractClass {
 
-    public Creater(Application app, AppStateManager appState, AppSettings settings) {
+    public Creator(Application app, AppStateManager appState, AppSettings settings) {
         super(app, appState, settings);
     }
 

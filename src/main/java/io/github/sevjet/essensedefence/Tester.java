@@ -11,6 +11,12 @@ public class Tester extends SupportAbstractClass {
         super(app, appState, settings);
     }
 
+    public void tests() {
+//        testTrigger();
+//        testWall();
+        testFieldClass();
+    }
+
     public void testTrigger() {
         Field field = new Field(50, 50);
         field.setLocalTranslation(10, 10, 1);
@@ -26,13 +32,13 @@ public class Tester extends SupportAbstractClass {
     public void testWall() {
         Wall wall = new Wall();
         Field field = new Field(5, 5);
-//                wall.getGeometry().rotate((float)Math.PI*(-30)/180f, 0, 0);
+        wall.getGeometry().rotate((float) Math.PI * (-30) / 180f, 0, 0);
         field.setLocalTranslation(10, 10, 1);
-        field.getCell(2, 3).setBuilding(wall);
+        field.build(2, 3, wall);
 
         wall = new Wall();
-//                 wall.getGeometry().rotate((float)Math.PI*(-30)/180f, 0, 0);
-        field.getCell(4, 1).setBuilding(wall);
+        wall.getGeometry().rotate((float) Math.PI * (-30) / 180f, 0, 0);
+        field.build(4, 1, wall);
 
         rootNode.attachChild(field);
     }
