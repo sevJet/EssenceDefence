@@ -7,9 +7,10 @@ import com.jme3.scene.Node;
 import com.jme3.scene.debug.Grid;
 
 import java.io.*;
-import java.util.*;
-
-import static io.github.sevjet.essensedefence.GamePlayAppState.field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Field extends Node implements Serializable {
 
@@ -46,7 +47,7 @@ public class Field extends Node implements Serializable {
                     cells[i][j].getBuilding().setGeometry(
                             GeometryManager.getDefault(cells[i][j].getBuilding().getClass()));
                     build(cells[i][j].getBuilding());
-                    System.out.println(i+" "+j+"  "+cells[i][j].getBuilding());
+                    System.out.println(i + " " + j + "  " + cells[i][j].getBuilding());
                     if (this.cells[i][j].getBuilding() == null)
                         System.out.println("this bad :(");
                 }

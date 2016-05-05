@@ -29,7 +29,7 @@ public class GeometryManager {
         return needle != null ? needle.clone() : null;
     }
 
-    public static Geometry setDefault(Class<? extends  JME3Object> clazz, Geometry newValue) {
+    public static Geometry setDefault(Class<? extends JME3Object> clazz, Geometry newValue) {
         GeometryManager instance = getInstance();
         Geometry oldValue = instance.defaultGeometry.get(clazz);
         instance.defaultGeometry.put(clazz, newValue.clone());

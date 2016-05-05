@@ -5,9 +5,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.plugins.FileLocator;
 import com.jme3.collision.CollisionResults;
-import com.jme3.export.binary.BinaryExporter;
 import com.jme3.input.FlyByCamera;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -24,13 +22,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import static com.sun.deploy.util.SessionState.save;
 
 public class GamePlayAppState extends AbstractAppState {
 
@@ -106,6 +97,7 @@ public class GamePlayAppState extends AbstractAppState {
 
         rootNode.attachChild(debugNode);
     }
+
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
@@ -151,12 +143,13 @@ public class GamePlayAppState extends AbstractAppState {
     }
 
     //TODO move to another class, change signature
-    public void save(){
+    public void save() {
         Field.serialize(field);
         System.out.println(field);
     }
+
     //TODO move to another class, change signature
-    public void load(){
+    public void load() {
         field = Field.deserialize();
         System.out.println(field);
         rootNode.attachChild(field);

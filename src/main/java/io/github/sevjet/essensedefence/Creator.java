@@ -112,7 +112,7 @@ public class Creator extends SupportAbstractClass {
 
     public Geometry myBox(float x, float y, float z, String name, Vector3f loc, ColorRGBA color) {
         Box mesh = new Box(x, y, z);
-        Geometry geom = new Geometry(name,mesh);
+        Geometry geom = new Geometry(name, mesh);
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", color);

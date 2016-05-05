@@ -4,7 +4,7 @@ import com.jme3.scene.shape.Box;
 
 import java.io.Serializable;
 
-public abstract class Building extends JME3Object implements Serializable{
+public abstract class Building extends JME3Object implements Serializable {
 
     protected int height;
     protected int width;
@@ -25,6 +25,7 @@ public abstract class Building extends JME3Object implements Serializable{
         this.width = width;
     }
 
+    @Override
     public boolean updater() {
         if (geometry != null) {
             float zOffset = 0;
@@ -34,6 +35,7 @@ public abstract class Building extends JME3Object implements Serializable{
             geometry.setLocalTranslation(x + (width - 1) / 2.0F, y + (height - 1) / 2.0F, z + zOffset);
             return true;
         } else {
+            geometry = GeometryManager.getDefault(this.getClass());
             return false;
         }
     }

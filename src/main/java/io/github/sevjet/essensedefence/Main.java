@@ -2,18 +2,11 @@ package io.github.sevjet.essensedefence;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.plugins.FileLocator;
-import com.jme3.export.binary.BinaryExporter;
 import com.jme3.renderer.RenderManager;
-import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Main extends SimpleApplication {
     //TODO: fix it
@@ -68,7 +61,6 @@ public class Main extends SimpleApplication {
     public void simpleInitApp() {
         initStartSettings();
         assetManagerStatic = assetManager;
-
 
 
         GamePlayAppState state = new GamePlayAppState(settings);

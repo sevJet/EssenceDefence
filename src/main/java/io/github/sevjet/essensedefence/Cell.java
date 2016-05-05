@@ -5,7 +5,7 @@ import com.jme3.scene.Geometry;
 
 import java.io.Serializable;
 
-public class Cell extends JME3Object implements Serializable{
+public class Cell extends JME3Object implements Serializable {
     protected Building occupiedBy = null;
     protected boolean passable = false;
 
@@ -20,6 +20,7 @@ public class Cell extends JME3Object implements Serializable{
         super(x, y);
     }
 
+    @Deprecated
     public Cell(int x, int y, Geometry geometry) {
         super(x, y, geometry);
     }
@@ -31,6 +32,7 @@ public class Cell extends JME3Object implements Serializable{
         updater();
     }
 
+    @Deprecated
     public Cell(int x, int y, Geometry geometry, Building occupiedBy) {
         super(x, y, geometry);
         this.occupiedBy = occupiedBy;
@@ -45,6 +47,7 @@ public class Cell extends JME3Object implements Serializable{
         updater();
     }
 
+    @Deprecated
     public Cell(int x, int y, Geometry geometry, boolean passable) {
         super(x, y, geometry);
         this.passable = passable;
@@ -52,6 +55,7 @@ public class Cell extends JME3Object implements Serializable{
         updater();
     }
 
+    @Deprecated
     public Cell(int x, int y, Geometry geometry, Building occupiedBy, boolean passable) {
         super(x, y, geometry);
         this.occupiedBy = occupiedBy;
@@ -96,7 +100,7 @@ public class Cell extends JME3Object implements Serializable{
 
             if (getGeometry().getParent() != null &&
                     getGeometry().getParent().getClass() == Field.class &&
-                    occupiedBy != null      && occupiedBy.getGeometry() != null)
+                    occupiedBy != null && occupiedBy.getGeometry() != null)
                 ((Field) this.getGeometry().getParent()).addObject(occupiedBy);
             return true;
         } else {

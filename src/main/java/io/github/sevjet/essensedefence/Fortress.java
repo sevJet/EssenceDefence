@@ -2,7 +2,7 @@ package io.github.sevjet.essensedefence;
 
 import java.io.Serializable;
 
-public class Fortress extends Building implements Serializable{
+public class Fortress extends Building implements Serializable {
 
     protected int health = 100;
 

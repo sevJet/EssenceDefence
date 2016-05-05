@@ -4,7 +4,7 @@ import com.jme3.scene.Geometry;
 
 import java.io.Serializable;
 
-public class JME3Object implements Serializable{
+public abstract class JME3Object implements Serializable {
 
     protected static final int z = 0;
     protected int x = 0;
@@ -19,10 +19,12 @@ public class JME3Object implements Serializable{
         this(x, y, null);
     }
 
+    @Deprecated
     public JME3Object(Geometry geometry) {
         this(0, 0, geometry);
     }
 
+    @Deprecated
     public JME3Object(int x, int y, Geometry geometry) {
         this.x = x;
         this.y = y;
@@ -80,6 +82,7 @@ public class JME3Object implements Serializable{
             geometry.setLocalTranslation(x, y, z);
             return true;
         } else {
+            geometry = GeometryManager.getDefault(this.getClass());
             return false;
         }
     }
