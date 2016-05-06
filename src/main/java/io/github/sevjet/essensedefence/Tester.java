@@ -7,7 +7,6 @@ import com.jme3.system.AppSettings;
 
 import java.util.Random;
 
-import static io.github.sevjet.essensedefence.Field.serialize;
 import static io.github.sevjet.essensedefence.GamePlayAppState.field;
 
 public class Tester {
