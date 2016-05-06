@@ -14,24 +14,6 @@ public class Tester {
         testAllBuildings();
     }
 
-    private static int gen(int to) {
-        Random rnd = new Random();
-        return Math.abs(rnd.nextInt()) % to;
-    }
-
-    public static Field testSerialization() {
-
-        field = new Field(50, 50);
-        field.setLocalTranslation(10, 10, 1);
-
-        field.build(1, 1, new Wall());
-        field.build(gen(20), gen(20), new Tower());
-        field.build(gen(20), gen(20), new Portal());
-        field.build(gen(20), gen(20), new Fortress());
-        Configuration.getRootNode().attachChild(field);
-        return field;
-    }
-
     public static void testAllBuildings() {
         Field field = new Field(10, 10);
         field.setLocalTranslation(10, 10, 1);
@@ -92,5 +74,39 @@ public class Tester {
         Configuration.getRootNode().attachChild(badFace);
 //        badFace.scale(20);
 //        badFace.setLocalTranslation(300, 200, 0);
+    }
+
+    static class TestForSerialization {
+
+        private static int gen(int to) {
+            Random rnd = new Random();
+            return Math.abs(rnd.nextInt()) % to;
+        }
+
+        public static Field testSerialization() {
+            field = new Field(50, 50);
+            field.setLocalTranslation(10, 10, 1);
+
+            field.build(1, 1, new Wall());
+            field.build(gen(40), gen(40), new Wall());
+            field.build(gen(40), gen(40), new Tower());
+            field.build(gen(40), gen(40), new Portal());
+            field.build(gen(40), gen(40), new Fortress());
+            Configuration.getRootNode().attachChild(field);
+            return field;
+        }
+
+        //TODO move to another class, change signature
+        public static void save(Field field) {
+            Field.serialize(field);
+        }
+
+        //TODO move to another class, change signature
+        public static Field load() {
+            Field field = Field.deserialize();
+            Configuration.getRootNode().attachChild(field);
+            field.setLocalTranslation(-55, 0, -2);
+            return field;
+        }
     }
 }

@@ -15,7 +15,7 @@ public class Configuration {
     private AppStateManager appState = null;
     private AppSettings settings = null;
 
-    public Configuration() {
+    private Configuration() {
 
     }
 

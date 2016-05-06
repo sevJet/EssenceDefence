@@ -15,9 +15,11 @@ import com.jme3.math.Ray;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
+import static com.sun.deploy.util.SessionState.save;
 import static io.github.sevjet.essensedefence.Creator.debubSet;
 import static io.github.sevjet.essensedefence.Creator.myBox;
-import static io.github.sevjet.essensedefence.Tester.testSerialization;
+import static io.github.sevjet.essensedefence.Tester.TestForSerialization.load;
+import static io.github.sevjet.essensedefence.Tester.TestForSerialization.testSerialization;
 
 public class GamePlayAppState extends AbstractAppState {
 
@@ -62,7 +64,7 @@ public class GamePlayAppState extends AbstractAppState {
 //        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
         Creator.attachCenterMark();
 
-        GeometryManager.setDefault(JME3Object.class, myBox(1 / 4f, 1 / 4f, 7, ColorRGBA.Red));
+        GeometryManager.setDefault(JME3Object.class, myBox(1 / 4f, 1 / 8f, 1 / 16f, ColorRGBA.Red));
         GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f));
         GeometryManager.setDefault(Wall.class, myBox(1 / 2f, 1 / 2f, 1f, ColorRGBA.Cyan));
         GeometryManager.setDefault(Tower.class, myBox(1f, 1f, 1.5f, ColorRGBA.Green));
@@ -85,8 +87,8 @@ public class GamePlayAppState extends AbstractAppState {
 
     @Override
     public void cleanup() {
-        if (field != null)
-            save();
+        save();
+
         super.cleanup();
     }
 
@@ -97,17 +99,4 @@ public class GamePlayAppState extends AbstractAppState {
     }
 
 
-    //TODO move to another class, change signature
-    public void save() {
-        Field.serialize(field);
-        System.out.println(field);
-    }
-
-    //TODO move to another class, change signature
-    public void load() {
-        field = Field.deserialize();
-        System.out.println(field);
-        Configuration.getRootNode().attachChild(field);
-        field.setLocalTranslation(-55, 0, -2);
-    }
 }
