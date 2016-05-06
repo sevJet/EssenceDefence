@@ -39,18 +39,12 @@ public class Field extends Node implements Serializable {
         int rowNum = cells.length, colNum = cells[0].length;
         objects = new HashMap<>();
         this.cells = cells;
-        System.out.println(rowNum + " " + colNum);
         for (int i = 0; i < rowNum; i++) {
             for (int j = 0; j < colNum; j++) {
-                cells[i][j].setGeometry(GeometryManager.getDefault(Cell.class));
                 if (cells[i][j].getBuilding() != null) {
-                    cells[i][j].getBuilding().setGeometry(
-                            GeometryManager.getDefault(cells[i][j].getBuilding().getClass()));
                     build(cells[i][j].getBuilding());
-                    System.out.println(i + " " + j + "  " + cells[i][j].getBuilding());
-                    if (this.cells[i][j].getBuilding() == null)
-                        System.out.println("this bad :(");
                 }
+                cells[i][j].updater();
                 attachChild(cells[i][j].getGeometry());
             }
         }
@@ -159,6 +153,7 @@ public class Field extends Node implements Serializable {
         }
     }
 
+    //TODO deserialize all objects
     public static Field deserialize() {
         try {
             FileInputStream fis = new FileInputStream("temp_kill_me.out");

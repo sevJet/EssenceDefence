@@ -20,21 +20,8 @@ public class Cell extends JME3Object implements Serializable {
         super(x, y);
     }
 
-    @Deprecated
-    public Cell(int x, int y, Geometry geometry) {
-        super(x, y, geometry);
-    }
-
     public Cell(int x, int y, Building occupiedBy) {
         super(x, y);
-        this.occupiedBy = occupiedBy;
-
-        updater();
-    }
-
-    @Deprecated
-    public Cell(int x, int y, Geometry geometry, Building occupiedBy) {
-        super(x, y, geometry);
         this.occupiedBy = occupiedBy;
 
         updater();
@@ -43,6 +30,19 @@ public class Cell extends JME3Object implements Serializable {
     public Cell(int x, int y, boolean passable) {
         super(x, y);
         this.passable = passable;
+
+        updater();
+    }
+
+    @Deprecated
+    public Cell(int x, int y, Geometry geometry) {
+        super(x, y, geometry);
+    }
+
+    @Deprecated
+    public Cell(int x, int y, Geometry geometry, Building occupiedBy) {
+        super(x, y, geometry);
+        this.occupiedBy = occupiedBy;
 
         updater();
     }
@@ -98,13 +98,15 @@ public class Cell extends JME3Object implements Serializable {
                             (passable && occupiedBy == null ? 1 : 0),
                             1));
 
-            if (getGeometry().getParent() != null &&
-                    getGeometry().getParent().getClass() == Field.class &&
-                    occupiedBy != null && occupiedBy.getGeometry() != null)
-                ((Field) this.getGeometry().getParent()).addObject(occupiedBy);
+//            if (getGeometry().getParent() != null &&
+//                    getGeometry().getParent().getClass() == Field.class &&
+//                    occupiedBy != null)//&& occupiedBy.getGeometry() != null)
+//                ((Field) this.getGeometry().getParent()).addObject(occupiedBy);
             return true;
         } else {
-            return false;
+            geometry = GeometryManager.getDefault(this.getClass());
+            //TODO dangerous recursion
+            return updater();
         }
     }
 }

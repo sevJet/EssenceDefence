@@ -8,6 +8,7 @@ public class Fortress extends Building implements Serializable {
 
     public Fortress() {
         this(100);
+        System.out.println("---------- start");
     }
 
     public Fortress(int health) {

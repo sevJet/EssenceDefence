@@ -36,7 +36,8 @@ public abstract class Building extends JME3Object implements Serializable {
             return true;
         } else {
             geometry = GeometryManager.getDefault(this.getClass());
-            return false;
+            //TODO dangerous recursion
+            return updater();
         }
     }
 

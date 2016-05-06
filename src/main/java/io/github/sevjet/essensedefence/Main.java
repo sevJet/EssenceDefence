@@ -5,6 +5,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
+import com.sun.deploy.config.Config;
 
 import java.awt.*;
 
@@ -60,6 +61,9 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         initStartSettings();
+        Configuration.setSettings(settings);
+        Configuration.setApp(this);
+        Configuration.setAppState(stateManager);
         assetManagerStatic = assetManager;
 
 
@@ -73,30 +77,12 @@ public class Main extends SimpleApplication {
 
     }
 
-    @Override
-    public void simpleRender(RenderManager rm) {
-        // super.simpleRender(rm);
-
-    }
-
 
     @Override
     public void update() {
         super.update();
     }
 
-    @Override
-    public void stop() {
-//        String userHome = System.getProperty("user.home");
-//        BinaryExporter exporter = BinaryExporter.getInstance();
-//        File file = new File(userHome+"/Models/"+"MyModel.j3o");
-//        try {
-//            exporter.save(rootNode, file);
-//        } catch (IOException ex) {
-//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "Error: Failed to save game!", ex);
-//        }
-        super.stop(); // continue quitting the game
-    }
 }
 
 
