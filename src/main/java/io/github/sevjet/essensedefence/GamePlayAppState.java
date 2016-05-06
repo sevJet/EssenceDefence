@@ -15,10 +15,10 @@ import com.jme3.math.Ray;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
-import static com.sun.deploy.util.SessionState.save;
 import static io.github.sevjet.essensedefence.Creator.debubSet;
 import static io.github.sevjet.essensedefence.Creator.myBox;
 import static io.github.sevjet.essensedefence.Tester.TestForSerialization.load;
+import static io.github.sevjet.essensedefence.Tester.TestForSerialization.save;
 import static io.github.sevjet.essensedefence.Tester.TestForSerialization.testSerialization;
 
 public class GamePlayAppState extends AbstractAppState {
@@ -87,7 +87,7 @@ public class GamePlayAppState extends AbstractAppState {
 
     @Override
     public void cleanup() {
-        save();
+        save(field);
 
         super.cleanup();
     }
