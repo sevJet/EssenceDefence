@@ -44,25 +44,16 @@ public class GamePlayAppState extends AbstractAppState {
             new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
 
     private final static String MAPPING_BUILD = "Build";
-    private SimpleApplication app;
-    private AppStateManager appState;
-    private Camera cam;
-    private FlyByCamera flyCam;
-    private Node rootNode;
-    private AssetManager assetManager;
-    private AppSettings settings;
-    private Node guiNode;
-    private InputManager inputManager;
-    private Creator creater;
-    private Tester tester;
+
+    private Configuration config = Configuration.getInstance();
 
     private AnalogListener analogListener = new AnalogListener() {
         public void onAnalog(String name, float intensity, float tpf) {
             if (name.equals(MAPPING_BUILD)) {
 
                 CollisionResults results = new CollisionResults();
-                Ray ray = new Ray(cam.getLocation(), cam.getDirection());
-                rootNode.collideWith(ray, results);
+                Ray ray = new Ray(config.getCam().getLocation(), config.getCam().getDirection());
+                config.getRootNode().collideWith(ray, results);
 
                 if (results.size() > 0) {
                     Geometry target = results.getClosestCollision().getGeometry();
@@ -76,55 +67,43 @@ public class GamePlayAppState extends AbstractAppState {
         }
     };
 
-    public GamePlayAppState(AppSettings settings) {
-        this.settings = settings;
-    }
+    public GamePlayAppState() {}
 
 
     protected void initStartData() {
-        inputManager.addMapping(MAPPING_BUILD, TRIGGER_BUILD);
-        inputManager.addListener(analogListener, MAPPING_BUILD);
+        config.getInputManager().addMapping(MAPPING_BUILD, TRIGGER_BUILD);
+        config.getInputManager().addListener(analogListener, MAPPING_BUILD);
 //        inputManager.addListener(actionListener, new String[]{MAPPING_BUILD});
-        creater.attachCenterMark();
+        config.getCreator().attachCenterMark();
 
-        GeometryManager.setDefault(Cell.class, creater.myBox(1 / 2f, 1 / 2f));
-        GeometryManager.setDefault(Wall.class, creater.myBox(1 / 2f, 1 / 2f, 1f, ColorRGBA.Cyan));
-        GeometryManager.setDefault(Tower.class, creater.myBox(1f, 1f, 1.5f, ColorRGBA.Green));
-        GeometryManager.setDefault(Fortress.class, creater.myBox(3 / 2f, 3 / 2f, 2f, ColorRGBA.Gray));
-        GeometryManager.setDefault(Portal.class, creater.myBox(1f, 1 / 2f, 1.5f, ColorRGBA.Magenta));
+        GeometryManager.setDefault(Cell.class, config.getCreator().myBox(1 / 2f, 1 / 2f));
+        GeometryManager.setDefault(Wall.class, config.getCreator().myBox(1 / 2f, 1 / 2f, 1f, ColorRGBA.Cyan));
+        GeometryManager.setDefault(Tower.class, config.getCreator().myBox(1f, 1f, 1.5f, ColorRGBA.Green));
+        GeometryManager.setDefault(Fortress.class, config.getCreator().myBox(3 / 2f, 3 / 2f, 2f, ColorRGBA.Gray));
+        GeometryManager.setDefault(Portal.class, config.getCreator().myBox(1f, 1 / 2f, 1.5f, ColorRGBA.Magenta));
 
     }
 
     protected void initDebug() {
         Node debugNode = new Node();
-        debugNode.attachChild(creater.coorAxises(111f));
+        debugNode.attachChild(config.getCreator().coorAxises(111f));
 //        debugNode.attachChild(gridXY(100));
 
         Geometry geom;
-        geom = creater.myBox("box", Vector3f.ZERO, ColorRGBA.Blue);
+        geom = config.getCreator().myBox("box", Vector3f.ZERO, ColorRGBA.Blue);
         debugNode.attachChild(geom);
 
-        rootNode.attachChild(debugNode);
+        config.getRootNode().attachChild(debugNode);
     }
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
-        super.initialize(stateManager, app);
-        this.app = (SimpleApplication) app;
-        this.appState = stateManager;
-        this.cam = this.app.getCamera();
-        this.rootNode = this.app.getRootNode();
-        this.assetManager = this.app.getAssetManager();
-        this.flyCam = this.app.getFlyByCamera();
-        this.guiNode = this.app.getGuiNode();
-        this.inputManager = this.app.getInputManager();
 
-        creater = new Creator(app, appState, settings);
-        tester = new Tester(app, appState, settings);
+        super.initialize(stateManager, app);
 
         initStartData();
 
         load();
-        field = tester.testSerialization();
+        field = config.getTester().testSerialization();
 
 //        guiNode.attachChild(rootNode);
 //        rootNode.scale(30);
@@ -159,7 +138,7 @@ public class GamePlayAppState extends AbstractAppState {
     public void load(){
         field = Field.deserialize();
         System.out.println(field);
-        rootNode.attachChild(field);
+        config.getRootNode().attachChild(field);
         field.setLocalTranslation(-55, 0, -2);
     }
 }

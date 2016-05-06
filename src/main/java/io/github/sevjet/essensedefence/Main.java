@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public class Main extends SimpleApplication {
     //TODO: fix it
     public static AssetManager assetManagerStatic;
+    private static Main appMain;
 
     public static AppSettings mySettings() {
         AppSettings settings = new AppSettings(true);
@@ -50,7 +51,7 @@ public class Main extends SimpleApplication {
 
     public static void main(String[] args) {
         Main app = new Main();
-
+        appMain = app;
         app.setSettings(mySettings());
         app.setShowSettings(false);
         app.start();
@@ -69,9 +70,9 @@ public class Main extends SimpleApplication {
         initStartSettings();
         assetManagerStatic = assetManager;
 
+        Configuration config = new Configuration(stateManager,appMain,settings);
 
-
-        GamePlayAppState state = new GamePlayAppState(settings);
+        GamePlayAppState state = new GamePlayAppState();
         stateManager.attach(state);
 
     }
@@ -105,6 +106,7 @@ public class Main extends SimpleApplication {
 //        }
         super.stop(); // continue quitting the game
     }
+
 }
 
 

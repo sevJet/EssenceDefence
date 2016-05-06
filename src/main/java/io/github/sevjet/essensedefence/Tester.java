@@ -10,10 +10,12 @@ import java.util.Random;
 import static io.github.sevjet.essensedefence.Field.serialize;
 import static io.github.sevjet.essensedefence.GamePlayAppState.field;
 
-public class Tester extends SupportAbstractClass {
+public class Tester {
 
-    public Tester(Application app, AppStateManager appState, AppSettings settings) {
-        super(app, appState, settings);
+    Configuration config;
+
+    public Tester() {
+        config = Configuration.getInstance();
     }
 
     public void tests() {
@@ -37,7 +39,7 @@ public class Tester extends SupportAbstractClass {
         field.build(gen(20), gen(20), new Tower());
         field.build(gen(20), gen(20), new Portal());
         field.build(gen(20), gen(20), new Fortress());
-        rootNode.attachChild(field);
+        config.getRootNode().attachChild(field);
         return field;
     }
 
@@ -55,7 +57,7 @@ public class Tester extends SupportAbstractClass {
         field = new Field(50, 50);
         field.setLocalTranslation(10, 10, 1);
 
-        rootNode.attachChild(field);
+        config.getRootNode().attachChild(field);
     }
 
     public void testWall() {
@@ -69,7 +71,7 @@ public class Tester extends SupportAbstractClass {
         wall.getGeometry().rotate((float) Math.PI * (-30) / 180f, 0, 0);
         field.build(4, 1, wall);
 
-        rootNode.attachChild(field);
+        config.getRootNode().attachChild(field);
     }
 
     public void testFieldClass() {
@@ -98,7 +100,7 @@ public class Tester extends SupportAbstractClass {
         map.setLocalTranslation(22, 22, 1);
         map.rotate(0, 0, -(float) Math.PI * 45 / 180f);
 
-        rootNode.attachChild(badFace);
+        config.getRootNode().attachChild(badFace);
 //        badFace.scale(20);
 //        badFace.setLocalTranslation(300, 200, 0);
     }

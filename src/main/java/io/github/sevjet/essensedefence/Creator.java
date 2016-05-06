@@ -12,10 +12,12 @@ import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
 import com.jme3.system.AppSettings;
 
-public class Creator extends SupportAbstractClass {
+public class Creator {
 
-    public Creator(Application app, AppStateManager appState, AppSettings settings) {
-        super(app, appState, settings);
+    Configuration config;
+
+    public Creator() {
+        config = Configuration.getInstance();
     }
 
     public Node gridXY(int rowLen, int colLen, float lineDist, ColorRGBA clr) {
@@ -24,7 +26,7 @@ public class Creator extends SupportAbstractClass {
 
         Grid grid = new Grid(rowLen, colLen, lineDist);
         geom = new Geometry("gridXY", grid);
-        Material mat = new Material(assetManager,
+        Material mat = new Material(config.getAssetManager(),
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", clr);
         geom.setMaterial(mat);
@@ -68,7 +70,7 @@ public class Creator extends SupportAbstractClass {
     public Geometry myLine(Vector3f start, Vector3f end) {
         Line line = new Line(start, end);
         Geometry geom = new Geometry("line", line);
-        Material mat = new Material(assetManager,
+        Material mat = new Material(config.getAssetManager(),
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Black);
         geom.setMaterial(mat);
@@ -113,7 +115,7 @@ public class Creator extends SupportAbstractClass {
     public Geometry myBox(float x, float y, float z, String name, Vector3f loc, ColorRGBA color) {
         Box mesh = new Box(x, y, z);
         Geometry geom = new Geometry(name,mesh);
-        Material mat = new Material(assetManager,
+        Material mat = new Material(config.getAssetManager(),
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", color);
         geom.setMaterial(mat);
@@ -125,9 +127,9 @@ public class Creator extends SupportAbstractClass {
         Geometry c = myBox("center mark",
                 Vector3f.ZERO, ColorRGBA.White);
         c.scale(10);
-        c.setLocalTranslation(settings.getWidth() / 2,
-                settings.getHeight() / 2, 0);
-        guiNode.attachChild(c);
+        c.setLocalTranslation(config.getSettings().getWidth() / 2,
+                config.getSettings().getHeight() / 2, 0);
+        config.getGuiNode().attachChild(c);
         ;
     }
 }
