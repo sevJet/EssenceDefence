@@ -1,13 +1,9 @@
 package io.github.sevjet.essensedefence;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.asset.AssetManager;
 import com.jme3.collision.CollisionResults;
-import com.jme3.input.FlyByCamera;
-import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.AnalogListener;
@@ -16,35 +12,33 @@ import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
-import com.jme3.math.Vector3f;
-import com.jme3.renderer.Camera;
-import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.system.AppSettings;
+
+import static com.sun.deploy.util.SessionState.save;
+import static io.github.sevjet.essensedefence.Creator.debubSet;
+import static io.github.sevjet.essensedefence.Creator.myBox;
+import static io.github.sevjet.essensedefence.Tester.TestForSerialization.load;
+import static io.github.sevjet.essensedefence.Tester.TestForSerialization.testSerialization;
 
 public class GamePlayAppState extends AbstractAppState {
-
-    //TODO fix it
-    static Field field;
 
     private final static Trigger TRIGGER_BUILD =
             new KeyTrigger(KeyInput.KEY_E);
     private final static Trigger TRIGGER_ROTATE =
             //           new KeyTrigger(KeyInput.KEY_T);
             new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
-
     private final static String MAPPING_BUILD = "Build";
-
-    private Configuration config = Configuration.getInstance();
+    //TODO fix it
+    static Field field;
 
     private AnalogListener analogListener = new AnalogListener() {
         public void onAnalog(String name, float intensity, float tpf) {
             if (name.equals(MAPPING_BUILD)) {
 
                 CollisionResults results = new CollisionResults();
-                Ray ray = new Ray(config.getCam().getLocation(), config.getCam().getDirection());
-                config.getRootNode().collideWith(ray, results);
+                Ray ray = new Ray(Configuration.getCam().getLocation(), Configuration.getCam().getDirection());
+                Configuration.getRootNode().collideWith(ray, results);
 
                 if (results.size() > 0) {
                     Geometry target = results.getClosestCollision().getGeometry();
@@ -52,61 +46,49 @@ public class GamePlayAppState extends AbstractAppState {
                         ((Field) target.getParent()).getCell(target).setPassability(true);
                     }
                 } else {
-                    System.out.println("Selection: Nothing");
+//                    System.out.println("Selection: Nothing");
                 }
             }
         }
     };
 
-    public GamePlayAppState() {}
-
-
-    protected void initStartData() {
-        config.getInputManager().addMapping(MAPPING_BUILD, TRIGGER_BUILD);
-        config.getInputManager().addListener(analogListener, MAPPING_BUILD);
-//        inputManager.addListener(actionListener, new String[]{MAPPING_BUILD});
-        config.getCreator().attachCenterMark();
-
-        GeometryManager.setDefault(Cell.class, config.getCreator().myBox(1 / 2f, 1 / 2f));
-        GeometryManager.setDefault(Wall.class, config.getCreator().myBox(1 / 2f, 1 / 2f, 1f, ColorRGBA.Cyan));
-        GeometryManager.setDefault(Tower.class, config.getCreator().myBox(1f, 1f, 1.5f, ColorRGBA.Green));
-        GeometryManager.setDefault(Fortress.class, config.getCreator().myBox(3 / 2f, 3 / 2f, 2f, ColorRGBA.Gray));
-        GeometryManager.setDefault(Portal.class, config.getCreator().myBox(1f, 1 / 2f, 1.5f, ColorRGBA.Magenta));
-
+    public GamePlayAppState() {
     }
 
-    protected void initDebug() {
-        Node debugNode = new Node();
-        debugNode.attachChild(config.getCreator().coorAxises(111f));
-//        debugNode.attachChild(gridXY(100));
+    protected void initStartData() {
+        Node debugNode = debubSet();
+        Configuration.getRootNode().attachChild(debugNode);
 
-        Geometry geom;
-        geom = config.getCreator().myBox("box", Vector3f.ZERO, ColorRGBA.Blue);
-        debugNode.attachChild(geom);
+        Configuration.getInputManager().addMapping(MAPPING_BUILD, TRIGGER_BUILD);
+        Configuration.getInputManager().addListener(analogListener, MAPPING_BUILD);
+//        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
+        Creator.attachCenterMark();
 
-        config.getRootNode().attachChild(debugNode);
+        GeometryManager.setDefault(JME3Object.class, myBox(1 / 4f, 1 / 8f, 1 / 16f, ColorRGBA.Red));
+        GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f));
+        GeometryManager.setDefault(Wall.class, myBox(1 / 2f, 1 / 2f, 1f, ColorRGBA.Cyan));
+        GeometryManager.setDefault(Tower.class, myBox(1f, 1f, 1.5f, ColorRGBA.Green));
+        GeometryManager.setDefault(Fortress.class, myBox(3 / 2f, 3 / 2f, 2f, ColorRGBA.Gray));
+        GeometryManager.setDefault(Portal.class, myBox(1f, 1 / 2f, 1.5f, ColorRGBA.Magenta));
+
     }
 
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
-
         super.initialize(stateManager, app);
 
         initStartData();
 
         load();
-        field = config.getTester().testSerialization();
-
-//        guiNode.attachChild(rootNode);
-//        rootNode.scale(30);
-
-
+        field = testSerialization();
+//        guiNode.attachChild(Configuration.getRootNode());
+//        Configuration.getRootNode().scale(30);
     }
 
     @Override
     public void cleanup() {
-        if (field != null)
-            save();
+        save();
+
         super.cleanup();
     }
 
@@ -116,26 +98,5 @@ public class GamePlayAppState extends AbstractAppState {
         super.update(tpf);
     }
 
-    @Override
-    public void render(RenderManager rm) {
-        super.render(rm);
-    }
 
-    //TODO move to another class, change signature
-    public void save() {
-        Field.serialize(field);
-        System.out.println(field);
-    }
-
-    //TODO move to another class, change signature
-    public void load() {
-        field = Field.deserialize();
-        System.out.println(field);
-        config.getRootNode().attachChild(field);
-        field.setLocalTranslation(-55, 0, -2);
-    }
 }
-
-
-
-

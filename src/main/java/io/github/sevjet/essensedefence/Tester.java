@@ -1,9 +1,6 @@
 package io.github.sevjet.essensedefence;
 
-import com.jme3.app.Application;
-import com.jme3.app.state.AppStateManager;
 import com.jme3.scene.Node;
-import com.jme3.system.AppSettings;
 
 import java.util.Random;
 
@@ -11,38 +8,13 @@ import static io.github.sevjet.essensedefence.GamePlayAppState.field;
 
 public class Tester {
 
-    Configuration config;
-
-    public Tester() {
-        config = Configuration.getInstance();
-    }
-
-    public void tests() {
+    public static void tests() {
 //        testTrigger();
 //        testWall();
         testAllBuildings();
     }
 
-    Random rnd = new Random();
-
-    private int gen(int to) {
-        return Math.abs(rnd.nextInt()) % to;
-    }
-
-    public Field testSerialization() {
-
-        field = new Field(50, 50);
-        field.setLocalTranslation(10, 10, 1);
-
-        field.build(1, 1, new Wall());
-        field.build(gen(20), gen(20), new Tower());
-        field.build(gen(20), gen(20), new Portal());
-        field.build(gen(20), gen(20), new Fortress());
-        config.getRootNode().attachChild(field);
-        return field;
-    }
-
-    public void testAllBuildings() {
+    public static void testAllBuildings() {
         Field field = new Field(10, 10);
         field.setLocalTranslation(10, 10, 1);
 
@@ -52,14 +24,14 @@ public class Tester {
         field.build(6, 1, new Fortress());
     }
 
-    public void testTrigger() {
+    public static void testTrigger() {
         field = new Field(50, 50);
         field.setLocalTranslation(10, 10, 1);
 
-        config.getRootNode().attachChild(field);
+        Configuration.getRootNode().attachChild(field);
     }
 
-    public void testWall() {
+    public static void testWall() {
         Wall wall = new Wall();
         Field field = new Field(5, 5);
         wall.getGeometry().rotate((float) Math.PI * (-30) / 180f, 0, 0);
@@ -70,10 +42,10 @@ public class Tester {
         wall.getGeometry().rotate((float) Math.PI * (-30) / 180f, 0, 0);
         field.build(4, 1, wall);
 
-        config.getRootNode().attachChild(field);
+        Configuration.getRootNode().attachChild(field);
     }
 
-    public void testFieldClass() {
+    public static void testFieldClass() {
         int rowNum = 5, colNum = 25;
         Node badFace = new Node();
 
@@ -99,8 +71,42 @@ public class Tester {
         map.setLocalTranslation(22, 22, 1);
         map.rotate(0, 0, -(float) Math.PI * 45 / 180f);
 
-        config.getRootNode().attachChild(badFace);
+        Configuration.getRootNode().attachChild(badFace);
 //        badFace.scale(20);
 //        badFace.setLocalTranslation(300, 200, 0);
+    }
+
+    static class TestForSerialization {
+
+        private static int gen(int to) {
+            Random rnd = new Random();
+            return Math.abs(rnd.nextInt()) % to;
+        }
+
+        public static Field testSerialization() {
+            field = new Field(50, 50);
+            field.setLocalTranslation(10, 10, 1);
+
+            field.build(1, 1, new Wall());
+            field.build(gen(40), gen(40), new Wall());
+            field.build(gen(40), gen(40), new Tower());
+            field.build(gen(40), gen(40), new Portal());
+            field.build(gen(40), gen(40), new Fortress());
+            Configuration.getRootNode().attachChild(field);
+            return field;
+        }
+
+        //TODO move to another class, change signature
+        public static void save(Field field) {
+            Field.serialize(field);
+        }
+
+        //TODO move to another class, change signature
+        public static Field load() {
+            Field field = Field.deserialize();
+            Configuration.getRootNode().attachChild(field);
+            field.setLocalTranslation(-55, 0, -2);
+            return field;
+        }
     }
 }
