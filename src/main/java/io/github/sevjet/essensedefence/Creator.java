@@ -1,7 +1,5 @@
 package io.github.sevjet.essensedefence;
 
-import com.jme3.app.Application;
-import com.jme3.app.state.AppStateManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -10,14 +8,9 @@ import com.jme3.scene.Node;
 import com.jme3.scene.debug.Grid;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
-import com.jme3.system.AppSettings;
 
 public class Creator {
-
-    public Creator() {
-    }
-
-    public Node gridXY(int rowLen, int colLen, float lineDist, ColorRGBA clr) {
+    public static Node gridXY(int rowLen, int colLen, float lineDist, ColorRGBA clr) {
         Node axis = new Node();
         Geometry geom;
 
@@ -33,16 +26,15 @@ public class Creator {
         return axis;
     }
 
-
-    public Node gridXY(int length, ColorRGBA clr) {
+    public static Node gridXY(int length, ColorRGBA clr) {
         return gridXY(length, length, 1, clr);
     }
 
-    public Node gridXY(int length) {
+    public static Node gridXY(int length) {
         return gridXY(length, ColorRGBA.Gray);
     }
 
-    public Node coorAxises(float length) {
+    public static Node coorAxises(float length) {
         Node axis = new Node();
         Geometry line;
 
@@ -64,7 +56,7 @@ public class Creator {
         return axis;
     }
 
-    public Geometry myLine(Vector3f start, Vector3f end) {
+    public static Geometry myLine(Vector3f start, Vector3f end) {
         Line line = new Line(start, end);
         Geometry geom = new Geometry("line", line);
         Material mat = new Material(Configuration.getAssetManager(),
@@ -74,42 +66,42 @@ public class Creator {
         return geom;
     }
 
-    public Geometry myLine(Vector3f start, Vector3f end, ColorRGBA clr) {
+    public static Geometry myLine(Vector3f start, Vector3f end, ColorRGBA clr) {
         Geometry line;
         line = myLine(start, end);
         line.getMaterial().setColor("Color", clr);
         return line;
     }
 
-    public Geometry myBox(float x, float y) {
-        return myBox(x, y, 0, "box", Vector3f.ZERO, ColorRGBA.Black);
+    public static Geometry myBox(float x, float y) {
+        return Creator.myBox(x, y, 0, "box", Vector3f.ZERO, ColorRGBA.Black);
     }
 
-    public Geometry myBox(float x, float y, ColorRGBA color) {
-        return myBox(x, y, 1, "box", Vector3f.ZERO, color);
+    public static Geometry myBox(float x, float y, ColorRGBA color) {
+        return Creator.myBox(x, y, 1, "box", Vector3f.ZERO, color);
     }
 
-    public Geometry myBox(String name, Vector3f loc, ColorRGBA color) {
+    public static Geometry myBox(String name, Vector3f loc, ColorRGBA color) {
         return myBox(1, 1, 1, name, loc, color);
     }
 
-    public Geometry myBox(float x, float y, String name, ColorRGBA color) {
+    public static Geometry myBox(float x, float y, String name, ColorRGBA color) {
         return myBox(x, y, 1, name, Vector3f.ZERO, color);
     }
 
-    public Geometry myBox(float x, float y, float z, ColorRGBA color) {
+    public static Geometry myBox(float x, float y, float z, ColorRGBA color) {
         return myBox(x, y, z, "box", Vector3f.ZERO, color);
     }
 
-    public Geometry myBox(float x, float y, float z) {
+    public static Geometry myBox(float x, float y, float z) {
         return myBox(x, y, z, "box", Vector3f.ZERO, ColorRGBA.Black);
     }
 
-    public Geometry myBox(float x, float y, String name, Vector3f loc, ColorRGBA color) {
+    public static Geometry myBox(float x, float y, String name, Vector3f loc, ColorRGBA color) {
         return myBox(x, y, 1, name, loc, color);
     }
 
-    public Geometry myBox(float x, float y, float z, String name, Vector3f loc, ColorRGBA color) {
+    public static Geometry myBox(float x, float y, float z, String name, Vector3f loc, ColorRGBA color) {
         Box mesh = new Box(x, y, z);
         Geometry geom = new Geometry(name, mesh);
         Material mat = new Material(Configuration.getAssetManager(),
@@ -120,12 +112,21 @@ public class Creator {
         return geom;
     }
 
-    public void attachCenterMark() {
-        Geometry c = myBox("center mark",
+    public static void attachCenterMark() {
+        Geometry c = Creator.myBox("center mark",
                 Vector3f.ZERO, ColorRGBA.White);
         c.scale(5);
         c.setLocalTranslation(Configuration.getSettings().getWidth() / 2,
                 Configuration.getSettings().getHeight() / 2, 0);
         Configuration.getGuiNode().attachChild(c);
+    }
+
+    public static Node debubSet() {
+        Node debugNode = new Node();
+        debugNode.attachChild(Creator.coorAxises(111f));
+//        debugNode.attachChild(gridXY(100));
+        debugNode.attachChild(myBox("box", Vector3f.ZERO, ColorRGBA.Blue));
+
+        return debugNode;
     }
 }

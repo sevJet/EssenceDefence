@@ -8,15 +8,14 @@ import java.util.Map;
 public class GeometryManager {
 
     private static GeometryManager _instance = new GeometryManager();
-
-    public static GeometryManager getInstance() {
-        return _instance;
-    }
-
     private final Map<Class<? extends JME3Object>, Geometry> defaultGeometry;
 
     private GeometryManager() {
         defaultGeometry = new HashMap<>();
+    }
+
+    public static GeometryManager getInstance() {
+        return _instance;
     }
 
     public static Geometry getDefault(Class<? extends JME3Object> clazz) {

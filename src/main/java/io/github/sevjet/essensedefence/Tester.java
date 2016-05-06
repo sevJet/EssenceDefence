@@ -8,22 +8,18 @@ import static io.github.sevjet.essensedefence.GamePlayAppState.field;
 
 public class Tester {
 
-    public Tester() {
-    }
-
-    public void tests() {
+    public static void tests() {
 //        testTrigger();
 //        testWall();
         testAllBuildings();
     }
 
-    Random rnd = new Random();
-
-    private int gen(int to) {
+    private static int gen(int to) {
+        Random rnd = new Random();
         return Math.abs(rnd.nextInt()) % to;
     }
 
-    public Field testSerialization() {
+    public static Field testSerialization() {
 
         field = new Field(50, 50);
         field.setLocalTranslation(10, 10, 1);
@@ -36,7 +32,7 @@ public class Tester {
         return field;
     }
 
-    public void testAllBuildings() {
+    public static void testAllBuildings() {
         Field field = new Field(10, 10);
         field.setLocalTranslation(10, 10, 1);
 
@@ -46,14 +42,14 @@ public class Tester {
         field.build(6, 1, new Fortress());
     }
 
-    public void testTrigger() {
+    public static void testTrigger() {
         field = new Field(50, 50);
         field.setLocalTranslation(10, 10, 1);
 
         Configuration.getRootNode().attachChild(field);
     }
 
-    public void testWall() {
+    public static void testWall() {
         Wall wall = new Wall();
         Field field = new Field(5, 5);
         wall.getGeometry().rotate((float) Math.PI * (-30) / 180f, 0, 0);
@@ -67,7 +63,7 @@ public class Tester {
         Configuration.getRootNode().attachChild(field);
     }
 
-    public void testFieldClass() {
+    public static void testFieldClass() {
         int rowNum = 5, colNum = 25;
         Node badFace = new Node();
 

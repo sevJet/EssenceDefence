@@ -12,26 +12,23 @@ import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.system.AppSettings;
+
+import static io.github.sevjet.essensedefence.Creator.debubSet;
+import static io.github.sevjet.essensedefence.Creator.myBox;
+import static io.github.sevjet.essensedefence.Tester.testSerialization;
 
 public class GamePlayAppState extends AbstractAppState {
-
-    //TODO fix it
-    static Field field;
 
     private final static Trigger TRIGGER_BUILD =
             new KeyTrigger(KeyInput.KEY_E);
     private final static Trigger TRIGGER_ROTATE =
             //           new KeyTrigger(KeyInput.KEY_T);
             new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
-
     private final static String MAPPING_BUILD = "Build";
-
-    private Creator creater;
-    private Tester tester;
+    //TODO fix it
+    static Field field;
 
     private AnalogListener analogListener = new AnalogListener() {
         public void onAnalog(String name, float intensity, float tpf) {
@@ -53,48 +50,35 @@ public class GamePlayAppState extends AbstractAppState {
         }
     };
 
-    public GamePlayAppState(AppSettings settings) {
+    public GamePlayAppState() {
     }
 
-
     protected void initStartData() {
+        Node debugNode = debubSet();
+        Configuration.getRootNode().attachChild(debugNode);
+
         Configuration.getInputManager().addMapping(MAPPING_BUILD, TRIGGER_BUILD);
         Configuration.getInputManager().addListener(analogListener, MAPPING_BUILD);
 //        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
-        creater.attachCenterMark();
+        Creator.attachCenterMark();
 
-        GeometryManager.setDefault(JME3Object.class, creater.myBox(1 / 4f, 1 / 4f, 7, ColorRGBA.Red));
-        GeometryManager.setDefault(Cell.class, creater.myBox(1 / 2f, 1 / 2f));
-        GeometryManager.setDefault(Wall.class, creater.myBox(1 / 2f, 1 / 2f, 1f, ColorRGBA.Cyan));
-        GeometryManager.setDefault(Tower.class, creater.myBox(1f, 1f, 1.5f, ColorRGBA.Green));
-        GeometryManager.setDefault(Fortress.class, creater.myBox(3 / 2f, 3 / 2f, 2f, ColorRGBA.Gray));
-        GeometryManager.setDefault(Portal.class, creater.myBox(1f, 1 / 2f, 1.5f, ColorRGBA.Magenta));
+        GeometryManager.setDefault(JME3Object.class, myBox(1 / 4f, 1 / 4f, 7, ColorRGBA.Red));
+        GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f));
+        GeometryManager.setDefault(Wall.class, myBox(1 / 2f, 1 / 2f, 1f, ColorRGBA.Cyan));
+        GeometryManager.setDefault(Tower.class, myBox(1f, 1f, 1.5f, ColorRGBA.Green));
+        GeometryManager.setDefault(Fortress.class, myBox(3 / 2f, 3 / 2f, 2f, ColorRGBA.Gray));
+        GeometryManager.setDefault(Portal.class, myBox(1f, 1 / 2f, 1.5f, ColorRGBA.Magenta));
 
-    }
-
-    protected void initDebug() {
-        Node debugNode = new Node();
-        debugNode.attachChild(creater.coorAxises(111f));
-//        debugNode.attachChild(gridXY(100));
-
-        Geometry geom;
-        geom = creater.myBox("box", Vector3f.ZERO, ColorRGBA.Blue);
-        debugNode.attachChild(geom);
-
-        Configuration.getRootNode().attachChild(debugNode);
     }
 
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
 
-        creater = new Creator();
-        tester = new Tester();
-
         initStartData();
 
         load();
-        field = tester.testSerialization();
+        field = testSerialization();
 //        guiNode.attachChild(Configuration.getRootNode());
 //        Configuration.getRootNode().scale(30);
     }
@@ -111,9 +95,6 @@ public class GamePlayAppState extends AbstractAppState {
     public void update(float tpf) {
         super.update(tpf);
     }
-
-
-
 
 
     //TODO move to another class, change signature

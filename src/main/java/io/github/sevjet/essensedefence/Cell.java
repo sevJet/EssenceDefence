@@ -97,7 +97,6 @@ public class Cell extends JME3Object implements Serializable {
                             (passable ? 1 : 0),
                             (passable && occupiedBy == null ? 1 : 0),
                             1));
-
 //            if (getGeometry().getParent() != null &&
 //                    getGeometry().getParent().getClass() == Field.class &&
 //                    occupiedBy != null)//&& occupiedBy.getGeometry() != null)

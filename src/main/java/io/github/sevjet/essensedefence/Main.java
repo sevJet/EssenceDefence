@@ -1,17 +1,12 @@
 package io.github.sevjet.essensedefence;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.asset.AssetManager;
-import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
-import com.sun.deploy.config.Config;
 
 import java.awt.*;
 
 public class Main extends SimpleApplication {
-    //TODO: fix it
-    public static AssetManager assetManagerStatic;
 
     public static AppSettings mySettings() {
         AppSettings settings = new AppSettings(true);
@@ -50,13 +45,11 @@ public class Main extends SimpleApplication {
         app.start();
     }
 
-
     protected void initStartSettings() {
         //flyCam.setEnabled(false);
         flyCam.setMoveSpeed(100);
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
     }
-
 
     @Override
     public void simpleInitApp() {
@@ -64,10 +57,8 @@ public class Main extends SimpleApplication {
         Configuration.setSettings(settings);
         Configuration.setApp(this);
         Configuration.setAppState(stateManager);
-        assetManagerStatic = assetManager;
 
-
-        GamePlayAppState state = new GamePlayAppState(settings);
+        GamePlayAppState state = new GamePlayAppState();
         stateManager.attach(state);
 
     }
@@ -77,12 +68,8 @@ public class Main extends SimpleApplication {
 
     }
 
-
     @Override
     public void update() {
         super.update();
     }
-
 }
-
-

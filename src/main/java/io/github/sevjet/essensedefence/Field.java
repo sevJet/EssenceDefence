@@ -1,16 +1,16 @@
 package io.github.sevjet.essensedefence;
 
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.debug.Grid;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static io.github.sevjet.essensedefence.Creator.gridXY;
 
 public class Field extends Node implements Serializable {
 
@@ -54,6 +54,41 @@ public class Field extends Node implements Serializable {
         attachChild(grid);
     }
 
+    //TODO serialize all objects
+    public static void serialize(Field field) {
+        try {
+            FileOutputStream fos = new FileOutputStream("temp_kill_me.out");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+//            oos.writeObject(field);
+            oos.writeObject(field.cells);
+            oos.flush();
+            oos.close();
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //TODO deserialize all objects
+    public static Field deserialize() {
+        try {
+            FileInputStream fis = new FileInputStream("temp_kill_me.out");
+            ObjectInputStream oin = new ObjectInputStream(fis);
+            Field field = new Field((Cell[][]) oin.readObject());
+            return field;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Cell getCell(int x, int y) {
         if (x < cells.length) {
             if (y < cells[x].length) {
@@ -63,7 +98,6 @@ public class Field extends Node implements Serializable {
         return null;
     }
 
-    //TODO THIS SHIT
     public void build(int x, int y, Building building) {
         for (int i = x; i < x + building.getWidth(); i++) {
             for (int j = y; j < y + building.getHeight(); j++) {
@@ -115,59 +149,6 @@ public class Field extends Node implements Serializable {
             return true;
         }
         return false;
-    }
-
-    //TODO: delete this method from here
-    public Node gridXY(int rowLen, int colLen, float lineDist, ColorRGBA clr) {
-        Node axis = new Node();
-        Geometry geom;
-
-        Grid grid = new Grid(rowLen, colLen, lineDist);
-        geom = new Geometry("gridXY", grid);
-        //TODO: FIX static field
-        Material mat = new Material(Main.assetManagerStatic,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", clr);
-        geom.setMaterial(mat);
-        geom.rotate(-90f * (float) Math.PI / 180f, 0, 0);
-        axis.attachChild(geom);
-
-        return axis;
-    }
-
-
-    public static void serialize(Field field) {
-        try {
-            FileOutputStream fos = new FileOutputStream("temp_kill_me.out");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-//            oos.writeObject(field);
-            oos.writeObject(field.cells);
-            oos.flush();
-            oos.close();
-            fos.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //TODO deserialize all objects
-    public static Field deserialize() {
-        try {
-            FileInputStream fis = new FileInputStream("temp_kill_me.out");
-            ObjectInputStream oin = new ObjectInputStream(fis);
-            Field field = new Field((Cell[][]) oin.readObject());
-            return field;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 }
