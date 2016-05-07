@@ -48,10 +48,10 @@ public class Main extends SimpleApplication {
     }
 
     protected void initStartSettings() {
-        //flyCam.setEnabled(false);
+//        flyCam.setEnabled(false);
         flyCam.setMoveSpeed(100);
-        cam.setLocation(new Vector3f(1.5192356f, 31.601496f, 98.977715f));
-        cam.setRotation(new Quaternion(4.118577E-4f, 0.9993135f, -0.035146613f, 0.011711574f));
+        cam.setLocation(new Vector3f(0f, 32f, 100f));
+        cam.setRotation(new Quaternion(0.0f, 1.0f, 0.0f, 0.0f));
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
     }
 

@@ -23,16 +23,19 @@ public class GamePlayAppState extends AbstractAppState {
 
     private final static Trigger TRIGGER_BUILD =
             new KeyTrigger(KeyInput.KEY_E);
+    private final static Trigger TRIGGER_RESET =
+            new KeyTrigger(KeyInput.KEY_R);
     private final static Trigger TRIGGER_ROTATE =
             //           new KeyTrigger(KeyInput.KEY_T);
             new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
     private final static String MAPPING_BUILD = "Build";
+    private final static String MAPPING_RESET = "Reset";
     //TODO fix it
     static Field field;
 
     private AnalogListener analogListener = new AnalogListener() {
         public void onAnalog(String name, float intensity, float tpf) {
-            if (name.equals(MAPPING_BUILD)) {
+            if (name.equals(MAPPING_BUILD) || name.equals(MAPPING_RESET)) {
 
                 CollisionResults results = new CollisionResults();
                 Ray ray = new Ray(Configuration.getCam().getLocation(), Configuration.getCam().getDirection());
@@ -41,7 +44,8 @@ public class GamePlayAppState extends AbstractAppState {
                 if (results.size() > 0) {
                     Geometry target = results.getClosestCollision().getGeometry();
                     if (target.getParent() instanceof Field) {
-                        ((Field) target.getParent()).getCell(target).setPassably(true);
+                        Cell cell = ((Field) target.getParent()).getCell(target);
+                        cell.setPassably(name.equals(MAPPING_BUILD));
                     }
                 } else {
 //                    System.out.println("Selection: Nothing");
@@ -58,7 +62,8 @@ public class GamePlayAppState extends AbstractAppState {
         Configuration.getRootNode().attachChild(debugNode);
 
         Configuration.getInputManager().addMapping(MAPPING_BUILD, TRIGGER_BUILD);
-        Configuration.getInputManager().addListener(analogListener, MAPPING_BUILD);
+        Configuration.getInputManager().addMapping(MAPPING_RESET, TRIGGER_RESET);
+        Configuration.getInputManager().addListener(analogListener, MAPPING_BUILD, MAPPING_RESET);
 //        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
         Creator.attachCenterMark();
 

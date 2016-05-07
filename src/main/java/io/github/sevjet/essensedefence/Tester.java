@@ -102,8 +102,10 @@ public class Tester {
 
         public static Field load() {
             Field field = Field.deserialize();
-            Configuration.getRootNode().attachChild(field);
-            field.setLocalTranslation(-55, 10, 1);
+            if(field != null) {
+                Configuration.getRootNode().attachChild(field);
+                field.setLocalTranslation(-55, 10, 1);
+            }
             return field;
         }
     }

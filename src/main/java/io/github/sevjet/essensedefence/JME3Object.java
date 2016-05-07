@@ -13,23 +13,17 @@ public abstract class JME3Object implements Serializable {
     protected transient Geometry geometry = null;
 
     public JME3Object() {
-        this(0, 0, null);
+        this(0, 0);
     }
 
     public JME3Object(int x, int y) {
-        this(x, y, null);
-    }
-
-    @Deprecated
-    public JME3Object(Geometry geometry) {
-        this(0, 0, geometry);
-    }
-
-    @Deprecated
-    public JME3Object(int x, int y, Geometry geometry) {
         this.x = x;
         this.y = y;
-        this.geometry = (geometry != null) ? geometry : GeometryManager.getDefault(this.getClass());
+
+        this.geometry = GeometryManager.getDefault(this.getClass());
+        if (this.geometry == null) {
+            this.geometry = GeometryManager.getDefault(JME3Object.class);
+        }
 
         updater();
     }
@@ -58,7 +52,11 @@ public abstract class JME3Object implements Serializable {
         return geometry;
     }
 
+    @Deprecated
     public void setGeometry(Geometry geometry) {
+        if (geometry == null) {
+            throw new IllegalArgumentException("Geometry can not be null");
+        }
         this.geometry = geometry;
 
         updater();
@@ -79,12 +77,6 @@ public abstract class JME3Object implements Serializable {
     }
 
     protected boolean updater() {
-        if (geometry == null) {
-            geometry = GeometryManager.getDefault(this.getClass());
-            if (geometry == null) {
-                geometry = GeometryManager.getDefault(JME3Object.class);
-            }
-        }
         if (geometry != null) {
             geometry.setLocalTranslation(x, y, z);
             return true;

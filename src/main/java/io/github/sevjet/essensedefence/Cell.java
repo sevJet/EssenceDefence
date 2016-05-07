@@ -1,7 +1,6 @@
 package io.github.sevjet.essensedefence;
 
 import com.jme3.math.ColorRGBA;
-import com.jme3.scene.Geometry;
 
 import java.io.Serializable;
 
@@ -10,56 +9,25 @@ public class Cell extends JME3Object implements Serializable {
     protected boolean passable = false;
 
     public Cell() {
-        super();
-
-        this.occupiedBy = null;
-        this.passable = false;
+        this(0, 0, false, null);
     }
 
     public Cell(int x, int y) {
-        super(x, y);
+        this(x, y, false, null);
     }
 
     public Cell(int x, int y, Building occupiedBy) {
-        super(x, y);
-        this.occupiedBy = occupiedBy;
-
-        updater();
+        this(x, y, false, occupiedBy);
     }
 
     public Cell(int x, int y, boolean passable) {
+        this(x, y, passable, null);
+    }
+
+    public Cell(int x, int y, boolean passable, Building occupiedBy) {
         super(x, y);
         this.passable = passable;
-
-        updater();
-    }
-
-    @Deprecated
-    public Cell(int x, int y, Geometry geometry) {
-        super(x, y, geometry);
-    }
-
-    @Deprecated
-    public Cell(int x, int y, Geometry geometry, Building occupiedBy) {
-        super(x, y, geometry);
         this.occupiedBy = occupiedBy;
-
-        updater();
-    }
-
-    @Deprecated
-    public Cell(int x, int y, Geometry geometry, boolean passable) {
-        super(x, y, geometry);
-        this.passable = passable;
-
-        updater();
-    }
-
-    @Deprecated
-    public Cell(int x, int y, Geometry geometry, Building occupiedBy, boolean passable) {
-        super(x, y, geometry);
-        this.occupiedBy = occupiedBy;
-        this.passable = passable;
 
         updater();
     }
@@ -75,10 +43,6 @@ public class Cell extends JME3Object implements Serializable {
     }
 
     public boolean isPassable() {
-        return passable;
-    }
-
-    public boolean getPassability() {
         return passable;
     }
 
