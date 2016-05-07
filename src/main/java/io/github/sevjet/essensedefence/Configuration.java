@@ -58,31 +58,49 @@ public class Configuration {
 
     public static AssetManager getAssetManager() {
         Configuration instance = getInstance();
-        return (instance.app != null ? instance.app.getAssetManager() : null);
+        if (instance.app == null) {
+            throw new IllegalStateException("Configuration not set");
+        }
+        return instance.app.getAssetManager();
     }
 
     public static InputManager getInputManager() {
         Configuration instance = getInstance();
-        return (instance.app != null ? instance.app.getInputManager() : null);
+        if (instance.app == null) {
+            throw new IllegalStateException("Configuration not set");
+        }
+        return instance.app.getInputManager();
     }
 
     public static Camera getCam() {
         Configuration instance = getInstance();
-        return (instance.app != null ? instance.app.getCamera() : null);
+        if (instance.app == null) {
+            throw new IllegalStateException("Configuration not set");
+        }
+        return instance.app.getCamera();
     }
 
     public static FlyByCamera getFlyCam() {
         Configuration instance = getInstance();
-        return (instance.app != null ? instance.app.getFlyByCamera() : null);
+        if (instance.app == null) {
+            throw new IllegalStateException("Configuration not set");
+        }
+        return instance.app.getFlyByCamera();
     }
 
     public static Node getRootNode() {
         Configuration instance = getInstance();
-        return (instance.app != null ? instance.app.getRootNode() : null);
+        if (instance.app == null) {
+            throw new IllegalStateException("Configuration not set");
+        }
+        return instance.app.getRootNode();
     }
 
     public static Node getGuiNode() {
         Configuration instance = getInstance();
-        return (instance.app != null ? instance.app.getGuiNode() : null);
+        if (instance.app == null) {
+            throw new IllegalStateException("Configuration not set");
+        }
+        return instance.app.getGuiNode();
     }
 }

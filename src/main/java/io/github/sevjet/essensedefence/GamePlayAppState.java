@@ -3,6 +3,7 @@ package io.github.sevjet.essensedefence;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.KeyTrigger;
@@ -15,7 +16,6 @@ import static io.github.sevjet.essensedefence.Creator.debubSet;
 import static io.github.sevjet.essensedefence.Creator.myBox;
 import static io.github.sevjet.essensedefence.Listener.*;
 import static io.github.sevjet.essensedefence.Tester.TestForSerialization.load;
-import static io.github.sevjet.essensedefence.Tester.TestForSerialization.save;
 import static io.github.sevjet.essensedefence.Tester.TestForSerialization.testSerialization;
 
 public class GamePlayAppState extends AbstractAppState {
@@ -39,6 +39,7 @@ public class GamePlayAppState extends AbstractAppState {
             new KeyTrigger(KeyInput.KEY_4);
     //TODO fix it
     static Field field;
+
     public GamePlayAppState() {
     }
 
@@ -46,13 +47,14 @@ public class GamePlayAppState extends AbstractAppState {
         Node debugNode = debubSet();
         Configuration.getRootNode().attachChild(debugNode);
 
-        Configuration.getInputManager().addMapping(MAPPING_BUILD, TRIGGER_BUILD);
-        Configuration.getInputManager().addMapping(MAPPING_RESET, TRIGGER_RESET);
-        Configuration.getInputManager().addMapping(MAPPING_BUILD_WALL, TRIGGER_BUILD_WALL);
-        Configuration.getInputManager().addMapping(MAPPING_BUILD_TOWER, TRIGGER_BUILD_TOWER);
-        Configuration.getInputManager().addMapping(MAPPING_BUILD_PORTAL, TRIGGER_BUILD_PORTAL);
-        Configuration.getInputManager().addMapping(MAPPING_BUILD_FORTRESS, TRIGGER_BUILD_FORTRESS);
-        Configuration.getInputManager().addListener(new Listener(), MAPPING_BUILD, MAPPING_RESET, MAPPING_BUILD_WALL,
+        InputManager inputManager = Configuration.getInputManager();
+        inputManager.addMapping(MAPPING_BUILD, TRIGGER_BUILD);
+        inputManager.addMapping(MAPPING_RESET, TRIGGER_RESET);
+        inputManager.addMapping(MAPPING_BUILD_WALL, TRIGGER_BUILD_WALL);
+        inputManager.addMapping(MAPPING_BUILD_TOWER, TRIGGER_BUILD_TOWER);
+        inputManager.addMapping(MAPPING_BUILD_PORTAL, TRIGGER_BUILD_PORTAL);
+        inputManager.addMapping(MAPPING_BUILD_FORTRESS, TRIGGER_BUILD_FORTRESS);
+        inputManager.addListener(new Listener(), MAPPING_BUILD, MAPPING_RESET, MAPPING_BUILD_WALL,
                 MAPPING_BUILD_TOWER, MAPPING_BUILD_PORTAL, MAPPING_BUILD_FORTRESS);
 //        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
         Creator.attachCenterMark();
