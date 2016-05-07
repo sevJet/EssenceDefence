@@ -9,7 +9,10 @@ import com.jme3.scene.debug.Grid;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
 
-public class Creator {
+public final class Creator {
+    private Creator() {
+    }
+
     public static Node gridXY(int rowLen, int colLen, float lineDist, ColorRGBA clr) {
         Node axis = new Node();
         Geometry geom;
@@ -86,7 +89,7 @@ public class Creator {
     }
 
     public static Geometry myBox(float x, float y, String name, ColorRGBA color) {
-        return myBox(x, y, 1, name, Vector3f.ZERO, color);
+        return myBox(x, y, 0, name, Vector3f.ZERO, color);
     }
 
     public static Geometry myBox(float x, float y, float z, ColorRGBA color) {
@@ -95,6 +98,10 @@ public class Creator {
 
     public static Geometry myBox(float x, float y, float z) {
         return myBox(x, y, z, "box", Vector3f.ZERO, ColorRGBA.Black);
+    }
+
+    public static Geometry myBox(float x, float y, float z, String name, ColorRGBA color) {
+        return myBox(x, y, z, name, Vector3f.ZERO, color);
     }
 
     public static Geometry myBox(float x, float y, String name, Vector3f loc, ColorRGBA color) {

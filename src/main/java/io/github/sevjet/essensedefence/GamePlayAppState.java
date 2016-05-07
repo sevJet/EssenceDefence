@@ -3,57 +3,42 @@ package io.github.sevjet.essensedefence;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.collision.CollisionResults;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
-import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Ray;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
 import static io.github.sevjet.essensedefence.Creator.debubSet;
 import static io.github.sevjet.essensedefence.Creator.myBox;
-import static io.github.sevjet.essensedefence.Tester.TestForSerialization.*;
+import static io.github.sevjet.essensedefence.Listener.*;
+import static io.github.sevjet.essensedefence.Tester.TestForSerialization.load;
+import static io.github.sevjet.essensedefence.Tester.TestForSerialization.save;
+import static io.github.sevjet.essensedefence.Tester.TestForSerialization.testSerialization;
 
 public class GamePlayAppState extends AbstractAppState {
 
-    private final static Trigger TRIGGER_BUILD =
+
+    public final static Trigger TRIGGER_BUILD =
             new KeyTrigger(KeyInput.KEY_E);
-    private final static Trigger TRIGGER_RESET =
+    public final static Trigger TRIGGER_RESET =
             new KeyTrigger(KeyInput.KEY_R);
-    private final static Trigger TRIGGER_ROTATE =
+    public final static Trigger TRIGGER_ROTATE =
             //           new KeyTrigger(KeyInput.KEY_T);
             new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
-    private final static String MAPPING_BUILD = "Build";
-    private final static String MAPPING_RESET = "Reset";
+    //TODO change
+    public final static Trigger TRIGGER_BUILD_WALL =
+            new KeyTrigger(KeyInput.KEY_1);
+    public final static Trigger TRIGGER_BUILD_TOWER =
+            new KeyTrigger(KeyInput.KEY_2);
+    public final static Trigger TRIGGER_BUILD_PORTAL =
+            new KeyTrigger(KeyInput.KEY_3);
+    public final static Trigger TRIGGER_BUILD_FORTRESS =
+            new KeyTrigger(KeyInput.KEY_4);
     //TODO fix it
     static Field field;
-
-    private AnalogListener analogListener = new AnalogListener() {
-        public void onAnalog(String name, float intensity, float tpf) {
-            if (name.equals(MAPPING_BUILD) || name.equals(MAPPING_RESET)) {
-
-                CollisionResults results = new CollisionResults();
-                Ray ray = new Ray(Configuration.getCam().getLocation(), Configuration.getCam().getDirection());
-                Configuration.getRootNode().collideWith(ray, results);
-
-                if (results.size() > 0) {
-                    Geometry target = results.getClosestCollision().getGeometry();
-                    if (target.getParent() instanceof Field) {
-                        Cell cell = ((Field) target.getParent()).getCell(target);
-                        cell.setPassably(name.equals(MAPPING_BUILD));
-                    }
-                } else {
-//                    System.out.println("Selection: Nothing");
-                }
-            }
-        }
-    };
-
     public GamePlayAppState() {
     }
 
@@ -63,15 +48,20 @@ public class GamePlayAppState extends AbstractAppState {
 
         Configuration.getInputManager().addMapping(MAPPING_BUILD, TRIGGER_BUILD);
         Configuration.getInputManager().addMapping(MAPPING_RESET, TRIGGER_RESET);
-        Configuration.getInputManager().addListener(analogListener, MAPPING_BUILD, MAPPING_RESET);
+        Configuration.getInputManager().addMapping(MAPPING_BUILD_WALL, TRIGGER_BUILD_WALL);
+        Configuration.getInputManager().addMapping(MAPPING_BUILD_TOWER, TRIGGER_BUILD_TOWER);
+        Configuration.getInputManager().addMapping(MAPPING_BUILD_PORTAL, TRIGGER_BUILD_PORTAL);
+        Configuration.getInputManager().addMapping(MAPPING_BUILD_FORTRESS, TRIGGER_BUILD_FORTRESS);
+        Configuration.getInputManager().addListener(new Listener(), MAPPING_BUILD, MAPPING_RESET, MAPPING_BUILD_WALL,
+                MAPPING_BUILD_TOWER, MAPPING_BUILD_PORTAL, MAPPING_BUILD_FORTRESS);
 //        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
         Creator.attachCenterMark();
 
-        GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f));
-        GeometryManager.setDefault(Wall.class, myBox(1 / 2f, 1 / 2f, 1f, ColorRGBA.Cyan));
-        GeometryManager.setDefault(Tower.class, myBox(1f, 1f, 1.5f, ColorRGBA.Green));
-        GeometryManager.setDefault(Fortress.class, myBox(3 / 2f, 3 / 2f, 2f, ColorRGBA.Gray));
-        GeometryManager.setDefault(Portal.class, myBox(1f, 1 / 2f, 1.5f, ColorRGBA.Magenta));
+        GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f, "cell", ColorRGBA.Black));
+        GeometryManager.setDefault(Wall.class, myBox(1 / 2f, 1 / 2f, 1f, "wall", ColorRGBA.Cyan));
+        GeometryManager.setDefault(Tower.class, myBox(1f, 1f, 1.5f, "tower", ColorRGBA.Green));
+        GeometryManager.setDefault(Fortress.class, myBox(3 / 2f, 3 / 2f, 2f, "fortress", ColorRGBA.Gray));
+        GeometryManager.setDefault(Portal.class, myBox(1f, 1 / 2f, 1.5f, "portal", ColorRGBA.Magenta));
 
     }
 
@@ -89,7 +79,7 @@ public class GamePlayAppState extends AbstractAppState {
 
     @Override
     public void cleanup() {
-        save(field);
+//        save(field);
 
         super.cleanup();
     }

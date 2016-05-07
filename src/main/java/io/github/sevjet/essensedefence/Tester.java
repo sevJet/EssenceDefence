@@ -6,7 +6,10 @@ import java.util.Random;
 
 import static io.github.sevjet.essensedefence.GamePlayAppState.field;
 
-public class Tester {
+public final class Tester {
+
+    private Tester() {
+    }
 
     public static void tests() {
 //        testTrigger();
@@ -102,7 +105,7 @@ public class Tester {
 
         public static Field load() {
             Field field = Field.deserialize();
-            if(field != null) {
+            if (field != null) {
                 Configuration.getRootNode().attachChild(field);
                 field.setLocalTranslation(-55, 10, 1);
             }

@@ -42,6 +42,17 @@ public class Cell extends JME3Object implements Serializable {
         updater();
     }
 
+    public boolean build(Building building) {
+        if (getGeometry().getParent().getParent() instanceof Field) {
+            Field field = ((Field) getGeometry().getParent().getParent());
+            if (field.enoughPlaceFor(this, building)) {
+                field.build(x, y, building);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isPassable() {
         return passable;
     }
@@ -64,5 +75,18 @@ public class Cell extends JME3Object implements Serializable {
             return true;
         }
         return false;
+    }
+
+    public void removeBuilding() {
+        if (occupiedBy == null)
+            return;
+        if (geometry.getParent().getParent() instanceof Field) {
+            ((Field) geometry.getParent().getParent()).removeBuilding(occupiedBy);
+        }
+    }
+
+    protected void free() {
+        occupiedBy = null;
+        updater();
     }
 }

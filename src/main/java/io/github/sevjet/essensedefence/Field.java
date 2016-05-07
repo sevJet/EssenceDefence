@@ -14,8 +14,9 @@ import static io.github.sevjet.essensedefence.Creator.gridXY;
 
 public class Field extends Node implements Serializable {
 
+    protected  Map<Class<? extends JME3Object>, Node> objects;
     protected Cell[][] cells;
-    protected Map<Class<? extends JME3Object>, Node> objects;
+    //TODO for serialization
     private List<JME3Object> allObjects = new ArrayList<>();
 
     public Field(int colNum, int rowNum) {
@@ -26,7 +27,7 @@ public class Field extends Node implements Serializable {
             cells[i] = new Cell[colNum];
             for (int j = 0; j < colNum; j++) {
                 cells[i][j] = new Cell(i, j);
-                attachChild(cells[i][j].getGeometry());
+                addObject(cells[i][j]);
             }
         }
 
@@ -45,7 +46,7 @@ public class Field extends Node implements Serializable {
                     build(cells[i][j].getBuilding());
                 }
                 cells[i][j].updater();
-                attachChild(cells[i][j].getGeometry());
+                addObject(cells[i][j]);
             }
         }
 
@@ -116,7 +117,7 @@ public class Field extends Node implements Serializable {
 
     public Cell getCell(Geometry geom) {
         int x, y;
-        if (geom != null && geom.getParent() == this) {
+        if (geom != null && geom.getParent().getParent() == this) {
             x = (int) geom.getLocalTranslation().getX();
             y = (int) geom.getLocalTranslation().getY();
             return getCell(x, y);
@@ -125,7 +126,7 @@ public class Field extends Node implements Serializable {
     }
 
     public boolean addObject(JME3Object object) {
-        allObjects.add(object);
+//        allObjects.add(object);
         Node node = objects.get(object.getClass());
         if (node == null) {
             node = new Node();
@@ -151,4 +152,25 @@ public class Field extends Node implements Serializable {
         return false;
     }
 
+    public boolean enoughPlaceFor(Cell cell, Building building) {
+        for (int i = cell.getX(); i < cell.getX() + building.getWidth(); i++) {
+            for (int j = cell.getY(); j < cell.getY() + building.getHeight(); j++) {
+                if (i >= cells.length ||
+                        j >= cells[i].length ||
+                        cells[i][j].getBuilding() != null)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+
+    protected void removeBuilding(Building building) {
+        for (int i = building.getX(); i < building.getX() + building.getWidth(); i++) {
+            for (int j = building.getY(); j < building.getY() + building.getHeight(); j++) {
+                cells[i][j].free();
+            }
+        }
+        removeObject(building);
+    }
 }

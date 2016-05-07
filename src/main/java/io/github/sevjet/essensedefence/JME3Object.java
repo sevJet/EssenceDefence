@@ -77,6 +77,13 @@ public abstract class JME3Object implements Serializable {
     }
 
     protected boolean updater() {
+        //TODO temporary
+        if (this.geometry == null)
+            this.geometry = GeometryManager.getDefault(this.getClass());
+        if (this.geometry == null) {
+            this.geometry = GeometryManager.getDefault(JME3Object.class);
+        }
+        //end temporary
         if (geometry != null) {
             geometry.setLocalTranslation(x, y, z);
             return true;
