@@ -1,9 +1,12 @@
 package io.github.sevjet.essensedefence;
 
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static io.github.sevjet.essensedefence.Creator.myBox;
 
 public class GeometryManager {
 
@@ -12,6 +15,8 @@ public class GeometryManager {
 
     private GeometryManager() {
         defaultGeometry = new HashMap<>();
+
+        defaultGeometry.put(JME3Object.class, myBox(1 / 4f, 1 / 8f, 1 / 16f, ColorRGBA.Red));
     }
 
     public static GeometryManager getInstance() {

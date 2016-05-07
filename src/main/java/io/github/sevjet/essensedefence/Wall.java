@@ -11,8 +11,7 @@ public class Wall extends Building implements Serializable {
     }
 
     public Wall(int price) {
-        setHeight(1);
-        setWidth(1);
+        super(1, 1, 2);
 
         this.price = price;
     }

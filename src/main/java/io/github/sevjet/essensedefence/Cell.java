@@ -82,14 +82,14 @@ public class Cell extends JME3Object implements Serializable {
         return passable;
     }
 
-    public void setPassability(boolean passable) {
+    public void setPassably(boolean passable) {
         this.passable = passable;
 
         updater();
     }
 
     @Override
-    public boolean updater() {
+    protected boolean updater() {
         if (super.updater()) {
             getGeometry().getMaterial().setColor("Color",
                     new ColorRGBA(
@@ -97,18 +97,8 @@ public class Cell extends JME3Object implements Serializable {
                             (passable ? 1 : 0),
                             (passable && occupiedBy == null ? 1 : 0),
                             1));
-//            if (getGeometry().getParent() != null &&
-//                    getGeometry().getParent().getClass() == Field.class &&
-//                    occupiedBy != null)//&& occupiedBy.getGeometry() != null)
-//                ((Field) this.getGeometry().getParent()).addObject(occupiedBy);
             return true;
-        } else {
-            geometry = GeometryManager.getDefault(this.getClass());
-            if (geometry == null) {
-                geometry = GeometryManager.getDefault(JME3Object.class);
-            }
-            //TODO dangerous recursion
-            return updater();
         }
+        return false;
     }
 }

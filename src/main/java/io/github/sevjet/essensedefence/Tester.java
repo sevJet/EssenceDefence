@@ -85,7 +85,7 @@ public class Tester {
 
         public static Field testSerialization() {
             field = new Field(50, 50);
-            field.setLocalTranslation(10, 10, 1);
+            field.setLocalTranslation(5, 10, 1);
 
             field.build(1, 1, new Wall());
             field.build(gen(40), gen(40), new Wall());
@@ -96,16 +96,14 @@ public class Tester {
             return field;
         }
 
-        //TODO move to another class, change signature
         public static void save(Field field) {
             Field.serialize(field);
         }
 
-        //TODO move to another class, change signature
         public static Field load() {
             Field field = Field.deserialize();
             Configuration.getRootNode().attachChild(field);
-            field.setLocalTranslation(-55, 0, -2);
+            field.setLocalTranslation(-55, 10, 1);
             return field;
         }
     }

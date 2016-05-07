@@ -11,9 +11,8 @@ public class Fortress extends Building implements Serializable {
     }
 
     public Fortress(int health) {
+        super(3, 3, 4);
         this.setHealth(health);
-        setWidth(3);
-        setHeight(3);
     }
 
     public int getHealth() {

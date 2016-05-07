@@ -11,8 +11,7 @@ public class Tower extends Building implements Serializable {
     }
 
     public Tower(int price) {
-        setHeight(2);
-        setWidth(2);
+        super(2, 2, 3);
 
         setPrice(price);
     }

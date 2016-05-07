@@ -17,9 +17,7 @@ import com.jme3.scene.Node;
 
 import static io.github.sevjet.essensedefence.Creator.debubSet;
 import static io.github.sevjet.essensedefence.Creator.myBox;
-import static io.github.sevjet.essensedefence.Tester.TestForSerialization.load;
-import static io.github.sevjet.essensedefence.Tester.TestForSerialization.save;
-import static io.github.sevjet.essensedefence.Tester.TestForSerialization.testSerialization;
+import static io.github.sevjet.essensedefence.Tester.TestForSerialization.*;
 
 public class GamePlayAppState extends AbstractAppState {
 
@@ -43,7 +41,7 @@ public class GamePlayAppState extends AbstractAppState {
                 if (results.size() > 0) {
                     Geometry target = results.getClosestCollision().getGeometry();
                     if (target.getParent() instanceof Field) {
-                        ((Field) target.getParent()).getCell(target).setPassability(true);
+                        ((Field) target.getParent()).getCell(target).setPassably(true);
                     }
                 } else {
 //                    System.out.println("Selection: Nothing");
@@ -64,7 +62,6 @@ public class GamePlayAppState extends AbstractAppState {
 //        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
         Creator.attachCenterMark();
 
-        GeometryManager.setDefault(JME3Object.class, myBox(1 / 4f, 1 / 8f, 1 / 16f, ColorRGBA.Red));
         GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f));
         GeometryManager.setDefault(Wall.class, myBox(1 / 2f, 1 / 2f, 1f, ColorRGBA.Cyan));
         GeometryManager.setDefault(Tower.class, myBox(1f, 1f, 1.5f, ColorRGBA.Green));

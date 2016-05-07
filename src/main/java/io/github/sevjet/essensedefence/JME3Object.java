@@ -9,6 +9,7 @@ public abstract class JME3Object implements Serializable {
     protected static final int z = 0;
     protected int x = 0;
     protected int y = 0;
+
     protected transient Geometry geometry = null;
 
     public JME3Object() {
@@ -77,18 +78,18 @@ public abstract class JME3Object implements Serializable {
         updater();
     }
 
-    public boolean updater() {
-        if (geometry != null) {
-            geometry.setLocalTranslation(x, y, z);
-            return true;
-        } else {
+    protected boolean updater() {
+        if (geometry == null) {
             geometry = GeometryManager.getDefault(this.getClass());
             if (geometry == null) {
                 geometry = GeometryManager.getDefault(JME3Object.class);
             }
-            //TODO dangerous recursion
-            return updater();
         }
+        if (geometry != null) {
+            geometry.setLocalTranslation(x, y, z);
+            return true;
+        }
+        return false;
     }
 
 }
