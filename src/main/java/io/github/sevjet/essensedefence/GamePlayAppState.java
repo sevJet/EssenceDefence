@@ -67,6 +67,7 @@ public class GamePlayAppState extends AbstractAppState {
 //        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
         Creator.attachCenterMark();
 
+
         GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f));
         GeometryManager.setDefault(Wall.class, myBox(1 / 2f, 1 / 2f, 1f, ColorRGBA.Cyan));
         GeometryManager.setDefault(Tower.class, myBox(1f, 1f, 1.5f, ColorRGBA.Green));

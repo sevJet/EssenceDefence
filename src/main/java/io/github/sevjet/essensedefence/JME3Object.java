@@ -1,10 +1,14 @@
 package io.github.sevjet.essensedefence;
 
+import com.jme3.export.*;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 
+import java.io.IOException;
 import java.io.Serializable;
 
-public abstract class JME3Object implements Serializable {
+
+public abstract class JME3Object implements Savable {//implements Serializable {
 
     protected static final int z = 0;
     protected int x = 0;
@@ -44,7 +48,6 @@ public abstract class JME3Object implements Serializable {
 
     public void setY(int y) {
         this.y = y;
-
         updater();
     }
 
@@ -77,6 +80,9 @@ public abstract class JME3Object implements Serializable {
     }
 
     protected boolean updater() {
+        if (this.geometry == null) {
+            this.geometry = GeometryManager.getDefault(JME3Object.class);
+        }
         if (geometry != null) {
             geometry.setLocalTranslation(x, y, z);
             return true;
@@ -84,4 +90,19 @@ public abstract class JME3Object implements Serializable {
         return false;
     }
 
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(x, "x", 0);
+        capsule.write(y, "y", 0);
+        capsule.write(geometry, "geometry", null);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        InputCapsule capsule = im.getCapsule(this);
+        x = capsule.readInt("x", 0);
+        y = capsule.readInt("y", 0);
+        geometry = (Geometry) capsule.readSavable("geometry", null);
+    }
 }
