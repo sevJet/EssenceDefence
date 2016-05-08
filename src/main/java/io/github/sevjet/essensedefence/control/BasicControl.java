@@ -5,15 +5,19 @@ import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.entity.Entity;
 
 public abstract class BasicControl extends AbstractControl {
-    protected Entity object;
+    protected Entity entity;
 
     @Override
     public void setSpatial(Spatial spatial) {
-        Entity object = spatial.getUserData("jme3object");
-        if (object == null) {
-            throw new IllegalArgumentException("Not a Entity spatial");
+        Entity entity = spatial.getUserData("entity");
+        if (entity == null) {
+            throw new IllegalArgumentException("Not an Entity spatial");
         }
         super.setSpatial(spatial);
-        this.object = object;
+        this.entity = entity;
+    }
+
+    public Entity getEntity() {
+        return entity;
     }
 }

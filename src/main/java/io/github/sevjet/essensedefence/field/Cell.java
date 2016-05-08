@@ -1,13 +1,17 @@
 package io.github.sevjet.essensedefence.field;
 
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.math.ColorRGBA;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
-import io.github.sevjet.essensedefence.field.Field;
 
-import java.io.Serializable;
+import java.io.IOException;
 
-public class Cell extends Entity implements Serializable {
+public class Cell extends Entity {
+
     protected Building occupiedBy = null;
     protected boolean passable = false;
 
@@ -17,14 +21,6 @@ public class Cell extends Entity implements Serializable {
 
     public Cell(int x, int y) {
         this(x, y, false, null);
-    }
-
-    public Cell(int x, int y, Building occupiedBy) {
-        this(x, y, false, occupiedBy);
-    }
-
-    public Cell(int x, int y, boolean passable) {
-        this(x, y, passable, null);
     }
 
     public Cell(int x, int y, boolean passable, Building occupiedBy) {
@@ -95,12 +91,30 @@ public class Cell extends Entity implements Serializable {
     }
 
     public Field getField() {
-        if (geometry != null)
-            if (geometry.getParent() != null)
-                if (geometry.getParent().getParent() != null)
-                    if (geometry.getParent().getParent() instanceof Field)
-                        return ((Field) geometry.getParent().getParent());
+        if (geometry != null &&
+                geometry.getParent() != null &&
+                geometry.getParent().getParent() != null &&
+                geometry.getParent().getParent() instanceof Field) {
+            return ((Field) geometry.getParent().getParent());
+        }
         return null;
+    }
 
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(occupiedBy, "occupiedBy", null);
+        capsule.write(passable, "passable", false);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+
+        InputCapsule capsule = im.getCapsule(this);
+        occupiedBy = (Building) capsule.readSavable("occupiedBy", null);
+        passable = capsule.readBoolean("passable", false);
     }
 }

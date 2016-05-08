@@ -27,6 +27,7 @@ import static io.github.sevjet.essensedefence.util.Creator.debubSet;
 import static io.github.sevjet.essensedefence.util.Creator.myBox;
 import static io.github.sevjet.essensedefence.util.Listener.*;
 import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.load;
+import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.save;
 import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.testSerialization;
 
 public class GamePlayAppState extends AbstractAppState {
@@ -88,7 +89,10 @@ public class GamePlayAppState extends AbstractAppState {
 
         initStartData();
 
-        load();
+        field = load();
+        field.setLocalTranslation(-55, 10, 0);
+        Configuration.getRootNode().attachChild(field);
+
         field = testSerialization();
 //        guiNode.attachChild(Configuration.getRootNode());
 //        Configuration.getRootNode().scale(30);
@@ -96,7 +100,7 @@ public class GamePlayAppState extends AbstractAppState {
 
     @Override
     public void cleanup() {
-//        save(field);
+        save(field);
 
         super.cleanup();
     }

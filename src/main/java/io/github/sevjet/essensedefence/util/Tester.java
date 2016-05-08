@@ -1,5 +1,7 @@
 package io.github.sevjet.essensedefence.util;
 
+import com.jme3.asset.plugins.FileLocator;
+import com.jme3.export.binary.BinaryExporter;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
@@ -7,6 +9,8 @@ import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.entity.building.Wall;
 import io.github.sevjet.essensedefence.field.Field;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 import static io.github.sevjet.essensedefence.GamePlayAppState.field;
@@ -105,16 +109,18 @@ public final class Tester {
         }
 
         public static void save(Field field) {
-            Field.serialize(field);
+            BinaryExporter exporter = BinaryExporter.getInstance();
+            File file = new File("saved_map.j3o");
+            try {
+                exporter.save(field, file);
+            } catch (IOException ex) {
+                ex.printStackTrace(System.err);
+            }
         }
 
         public static Field load() {
-            Field field = Field.deserialize();
-            if (field != null) {
-                Configuration.getRootNode().attachChild(field);
-                field.setLocalTranslation(-55, 10, 1);
-            }
-            return field;
+            Configuration.getAssetManager().registerLocator("./", FileLocator.class);
+            return (Field) Configuration.getAssetManager().loadModel("saved_map.j3o");
         }
     }
 }

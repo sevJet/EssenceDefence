@@ -1,5 +1,6 @@
 package io.github.sevjet.essensedefence.field;
 
+import com.jme3.export.*;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -7,6 +8,7 @@ import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,12 +16,16 @@ import java.util.Map;
 
 import static io.github.sevjet.essensedefence.util.Creator.gridXY;
 
-public class Field extends Node implements Serializable {
+public class Field extends Node {
 
-    protected Map<Class<? extends Entity>, Node> objects;
+    protected int cols;
+    protected int rows;
     protected Cell[][] cells;
-    //TODO for serialization
-    private List<Entity> allObjects = new ArrayList<>();
+    protected Map<Class<? extends Entity>, Node> objects;
+
+    public Field() {
+
+    }
 
     public Field(int colNum, int rowNum) {
         this.setName("field");
@@ -35,7 +41,7 @@ public class Field extends Node implements Serializable {
 
         Node grid = gridXY(colNum + 1, rowNum + 1, 1, ColorRGBA.White);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
-        attachChild(grid);
+//        attachChild(grid);
     }
 
     public Field(Cell[][] cells) {
@@ -43,54 +49,19 @@ public class Field extends Node implements Serializable {
         int rowNum = cells.length, colNum = cells[0].length;
         objects = new HashMap<>();
         this.cells = cells;
-        for (int i = 0; i < rowNum; i++) {
-            for (int j = 0; j < colNum; j++) {
-                if (cells[i][j].getBuilding() != null) {
-                    build(cells[i][j].getBuilding());
+        for (Cell[] row : cells) {
+            for (Cell cell : row) {
+                if (cell.getBuilding() != null) {
+                    build(cell.getBuilding());
                 }
-                cells[i][j].updater();
-                addObject(cells[i][j]);
+                cell.updater();
+                addObject(cell);
             }
         }
 
         Node grid = gridXY(colNum + 1, rowNum + 1, 1, ColorRGBA.White);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
         attachChild(grid);
-    }
-
-    //TODO serialize all objects
-    public static void serialize(Field field) {
-        try {
-            FileOutputStream fos = new FileOutputStream("temp_kill_me.out");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-//            oos.writeObject(field);
-            oos.writeObject(field.cells);
-            oos.flush();
-            oos.close();
-            fos.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //TODO deserialize all objects
-    public static Field deserialize() {
-        try {
-            FileInputStream fis = new FileInputStream("temp_kill_me.out");
-            ObjectInputStream oin = new ObjectInputStream(fis);
-            Field field = new Field((Cell[][]) oin.readObject());
-            return field;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public Cell getCell(int x, int y) {
@@ -171,7 +142,6 @@ public class Field extends Node implements Serializable {
         return true;
     }
 
-
     protected void removeBuilding(Building building) {
         for (int i = building.getX(); i < building.getX() + building.getSize().getWidth(); i++) {
             for (int j = building.getY(); j < building.getY() + building.getSize().getHeight(); j++) {
@@ -179,5 +149,32 @@ public class Field extends Node implements Serializable {
             }
         }
         removeObject(building);
+    }
+
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(cols, "cols", 1);
+        capsule.write(rows, "rows" , 1);
+        capsule.write(cells, "cells", null);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        InputCapsule capsule = im.getCapsule(this);
+        cols = capsule.readInt("cols", 1);
+        rows = capsule.readInt("rows", 1);
+        Savable[][] data = capsule.readSavableArray2D("cells", null);
+        cells = new Cell[rows][];
+        for(int i=0;i<rows;i++) {
+            cells[i] = new Cell[cols];
+            for(int j=0;j<cols;j++) {
+                cells[i][j] = (Cell) data[i][j];
+            }
+        }
+
+        super.read(im);
     }
 }
