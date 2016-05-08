@@ -23,10 +23,18 @@ public abstract class Entity3D extends Entity {
         super(x, y);
 
         this.size = size;
+        updater();
+    }
+
+    public BoxSize getSize() {
+        return size;
     }
 
     @Override
     protected boolean updater() {
+        if(size == null) {
+            return false;
+        }
         if (geometry == null) {
             geometry = GeometryManager.getDefault(this.getClass());
             if (geometry == null) {

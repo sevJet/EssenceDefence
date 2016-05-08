@@ -103,8 +103,8 @@ public class Field extends Node implements Serializable {
     }
 
     public void build(int x, int y, Building building) {
-        for (int i = x; i < x + building.getWidth(); i++) {
-            for (int j = y; j < y + building.getHeight(); j++) {
+        for (int i = x; i < x + building.getSize().getWidth(); i++) {
+            for (int j = y; j < y + building.getSize().getHeight(); j++) {
                 cells[i][j].setBuilding(building);
             }
         }
@@ -160,8 +160,8 @@ public class Field extends Node implements Serializable {
     }
 
     public boolean enoughPlaceFor(Cell cell, Building building) {
-        for (int i = cell.getX(); i < cell.getX() + building.getWidth(); i++) {
-            for (int j = cell.getY(); j < cell.getY() + building.getHeight(); j++) {
+        for (int i = cell.getX(); i < cell.getX() + building.getSize().getWidth(); i++) {
+            for (int j = cell.getY(); j < cell.getY() + building.getSize().getHeight(); j++) {
                 if (i >= cells.length ||
                         j >= cells[i].length ||
                         cells[i][j].getBuilding() != null)
@@ -173,8 +173,8 @@ public class Field extends Node implements Serializable {
 
 
     protected void removeBuilding(Building building) {
-        for (int i = building.getX(); i < building.getX() + building.getWidth(); i++) {
-            for (int j = building.getY(); j < building.getY() + building.getHeight(); j++) {
+        for (int i = building.getX(); i < building.getX() + building.getSize().getWidth(); i++) {
+            for (int j = building.getY(); j < building.getY() + building.getSize().getHeight(); j++) {
                 cells[i][j].free();
             }
         }
