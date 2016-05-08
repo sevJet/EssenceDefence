@@ -5,6 +5,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
+import io.github.sevjet.essensedefence.util.Configuration;
 
 import java.awt.*;
 

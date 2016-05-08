@@ -1,8 +1,10 @@
-package io.github.sevjet.essensedefence;
+package io.github.sevjet.essensedefence.field;
 
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import io.github.sevjet.essensedefence.entity.Entity;
+import io.github.sevjet.essensedefence.entity.building.Building;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,14 +12,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.sevjet.essensedefence.Creator.gridXY;
+import static io.github.sevjet.essensedefence.util.Creator.gridXY;
 
 public class Field extends Node implements Serializable {
 
-    protected Map<Class<? extends JME3Object>, Node> objects;
+    protected Map<Class<? extends Entity>, Node> objects;
     protected Cell[][] cells;
     //TODO for serialization
-    private List<JME3Object> allObjects = new ArrayList<>();
+    private List<Entity> allObjects = new ArrayList<>();
 
     public Field(int colNum, int rowNum) {
         this.setName("field");
@@ -116,6 +118,10 @@ public class Field extends Node implements Serializable {
         build(building.getX(), building.getY(), building);
     }
 
+    public Node getObjects(Class<? extends Entity> clazz) {
+        return objects.get(clazz);
+    }
+
     public Cell getCell(Geometry geom) {
         int x, y;
         if (geom != null && geom.getParent().getParent() == this) {
@@ -126,7 +132,7 @@ public class Field extends Node implements Serializable {
         return null;
     }
 
-    public boolean addObject(JME3Object object) {
+    public boolean addObject(Entity object) {
 //        allObjects.add(object);
         Node node = objects.get(object.getClass());
         if (node == null) {
@@ -141,7 +147,7 @@ public class Field extends Node implements Serializable {
         return false;
     }
 
-    public boolean removeObject(JME3Object object) {
+    public boolean removeObject(Entity object) {
         Node node = objects.get(object.getClass());
         if (node == null) {
             return false;

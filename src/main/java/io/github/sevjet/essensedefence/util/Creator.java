@@ -1,4 +1,4 @@
-package io.github.sevjet.essensedefence;
+package io.github.sevjet.essensedefence.util;
 
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;

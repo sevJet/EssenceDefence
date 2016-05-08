@@ -1,10 +1,13 @@
-package io.github.sevjet.essensedefence;
+package io.github.sevjet.essensedefence.field;
 
 import com.jme3.math.ColorRGBA;
+import io.github.sevjet.essensedefence.entity.Entity;
+import io.github.sevjet.essensedefence.entity.building.Building;
+import io.github.sevjet.essensedefence.field.Field;
 
 import java.io.Serializable;
 
-public class Cell extends JME3Object implements Serializable {
+public class Cell extends Entity implements Serializable {
     protected Building occupiedBy = null;
     protected boolean passable = false;
 

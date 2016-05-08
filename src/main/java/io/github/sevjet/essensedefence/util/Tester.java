@@ -1,6 +1,11 @@
-package io.github.sevjet.essensedefence;
+package io.github.sevjet.essensedefence.util;
 
 import com.jme3.scene.Node;
+import io.github.sevjet.essensedefence.entity.building.Fortress;
+import io.github.sevjet.essensedefence.entity.building.Portal;
+import io.github.sevjet.essensedefence.entity.building.Tower;
+import io.github.sevjet.essensedefence.entity.building.Wall;
+import io.github.sevjet.essensedefence.field.Field;
 
 import java.util.Random;
 
@@ -79,7 +84,7 @@ public final class Tester {
 //        badFace.setLocalTranslation(300, 200, 0);
     }
 
-    static class TestForSerialization {
+    public static class TestForSerialization {
 
         private static int gen(int to) {
             Random rnd = new Random();

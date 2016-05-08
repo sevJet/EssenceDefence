@@ -1,4 +1,4 @@
-package io.github.sevjet.essensedefence;
+package io.github.sevjet.essensedefence.entity.monster;
 
 import com.jme3.animation.LoopMode;
 import com.jme3.cinematic.MotionPath;
@@ -6,8 +6,10 @@ import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.PlayState;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.Vector3f;
+import io.github.sevjet.essensedefence.entity.Entity;
+import io.github.sevjet.essensedefence.entity.Entity3D;
 
-public class Monster extends JME3Object {
+public class Monster extends Entity3D {
 
     private final MotionPath path;
     private final MotionEvent motionControl;

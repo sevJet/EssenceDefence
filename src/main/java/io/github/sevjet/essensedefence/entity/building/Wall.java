@@ -1,4 +1,6 @@
-package io.github.sevjet.essensedefence;
+package io.github.sevjet.essensedefence.entity.building;
+
+import io.github.sevjet.essensedefence.entity.building.Building;
 
 import java.io.Serializable;
 

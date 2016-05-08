@@ -1,4 +1,4 @@
-package io.github.sevjet.essensedefence;
+package io.github.sevjet.essensedefence.util;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.KeyInput;
@@ -9,6 +9,15 @@ import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.math.Ray;
 import com.jme3.scene.Geometry;
+import io.github.sevjet.essensedefence.GamePlayAppState;
+import io.github.sevjet.essensedefence.entity.building.Fortress;
+import io.github.sevjet.essensedefence.entity.building.Portal;
+import io.github.sevjet.essensedefence.entity.building.Tower;
+import io.github.sevjet.essensedefence.entity.building.Wall;
+import io.github.sevjet.essensedefence.entity.monster.Monster;
+import io.github.sevjet.essensedefence.field.Cell;
+import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.util.Configuration;
 
 //TODO change on anonymous class
 public class Listener implements AnalogListener {
@@ -44,8 +53,8 @@ public class Listener implements AnalogListener {
     public CollisionResults rayCasting() {
         CollisionResults results = new CollisionResults();
         Ray ray = new Ray(Configuration.getCam().getLocation(), Configuration.getCam().getDirection());
-        //TODO fix static
-        GamePlayAppState.field.objects.get(Cell.class).collideWith(ray, results);
+        //TODO fix building
+        GamePlayAppState.field.getObjects(Cell.class).collideWith(ray, results);
 //        ((Field)Configuration.getRootNode().getChild("field")).objects.get(Cell.class).collideWith(ray, results);
 //        System.out.println(Field.objects.get(Cell.class).collideWith(ray, results));
 //        if (results.size() > 0){

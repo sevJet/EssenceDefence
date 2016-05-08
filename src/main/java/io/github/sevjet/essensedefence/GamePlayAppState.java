@@ -11,13 +11,23 @@ import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
+import io.github.sevjet.essensedefence.entity.building.Fortress;
+import io.github.sevjet.essensedefence.entity.building.Portal;
+import io.github.sevjet.essensedefence.entity.building.Tower;
+import io.github.sevjet.essensedefence.entity.building.Wall;
+import io.github.sevjet.essensedefence.entity.monster.Monster;
+import io.github.sevjet.essensedefence.field.Cell;
+import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.util.Configuration;
+import io.github.sevjet.essensedefence.util.Creator;
+import io.github.sevjet.essensedefence.util.GeometryManager;
+import io.github.sevjet.essensedefence.util.Listener;
 
-import static io.github.sevjet.essensedefence.Creator.debubSet;
-import static io.github.sevjet.essensedefence.Creator.myBox;
-import static io.github.sevjet.essensedefence.Listener.*;
-import static io.github.sevjet.essensedefence.Tester.TestForSerialization.load;
-import static io.github.sevjet.essensedefence.Tester.TestForSerialization.save;
-import static io.github.sevjet.essensedefence.Tester.TestForSerialization.testSerialization;
+import static io.github.sevjet.essensedefence.util.Creator.debubSet;
+import static io.github.sevjet.essensedefence.util.Creator.myBox;
+import static io.github.sevjet.essensedefence.util.Listener.*;
+import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.load;
+import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.testSerialization;
 
 public class GamePlayAppState extends AbstractAppState {
 
@@ -41,7 +51,7 @@ public class GamePlayAppState extends AbstractAppState {
     public final static Trigger TRIGGER_SPAWN_MONSTER =
             new KeyTrigger(KeyInput.KEY_F);
     //TODO fix it
-    static Field field;
+    public static Field field;
 
     public GamePlayAppState() {
     }

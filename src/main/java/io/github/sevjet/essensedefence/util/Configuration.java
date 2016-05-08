@@ -1,4 +1,4 @@
-package io.github.sevjet.essensedefence;
+package io.github.sevjet.essensedefence.util;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
