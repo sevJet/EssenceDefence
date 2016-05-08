@@ -1,27 +1,21 @@
 package io.github.sevjet.essensedefence.entity.building;
 
-import io.github.sevjet.essensedefence.entity.building.Building;
+import io.github.sevjet.essensedefence.util.BoxSize;
 
-import java.io.Serializable;
+public class Fortress extends Building {
 
-public class Fortress extends Building implements Serializable {
-
-    protected int health = 100;
+    private static final BoxSize SIZE = new BoxSize(3, 3, 4);
 
     public Fortress() {
-        this(100);
+        super(SIZE, -1f);
     }
 
-    public Fortress(int health) {
-        super(3, 3, 4);
-        this.setHealth(health);
+    public Fortress(float health) {
+        super(SIZE, health);
     }
 
-    public int getHealth() {
-        return health;
+    public Fortress(int x, int y, float health) {
+        super(x, y, SIZE, health);
     }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
 }

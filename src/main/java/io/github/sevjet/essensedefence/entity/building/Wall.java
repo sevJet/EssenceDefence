@@ -1,28 +1,21 @@
 package io.github.sevjet.essensedefence.entity.building;
 
-import io.github.sevjet.essensedefence.entity.building.Building;
+import io.github.sevjet.essensedefence.util.BoxSize;
 
-import java.io.Serializable;
+public class Wall extends BuyableBuilding {
 
-public class Wall extends Building implements Serializable {
-
-    protected int price = 0;
+    private static final BoxSize SIZE = new BoxSize(1, 1, 2);
 
     public Wall() {
-        this(0);
+        super(SIZE, -1f, 0f);
     }
 
-    public Wall(int price) {
-        super(1, 1, 2);
-
-        this.price = price;
+    public Wall(float health, float price) {
+        super(SIZE, health, price);
     }
 
-    public int getPrice() {
-        return price;
+    public Wall(int x, int y, float health, float price) {
+        super(x, y, SIZE, health, price);
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
 }
