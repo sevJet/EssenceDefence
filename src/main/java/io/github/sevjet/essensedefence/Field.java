@@ -20,7 +20,7 @@ public class Field extends Node implements Serializable {
     private List<JME3Object> allObjects = new ArrayList<>();
 
     public Field(int colNum, int rowNum) {
-
+        this.setName("field");
         objects = new HashMap<>();
         cells = new Cell[rowNum][];
         for (int i = 0; i < rowNum; i++) {
@@ -37,6 +37,7 @@ public class Field extends Node implements Serializable {
     }
 
     public Field(Cell[][] cells) {
+        this.setName("field");
         int rowNum = cells.length, colNum = cells[0].length;
         objects = new HashMap<>();
         this.cells = cells;

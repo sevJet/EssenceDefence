@@ -37,6 +37,8 @@ public class GamePlayAppState extends AbstractAppState {
             new KeyTrigger(KeyInput.KEY_3);
     public final static Trigger TRIGGER_BUILD_FORTRESS =
             new KeyTrigger(KeyInput.KEY_4);
+    public final static Trigger TRIGGER_SPAWN_MONSTER =
+            new KeyTrigger(KeyInput.KEY_F);
     //TODO fix it
     static Field field;
 
@@ -54,8 +56,9 @@ public class GamePlayAppState extends AbstractAppState {
         inputManager.addMapping(MAPPING_BUILD_TOWER, TRIGGER_BUILD_TOWER);
         inputManager.addMapping(MAPPING_BUILD_PORTAL, TRIGGER_BUILD_PORTAL);
         inputManager.addMapping(MAPPING_BUILD_FORTRESS, TRIGGER_BUILD_FORTRESS);
+        inputManager.addMapping(MAPPING_SPAWN_MONSTER, TRIGGER_SPAWN_MONSTER);
         inputManager.addListener(new Listener(), MAPPING_BUILD, MAPPING_RESET, MAPPING_BUILD_WALL,
-                MAPPING_BUILD_TOWER, MAPPING_BUILD_PORTAL, MAPPING_BUILD_FORTRESS);
+                MAPPING_BUILD_TOWER, MAPPING_BUILD_PORTAL, MAPPING_BUILD_FORTRESS, MAPPING_SPAWN_MONSTER);
 //        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
         Creator.attachCenterMark();
 
@@ -64,6 +67,7 @@ public class GamePlayAppState extends AbstractAppState {
         GeometryManager.setDefault(Tower.class, myBox(1f, 1f, 1.5f, "tower", ColorRGBA.Green));
         GeometryManager.setDefault(Fortress.class, myBox(3 / 2f, 3 / 2f, 2f, "fortress", ColorRGBA.Gray));
         GeometryManager.setDefault(Portal.class, myBox(1f, 1 / 2f, 1.5f, "portal", ColorRGBA.Magenta));
+        GeometryManager.setDefault(Monster.class, myBox(1/3f, 1/3f, 1/2f, "monster", ColorRGBA.Yellow));
 
     }
 
