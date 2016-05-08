@@ -81,18 +81,14 @@ public abstract class Entity implements Savable {
         updater();
     }
 
+    protected boolean moveToCenter() {
+        geometry.setLocalTranslation(x, y, z);
+        return true;
+    }
+
     protected boolean updater() {
-        // @TODO remove this
-        // @begin temporary
-//        if (this.geometry == null)
-//            this.geometry = GeometryManager.getDefault(this.getClass());
-//        if (this.geometry == null) {
-//            this.geometry = GeometryManager.getDefault(Entity.class);
-//        }
-        // @end temporary
         if (geometry != null) {
-            geometry.setLocalTranslation(x, y, z);
-            return true;
+            return moveToCenter();
         }
         return false;
     }

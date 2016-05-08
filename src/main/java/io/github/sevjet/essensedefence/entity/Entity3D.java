@@ -1,7 +1,6 @@
 package io.github.sevjet.essensedefence.entity;
 
 import io.github.sevjet.essensedefence.util.BoxSize;
-import io.github.sevjet.essensedefence.util.GeometryManager;
 
 public abstract class Entity3D extends Entity {
 
@@ -31,24 +30,15 @@ public abstract class Entity3D extends Entity {
     }
 
     @Override
-    protected boolean updater() {
-        if(size == null) {
+    protected boolean moveToCenter() {
+        if (size == null) {
             return false;
         }
-        if (geometry == null) {
-            geometry = GeometryManager.getDefault(this.getClass());
-            if (geometry == null) {
-                geometry = GeometryManager.getDefault(Entity.class);
-            }
-        }
-        if (geometry != null) {
-            geometry.setLocalTranslation(
-                    x + (size.getWidth() - 1) / 2.0F,
-                    y + (size.getHeight() - 1) / 2.0F,
-                    z + (size.getDepth()) / 2.0F);
-            return true;
-        }
-        return false;
+        geometry.setLocalTranslation(
+                x + (size.getWidth() - 1) / 2.0F,
+                y + (size.getHeight() - 1) / 2.0F,
+                z + (size.getDepth()) / 2.0F);
+        return true;
     }
 
 }
