@@ -72,11 +72,10 @@ public class Listener implements AnalogListener {
             if (results.size() > 0) {
                 Cell temp = new Cell();
                 Geometry target = results.getClosestCollision().getGeometry();
-                temp.setGeometry(target);
-                Field field = temp.getField();
+                Cell cell = ((Field) target.getParent().getParent()).getCell(target);
+                Field field = cell.getField();
                 //TODO change
-                if (true) {
-                    Cell cell = field.getCell(target);
+                if (field != null) {
                     switch (name) {
                         case MAPPING_RESET:
                             //TODO change on casting buildings

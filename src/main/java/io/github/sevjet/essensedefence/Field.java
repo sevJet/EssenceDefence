@@ -14,7 +14,7 @@ import static io.github.sevjet.essensedefence.Creator.gridXY;
 
 public class Field extends Node implements Serializable {
 
-    protected  Map<Class<? extends JME3Object>, Node> objects;
+    protected Map<Class<? extends JME3Object>, Node> objects;
     protected Cell[][] cells;
     //TODO for serialization
     private List<JME3Object> allObjects = new ArrayList<>();

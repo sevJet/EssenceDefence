@@ -4,8 +4,6 @@ import com.jme3.math.ColorRGBA;
 
 import java.io.Serializable;
 
-import static com.sun.tools.doclint.Entity.ge;
-
 public class Cell extends JME3Object implements Serializable {
     protected Building occupiedBy = null;
     protected boolean passable = false;
@@ -93,12 +91,12 @@ public class Cell extends JME3Object implements Serializable {
         updater();
     }
 
-    public Field getField(){
+    public Field getField() {
         if (geometry != null)
-            if(geometry.getParent() != null)
+            if (geometry.getParent() != null)
                 if (geometry.getParent().getParent() != null)
                     if (geometry.getParent().getParent() instanceof Field)
-                        return ((Field)geometry.getParent().getParent());
+                        return ((Field) geometry.getParent().getParent());
         return null;
 
     }

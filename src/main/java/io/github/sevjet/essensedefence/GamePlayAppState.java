@@ -16,6 +16,7 @@ import static io.github.sevjet.essensedefence.Creator.debubSet;
 import static io.github.sevjet.essensedefence.Creator.myBox;
 import static io.github.sevjet.essensedefence.Listener.*;
 import static io.github.sevjet.essensedefence.Tester.TestForSerialization.load;
+import static io.github.sevjet.essensedefence.Tester.TestForSerialization.save;
 import static io.github.sevjet.essensedefence.Tester.TestForSerialization.testSerialization;
 
 public class GamePlayAppState extends AbstractAppState {
@@ -67,7 +68,7 @@ public class GamePlayAppState extends AbstractAppState {
         GeometryManager.setDefault(Tower.class, myBox(1f, 1f, 1.5f, "tower", ColorRGBA.Green));
         GeometryManager.setDefault(Fortress.class, myBox(3 / 2f, 3 / 2f, 2f, "fortress", ColorRGBA.Gray));
         GeometryManager.setDefault(Portal.class, myBox(1f, 1 / 2f, 1.5f, "portal", ColorRGBA.Magenta));
-        GeometryManager.setDefault(Monster.class, myBox(1/3f, 1/3f, 1/2f, "monster", ColorRGBA.Yellow));
+        GeometryManager.setDefault(Monster.class, myBox(1 / 3f, 1 / 3f, 1 / 2f, "monster", ColorRGBA.Yellow));
 
     }
 
