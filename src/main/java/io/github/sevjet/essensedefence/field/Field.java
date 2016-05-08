@@ -6,28 +6,29 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
+import io.github.sevjet.essensedefence.util.BoxSize;
 
-import java.io.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static io.github.sevjet.essensedefence.util.Creator.gridXY;
 
 public class Field extends Node {
 
-    protected int cols;
     protected int rows;
+    protected int cols;
     protected Cell[][] cells;
     protected Map<Class<? extends Entity>, Node> objects;
+    protected Node grid;
 
+    @SuppressWarnings("unused")
     public Field() {
-
     }
 
     public Field(int colNum, int rowNum) {
+        rows = rowNum;
+        cols = colNum;
         this.setName("field");
         objects = new HashMap<>();
         cells = new Cell[rowNum][];
@@ -39,9 +40,9 @@ public class Field extends Node {
             }
         }
 
-        Node grid = gridXY(colNum + 1, rowNum + 1, 1, ColorRGBA.White);
+        grid = gridXY(colNum + 1, rowNum + 1, 1, ColorRGBA.White);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
-//        attachChild(grid);
+        attachChild(grid);
     }
 
     public Field(Cell[][] cells) {
@@ -104,7 +105,6 @@ public class Field extends Node {
     }
 
     public boolean addObject(Entity object) {
-//        allObjects.add(object);
         Node node = objects.get(object.getClass());
         if (node == null) {
             node = new Node();
@@ -153,28 +153,36 @@ public class Field extends Node {
 
     @Override
     public void write(JmeExporter ex) throws IOException {
+        detachChild(grid);
         super.write(ex);
+        attachChild(grid);
 
         OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(rows, "rows", 1);
         capsule.write(cols, "cols", 1);
-        capsule.write(rows, "rows" , 1);
         capsule.write(cells, "cells", null);
     }
 
     @Override
     public void read(JmeImporter im) throws IOException {
+        super.read(im);
+
         InputCapsule capsule = im.getCapsule(this);
-        cols = capsule.readInt("cols", 1);
         rows = capsule.readInt("rows", 1);
+        cols = capsule.readInt("cols", 1);
+
+        // @TODO remake
         Savable[][] data = capsule.readSavableArray2D("cells", null);
         cells = new Cell[rows][];
-        for(int i=0;i<rows;i++) {
+        for (int i = 0; i < rows; i++) {
             cells[i] = new Cell[cols];
-            for(int j=0;j<cols;j++) {
+            for (int j = 0; j < cols; j++) {
                 cells[i][j] = (Cell) data[i][j];
             }
         }
 
-        super.read(im);
+        grid = gridXY(cols + 1, rows + 1, 1, ColorRGBA.White);
+        grid.setLocalTranslation(-0.5f, -0.5f, 0);
+        attachChild(grid);
     }
 }
