@@ -5,10 +5,9 @@ import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Creator;
 
 public class Gamer {
-    protected int gold;
-
     private final String name = "Gold of player:";
     private final BitmapText text = Creator.text(name, 0, Configuration.getSettings().getHeight() - 30);
+    protected int gold;
 
     public Gamer() {
     }

@@ -23,8 +23,6 @@ import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
 
-import static java.awt.SystemColor.text;
-
 //TODO change on anonymous class
 public class Listener implements AnalogListener {
 
@@ -58,6 +56,7 @@ public class Listener implements AnalogListener {
     // TODO: 09/05/2016 delete this
     private static Integer counter = 0;
     private BitmapText text = Creator.text("Listener");
+
     {
         new Gamer();
         text.addControl(new AbstractControl() {
@@ -80,7 +79,8 @@ public class Listener implements AnalogListener {
             }
         });
     }
-    private void update(){
+
+    private void update() {
         text.setText((text.getText().split(" "))[0] + " " + counter);
     }
     // TODO: 09/05/2016 delete ene

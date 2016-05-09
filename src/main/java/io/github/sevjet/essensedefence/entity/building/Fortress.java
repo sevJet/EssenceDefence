@@ -8,8 +8,6 @@ import io.github.sevjet.essensedefence.util.BoxSize;
 import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Creator;
 
-import static java.awt.SystemColor.text;
-
 
 public class Fortress extends Building {
 
@@ -40,7 +38,9 @@ public class Fortress extends Building {
         });
     }
 
-    public Fortress() {super(SIZE, -1f);}
+    public Fortress() {
+        super(SIZE, -1f);
+    }
 
     public Fortress(float health) {
         super(SIZE, health);

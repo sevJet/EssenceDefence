@@ -10,8 +10,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
 
-import static java.awt.SystemColor.text;
-
 public final class Creator {
     private Creator() {
     }
