@@ -2,7 +2,6 @@ package io.github.sevjet.essensedefence.util;
 
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.export.binary.BinaryExporter;
-import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.building.Fortress;

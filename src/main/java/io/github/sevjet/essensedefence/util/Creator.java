@@ -13,14 +13,15 @@ import com.jme3.scene.shape.Line;
 public final class Creator {
     private Creator() {
     }
+
     //Fix for create savable grid
     private static Node tempGridXY(int rowLen, int colLen, float lineDist, ColorRGBA clr, float lineWidth) {
         Node axis = new Node();
         Geometry geom;
         for (int i = 0; i < rowLen; i++) {
             geom = myLine(
-                    new Vector3f(i*lineDist, 0, 0),
-                    new Vector3f(i*lineDist, rowLen-1, 0),
+                    new Vector3f(i * lineDist, 0, 0),
+                    new Vector3f(i * lineDist, rowLen - 1, 0),
                     clr,
                     lineWidth
             );
@@ -29,8 +30,8 @@ public final class Creator {
         }
         for (int i = 0; i < colLen; i++) {
             geom = myLine(
-                    new Vector3f(0, i*lineDist, 0),
-                    new Vector3f(colLen-1, i*lineDist, 0),
+                    new Vector3f(0, i * lineDist, 0),
+                    new Vector3f(colLen - 1, i * lineDist, 0),
                     clr,
                     lineWidth
             );
@@ -53,7 +54,7 @@ public final class Creator {
 //        axis.attachChild(geom);
 //
 //        return axis;
-        return tempGridXY(rowLen, colLen,lineDist, clr, lineWidth);
+        return tempGridXY(rowLen, colLen, lineDist, clr, lineWidth);
     }
 
     public static Node gridXY(int length, ColorRGBA clr) {
@@ -166,19 +167,28 @@ public final class Creator {
         return debugNode;
     }
 
-    public static BitmapText text(String name, String text){
+    public static BitmapText text(String name, String text) {
         return text(name, text, ColorRGBA.Gray);
     }
-    public static BitmapText text(String name, String text, ColorRGBA clr){
-        return text(name, text, 0, Configuration.getSettings().getHeight(), clr);
-    }
-    public static BitmapText text(String name, String text, float x, float y, ColorRGBA clr){
-        BitmapText helloText = Creator.text(name, text, x, y, clr, true);
-                helloText.setAlpha(0.5f);
+
+    public static BitmapText text(String name, String text, float x, float y) {
+        BitmapText helloText = Creator.text(name, text, x, y, ColorRGBA.Gray);
         Configuration.getGuiNode().attachChild(helloText);
         return helloText;
     }
-    public static BitmapText text(String name, String text, float x, float y, ColorRGBA clr, boolean attached){
+
+    public static BitmapText text(String name, String text, ColorRGBA clr) {
+        return text(name, text, 0, Configuration.getSettings().getHeight(), clr);
+    }
+
+    public static BitmapText text(String name, String text, float x, float y, ColorRGBA clr) {
+        BitmapText helloText = Creator.text(name, text, x, y, clr, true);
+//        helloText.setAlpha(0.5f);
+        Configuration.getGuiNode().attachChild(helloText);
+        return helloText;
+    }
+
+    public static BitmapText text(String name, String text, float x, float y, ColorRGBA clr, boolean attached) {
         BitmapFont guiFont;
         guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
         BitmapText helloText = new BitmapText(guiFont, false);

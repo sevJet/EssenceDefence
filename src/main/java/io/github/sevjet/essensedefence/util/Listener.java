@@ -1,8 +1,6 @@
 package io.github.sevjet.essensedefence.util;
 
 import com.jme3.collision.CollisionResults;
-import com.jme3.export.JmeExporter;
-import com.jme3.export.JmeImporter;
 import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
@@ -14,10 +12,9 @@ import com.jme3.math.Ray;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import com.jme3.scene.control.Control;
 import io.github.sevjet.essensedefence.GamePlayAppState;
+import io.github.sevjet.essensedefence.Gamer;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.entity.building.Tower;
@@ -25,9 +22,6 @@ import io.github.sevjet.essensedefence.entity.building.Wall;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
-import io.github.sevjet.essensedefence.util.Configuration;
-
-import java.io.IOException;
 
 //TODO change on anonymous class
 public class Listener implements AnalogListener {
@@ -60,22 +54,25 @@ public class Listener implements AnalogListener {
     public final static String MAPPING_SPAWN_MONSTER = "Spawn monster";
 
     // TODO: 09/05/2016 delete this
-    private BitmapText text;
-    private static int counter = 0;
+    private static Integer counter = 0;
+
     {
+        new Gamer();
+        BitmapText text;
         text = Creator.text("name", "Listener");
         text.addControl(new AbstractControl() {
             private boolean flag = true;
+
             @Override
             protected void controlUpdate(float tpf) {
                 if (flag)
-                    text.setSize(text.getSize()+counter*tpf);
-                else text.setSize(text.getSize()-counter*tpf);
+                    text.setSize(text.getSize() + counter * tpf);
+                else text.setSize(text.getSize() - counter * tpf);
                 if (text.getSize() > 100)
                     flag = false;
                 if (text.getSize() < 10)
                     flag = true;
-                text.setText((text.getText().split(" "))[0]+" "+counter);
+                text.setText((text.getText().split(" "))[0] + " " + counter);
             }
 
             @Override

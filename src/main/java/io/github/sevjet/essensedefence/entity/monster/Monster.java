@@ -6,7 +6,6 @@ import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.PlayState;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.math.Vector3f;
-import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.Entity3D;
 
 public class Monster extends Entity3D {

@@ -25,14 +25,6 @@ public class Field extends Node {
     public Field() {
     }
 
-    protected boolean gridOn(){
-        // FIXME: 09/05/2016 lineWidth don't save
-        grid = gridXY(rows + 1, cols + 1, 1, ColorRGBA.Gray, 5f);
-        grid.setLocalTranslation(-0.5f, -0.5f, 0);
-        attachChild(grid);
-        return true;
-    }
-
     public Field(int colNum, int rowNum) {
         rows = rowNum;
         cols = colNum;
@@ -47,6 +39,14 @@ public class Field extends Node {
             }
         }
         gridOn();
+    }
+
+    protected boolean gridOn() {
+        // FIXME: 09/05/2016 lineWidth don't save
+        grid = gridXY(rows + 1, cols + 1, 1, ColorRGBA.Gray, 5f);
+        grid.setLocalTranslation(-0.5f, -0.5f, 0);
+        attachChild(grid);
+        return true;
     }
 
 //    public Field(Cell[][] cells) {

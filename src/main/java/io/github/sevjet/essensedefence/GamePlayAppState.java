@@ -26,9 +26,7 @@ import io.github.sevjet.essensedefence.util.Listener;
 import static io.github.sevjet.essensedefence.util.Creator.debugSet;
 import static io.github.sevjet.essensedefence.util.Creator.myBox;
 import static io.github.sevjet.essensedefence.util.Listener.*;
-import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.load;
-import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.save;
-import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.testSerialization;
+import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.*;
 import static io.github.sevjet.essensedefence.util.Tester.testText;
 
 public class GamePlayAppState extends AbstractAppState {
