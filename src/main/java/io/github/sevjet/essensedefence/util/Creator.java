@@ -10,6 +10,8 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
 
+import static java.awt.SystemColor.text;
+
 public final class Creator {
     private Creator() {
     }
@@ -167,32 +169,32 @@ public final class Creator {
         return debugNode;
     }
 
-    public static BitmapText text(String name, String text) {
-        return text(name, text, ColorRGBA.Gray);
+    public static BitmapText text(String text) {
+        return text(text, ColorRGBA.Gray);
     }
 
-    public static BitmapText text(String name, String text, float x, float y) {
-        BitmapText helloText = Creator.text(name, text, x, y, ColorRGBA.Gray);
+    public static BitmapText text(String text, float x, float y) {
+        BitmapText helloText = Creator.text(text, x, y, ColorRGBA.Gray);
         Configuration.getGuiNode().attachChild(helloText);
         return helloText;
     }
 
-    public static BitmapText text(String name, String text, ColorRGBA clr) {
-        return text(name, text, 0, Configuration.getSettings().getHeight(), clr);
+    public static BitmapText text(String text, ColorRGBA clr) {
+        return text(text, 0, Configuration.getSettings().getHeight(), clr);
     }
 
-    public static BitmapText text(String name, String text, float x, float y, ColorRGBA clr) {
-        BitmapText helloText = Creator.text(name, text, x, y, clr, true);
+    public static BitmapText text(String text, float x, float y, ColorRGBA clr) {
+        BitmapText helloText = Creator.text(text, x, y, clr, true);
 //        helloText.setAlpha(0.5f);
         Configuration.getGuiNode().attachChild(helloText);
         return helloText;
     }
 
-    public static BitmapText text(String name, String text, float x, float y, ColorRGBA clr, boolean attached) {
+    public static BitmapText text(String text, float x, float y, ColorRGBA clr, boolean attached) {
         BitmapFont guiFont;
         guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
         BitmapText helloText = new BitmapText(guiFont, false);
-        helloText.setName(name);
+//        helloText.setName(name);
         helloText.setSize(guiFont.getCharSet().getRenderedSize());
         helloText.setText(text);
 

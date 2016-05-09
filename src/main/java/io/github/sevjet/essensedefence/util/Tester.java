@@ -37,7 +37,7 @@ public final class Tester {
                         "E - make Cell passable\n" +
                         "R - reset\n" +
                         "F - Monster";
-        BitmapText helloText = Creator.text("cheat-sheet", text);
+        BitmapText helloText = Creator.text(text);
 
 //        helloText.setAlpha(0.5f);
 //        helloText.setColor(ColorRGBA.Gray);

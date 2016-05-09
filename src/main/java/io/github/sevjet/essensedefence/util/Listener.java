@@ -23,6 +23,8 @@ import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
 
+import static java.awt.SystemColor.text;
+
 //TODO change on anonymous class
 public class Listener implements AnalogListener {
 
@@ -55,11 +57,9 @@ public class Listener implements AnalogListener {
 
     // TODO: 09/05/2016 delete this
     private static Integer counter = 0;
-
+    private BitmapText text = Creator.text("Listener");
     {
         new Gamer();
-        BitmapText text;
-        text = Creator.text("name", "Listener");
         text.addControl(new AbstractControl() {
             private boolean flag = true;
 
@@ -72,7 +72,6 @@ public class Listener implements AnalogListener {
                     flag = false;
                 if (text.getSize() < 10)
                     flag = true;
-                text.setText((text.getText().split(" "))[0] + " " + counter);
             }
 
             @Override
@@ -80,6 +79,9 @@ public class Listener implements AnalogListener {
 
             }
         });
+    }
+    private void update(){
+        text.setText((text.getText().split(" "))[0] + " " + counter);
     }
     // TODO: 09/05/2016 delete ene
 
@@ -110,6 +112,7 @@ public class Listener implements AnalogListener {
                 name.equals(MAPPING_SPAWN_MONSTER)) {
             // TODO: 09/05/2016 delete this
             counter++;
+            update();
             // TODO: 09/05/2016 end
 
             CollisionResults results;
