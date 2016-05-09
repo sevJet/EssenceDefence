@@ -6,7 +6,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
-import io.github.sevjet.essensedefence.util.BoxSize;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,6 +25,14 @@ public class Field extends Node {
     public Field() {
     }
 
+    protected boolean gridOn(){
+        // FIXME: 09/05/2016 lineWidth don't save
+        grid = gridXY(rows + 1, cols + 1, 1, ColorRGBA.White, 5f);
+        grid.setLocalTranslation(-0.5f, -0.5f, 0);
+        attachChild(grid);
+        return true;
+    }
+
     public Field(int colNum, int rowNum) {
         rows = rowNum;
         cols = colNum;
@@ -39,31 +46,25 @@ public class Field extends Node {
                 addObject(cells[i][j]);
             }
         }
-
-        grid = gridXY(colNum + 1, rowNum + 1, 1, ColorRGBA.White);
-        grid.setLocalTranslation(-0.5f, -0.5f, 0);
-        attachChild(grid);
+        gridOn();
     }
 
-    public Field(Cell[][] cells) {
-        this.setName("field");
-        int rowNum = cells.length, colNum = cells[0].length;
-        objects = new HashMap<>();
-        this.cells = cells;
-        for (Cell[] row : cells) {
-            for (Cell cell : row) {
-                if (cell.getBuilding() != null) {
-                    build(cell.getBuilding());
-                }
-                cell.updater();
-                addObject(cell);
-            }
-        }
-
-        Node grid = gridXY(colNum + 1, rowNum + 1, 1, ColorRGBA.White);
-        grid.setLocalTranslation(-0.5f, -0.5f, 0);
-        attachChild(grid);
-    }
+//    public Field(Cell[][] cells) {
+//        this.setName("field");
+//        int rowNum = cells.length, colNum = cells[0].length;
+//        objects = new HashMap<>();
+//        this.cells = cells;
+//        for (Cell[] row : cells) {
+//            for (Cell cell : row) {
+//                if (cell.getBuilding() != null) {
+//                    build(cell.getBuilding());
+//                }
+//                cell.updater();
+//                addObject(cell);
+//            }
+//        }
+//        gridOn();
+//    }
 
     public Cell getCell(int x, int y) {
         if (x < cells.length) {
@@ -153,9 +154,7 @@ public class Field extends Node {
 
     @Override
     public void write(JmeExporter ex) throws IOException {
-        detachChild(grid);
         super.write(ex);
-        attachChild(grid);
 
         OutputCapsule capsule = ex.getCapsule(this);
         capsule.write(rows, "rows", 1);
@@ -180,9 +179,5 @@ public class Field extends Node {
                 cells[i][j] = (Cell) data[i][j];
             }
         }
-
-        grid = gridXY(cols + 1, rows + 1, 1, ColorRGBA.White);
-        grid.setLocalTranslation(-0.5f, -0.5f, 0);
-        attachChild(grid);
     }
 }

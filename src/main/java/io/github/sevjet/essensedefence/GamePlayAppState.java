@@ -23,7 +23,7 @@ import io.github.sevjet.essensedefence.util.Creator;
 import io.github.sevjet.essensedefence.util.GeometryManager;
 import io.github.sevjet.essensedefence.util.Listener;
 
-import static io.github.sevjet.essensedefence.util.Creator.debubSet;
+import static io.github.sevjet.essensedefence.util.Creator.debugSet;
 import static io.github.sevjet.essensedefence.util.Creator.myBox;
 import static io.github.sevjet.essensedefence.util.Listener.*;
 import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.load;
@@ -58,7 +58,7 @@ public class GamePlayAppState extends AbstractAppState {
     }
 
     protected void initStartData() {
-        Node debugNode = debubSet();
+        Node debugNode = debugSet();
         Configuration.getRootNode().attachChild(debugNode);
 
         InputManager inputManager = Configuration.getInputManager();
@@ -100,7 +100,8 @@ public class GamePlayAppState extends AbstractAppState {
 
     @Override
     public void cleanup() {
-        save(field);
+        if (field != null)
+            save(field);
 
         super.cleanup();
     }
