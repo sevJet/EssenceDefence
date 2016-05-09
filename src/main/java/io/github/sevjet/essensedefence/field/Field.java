@@ -27,7 +27,7 @@ public class Field extends Node {
 
     protected boolean gridOn(){
         // FIXME: 09/05/2016 lineWidth don't save
-        grid = gridXY(rows + 1, cols + 1, 1, ColorRGBA.White, 5f);
+        grid = gridXY(rows + 1, cols + 1, 1, ColorRGBA.Gray, 5f);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
         attachChild(grid);
         return true;
@@ -160,6 +160,7 @@ public class Field extends Node {
         capsule.write(rows, "rows", 1);
         capsule.write(cols, "cols", 1);
         capsule.write(cells, "cells", null);
+//        capsule.writeSavableMap(objects, "objects", null);
     }
 
     @Override
