@@ -1,6 +1,7 @@
 package io.github.sevjet.essensedefence.util;
 
 import com.jme3.collision.CollisionResults;
+import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.AnalogListener;
@@ -49,6 +50,9 @@ public class Listener implements AnalogListener {
     public final static String MAPPING_BUILD_FORTRESS = "Build fortress";
     public final static String MAPPING_SPAWN_MONSTER = "Spawn monster";
 
+    // TODO: 09/05/2016 delete this
+    private final static BitmapText text = Creator.text("name", "Listener");
+
     //TODO change
     public CollisionResults rayCasting() {
         CollisionResults results = new CollisionResults();
@@ -74,6 +78,10 @@ public class Listener implements AnalogListener {
                 name.equals(MAPPING_BUILD_PORTAL) ||
                 name.equals(MAPPING_BUILD_FORTRESS) ||
                 name.equals(MAPPING_SPAWN_MONSTER)) {
+            // TODO: 09/05/2016 delete this
+            text.setText(name);
+            text.setSize(text.getSize()+1);
+            // TODO: 09/05/2016 end
 
             CollisionResults results;
             results = rayCasting();

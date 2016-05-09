@@ -4,8 +4,6 @@ import com.jme3.asset.plugins.FileLocator;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
@@ -31,22 +29,16 @@ public final class Tester {
     }
 
     public static void testText() {
-        BitmapFont guiFont;
         String text =
                 "1 - Wall\n" +
-                "2 - Tower\n" +
-                "3 - Portal\n" +
-                "4 - Fortress\n" +
-                "\n" +
-                "E - make Cell passable\n" +
-                "R - reset\n" +
-                "F - Monster";
-//        Configuration.getGuiNode().detachAllChildren();
-        guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
-        BitmapText helloText = new BitmapText(guiFont, false);
-        helloText.setName("cheat-sheet");
-        helloText.setSize(guiFont.getCharSet().getRenderedSize());
-        helloText.setText(text);
+                        "2 - Tower\n" +
+                        "3 - Portal\n" +
+                        "4 - Fortress\n" +
+                        "\n" +
+                        "E - make Cell passable\n" +
+                        "R - reset\n" +
+                        "F - Monster";
+        BitmapText helloText = Creator.text("cheat-sheet", text);
 
 //        helloText.setAlpha(0.5f);
 //        helloText.setColor(ColorRGBA.Gray);
