@@ -20,7 +20,6 @@ public class Monster extends Entity3D {
 
     public Monster() {
         super(SIZE);
-
         geometry.addControl(control);
     }
 

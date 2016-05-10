@@ -27,6 +27,10 @@ public abstract class Building extends Entity3D {
         setHealth(health);
     }
 
+    public float getHealth() {
+        return health;
+    }
+
     public void setHealth(float health) {
         if (health <= 0f && health != -1f) {
             throw new IllegalArgumentException("Health can not be negative. For infinite use -1f");
