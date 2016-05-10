@@ -125,6 +125,8 @@ public class Field extends Node {
             return false;
         }
         if (node.hasChild(object.getGeometry())) {
+            if (object instanceof Building)
+                detachFromCells((Building) object);
             node.detachChild(object.getGeometry());
             return true;
         }
@@ -143,13 +145,12 @@ public class Field extends Node {
         return true;
     }
 
-    public void removeBuilding(Building building) {
+    protected void detachFromCells(Building building) {
         for (int i = building.getX(); i < building.getX() + building.getSize().getWidth(); i++) {
             for (int j = building.getY(); j < building.getY() + building.getSize().getHeight(); j++) {
                 cells[i][j].free();
             }
         }
-        removeObject(building);
     }
 
     @Override

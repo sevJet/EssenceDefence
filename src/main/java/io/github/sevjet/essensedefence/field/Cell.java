@@ -81,12 +81,13 @@ public class Cell extends Entity {
             return;
         Field field = getField();
         if (field != null) {
-            field.removeBuilding(occupiedBy);
+            field.removeObject(occupiedBy);
         }
     }
 
     protected void free() {
         occupiedBy = null;
+
         updater();
     }
 

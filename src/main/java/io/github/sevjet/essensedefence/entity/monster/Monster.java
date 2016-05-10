@@ -110,7 +110,7 @@ public class Monster extends Entity3D {
 
     public void die() {
         Field field = getField();
-        if(field != null) {
+        if (field != null) {
             field.removeObject(this);
         }
         System.out.println("Monster.die()");

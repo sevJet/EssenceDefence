@@ -40,7 +40,7 @@ public class Fortress extends Building {
     public void die() {
         Field field = getField();
         if (field != null) {
-            field.removeBuilding(this);
+            field.removeObject(this);
             Configuration.getGuiNode().detachChild(text);
         }
         System.out.println("Fortress.die()");
