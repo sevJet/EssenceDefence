@@ -6,6 +6,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
+import io.github.sevjet.essensedefence.entity.building.Fortress;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,11 +16,11 @@ import static io.github.sevjet.essensedefence.util.Creator.gridXY;
 
 public class Field extends Node {
 
-    protected int rows;
-    protected int cols;
     protected Cell[][] cells;
     protected Map<Class<? extends Entity>, Node> objects;
     protected Node grid;
+    private int rows;
+    private int cols;
 
     @SuppressWarnings("unused")
     public Field() {
@@ -43,7 +44,7 @@ public class Field extends Node {
 
     protected boolean gridOn() {
         // FIXME: 09/05/2016 lineWidth don't save
-        grid = gridXY(rows + 1, cols + 1, 1, ColorRGBA.Gray, 5f);
+        grid = gridXY(getRows() + 1, getCols() + 1, 1, ColorRGBA.Gray, 5f);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
         attachChild(grid);
         return true;
@@ -73,6 +74,18 @@ public class Field extends Node {
             }
         }
         return null;
+    }
+
+    public int[][] getPassable() {
+        int passable[][] = new int[getRows()][];
+        for (int i = 0; i < getRows(); i++) {
+            passable[i] = new int[getCols()];
+            for (int j = 0; j < getCols(); j++) {
+                passable[i][j] = (cells[i][j].isPassable() &&
+                        (cells[i][j].getBuilding() == null || cells[i][j].getBuilding() instanceof Fortress)) ? 0 : -1;
+            }
+        }
+        return passable;
     }
 
     public void build(int x, int y, Building building) {
@@ -160,8 +173,8 @@ public class Field extends Node {
         super.write(ex);
 
         OutputCapsule capsule = ex.getCapsule(this);
-        capsule.write(rows, "rows", 1);
-        capsule.write(cols, "cols", 1);
+        capsule.write(getRows(), "rows", 1);
+        capsule.write(getCols(), "cols", 1);
         capsule.write(cells, "cells", null);
 //        capsule.writeSavableMap(objects, "objects", null);
     }
@@ -176,12 +189,20 @@ public class Field extends Node {
 
         // @TODO remake
         Savable[][] data = capsule.readSavableArray2D("cells", null);
-        cells = new Cell[rows][];
-        for (int i = 0; i < rows; i++) {
-            cells[i] = new Cell[cols];
-            for (int j = 0; j < cols; j++) {
+        cells = new Cell[getRows()][];
+        for (int i = 0; i < getRows(); i++) {
+            cells[i] = new Cell[getCols()];
+            for (int j = 0; j < getCols(); j++) {
                 cells[i][j] = (Cell) data[i][j];
             }
         }
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
     }
 }

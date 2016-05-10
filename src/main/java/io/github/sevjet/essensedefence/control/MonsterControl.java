@@ -11,12 +11,16 @@ import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Field;
 
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 public class MonsterControl extends BasicControl {
 
     private Monster monster = null;
     private Fortress fortress = null;
-    private MotionPath path = new MotionPath();
+    private MotionPath path = null;
     private MotionEvent event = new MotionEvent();
+    private long delayTill = 0L;
 
     @Override
     public void setSpatial(Spatial spatial) {
@@ -32,16 +36,22 @@ public class MonsterControl extends BasicControl {
 
     @Override
     protected void controlUpdate(float tpf) {
-        if (fortress == null) {
+        if (System.currentTimeMillis() <= delayTill) {
+            return;
+        }
+        if (fortress == null || fortress.isEnded()) {
             findFortress();
         }
         if (fortress != null) {
-            if (path.getNbWayPoints() == 0) {
-                buildPath();
+            if (path == null || path.getNbWayPoints() == 0) {
+                initPath();
+                delayTill = System.currentTimeMillis() + 1000L;
+            } else {
+                delayTill = System.currentTimeMillis() + 1000L;
             }
         } else {
-            // @TODO turn this Control off or delay
             System.out.println("No fortress found");
+            delayTill = System.currentTimeMillis() + 1000L;
         }
     }
 
@@ -58,11 +68,12 @@ public class MonsterControl extends BasicControl {
         }
     }
 
-    private void buildPath() {
-        // Start point
-        path.addWayPoint(new Vector3f(entity.getX(), entity.getY(), entity.getZ()));
-        // Finish point
-        path.addWayPoint(fortress.getCenter());
+    private void initPath() {
+        buildPath();
+        if (path == null) {
+            delayTill = System.currentTimeMillis() + 1000L;
+            return;
+        }
 
         path.addListener(new MotionPathListener() {
             @Override
@@ -83,6 +94,53 @@ public class MonsterControl extends BasicControl {
         spatial.addControl(event);
 
         event.play();
+    }
+
+    private void buildPath() {
+        final Field field = entity.getField();
+        final int rows = field.getRows();
+        final int cols = field.getCols();
+        final int passable[][] = field.getPassable();
+        // @TODO fuck this magical initial capacity
+        final Queue<Integer> queue = new PriorityQueue<>(Math.round((float) Math.sqrt(rows * cols)));
+        queue.add(Math.round(fortress.getCenter().getX() * cols + fortress.getCenter().getY()));
+        boolean isFound = false;
+        int curVer, x = -1, y = -1;
+        while (!isFound && queue.size() > 0) {
+            curVer = queue.poll();
+            x = curVer / cols;
+            y = curVer % cols;
+            if (x == entity.getX() && y == entity.getY()) {
+                isFound = true;
+                continue;
+            }
+            if (passable[x + 1][y] == 0) {
+                passable[x + 1][y] = curVer + 1;
+                queue.add((x + 1) * cols + y);
+            }
+            if (passable[x - 1][y] == 0) {
+                passable[x - 1][y] = curVer + 1;
+                queue.add((x - 1) * cols + y);
+            }
+            if (passable[x][y + 1] == 0) {
+                passable[x][y + 1] = curVer + 1;
+                queue.add(x * cols + (y + 1));
+            }
+            if (passable[x][y - 1] == 0) {
+                passable[x][y - 1] = curVer + 1;
+                queue.add(x * cols + (y - 1));
+            }
+        }
+        if (isFound) {
+            path = new MotionPath();
+            while (x != Math.round(fortress.getCenter().getX()) ||
+                    y != Math.round(fortress.getCenter().getY())) {
+                path.addWayPoint(new Vector3f(x, y, entity.getZ()));
+                curVer = passable[x][y] - 1;
+                x = curVer / cols;
+                y = curVer % cols;
+            }
+        }
     }
 
 }
