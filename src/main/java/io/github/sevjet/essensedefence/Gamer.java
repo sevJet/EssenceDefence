@@ -7,9 +7,40 @@ import io.github.sevjet.essensedefence.util.Creator;
 public class Gamer {
     private final String name = "Gold of player:";
     private final BitmapText text = Creator.text(name, 0, Configuration.getSettings().getHeight() - 30);
-    protected int gold;
+    protected int gold = 0;
 
     public Gamer() {
+        this(0);
+    }
+
+    public Gamer(int gold) {
+        this.gold = gold;
+
+        update();
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    @Deprecated
+    public void setGold(int gold) {
+        this.gold = gold;
+
+        update();
+    }
+
+    public boolean decGold(int gold) {
+        if (this.gold - gold < 0)
+            return false;
+        this.gold -= gold;
+
+        update();
+        return true;
+    }
+
+    public int incGold(int gold) {
+        return this.gold += gold;
     }
 
     protected boolean update() {
