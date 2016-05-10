@@ -175,8 +175,8 @@ public final class Creator {
         BitmapFont guiFont;
 //        Configuration.getAssetManager().registerLocator("./", FileLocator.class);
 //        guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
-        guiFont = Configuration.getAssetManager().loadFont("interface/fonts/zapfino.fnt");
-        return text(text, 0, Configuration.getSettings().getHeight() - 2 * rowNum * guiFont.getCharSet().getRenderedSize());
+        guiFont = Configuration.getAssetManager().loadFont("interface/fonts/arial.fnt");
+        return text(text, 0, Configuration.getSettings().getHeight() - rowNum * guiFont.getCharSet().getRenderedSize());
     }
 
     public static BitmapText text(String text, float x, float y) {
@@ -200,7 +200,7 @@ public final class Creator {
         BitmapFont guiFont;
 //        Configuration.getAssetManager().registerLocator("./", FileLocator.class);
 //        guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
-        guiFont = Configuration.getAssetManager().loadFont("interface/fonts/zapfino.fnt");
+        guiFont = Configuration.getAssetManager().loadFont("interface/fonts/arial.fnt");
         BitmapText helloText = new BitmapText(guiFont, false);
 //        helloText.setName(name);
         helloText.setSize(guiFont.getCharSet().getRenderedSize());
