@@ -36,7 +36,7 @@ public class Fortress extends Building {
             // FIXME: 10/05/2016
 //            throw new IllegalArgumentException("bitmap text must be initialize");
             name = "Health of fortress:";
-            text = Creator.text(name);
+            text = Creator.text(name, 0);
         }
         text.setText(name + " " + health);
         return true;
