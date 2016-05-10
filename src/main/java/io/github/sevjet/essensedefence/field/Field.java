@@ -125,8 +125,10 @@ public class Field extends Node {
             return false;
         }
         if (node.hasChild(object.getGeometry())) {
-            if (object instanceof Building)
+            if (object instanceof Building) {
                 detachFromCells((Building) object);
+//                ((Building) object).setHealth(-1);
+            }
             node.detachChild(object.getGeometry());
             return true;
         }

@@ -31,7 +31,7 @@ public final class Tester {
         testAllBuildings();
     }
 
-    public static void testSizableText(){
+    public static void testSizableText() {
 
     }
 
