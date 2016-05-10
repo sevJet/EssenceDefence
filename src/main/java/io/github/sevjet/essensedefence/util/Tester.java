@@ -3,7 +3,11 @@ package io.github.sevjet.essensedefence.util;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.font.BitmapText;
+import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+import com.jme3.scene.control.AbstractControl;
+import io.github.sevjet.essensedefence.Gamer;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.entity.building.Tower;
@@ -25,6 +29,28 @@ public final class Tester {
 //        testTrigger();
 //        testWall();
         testAllBuildings();
+    }
+
+    public static void testGamer(){
+        Configuration.setGamer(new Gamer(100));
+        Configuration.getRootNode().addControl(new AbstractControl() {
+            float timer = 0;
+            @Override
+            protected void controlUpdate(float tpf) {
+                timer += tpf;
+                if (timer > 1){
+                    Configuration.getGamer().decGold(1);
+                    System.out.println(Configuration.getGamer().getGold());
+                    timer = 0;
+                }
+
+            }
+
+            @Override
+            protected void controlRender(RenderManager rm, ViewPort vp) {
+
+            }
+        });
     }
 
     public static void testText() {

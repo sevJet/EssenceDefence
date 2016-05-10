@@ -27,6 +27,7 @@ import static io.github.sevjet.essensedefence.util.Creator.debugSet;
 import static io.github.sevjet.essensedefence.util.Creator.myBox;
 import static io.github.sevjet.essensedefence.util.Listener.*;
 import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.*;
+import static io.github.sevjet.essensedefence.util.Tester.testGamer;
 import static io.github.sevjet.essensedefence.util.Tester.testText;
 
 public class GamePlayAppState extends AbstractAppState {
@@ -88,6 +89,7 @@ public class GamePlayAppState extends AbstractAppState {
 
         initStartData();
         testText();
+        testGamer();
 
         field = load();
         field.setLocalTranslation(-55, 10, 0);

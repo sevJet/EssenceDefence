@@ -58,7 +58,6 @@ public class Listener implements AnalogListener {
     private BitmapText text = Creator.text("Listener");
 
     {
-        new Gamer();
         text.addControl(new AbstractControl() {
             private boolean flag = true;
 
