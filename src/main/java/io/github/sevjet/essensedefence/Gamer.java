@@ -6,7 +6,7 @@ import io.github.sevjet.essensedefence.util.Creator;
 
 public class Gamer {
     private final String name = "Gold of player:";
-    private final BitmapText text = Creator.text(name, 0, Configuration.getSettings().getHeight() - 30);
+    private final BitmapText text = Creator.text(name, 1);
     protected int gold = 0;
 
     public Gamer() {
@@ -51,25 +51,4 @@ public class Gamer {
         return true;
     }
 
-    //    {
-//        BitmapText text;
-//        text = Creator.text("name", "Gold of player:", 0, Configuration.getSettings().getHeight() - 30);
-//        text.addControl(new AbstractControl() {
-//            String name;
-//
-//            {
-//                name = text.getText();
-//            }
-//
-//            @Override
-//            protected void controlUpdate(float tpf) {
-//                text.setText(name + " " + gold);
-//            }
-//
-//            @Override
-//            protected void controlRender(RenderManager rm, ViewPort vp) {
-//
-//            }
-//        });
-//              }
 }

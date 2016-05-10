@@ -171,6 +171,13 @@ public final class Creator {
         return text(text, ColorRGBA.Gray);
     }
 
+    public static BitmapText text(String text, int rowNum) {
+        BitmapFont guiFont;
+        guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+        BitmapText helloText = new BitmapText(guiFont, false);
+        return text(text, 0, Configuration.getSettings().getHeight() - rowNum * guiFont.getCharSet().getRenderedSize());
+    }
+
     public static BitmapText text(String text, float x, float y) {
         BitmapText helloText = Creator.text(text, x, y, ColorRGBA.Gray);
         Configuration.getGuiNode().attachChild(helloText);
