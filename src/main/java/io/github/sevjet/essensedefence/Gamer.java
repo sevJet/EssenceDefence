@@ -1,16 +1,15 @@
 package io.github.sevjet.essensedefence;
 
-import com.jme3.font.BitmapText;
 import com.jme3.scene.control.AbstractControl;
+import io.github.sevjet.essensedefence.control.ITextual;
 import io.github.sevjet.essensedefence.control.TextControl;
-import io.github.sevjet.essensedefence.util.Creator;
 
-public class Gamer {
-//    private final String name = "Gold of player:";
-//    private final BitmapText text = Creator.text(name, 1);
+import static org.lwjgl.opengl.Display.update;
+
+public class Gamer implements ITextual {
 
     private final AbstractControl control = new TextControl(this, "Gold of gamer:", 1);
-    protected int gold = 0;
+    protected float gold = 0;
 
     public Gamer() {
         this(0);
@@ -22,18 +21,18 @@ public class Gamer {
         update();
     }
 
-    public int getGold() {
+    public float getGold() {
         return gold;
     }
 
     @Deprecated
-    public void setGold(int gold) {
+    public void setGold(float gold) {
         this.gold = gold;
 
         update();
     }
 
-    public boolean decGold(int gold) {
+    public boolean decGold(float gold) {
         if (this.gold - gold < 0)
             return false;
         this.gold -= gold;
@@ -42,19 +41,18 @@ public class Gamer {
         return true;
     }
 
-    public int incGold(int gold) {
+    public float incGold(float gold) {
         return this.gold += gold;
     }
 
-//    protected void changeText(){
-//        if (text == null) {
-//            throw new IllegalArgumentException("bitmap text must be initialize");
-//        }
-//        text.setText(name + " " + gold);
-//    }
-    protected boolean update() {
-//        changeText();
-        return true;
+
+    @Override
+    public String outputValue() {
+        return Float.toString(gold);
     }
 
+    @Override
+    public boolean isEnded() {
+        return (false);
+    }
 }

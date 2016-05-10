@@ -4,9 +4,6 @@ import com.jme3.font.BitmapText;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
-import io.github.sevjet.essensedefence.Gamer;
-import io.github.sevjet.essensedefence.entity.Entity;
-import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Creator;
 
@@ -17,8 +14,6 @@ public class TextControl extends AbstractControl {
     private Object entity;
 
     public TextControl(Object object) {
-//        object.getGeometry().setUserData("entity", object);
-//        System.out.println("--- " + Configuration.getRootNode().getNumControls());
         entity = object;
         Configuration.getGuiNode().addControl(this);
     }
@@ -32,33 +27,18 @@ public class TextControl extends AbstractControl {
 
     @Override
     protected void controlUpdate(float tpf) {
-//        if (entity == null) {
-//            Configuration.getRootNode().detachChild(text);
-//            text.setText(" -  delete -");
-//            System.out.println(Configuration.getRootNode().removeControl(this));
-//            return;
-//        }
-        if (entity instanceof Fortress) {
-            Fortress fort = ((Fortress) entity);
-            text.setText(textContent + " " + fort.getHealth());
-            if (fort.getHealth() < 0){
-//                System.out.println(" -- delete TextControl");
-                Configuration.getGuiNode().detachChild(text);
-                Configuration.getGuiNode().removeControl(this);
-            }
+        if (entity instanceof ITextual) {
+            ITextual obj = ((ITextual) entity);
+            text.setText(textContent + " " + obj.outputValue());
+            if (obj.isEnded())
+                halt();
             return;
-        }
-        if (entity instanceof Gamer) {
-            Gamer gamer = ((Gamer) entity);
-            text.setText(textContent + " " + gamer.getGold());
-            if (gamer .getGold() < 0){
-//                System.out.println(" -- delete TextControl");
-                Configuration.getGuiNode().detachChild(text);
-                Configuration.getGuiNode().removeControl(this);
-            }
-            return;
-        }
+        } else throw new ClassCastException(entity.getClass() + " must implement ITextual interface");
+    }
 
+    private void halt() {
+        Configuration.getGuiNode().detachChild(text);
+        Configuration.getGuiNode().removeControl(this);
     }
 
     @Override
