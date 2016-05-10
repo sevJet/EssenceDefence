@@ -40,7 +40,6 @@ public final class Tester {
                 timer += tpf;
                 if (timer > 1){
                     Configuration.getGamer().decGold(1);
-                    System.out.println(Configuration.getGamer().getGold());
                     timer = 0;
                 }
 

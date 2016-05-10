@@ -13,30 +13,9 @@ public class Fortress extends Building {
 
     private static final BoxSize SIZE = new BoxSize(3, 3, 4);
 
-    // TODO: 09/05/2016 change
-    {
-        BitmapText text;
-//        text = Creator.text("name", "Health fortress:", 0, (int)Configuration.getSettings().getHeight());
-        text = Creator.text("Health of fortress:", 0,
-                Configuration.getSettings().getHeight());
-        text.addControl(new AbstractControl() {
-            String name;
-
-            {
-                name = text.getText();
-            }
-
-            @Override
-            protected void controlUpdate(float tpf) {
-                text.setText(name + " " + health);
-            }
-
-            @Override
-            protected void controlRender(RenderManager rm, ViewPort vp) {
-
-            }
-        });
-    }
+    // FIXME: 10/05/2016 make final
+    private String name;
+    private BitmapText text;
 
     public Fortress() {
         super(SIZE, -1f);
@@ -50,4 +29,16 @@ public class Fortress extends Building {
         super(x, y, SIZE, health);
     }
 
+    @Override
+    protected boolean updater() {
+        super.updater();
+        if (text == null) {
+            // FIXME: 10/05/2016
+//            throw new IllegalArgumentException("bitmap text must be initialize");
+            name = "Health of fortress:";
+            text = Creator.text(name);
+        }
+        text.setText(name + " " + health);
+        return true;
+    }
 }

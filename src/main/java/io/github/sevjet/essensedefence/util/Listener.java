@@ -145,7 +145,7 @@ public class Listener implements AnalogListener {
                             break;
                         case MAPPING_SPAWN_MONSTER:
                             field.addObject(
-                                    new Monster(100, 10, 10, cell.getX(), cell.getY()));
+                                    new Monster(cell.getX(), cell.getY(), 100, 10, 10));
                             break;
                     }
                 }

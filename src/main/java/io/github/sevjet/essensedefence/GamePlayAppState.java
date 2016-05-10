@@ -91,9 +91,9 @@ public class GamePlayAppState extends AbstractAppState {
         testText();
         testGamer();
 
-        field = load();
-        field.setLocalTranslation(-55, 10, 0);
-        Configuration.getRootNode().attachChild(field);
+//        field = load();
+//        field.setLocalTranslation(-55, 10, 0);
+//        Configuration.getRootNode().attachChild(field);
 
         field = testSerialization();
 //        guiNode.attachChild(Configuration.getRootNode());
