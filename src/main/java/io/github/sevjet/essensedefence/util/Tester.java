@@ -150,7 +150,7 @@ public final class Tester {
             field.build(gen(40), gen(40), new Wall());
             field.build(gen(40), gen(40), new Tower());
             field.build(gen(40), gen(40), new Portal());
-            field.build(gen(40), gen(40), new Fortress());
+            field.build(gen(40), gen(40), new Fortress(10000f));
             Configuration.getRootNode().attachChild(field);
             return field;
         }

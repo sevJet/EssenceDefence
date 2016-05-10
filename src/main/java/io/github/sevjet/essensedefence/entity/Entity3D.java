@@ -1,5 +1,6 @@
 package io.github.sevjet.essensedefence.entity;
 
+import com.jme3.math.Vector3f;
 import io.github.sevjet.essensedefence.util.BoxSize;
 
 public abstract class Entity3D extends Entity {
@@ -30,15 +31,11 @@ public abstract class Entity3D extends Entity {
     }
 
     @Override
-    protected boolean moveToCenter() {
-        if (size == null) {
-            return false;
-        }
-        geometry.setLocalTranslation(
-                x + (size.getWidth() - 1) / 2.0F,
+    public Vector3f getCenter() {
+        BoxSize size = this.size == null ? BoxSize.FLAT : this.size;
+        return new Vector3f(x + (size.getWidth() - 1) / 2.0F,
                 y + (size.getHeight() - 1) / 2.0F,
                 z + (size.getDepth()) / 2.0F);
-        return true;
     }
 
 }

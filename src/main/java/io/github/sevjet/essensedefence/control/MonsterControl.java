@@ -41,6 +41,7 @@ public class MonsterControl extends BasicControl {
             }
         } else {
             // @TODO turn this Control off or delay
+            System.out.println("No fortress found");
         }
     }
 
@@ -49,7 +50,7 @@ public class MonsterControl extends BasicControl {
         if (field != null) {
             Node fortressNode = field.getObjects(Fortress.class);
             if (fortressNode != null) {
-                Spatial spatial = fortressNode.getChild(0);
+                Spatial spatial = fortressNode.getChildren().size() > 0 ? fortressNode.getChild(0) : null;
                 if (spatial != null) {
                     fortress = spatial.getUserData("entity");
                 }
@@ -60,24 +61,27 @@ public class MonsterControl extends BasicControl {
     private void buildPath() {
         // Start point
         path.addWayPoint(new Vector3f(entity.getX(), entity.getY(), entity.getZ()));
-
         // Finish point
-        path.addWayPoint(new Vector3f(fortress.getX(), fortress.getY(), fortress.getZ()));
+        path.addWayPoint(fortress.getCenter());
 
         path.addListener(new MotionPathListener() {
             @Override
             public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) {
                 if (motionControl.getPath().getNbWayPoints() == wayPointIndex + 1) {
+                    fortress.hit(monster.getDamage());
                     monster.die();
                 }
             }
         });
-
         path.setPathSplineType(Spline.SplineType.Linear);
 
+        event.setSpatial(spatial);
         event.setPath(path);
         event.setSpeed(monster.getSpeed());
         event.setDirectionType(MotionEvent.Direction.Path);
+
+        spatial.addControl(event);
+
         event.play();
     }
 

@@ -3,6 +3,7 @@ package io.github.sevjet.essensedefence.entity.monster;
 import io.github.sevjet.essensedefence.control.BasicControl;
 import io.github.sevjet.essensedefence.control.MonsterControl;
 import io.github.sevjet.essensedefence.entity.Entity3D;
+import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.BoxSize;
 
 public class Monster extends Entity3D {
@@ -108,6 +109,10 @@ public class Monster extends Entity3D {
     }
 
     public void die() {
-        System.out.println("die()");
+        Field field = getField();
+        if(field != null) {
+            field.removeObject(this);
+        }
+        System.out.println("Monster.die()");
     }
 }

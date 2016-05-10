@@ -1,6 +1,7 @@
 package io.github.sevjet.essensedefence.entity;
 
 import com.jme3.export.*;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.GeometryManager;
@@ -92,7 +93,7 @@ public abstract class Entity implements Savable {
 
     // @TODO this method is same as Cell.getField()
     public Field getField() {
-        if(geometry != null &&
+        if (geometry != null &&
                 geometry.getParent() != null &&
                 geometry.getParent().getParent() != null &&
                 geometry.getParent().getParent() instanceof Field) {
@@ -101,8 +102,12 @@ public abstract class Entity implements Savable {
         return null;
     }
 
+    public Vector3f getCenter() {
+        return new Vector3f(x, y, z);
+    }
+
     protected boolean moveToCenter() {
-        geometry.setLocalTranslation(x, y, z);
+        geometry.setLocalTranslation(getCenter());
         return true;
     }
 
