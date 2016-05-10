@@ -31,14 +31,15 @@ public final class Tester {
         testAllBuildings();
     }
 
-    public static void testGamer(){
+    public static void testGamer() {
         Configuration.setGamer(new Gamer(100));
         Configuration.getRootNode().addControl(new AbstractControl() {
             float timer = 0;
+
             @Override
             protected void controlUpdate(float tpf) {
                 timer += tpf;
-                if (timer > 1){
+                if (timer > 1) {
                     Configuration.getGamer().decGold(1);
                     timer = 0;
                 }
@@ -150,7 +151,7 @@ public final class Tester {
             field.build(gen(40), gen(40), new Wall());
             field.build(gen(40), gen(40), new Tower());
             field.build(gen(40), gen(40), new Portal());
-            field.build(gen(40), gen(40), new Fortress(10000f));
+            field.build(gen(40), gen(40), new Fortress(100f));
             Configuration.getRootNode().attachChild(field);
             return field;
         }

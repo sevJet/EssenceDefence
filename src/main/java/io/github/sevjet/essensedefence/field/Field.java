@@ -143,7 +143,7 @@ public class Field extends Node {
         return true;
     }
 
-    protected void removeBuilding(Building building) {
+    public void removeBuilding(Building building) {
         for (int i = building.getX(); i < building.getX() + building.getSize().getWidth(); i++) {
             for (int j = building.getY(); j < building.getY() + building.getSize().getHeight(); j++) {
                 cells[i][j].free();

@@ -1,9 +1,6 @@
 package io.github.sevjet.essensedefence.entity.building;
 
 import com.jme3.font.BitmapText;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
-import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.BoxSize;
 import io.github.sevjet.essensedefence.util.Configuration;
@@ -31,9 +28,9 @@ public class Fortress extends Building {
     }
 
     public void hit(float damage) {
-        if(health != -1f) {
+        if (health != -1f) {
             health -= damage;
-            if(health <= 0f) {
+            if (health <= 0f) {
                 die();
             }
         }
@@ -42,8 +39,9 @@ public class Fortress extends Building {
 
     public void die() {
         Field field = getField();
-        if(field != null) {
-            field.removeObject(this);
+        if (field != null) {
+            field.removeBuilding(this);
+            Configuration.getGuiNode().detachChild(text);
         }
         System.out.println("Fortress.die()");
     }

@@ -4,7 +4,7 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
-import com.jme3.input.controls.AnalogListener;
+import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.controls.Trigger;
@@ -14,7 +14,6 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.GamePlayAppState;
-import io.github.sevjet.essensedefence.Gamer;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.entity.building.Tower;
@@ -24,7 +23,7 @@ import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
 
 //TODO change on anonymous class
-public class Listener implements AnalogListener {
+public class Listener implements ActionListener {
 
     public final static Trigger TRIGGER_BUILD =
             new KeyTrigger(KeyInput.KEY_E);
@@ -101,7 +100,7 @@ public class Listener implements AnalogListener {
     }
 
     @Override
-    public void onAnalog(String name, float value, float tpf) {
+    public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals(MAPPING_BUILD) ||
                 name.equals(MAPPING_RESET) ||
                 name.equals(MAPPING_BUILD_WALL) ||
@@ -117,7 +116,7 @@ public class Listener implements AnalogListener {
             CollisionResults results;
             results = rayCasting();
 
-            if (results.size() > 0) {
+            if (results.size() > 0 && !isPressed) {
                 Cell temp = new Cell();
                 Geometry target = results.getClosestCollision().getGeometry();
                 Cell cell = ((Field) target.getParent().getParent()).getCell(target);
@@ -141,7 +140,7 @@ public class Listener implements AnalogListener {
                             cell.build(new Portal());
                             break;
                         case MAPPING_BUILD_FORTRESS:
-                            cell.build(new Fortress());
+                            cell.build(new Fortress(100f));
                             break;
                         case MAPPING_SPAWN_MONSTER:
                             field.addObject(
