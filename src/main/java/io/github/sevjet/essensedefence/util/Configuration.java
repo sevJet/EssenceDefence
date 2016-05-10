@@ -8,12 +8,15 @@ import com.jme3.input.InputManager;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
+import io.github.sevjet.essensedefence.Gamer;
 
 public class Configuration {
     private static Configuration _instance = new Configuration();
     private SimpleApplication app = null;
     private AppStateManager appState = null;
     private AppSettings settings = null;
+    // FIXME: 10/05/2016 move out?
+    private Gamer gamer = null;
 
     private Configuration() {
 
@@ -21,6 +24,17 @@ public class Configuration {
 
     public static Configuration getInstance() {
         return _instance;
+    }
+
+    public static Gamer getGamer() {
+        Configuration instance = getInstance();
+        return instance.gamer;
+    }
+
+    public static void setGamer(Gamer newGamer) {
+        Configuration instance = getInstance();
+        Gamer oldGamer = instance.gamer;
+        instance.gamer = (oldGamer == null ? newGamer : oldGamer);
     }
 
     public static SimpleApplication getApp() {
