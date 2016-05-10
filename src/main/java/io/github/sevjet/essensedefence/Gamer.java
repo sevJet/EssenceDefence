@@ -1,7 +1,6 @@
 package io.github.sevjet.essensedefence;
 
 import com.jme3.font.BitmapText;
-import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Creator;
 
 public class Gamer {
