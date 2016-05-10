@@ -8,6 +8,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.debug.Grid;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
+import com.jme3.texture.Texture;
 
 public final class Creator {
     private Creator() {
@@ -74,6 +75,18 @@ public final class Creator {
         line = myLine(start, end);
         line.getMaterial().setColor("Color", clr);
         return line;
+    }
+
+    public static Geometry myWall(float x, float y,float z) {
+        Box mesh = new Box(x, y, z);
+        Geometry geom = new Geometry("wall", mesh);
+        Material mat = new Material(Configuration.getAssetManager(),
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        Texture tex = Configuration.getAssetManager().loadTexture("textures/wall.jpg");
+        mat.setTexture("ColorMap",tex);
+        geom.setMaterial(mat);
+        geom.setLocalTranslation(Vector3f.ZERO);
+        return geom;
     }
 
     public static Geometry myBox(float x, float y) {

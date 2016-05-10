@@ -5,8 +5,10 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.ColorRGBA;
+import com.jme3.texture.Texture;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
+import io.github.sevjet.essensedefence.util.Configuration;
 
 import java.io.IOException;
 
@@ -61,19 +63,27 @@ public class Cell extends Entity {
 
         updater();
     }
-
+    //TODO 
     @Override
     protected boolean updater() {
-        if (super.updater()) {
-            getGeometry().getMaterial().setColor("Color",
-                    new ColorRGBA(
-                            (passable || occupiedBy != null ? 1 : 0),
-                            (passable ? 1 : 0),
-                            (passable && occupiedBy == null ? 1 : 0),
-                            1));
+        Texture tex;
+        super.updater();
+            if(passable) {
+                tex = Configuration.getAssetManager().loadTexture("textures/path.jpg");
+            }
+            else {
+                tex = Configuration.getAssetManager().loadTexture("textures/earth.jpg");
+            }
+            getGeometry().getMaterial().setTexture("ColorMap",tex);
+//
+//                    new ColorRGBA(
+//                            (passable || occupiedBy != null ? 1 : 0),
+//                            (passable ? 1 : 0),
+//                            (passable && occupiedBy == null ? 1 : 0),
+//                            1));
             return true;
-        }
-        return false;
+        //}
+        //return false;
     }
 
     public void removeBuilding() {

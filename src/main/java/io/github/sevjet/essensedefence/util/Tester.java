@@ -2,6 +2,7 @@ package io.github.sevjet.essensedefence.util;
 
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.export.binary.BinaryExporter;
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
@@ -26,14 +27,15 @@ public final class Tester {
         testAllBuildings();
     }
 
-    public static void testAllBuildings() {
-        Field field = new Field(10, 10);
+    public static Field testAllBuildings() {
+        Field field = new Field(50, 50);
         field.setLocalTranslation(10, 10, 1);
 
         field.build(1, 1, new Wall());
         field.build(2, 1, new Tower());
         field.build(4, 1, new Portal());
         field.build(6, 1, new Fortress());
+        return field;
     }
 
     public static void testTrigger() {
