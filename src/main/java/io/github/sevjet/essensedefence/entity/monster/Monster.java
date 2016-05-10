@@ -1,62 +1,72 @@
 package io.github.sevjet.essensedefence.entity.monster;
 
-import com.jme3.animation.LoopMode;
-import com.jme3.cinematic.MotionPath;
-import com.jme3.cinematic.MotionPathListener;
-import com.jme3.cinematic.PlayState;
-import com.jme3.cinematic.events.MotionEvent;
-import com.jme3.math.Vector3f;
+import io.github.sevjet.essensedefence.control.BasicControl;
+import io.github.sevjet.essensedefence.control.MonsterControl;
 import io.github.sevjet.essensedefence.entity.Entity3D;
+import io.github.sevjet.essensedefence.util.BoxSize;
 
 public class Monster extends Entity3D {
 
-    private final MotionPath path;
-    private final MotionEvent motionControl;
+    private static final BoxSize SIZE = new BoxSize(1, 1, 1);
+    private final BasicControl control = new MonsterControl();
+    //    private final MotionPath path;
+//    private final MotionEvent motionControl;
     private float health = 0f;
     private float speed = 0f;
     private float damage = 0f;
+    private float exp = 1f;
+    private float money = 1f;
 
     public Monster() {
-        this(0, 0);
+        super(SIZE);
+
+        geometry.addControl(control);
     }
 
-    public Monster(int x, int y) {
-        this(0f, 0f, 0f, x, y);
-    }
+    public Monster(float health, float speed, float damage) {
+        super(SIZE);
 
-    public Monster(float health, float speed, float damage, int _x, int _y) {
-        super(_x, _y);
         this.health = health;
         this.speed = speed;
         this.damage = damage;
-
-        path = new MotionPath();
-        path.addWayPoint(new Vector3f(x, y, z));
-//        path.setPathSplineType(Spline.SplineType.Linear);
-        path.addListener(new MotionPathListener() {
-            @Override
-            public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) {
-                x = Math.round(path.getWayPoint(wayPointIndex).getX());
-                y = Math.round(path.getWayPoint(wayPointIndex).getY());
-                if (wayPointIndex + 1 == path.getNbWayPoints()) {
-                    motionControl.stop();
-                    path.clearWayPoints();
-                    path.addWayPoint(new Vector3f(x, y, z));
-                }
-            }
-        });
-        motionControl = new MotionEvent(getGeometry(), path);
-        motionControl.setSpeed(speed);
-        motionControl.setDirectionType(MotionEvent.Direction.Path);
-        motionControl.setDirection(motionControl.getDirection(), Vector3f.UNIT_Z);
-        motionControl.setInitialDuration(10f);
+        geometry.addControl(control);
     }
 
-    public double getHealth() {
+    public Monster(int x, int y, float health, float speed, float damage) {
+        super(x, y, SIZE);
+
+        this.health = health;
+        this.speed = speed;
+        this.damage = damage;
+        geometry.addControl(control);
+
+//        path = new MotionPath();
+//        path.addWayPoint(new Vector3f(x, y, z));
+//        path.setPathSplineType(Spline.SplineType.Linear);
+//        path.addListener(new MotionPathListener() {
+//            @Override
+//            public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) {
+//                x = Math.round(path.getWayPoint(wayPointIndex).getX());
+//                y = Math.round(path.getWayPoint(wayPointIndex).getY());
+//                if (wayPointIndex + 1 == path.getNbWayPoints()) {
+//                    motionControl.stop();
+//                    path.clearWayPoints();
+//                    path.addWayPoint(new Vector3f(x, y, z));
+//                }
+//            }
+//        });
+//        motionControl = new MotionEvent(getGeometry(), path);
+//        motionControl.setSpeed(speed);
+//        motionControl.setDirectionType(MotionEvent.Direction.Path);
+//        motionControl.setDirection(motionControl.getDirection(), Vector3f.UNIT_Z);
+//        motionControl.setInitialDuration(10f);
+    }
+
+    public float getHealth() {
         return health;
     }
 
-    public double getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 
@@ -64,12 +74,28 @@ public class Monster extends Entity3D {
         this.speed = speed;
     }
 
-    public double getDamage() {
+    public float getDamage() {
         return damage;
     }
 
     public void setDamage(float damage) {
         this.damage = damage;
+    }
+
+    public float getExp() {
+        return exp;
+    }
+
+    public void setExp(float exp) {
+        this.exp = exp;
+    }
+
+    public float getMoney() {
+        return money;
+    }
+
+    public void setMoney(float money) {
+        this.money = money;
     }
 
     public double hit(float damage) {
@@ -81,40 +107,7 @@ public class Monster extends Entity3D {
         return this.health;
     }
 
-    @Override
-    public void moveRelative(int x, int y) {
-        Vector3f lastPoint = path.getWayPoint(path.getNbWayPoints() - 1);
-        x += lastPoint.getX();
-        y += lastPoint.getY();
-        //moveRaw(x, y);
-        path.setCycle(true);
-        motionControl.setLoopMode(LoopMode.Loop);
-        if (motionControl.getPlayState() != PlayState.Playing) {
-            motionControl.play();
-        }
-    }
-
-    @Override
-    public void move(int x, int y) {
-        path.addWayPoint(new Vector3f(x, y, z));
-        if (motionControl.getPlayState() != PlayState.Playing) {
-            motionControl.play();
-        }
-    }
-
-    public void moveRelativeRaw(int x, int y) {
-        Vector3f lastPoint = path.getWayPoint(path.getNbWayPoints() - 1);
-        x += lastPoint.getX();
-        y += lastPoint.getY();
-        System.out.println(String.format("Move relative raw x: %d; y: %d;", x, y));
-        moveRaw(x, y);
-    }
-
-    public void moveRaw(int x, int y) {
-        path.addWayPoint(new Vector3f(x, y, z));
-    }
-
-    private void die() {
-
+    public void die() {
+        System.out.println("die()");
     }
 }

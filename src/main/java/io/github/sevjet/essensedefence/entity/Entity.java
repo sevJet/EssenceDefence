@@ -2,6 +2,7 @@ package io.github.sevjet.essensedefence.entity;
 
 import com.jme3.export.*;
 import com.jme3.scene.Geometry;
+import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.GeometryManager;
 
 import java.io.IOException;
@@ -53,6 +54,14 @@ public abstract class Entity implements Savable {
         updater();
     }
 
+    public int getZ() {
+        return z;
+    }
+
+    public void setZ(int z) {
+        // No Z needed now
+    }
+
     public Geometry getGeometry() {
         return geometry;
     }
@@ -79,6 +88,17 @@ public abstract class Entity implements Savable {
         this.y += y;
 
         updater();
+    }
+
+    // @TODO this method is same as Cell.getField()
+    public Field getField() {
+        if(geometry != null &&
+                geometry.getParent() != null &&
+                geometry.getParent().getParent() != null &&
+                geometry.getParent().getParent() instanceof Field) {
+            return (Field) geometry.getParent().getParent();
+        }
+        return null;
     }
 
     protected boolean moveToCenter() {
