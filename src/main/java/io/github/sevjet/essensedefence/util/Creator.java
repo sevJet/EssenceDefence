@@ -168,18 +168,19 @@ public final class Creator {
     }
 
     public static BitmapText text(String text) {
-        return text(text, ColorRGBA.Gray);
+        return text(text, ColorRGBA.White);
     }
 
     public static BitmapText text(String text, int rowNum) {
         BitmapFont guiFont;
-        guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
-        BitmapText helloText = new BitmapText(guiFont, false);
-        return text(text, 0, Configuration.getSettings().getHeight() - rowNum * guiFont.getCharSet().getRenderedSize());
+//        Configuration.getAssetManager().registerLocator("./", FileLocator.class);
+//        guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+        guiFont = Configuration.getAssetManager().loadFont("interface/fonts/zapfino.fnt");
+        return text(text, 0, Configuration.getSettings().getHeight() - 2 * rowNum * guiFont.getCharSet().getRenderedSize());
     }
 
     public static BitmapText text(String text, float x, float y) {
-        BitmapText helloText = Creator.text(text, x, y, ColorRGBA.Gray);
+        BitmapText helloText = Creator.text(text, x, y, ColorRGBA.White);
         Configuration.getGuiNode().attachChild(helloText);
         return helloText;
     }
@@ -197,7 +198,9 @@ public final class Creator {
 
     public static BitmapText text(String text, float x, float y, ColorRGBA clr, boolean attached) {
         BitmapFont guiFont;
-        guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+//        Configuration.getAssetManager().registerLocator("./", FileLocator.class);
+//        guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+        guiFont = Configuration.getAssetManager().loadFont("interface/fonts/zapfino.fnt");
         BitmapText helloText = new BitmapText(guiFont, false);
 //        helloText.setName(name);
         helloText.setSize(guiFont.getCharSet().getRenderedSize());

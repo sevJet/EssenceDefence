@@ -58,6 +58,6 @@ public class Fortress extends Building implements ITextual {
 
     @Override
     public boolean isEnded() {
-        return (health < 0);
+        return (health <= 0);
     }
 }

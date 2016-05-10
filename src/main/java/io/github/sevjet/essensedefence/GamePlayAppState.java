@@ -109,10 +109,15 @@ public class GamePlayAppState extends AbstractAppState {
         super.cleanup();
     }
 
-
+float timer = 0;
     @Override
     public void update(float tpf) {
         super.update(tpf);
+        timer += tpf;
+        System.out.println(timer);
+        if (timer > 1){
+            setEnabled(false);
+        }
     }
 
 

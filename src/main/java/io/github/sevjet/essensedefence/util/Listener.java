@@ -22,6 +22,8 @@ import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
 
+import static org.lwjgl.opengl.Display.update;
+
 //TODO change on anonymous class
 public class Listener implements ActionListener {
 
@@ -52,36 +54,6 @@ public class Listener implements ActionListener {
     public final static String MAPPING_BUILD_FORTRESS = "Build fortress";
     public final static String MAPPING_SPAWN_MONSTER = "Spawn monster";
 
-    // TODO: 09/05/2016 delete this
-    private static Integer counter = 0;
-    private BitmapText text = Creator.text("Listener");
-
-    {
-        text.addControl(new AbstractControl() {
-            private boolean flag = true;
-
-            @Override
-            protected void controlUpdate(float tpf) {
-                if (flag)
-                    text.setSize(text.getSize() + counter * tpf);
-                else text.setSize(text.getSize() - counter * tpf);
-                if (text.getSize() > 100)
-                    flag = false;
-                if (text.getSize() < 10)
-                    flag = true;
-            }
-
-            @Override
-            protected void controlRender(RenderManager rm, ViewPort vp) {
-
-            }
-        });
-    }
-
-    private void update() {
-        text.setText((text.getText().split(" "))[0] + " " + counter);
-    }
-    // TODO: 09/05/2016 delete ene
 
     //TODO change
     public CollisionResults rayCasting() {
@@ -108,10 +80,6 @@ public class Listener implements ActionListener {
                 name.equals(MAPPING_BUILD_PORTAL) ||
                 name.equals(MAPPING_BUILD_FORTRESS) ||
                 name.equals(MAPPING_SPAWN_MONSTER)) {
-            // TODO: 09/05/2016 delete this
-            counter++;
-            update();
-            // TODO: 09/05/2016 end
 
             CollisionResults results;
             results = rayCasting();

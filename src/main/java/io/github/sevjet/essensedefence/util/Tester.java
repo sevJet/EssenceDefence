@@ -31,6 +31,10 @@ public final class Tester {
         testAllBuildings();
     }
 
+    public static void testSizableText(){
+
+    }
+
     public static void testGamer() {
         Configuration.setGamer(new Gamer(100));
         Configuration.getRootNode().addControl(new AbstractControl() {
