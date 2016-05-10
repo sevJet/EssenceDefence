@@ -37,6 +37,7 @@ public class Fortress extends Building {
                 die();
             }
         }
+        updater();
     }
 
     public void die() {
