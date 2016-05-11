@@ -1,0 +1,16 @@
+@startuml
+!include game.puml
+@enduml
+
+@startuml
+!include gamer.puml
+@enduml
+
+
+@startuml
+!include wave.puml
+@enduml
+
+@startuml
+!include monster.puml
+@enduml

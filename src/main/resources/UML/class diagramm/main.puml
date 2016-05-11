@@ -1,0 +1,15 @@
+@startuml
+!include skin.puml
+!include package.puml
+!include class.puml
+!include relationship.puml
+
+hide empty field
+hide empty method
+
+title Tower Defence
+
+'note left of essence : speed - shoots per tick
+'note top of monster : xpMult - reward for kill
+
+@enduml

@@ -1,0 +1,142 @@
+@startuml
+
+class Game {
+    -Game instance
+    -Game()
+    {static} +Game getInstance()
+    +Game init()
+    +Game start()
+}
+
+interface Renderer <<interface>> {
+    +render()
+}
+
+interface ITickHandler <<interface>>{
+    +tick()
+}
+
+abstract class object <<abstract>>{
+    #int x
+    #int y
+    +getX()
+    +getY()
+    +setX(int)
+    +setY(int)
+    +{abstract} void move()
+}
+
+class AI{
+    +buildPath(object, x, y)
+    #void doMove()
+}
+
+class path{
+	-x&y : pair <int, int> []
+}
+
+class field{
+    #allCells : cell [][]
+    #spawned : list[] monster
+    +spawn(monster)
+    +isBlocking(object)
+}
+
+class cell{
+	#occupiedBy : *building
+	#passable : bool
+	+getBuild()
+	+getPassability()
+	+setBuild()
+	+setPassability()
+}
+
+class monster{
+    #health
+    #speed : double
+    #damage
+    #xpMult
+    #monsterPath : path
+    +getHealth()
+    +getSpeed()
+    +getDamage()
+    +getXpMult()
+    +getMonsterPath()
+    +setHealth()
+    +setSpeed()
+    +setDamage()
+    +setXpMult()
+    +setMonsterPath()
+    +decHealth()
+    +attack()
+    -die()
+}
+
+class wave{
+	#monsters : list[] monster
+	#startTime
+	+getMonsters()
+	+getStartTime()
+	+setMonsters()
+	+setStartTime()
+}
+
+abstract class building <<abstract>>{
+    #height
+    #width
+    {abstract} +build()
+    {abstract} +getHeight()
+    {abstract} +getWidth()
+    {abstract} +setHeight()
+    {abstract} +setHeight()
+}
+
+class portal{
+    +portal(list[] monster)
+    +addWave()
+    +pushWave()
+    #spawnMonsters(list[] monster)
+}
+
+class tower{
+    #core : *essence
+    +getCore()
+    +setCore(core)
+    +attack(monster)
+}
+
+class essence{
+    #damage
+    #range
+    #speed : double
+    'effect
+    #level
+    #price
+    +getDamage()
+    +getRange()
+    +getSpeed()
+    +getLevel()
+    +getPrice()
+    +buy()
+    +sell()
+    +insertIntoTower()
+    +upgrade()
+    +combine()
+}
+
+class fortress{
+    #health
+    +getHealth()
+    +setHealth()
+    +incHealth()
+    +decHealth()
+    -destroy()
+}
+
+class wall{
+    #price
+    +getPrice()
+    +setPrice()
+}
+
+@enduml

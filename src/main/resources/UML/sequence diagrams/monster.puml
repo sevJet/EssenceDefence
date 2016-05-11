@@ -1,0 +1,43 @@
+@startuml
+!include ../skin/darcula.txt
+
+hide footbox
+title Tower attack monster
+
+actor gamer
+participant essence
+participant tower
+participant portal
+participant monster
+
+activate gamer
+create essence
+gamer -> essence : buy()
+create tower
+
+gamer -> tower : build()
+gamer -> essence : take
+activate essence
+essence -> tower : insertInto()
+deactivate essence
+activate tower
+create monster
+portal -> monster : spawn()
+
+loop monster in tower range and alive
+    activate monster
+
+    tower -> monster : attack(monster)
+    monster -> monster : decHealth()
+    alt monster still alive
+        monster -> monster : receiveEffect()
+        monster -> fortress : move on
+    else monster die
+        gamer <-- monster : get gold
+        monster -> monster : die()
+        destroy monster
+    end
+end
+destroy monster
+
+@enduml

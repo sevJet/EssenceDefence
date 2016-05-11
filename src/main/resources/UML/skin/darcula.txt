@@ -1,0 +1,156 @@
+@startuml
+
+skinparam {
+    backgroundColor #3c3f41
+
+    title {
+        FontColor #A9B7C6
+        FontSize 22
+    }
+
+    rectangle {
+        BorderColor #A9B7C6
+        FontColor #A9B7C6
+        FontSize 22
+    }
+    note {
+        BackgroundColor #808080
+        BorderColor #black
+    }
+
+    package {
+        BackgroundColor #808080-#black
+        FontColor #cccccc
+    }
+'================================================ class ==================================================
+    class {
+        BackgroundColor #2b2b2b
+        BorderColor #697786
+        AttributeFontColor #a9b7c6
+        FontColor #cc7832
+        StereotypeFontColor #a9b7c6
+
+        FontSize 14
+        'FontStyle bold
+
+        Arrow {
+            Color #cc7832
+            FontColor #A9B7C6
+            FontStyle bold
+            Style italic
+        }
+    }
+
+    circledCharacter {
+        FontColor #f0f0f0
+        FontSize 17
+        FontStyle bold
+        FontName  Courier
+        Radius 12
+    }
+
+    stereotype {
+        CBackgroundColor #909090
+        ABackgroundColor #CC0000
+        IBackgroundColor #0033aa
+    }
+'=============================================== useCase ===================================================
+    Actor {
+        FontColor #A9B7C6
+        BackgroundColor #A9B7C6/#808080
+        BorderColor #697786
+    }
+
+    usecase {
+        BackgroundColor #2b2b2b
+        BorderColor #697786
+        FontSize 14
+        FontColor #A9B7C6
+
+        ArrowColor #cc7832
+        ArrowFontColor #A9B7C6
+    }
+'================================================ state ==================================================
+    state {
+        BackgroundColor #2b2b2b
+        BorderColor #697786
+        FontSize 14
+        FontColor #A9B7C6
+        AttributeFontColor #A9B7C6
+
+        ArrowColor #cc7832
+        ArrowFontColor #A9B7C6
+
+        startColor #A9B7C6/#808080
+        endColor #A9B7C6
+    }
+'============================================== sequence ====================================================
+    sequence {
+
+        title {
+            FontColor #A9B7C6
+            FontSize 22
+        }
+
+        Actor {
+            FontColor #A9B7C6
+            BackgroundColor #A9B7C6/#808080
+            BorderColor #697786
+        }
+
+        Participant {
+            LineColor #2b2b2b
+            BackgroundColor #2b2b2b
+            BorderColor #black
+            FontSize 14
+            FontColor #A9B7C6
+        }
+
+        Group {
+            FontColor #619647
+            HeaderFontColor #A9B7C6
+            BackgroundColor #808080-#black
+            BorderColor #619647
+            BorderThickness 1.3
+        }
+
+        LifeLine {
+            BackgroundColor #2b2b2b
+            BorderColor #697786
+            Thickness 33
+            'Strategy solid
+        }
+
+        Arrow {
+            Color #cc7832
+            FontColor #A9B7C6
+            'FontStyle bold
+            Style italic
+        }
+    }
+'============================================== activity ====================================================
+    activity {
+        BackgroundColor #2b2b2b
+        BorderColor #697786
+        FontSize 14
+        FontColor #A9B7C6
+        AttributeFontColor #A9B7C6
+
+        ArrowColor #cc7832
+        ArrowFontColor #A9B7C6
+        DiamondFontColor #A9B7C6
+        startColor #A9B7C6/#808080
+        endColor #A9B7C6
+    }
+
+    Swimlane {
+        BorderColor #A9B7C6
+        'BorderThickness
+        TitleFontColor #A9B7C6
+        'TitleFontName
+        'TitleFontSize
+        'TitleFontStyle
+    }
+}
+
+@enduml

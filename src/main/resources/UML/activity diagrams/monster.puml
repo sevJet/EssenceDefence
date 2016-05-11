@@ -1,0 +1,35 @@
+@startuml
+'!include skin/darcula.txt
+skinparam monochrome true
+
+|monster|
+start
+:monster swapned;
+repeat
+    :move one next step;
+    if () then ([monster around tower])
+        |tower|
+        if () then ([active &\n not cooldown])
+            :attack(damage);
+        else  ([else])
+        endif
+    endif
+    |monster|
+    if () then ([health <= 0])
+        :give money(reward);
+        :die;
+    else  ([else])
+    endif
+    if () then ([else])
+    else  ([reached fortress])
+        :attack fortress;
+        |fortress|
+        :decrease health;
+        |monster|
+        :die;
+    endif
+repeat while () is ([monster alive])
+-[#black]-> [else];
+stop
+
+@enduml

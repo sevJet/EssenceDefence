@@ -1,0 +1,29 @@
+@startuml
+
+class cell
+class field
+abstract class object
+
+package "incomplete objects" <<Frame>> {
+    interface ITickHandler
+    class Game
+    class Renderer
+    class AI
+    class path
+    class wave
+}
+
+package "static objects" <<Frame>> {
+    abstract class building
+    class wall
+    class tower
+    class fortress
+    class portal
+}
+
+package "movable objects" <<Frame>> {
+    class monster
+    class essence
+}
+
+@enduml

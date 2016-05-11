@@ -1,0 +1,53 @@
+@startuml
+!include skin/darcula.txt
+
+'title Tower Defense
+left to right direction
+Actor gamer
+'Actor monster
+'Actor boss
+Actor AI
+rectangle "Tower Defence" {
+
+    (build wall)
+    (build tower)
+    (work with essence)
+    (get gold)
+    (kill monster)
+    (attack monster)
+    '(destroy fortress)
+    '(attack fortress)
+
+    'monster <|- boss
+    (spawn monster) - AI
+    (control monster) - AI
+    '(attack fortress) - monster
+
+    gamer -- (build wall)
+    gamer -- (start game)
+    gamer -- (build tower)
+    gamer -- (work with essence)
+
+
+    (work with essence) ..> (buy) : <<include>>
+    (work with essence) ..> (upgrade) : <<include>>
+    (work with essence) ..> (insert into tower) : <<include>>
+    (work with essence) ..> (sell) : <<include>>
+    (upgrade) <|- (combine)
+    (get gold) .> (kill monster) : <<include>>
+    '(get gold) ..> (start game) : <<include>>
+
+    (buy) ..> (get gold) : <<include>>
+    (upgrade) ..> (get gold) : <<include>>
+
+    (kill monster) -|> (attack monster)
+    '(destroy fortress) -|> (attack fortress)
+
+    (get bonus) ..> (kill monster) : <<extend>>
+}
+
+'(kill monster) -[hidden]- (attack fortress)
+(attack monster) -[hidden]- (spawn monster)
+(attack monster) -[hidden]- (control monster)
+
+@enduml

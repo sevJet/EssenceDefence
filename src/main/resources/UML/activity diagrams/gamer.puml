@@ -1,0 +1,64 @@
+@startuml
+'!include skin/darcula.txt
+skinparam monochrome true
+
+|game|
+    start
+    :start game;
+'|tower|
+|gamer|
+:give money;
+        repeat
+            if () then ([else])
+            else  ([need more many &\n have at least one\n useless essence])
+                |essence|
+                :sell essence;
+                |gamer|
+            endif
+            if () then ([else])
+            else  ([need more\n essence place &\n enough money])
+                |tower|
+                :build tower;
+                |gamer|
+            endif
+            if () then ([need change way &\n enough money])
+                :build wall;
+            else  ([else])
+            endif
+            if () then ([else])
+            else  ([need tower core &\n enough money])
+                |essence|
+                :buy essence;
+                |gamer|
+            endif
+            if () then ([else])
+            else  ([need more power &\n enough money])
+                |essence|
+                :upgrade;
+                |gamer|
+            endif
+            if () then ([else])
+            else  ([need special effect &\n enough money])
+                |essence|
+                :combine;
+                |gamer|
+            endif
+            if () then ([else])
+            else  ([need activate tower &\n at least one\n essence not active])
+                |tower|
+                :insert essence;
+                :activate tower;
+                |gamer|
+            endif
+            if () then ([else])
+            else  ([need change tower &\n tower is active])
+                |tower|
+                :pull out essence;
+                :deactivate tower;
+                |gamer|
+            endif
+            |gamer|
+        repeat while () is ([all monster die &\n no more wave left])
+        -[#black]-> [else];
+
+@enduml

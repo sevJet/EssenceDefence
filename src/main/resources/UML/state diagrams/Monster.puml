@@ -1,0 +1,22 @@
+@startuml
+!include ../skin/darcula.txt
+'skinparam monochrome true
+hide empty description
+'skinparam handwritten true
+  state "Decreasing health" as decH
+  state "Move to the fortress" as move
+  state "Attack fortress" as attackF{
+    attackF : entry/ decrease fortress health(damage)
+    attackF : exit/ remove monster
+  }
+
+
+  [*] -right---> move : when monster\n is spawned
+  move -down-> attackF : reached\n fortress
+  attackF -right-> [*] : remove monster
+
+  move -up-> decH : when around tower\n[tower is attack(damage)]\n
+  decH --> move : [still alive]
+  decH -down-> [*] : monster die\n \give reward
+
+@enduml

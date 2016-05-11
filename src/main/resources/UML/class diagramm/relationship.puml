@@ -1,0 +1,30 @@
+@startuml
+
+Game ..|> ITickHandler
+Renderer ..|> ITickHandler
+AI ..|> ITickHandler
+
+AI .right..> path
+
+field "<size:4>"---> cell
+
+cell "1..*" -left--> "0..1" building
+
+building -----|> object
+
+wall <|-- tower
+wall -right|> building
+
+tower --> essence
+tower ..> monster
+
+portal --|> building
+
+fortress --|> building
+
+monster --|> object
+monster -> path
+
+wave ---> monster
+
+@enduml

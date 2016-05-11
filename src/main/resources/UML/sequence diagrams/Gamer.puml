@@ -1,0 +1,40 @@
+@startuml
+'!include ../skin/darcula.txt
+skinparam monochrome true
+hide footbox
+'title Tower attack monster
+
+actor gamer
+
+
+activate gamer
+loop game start & not end
+    create essence
+    gamer -> essence : buy()\n [need attacker]
+    create tower
+
+    gamer -> tower : build()\n [need place for essence]
+    gamer -> essence : take
+    activate essence
+    alt
+    else need more power
+        essence -> essence : upgrade
+    else need specific effect
+        essence -> essence : combine
+    else need core for tower
+        essence -> tower : insertInto()
+        activate tower
+    else need money
+        essence -> essence : sell
+    destroy essence
+    end
+    alt need work with essence
+        gamer -> tower : pull out essence
+        gamer <-- tower : give essence
+        deactivate tower
+    end
+    gamer -> wall : build
+
+end
+
+@enduml
