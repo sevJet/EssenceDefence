@@ -31,12 +31,11 @@ public final class Tester {
         testAllBuildings();
     }
 
-    public static void testSizableText() {
-
-    }
 
     public static void testGamer() {
-        Configuration.setGamer(new Gamer(100));
+        Gamer gamer = new Gamer(100);
+        gamer.newText("Gold of gamer:", 1);
+        Configuration.setGamer(gamer);
         Configuration.getRootNode().addControl(new AbstractControl() {
             float timer = 0;
 

@@ -1,30 +1,35 @@
 package io.github.sevjet.essensedefence.entity.building;
 
-import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.control.ITextual;
-import io.github.sevjet.essensedefence.control.TextControl;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.BoxSize;
 
 
 public class Fortress extends Building implements ITextual {
 
-    private static final BoxSize SIZE = new BoxSize(3, 3, 4);
-    private final AbstractControl control = new TextControl(this, "Health of fortress", 0);
 
-    // FIXME: 10/05/2016 make final
+    private static final BoxSize SIZE = new BoxSize(3, 3, 4);
 
     public Fortress() {
         super(SIZE, -1f);
+
+        tempMethod();
     }
 
     public Fortress(float health) {
         super(SIZE, health);
+
+        tempMethod();
     }
 
     public Fortress(int x, int y, float health) {
         super(x, y, SIZE, health);
 
+        tempMethod();
+    }
+
+    private void tempMethod() {
+        newText("Health of fortress:", 0);
     }
 
     public void hit(float damage) {
@@ -60,4 +65,5 @@ public class Fortress extends Building implements ITextual {
     public boolean isEnded() {
         return (health <= 0 || geometry.getParent() == null);
     }
+
 }

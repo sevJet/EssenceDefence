@@ -3,8 +3,6 @@ package io.github.sevjet.essensedefence.control;
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
-import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Spline;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;

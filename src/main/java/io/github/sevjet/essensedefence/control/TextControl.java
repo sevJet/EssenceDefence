@@ -11,14 +11,14 @@ public class TextControl extends AbstractControl {
 
     private String textContent;
     private BitmapText text;
-    private Object entity;
+    private ITextual entity;
 
-    public TextControl(Object object) {
+    private TextControl(ITextual object) {
         entity = object;
         Configuration.getGuiNode().addControl(this);
     }
 
-    public TextControl(Object object, String textContent, int rowNum) {
+    public TextControl(ITextual object, String textContent, int rowNum) {
         this(object);
         this.textContent = textContent;
         text = Creator.text(textContent, rowNum);
@@ -27,13 +27,10 @@ public class TextControl extends AbstractControl {
 
     @Override
     protected void controlUpdate(float tpf) {
-        if (entity instanceof ITextual) {
-            ITextual obj = ((ITextual) entity);
-            text.setText(textContent + " " + obj.outputValue());
-            if (obj.isEnded())
-                halt();
-            return;
-        } else throw new ClassCastException(entity.getClass() + " must implement ITextual interface");
+        ITextual obj = entity;
+        text.setText(textContent + " " + obj.outputValue());
+        if (obj.isEnded())
+            halt();
     }
 
     private void halt() {
