@@ -60,7 +60,9 @@ public abstract class Entity implements Savable {
     }
 
     public void setZ(int z) {
-        // No Z needed now
+        this.z = z;
+
+        updater();
     }
 
     public Geometry getGeometry() {

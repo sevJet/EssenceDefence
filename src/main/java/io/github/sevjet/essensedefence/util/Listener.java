@@ -10,6 +10,7 @@ import com.jme3.input.controls.Trigger;
 import com.jme3.math.Ray;
 import com.jme3.scene.Geometry;
 import io.github.sevjet.essensedefence.GamePlayAppState;
+import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.entity.building.Tower;
@@ -96,7 +97,8 @@ public class Listener implements ActionListener {
                             cell.build(new Wall());
                             break;
                         case MAPPING_BUILD_TOWER:
-                            cell.build(new Tower());
+                            if (cell.build(new Tower()))
+                                ((Tower) cell.getBuilding()).putCore(new Essence());
                             break;
                         case MAPPING_BUILD_PORTAL:
                             cell.build(new Portal());

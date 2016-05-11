@@ -11,6 +11,7 @@ import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
+import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.entity.building.Tower;
@@ -23,8 +24,7 @@ import io.github.sevjet.essensedefence.util.Creator;
 import io.github.sevjet.essensedefence.util.GeometryManager;
 import io.github.sevjet.essensedefence.util.Listener;
 
-import static io.github.sevjet.essensedefence.util.Creator.debugSet;
-import static io.github.sevjet.essensedefence.util.Creator.myBox;
+import static io.github.sevjet.essensedefence.util.Creator.*;
 import static io.github.sevjet.essensedefence.util.Listener.*;
 import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.save;
 import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.testSerialization;
@@ -81,7 +81,7 @@ public class GamePlayAppState extends AbstractAppState {
         GeometryManager.setDefault(Fortress.class, myBox(3 / 2f, 3 / 2f, 2f, "fortress", ColorRGBA.Gray));
         GeometryManager.setDefault(Portal.class, myBox(1f, 1 / 2f, 1.5f, "portal", ColorRGBA.Magenta));
         GeometryManager.setDefault(Monster.class, myBox(1 / 3f, 1 / 3f, 1 / 2f, "monster", ColorRGBA.Yellow));
-
+        GeometryManager.setDefault(Essence.class, mySphere(1 / 2f, "essence", ColorRGBA.randomColor()));
     }
 
     @Override

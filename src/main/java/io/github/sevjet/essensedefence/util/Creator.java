@@ -9,6 +9,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
+import com.jme3.scene.shape.Sphere;
 
 public final class Creator {
     private Creator() {
@@ -140,6 +141,18 @@ public final class Creator {
 
     public static Geometry myBox(float x, float y, float z, String name, Vector3f loc, ColorRGBA color) {
         Box mesh = new Box(x, y, z);
+        Geometry geom = new Geometry(name, mesh);
+        Material mat = new Material(Configuration.getAssetManager(),
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", color);
+        geom.setMaterial(mat);
+        geom.setLocalTranslation(loc);
+        return geom;
+    }
+
+    public static Geometry mySphere(float radius, String name, /*Vector3f loc,*/ ColorRGBA color) {
+        Vector3f loc = Vector3f.ZERO;
+        Sphere mesh = new Sphere(32, 32, radius, true, false);
         Geometry geom = new Geometry(name, mesh);
         Material mat = new Material(Configuration.getAssetManager(),
                 "Common/MatDefs/Misc/Unshaded.j3md");
