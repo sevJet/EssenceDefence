@@ -3,6 +3,8 @@ package io.github.sevjet.essensedefence.control;
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Spline;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -11,7 +13,7 @@ import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Field;
 
-import java.util.PriorityQueue;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class MonsterControl extends BasicControl {
@@ -88,7 +90,8 @@ public class MonsterControl extends BasicControl {
 
         event.setSpatial(spatial);
         event.setPath(path);
-        event.setSpeed(monster.getSpeed());
+        event.setInitialDuration(path.getNbWayPoints());
+        event.setSpeed(1);
         event.setDirectionType(MotionEvent.Direction.Path);
 
         spatial.addControl(event);
@@ -101,9 +104,10 @@ public class MonsterControl extends BasicControl {
         final int rows = field.getRows();
         final int cols = field.getCols();
         final int passable[][] = field.getPassable();
-        // @TODO fuck this magical initial capacity
-        final Queue<Integer> queue = new PriorityQueue<>(Math.round((float) Math.sqrt(rows * cols)));
+        final Queue<Integer> queue = new LinkedList<>();
         queue.add(Math.round(fortress.getCenter().getX() * cols + fortress.getCenter().getY()));
+        passable[Math.round(fortress.getCenter().getX())][Math.round(fortress.getCenter().getY())] = -2;
+        queue.element();
         boolean isFound = false;
         int curVer, x = -1, y = -1;
         while (!isFound && queue.size() > 0) {
@@ -135,7 +139,7 @@ public class MonsterControl extends BasicControl {
             path = new MotionPath();
             while (x != Math.round(fortress.getCenter().getX()) ||
                     y != Math.round(fortress.getCenter().getY())) {
-                path.addWayPoint(new Vector3f(x, y, entity.getZ()));
+                path.addWayPoint(new Vector3f(x, y, entity.getCenter().getZ()));
                 curVer = passable[x][y] - 1;
                 x = curVer / cols;
                 y = curVer % cols;
