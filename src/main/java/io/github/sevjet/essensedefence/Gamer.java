@@ -17,8 +17,6 @@ public class Gamer implements ITextual {
 
     public Gamer(int gold) {
         this.gold = gold;
-
-        update();
     }
 
     public float getGold() {
@@ -28,16 +26,12 @@ public class Gamer implements ITextual {
     @Deprecated
     public void setGold(float gold) {
         this.gold = gold;
-
-        update();
     }
 
     public boolean decGold(float gold) {
         if (this.gold - gold < 0)
             return false;
         this.gold -= gold;
-
-        update();
         return true;
     }
 
