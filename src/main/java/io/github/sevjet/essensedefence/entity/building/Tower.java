@@ -41,8 +41,16 @@ public class Tower extends BuyableBuilding {
         Field field = getField();
         if (field != null) {
             field.addObject(core);
-            System.out.println("Core placed");
         }
     }
 
+    @Override
+    public void destroy() {
+        super.destroy();
+
+        Field field = getField();
+        if (field != null) {
+            field.removeObject(core);
+        }
+    }
 }

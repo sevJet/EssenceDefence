@@ -161,6 +161,7 @@ public class Field extends Node {
     }
 
     protected void detachFromCells(Building building) {
+        building.destroy();
         for (int i = building.getX(); i < building.getX() + building.getSize().getWidth(); i++) {
             for (int j = building.getY(); j < building.getY() + building.getSize().getHeight(); j++) {
                 cells[i][j].free();

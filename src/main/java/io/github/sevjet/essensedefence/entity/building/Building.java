@@ -38,6 +38,10 @@ public abstract class Building extends Entity3D {
         this.health = health;
     }
 
+    public void destroy() {
+
+    }
+
     @Override
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
