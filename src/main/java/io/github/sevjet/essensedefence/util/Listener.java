@@ -16,7 +16,7 @@ import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.entity.building.Wall;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
-import io.github.sevjet.essensedefence.entity.monster.Wave;
+import io.github.sevjet.essensedefence.control.WaveControl;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
 
@@ -120,15 +120,14 @@ public class Listener implements ActionListener {
                             break;
                         case MAPPING_SPAWN_WAVE:
                             if (cell.getBuilding() != null && cell.getBuilding() instanceof Portal) {
-                                System.out.println("Adding wave");
                                 Portal portal = (Portal) cell.getBuilding();
-                                List<Monster> monsters = new ArrayList<Monster>();
+                                List<Monster> monsters = new ArrayList<>();
                                 for(int i=0;i<10;i++) {
                                     monsters.add(new Monster(10f, 2f, 0f));
                                 }
-                                Wave wave = new Wave(monsters);
-                                wave.setDelay(3000);
-                                wave.setGap(1000);
+                                WaveControl wave = new WaveControl(monsters);
+                                wave.setDelay(3f);
+                                wave.setGap(2f);
                                 portal.addWave(wave);
                                 portal.pushWave();
                             }
