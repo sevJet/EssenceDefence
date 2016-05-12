@@ -108,6 +108,12 @@ public abstract class Entity implements Savable {
         return new Vector3f(x, y, z);
     }
 
+    public Vector3f getPhysicalCenter() {
+        return geometry == null ?
+                Vector3f.ZERO :
+                geometry.getLocalTranslation();
+    }
+
     protected boolean moveToCenter() {
         geometry.setLocalTranslation(getCenter());
         return true;

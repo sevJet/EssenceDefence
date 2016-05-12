@@ -71,7 +71,7 @@ public class TowerControl extends BasicControl {
             list = tower.getCloseMonsters();
             if (list.size() > 0) {
                 start = tower.getCore().getCenter();
-                end = list.get(0).getCenter();
+                end = list.get(0).getPhysicalCenter();
                 list.get(0).hit(tower.getCore().getDamage());
                 beamNode.attachChild(Creator.myLine(start, end, ColorRGBA.Blue, 44f));
                 beamNode.updateModelBound();

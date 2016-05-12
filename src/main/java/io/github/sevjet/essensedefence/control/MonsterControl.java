@@ -3,6 +3,7 @@ package io.github.sevjet.essensedefence.control;
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
+import com.jme3.math.FastMath;
 import com.jme3.math.Spline;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -82,6 +83,9 @@ public class MonsterControl extends BasicControl {
                     fortress.hit(monster.getDamage());
                     monster.die();
                 }
+                Vector3f curWayPoint = motionControl.getPath().getWayPoint(motionControl.getCurrentWayPoint());
+                monster.setX(Math.round(curWayPoint.getX()));
+                monster.setY(Math.round(curWayPoint.getY()));
             }
         });
         path.setPathSplineType(Spline.SplineType.Linear);
