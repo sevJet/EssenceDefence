@@ -10,6 +10,7 @@ import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.BoxSize;
+import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Getter;
 
 import java.util.ArrayList;
@@ -54,9 +55,6 @@ public class Tower extends BuyableBuilding {
 
     //TODO: 12/05/16 SAVE ESSENCE IN LIST
     public void extractionCore() {
-        if(this.core == null) {
-            return;
-        }
         Field field = getField();
         if(field != null) {
             field.removeObject(this.core);

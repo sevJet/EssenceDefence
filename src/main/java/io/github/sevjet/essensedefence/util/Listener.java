@@ -50,6 +50,10 @@ public class Listener implements ActionListener {
             new KeyTrigger(KeyInput.KEY_B);
     public final static Trigger TRIGGER_EXTRACTION_ESSENCE =
             new KeyTrigger(KeyInput.KEY_N);
+    public final static Trigger TRIGGER_PUT_EXTRACTED_ESSENCE =
+            new KeyTrigger(KeyInput.KEY_P);
+    public final static Trigger TRIGGER_SELL_ESSENCE =
+            new KeyTrigger(KeyInput.KEY_M);
 
     public final static String MAPPING_BUILD = "Build";
     public final static String MAPPING_RESET = "Reset";
@@ -61,6 +65,8 @@ public class Listener implements ActionListener {
     public final static String MAPPING_SPAWN_WAVE = "Spawn wave";
     public final static String MAPPING_BUY_ESSENCE = "Buy essence";
     public final static String MAPPING_EXTRACTION_ESSENCE = "Extraction essence";
+    public final static String MAPPING_PUT_EXTRACTED_ESSENCE = "Put extracted essence";
+    public final static String MAPPING_SELL_ESSENCE = "Sell essence";
 
 
     //TODO change
@@ -90,7 +96,9 @@ public class Listener implements ActionListener {
                 name.equals(MAPPING_SPAWN_MONSTER) ||
                 name.equals(MAPPING_SPAWN_WAVE) ||
                 name.equals(MAPPING_BUY_ESSENCE) ||
-                name.equals(MAPPING_EXTRACTION_ESSENCE)) {
+                name.equals(MAPPING_EXTRACTION_ESSENCE) ||
+                name.equals(MAPPING_PUT_EXTRACTED_ESSENCE) ||
+                name.equals(MAPPING_SELL_ESSENCE)) {
 
             CollisionResults results;
             results = rayCasting();
@@ -141,16 +149,33 @@ public class Listener implements ActionListener {
                             }
                             break;
                         case MAPPING_EXTRACTION_ESSENCE:
-                            if(cell.getBuilding() != null && cell.getBuilding() instanceof Tower) {
+                            if(cell.getBuilding() != null && cell.getBuilding() instanceof Tower &&
+                                    ((Tower) cell.getBuilding()).getCore() != null) {
+                                Configuration.getGamer().getExtractedEssences().add(((Tower) cell.getBuilding()).getCore());
                                 ((Tower) cell.getBuilding()).extractionCore();
                             }
                             break;
                         case MAPPING_BUY_ESSENCE:
-                            if(cell.getBuilding() != null && cell.getBuilding() instanceof Tower) {
+                            if(cell.getBuilding() != null && cell.getBuilding() instanceof Tower &&
+                                    ((Tower) cell.getBuilding()).getCore() == null) {
                                 if(Configuration.getGamer().getGold() >= 10) {
                                     Configuration.getGamer().setGold(Configuration.getGamer().getGold() - 10);
                                     ((Tower)cell.getBuilding()).putCore(new Essence(1, 5, 1, 1, 0));
                                 }
+                            }
+                            break;
+                        case MAPPING_PUT_EXTRACTED_ESSENCE:
+                            if(cell.getBuilding() != null && cell.getBuilding() instanceof Tower &&
+                                    Configuration.getGamer().getExtractedEssences().size() != 0) {
+                                ((Tower) cell.getBuilding()).putCore(Configuration.getGamer().getExtractedEssences().get(0));
+                                Configuration.getGamer().getExtractedEssences().remove(0);
+                            }
+                            break;
+                        case MAPPING_SELL_ESSENCE:
+                            if(cell.getBuilding() != null && cell.getBuilding() instanceof Tower &&
+                                    ((Tower) cell.getBuilding()).getCore() != null) {
+                                ((Tower) cell.getBuilding()).extractionCore();
+                                Configuration.getGamer().setGold(Configuration.getGamer().getGold() + 10);
                             }
                     }
                 }

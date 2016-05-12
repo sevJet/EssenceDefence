@@ -68,7 +68,9 @@ public final class Tester {
                         "F - Monster\n" +
                         "G - Start Wave\n" +
                         "B - Buy Essence\n" +
-                        "N - Extraction Essence";
+                        "N - Extraction Essence\n" +
+                        "P - Put extracted Essence\n" +
+                        "M - Sell Essence";
         BitmapText helloText = Creator.text(text);
 
 //        helloText.setAlpha(0.5f);

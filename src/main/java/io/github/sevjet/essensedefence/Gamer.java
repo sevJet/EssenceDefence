@@ -1,10 +1,14 @@
 package io.github.sevjet.essensedefence;
 
 import io.github.sevjet.essensedefence.control.ITextual;
+import io.github.sevjet.essensedefence.entity.Essence;
+
+import java.util.ArrayList;
 
 public class Gamer implements ITextual {
 
     protected float gold = 0;
+    protected ArrayList<Essence> extractedEssences = new ArrayList();
 
     public Gamer() {
         this(0);
@@ -28,6 +32,10 @@ public class Gamer implements ITextual {
             return false;
         this.gold -= gold;
         return true;
+    }
+
+    public ArrayList<Essence> getExtractedEssences() {
+        return extractedEssences;
     }
 
     public float incGold(float gold) {
