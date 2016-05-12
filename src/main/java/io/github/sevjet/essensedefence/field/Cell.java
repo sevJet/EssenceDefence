@@ -91,16 +91,6 @@ public class Cell extends Entity {
         updater();
     }
 
-    public Field getField() {
-        if (geometry != null &&
-                geometry.getParent() != null &&
-                geometry.getParent().getParent() != null &&
-                geometry.getParent().getParent() instanceof Field) {
-            return ((Field) geometry.getParent().getParent());
-        }
-        return null;
-    }
-
     @Override
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);

@@ -27,10 +27,9 @@ public class TextControl extends AbstractControl {
 
     @Override
     protected void controlUpdate(float tpf) {
-        ITextual obj = entity;
-        text.setText(textContent + " " + obj.outputValue());
-        if (obj.isEnded())
+        if (entity.isEnded())
             halt();
+        text.setText(textContent + " " + entity.outputValue());
     }
 
     private void halt() {
