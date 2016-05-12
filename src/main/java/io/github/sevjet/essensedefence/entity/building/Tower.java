@@ -52,6 +52,19 @@ public class Tower extends BuyableBuilding {
         }
     }
 
+    //TODO: 12/05/16 SAVE ESSENCE IN LIST
+    public void extractionCore() {
+        if(this.core == null) {
+            return;
+        }
+        Field field = getField();
+        if(field != null) {
+            field.removeObject(this.core);
+            this.core = null;
+        }
+        return;
+    }
+
     private void placeCore() {
         core.setX(x);
         core.setY(y);

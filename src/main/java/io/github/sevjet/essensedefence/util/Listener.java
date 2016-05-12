@@ -46,6 +46,10 @@ public class Listener implements ActionListener {
             new KeyTrigger(KeyInput.KEY_F);
     public final static Trigger TRIGGER_SPAWN_WAVE =
             new KeyTrigger(KeyInput.KEY_G);
+    public final static Trigger TRIGGER_BUY_ESSENCE =
+            new KeyTrigger(KeyInput.KEY_B);
+    public final static Trigger TRIGGER_EXTRACTION_ESSENCE =
+            new KeyTrigger(KeyInput.KEY_N);
 
     public final static String MAPPING_BUILD = "Build";
     public final static String MAPPING_RESET = "Reset";
@@ -55,6 +59,8 @@ public class Listener implements ActionListener {
     public final static String MAPPING_BUILD_FORTRESS = "Build fortress";
     public final static String MAPPING_SPAWN_MONSTER = "Spawn monster";
     public final static String MAPPING_SPAWN_WAVE = "Spawn wave";
+    public final static String MAPPING_BUY_ESSENCE = "Buy essence";
+    public final static String MAPPING_EXTRACTION_ESSENCE = "Extraction essence";
 
 
     //TODO change
@@ -82,7 +88,9 @@ public class Listener implements ActionListener {
                 name.equals(MAPPING_BUILD_PORTAL) ||
                 name.equals(MAPPING_BUILD_FORTRESS) ||
                 name.equals(MAPPING_SPAWN_MONSTER) ||
-                name.equals(MAPPING_SPAWN_WAVE)) {
+                name.equals(MAPPING_SPAWN_WAVE) ||
+                name.equals(MAPPING_BUY_ESSENCE) ||
+                name.equals(MAPPING_EXTRACTION_ESSENCE)) {
 
             CollisionResults results;
             results = rayCasting();
@@ -131,6 +139,11 @@ public class Listener implements ActionListener {
                                 wave.setGap(1000);
                                 portal.addWave(wave);
                                 portal.pushWave();
+                            }
+                            break;
+                        case MAPPING_EXTRACTION_ESSENCE:
+                            if(cell.getBuilding() != null && cell.getBuilding() instanceof Tower) {
+                                ((Tower) cell.getBuilding()).extractionCore();
                             }
                             break;
                     }
