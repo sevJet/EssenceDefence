@@ -110,7 +110,7 @@ public class Tower extends BuyableBuilding {
         super.destroy();
 
         Field field = getField();
-        if (field != null) {
+        if (field != null && core != null) {
             field.removeObject(core);
         }
     }
