@@ -106,7 +106,7 @@ public class Listener implements ActionListener {
                             break;
                         case MAPPING_BUILD_TOWER:
                             if (cell.build(new Tower()))
-                                ((Tower) cell.getBuilding()).putCore(new Essence());
+                                ((Tower) cell.getBuilding()).putCore(new Essence(1, 5, 1, 1, 0));
                             break;
                         case MAPPING_BUILD_PORTAL:
                             cell.build(new Portal());
@@ -116,7 +116,7 @@ public class Listener implements ActionListener {
                             break;
                         case MAPPING_SPAWN_MONSTER:
                             field.addObject(
-                                    new Monster(cell.getX(), cell.getY(), 100, 10, 10));
+                                    new Monster(cell.getX(), cell.getY(), 3, 10, 10));
                             break;
                         case MAPPING_SPAWN_WAVE:
                             if (cell.getBuilding() != null && cell.getBuilding() instanceof Portal) {

@@ -107,6 +107,8 @@ public class Monster extends Entity3D {
         return this.health;
     }
 
+    // TODO: 12/05/2016 change to protected
+    @Deprecated
     public void die() {
         Field field = getField();
         if (field != null) {
