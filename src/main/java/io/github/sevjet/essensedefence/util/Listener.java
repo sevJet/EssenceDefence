@@ -145,6 +145,13 @@ public class Listener implements ActionListener {
                                 ((Tower) cell.getBuilding()).extractionCore();
                             }
                             break;
+                        case MAPPING_BUY_ESSENCE:
+                            if(cell.getBuilding() != null && cell.getBuilding() instanceof Tower) {
+                                if(Configuration.getGamer().getGold() >= 10) {
+                                    Configuration.getGamer().setGold(Configuration.getGamer().getGold() - 10);
+                                    ((Tower)cell.getBuilding()).putCore(new Essence(1, 5, 1, 1, 0));
+                                }
+                            }
                     }
                 }
             }

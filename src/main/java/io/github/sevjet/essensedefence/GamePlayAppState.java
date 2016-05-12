@@ -74,9 +74,10 @@ public class GamePlayAppState extends AbstractAppState {
         inputManager.addMapping(MAPPING_SPAWN_MONSTER, TRIGGER_SPAWN_MONSTER);
         inputManager.addMapping(MAPPING_SPAWN_WAVE, TRIGGER_SPAWN_WAVE);
         inputManager.addMapping(MAPPING_EXTRACTION_ESSENCE,TRIGGER_EXTRACTION_ESSENCE);
+        inputManager.addMapping(MAPPING_BUY_ESSENCE,TRIGGER_BUY_ESSENCE);
         inputManager.addListener(new Listener(), MAPPING_BUILD, MAPPING_RESET, MAPPING_BUILD_WALL,
                 MAPPING_BUILD_TOWER, MAPPING_BUILD_PORTAL, MAPPING_BUILD_FORTRESS, MAPPING_SPAWN_MONSTER, MAPPING_SPAWN_WAVE,
-                MAPPING_EXTRACTION_ESSENCE);
+                MAPPING_EXTRACTION_ESSENCE,MAPPING_BUY_ESSENCE);
 //        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
         Creator.attachCenterMark();
 

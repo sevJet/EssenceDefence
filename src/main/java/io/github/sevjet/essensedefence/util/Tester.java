@@ -65,7 +65,10 @@ public final class Tester {
                         "\n" +
                         "E - make Cell passable\n" +
                         "R - reset\n" +
-                        "F - Monster";
+                        "F - Monster\n" +
+                        "G - Start Wave\n" +
+                        "B - Buy Essence\n" +
+                        "N - Extraction Essence";
         BitmapText helloText = Creator.text(text);
 
 //        helloText.setAlpha(0.5f);
