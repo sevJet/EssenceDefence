@@ -1,5 +1,9 @@
 package io.github.sevjet.essensedefence.entity.building;
 
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -13,6 +17,7 @@ import io.github.sevjet.essensedefence.util.BoxSize;
 import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Getter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +25,7 @@ import java.util.List;
 public class Tower extends BuyableBuilding {
 
     private static final BoxSize SIZE = new BoxSize(2, 2, 3);
-    private final BasicControl control = new TowerControl();
+    private BasicControl control = new TowerControl();
 
     private Essence core;
 
@@ -56,7 +61,7 @@ public class Tower extends BuyableBuilding {
     //TODO: 12/05/16 SAVE ESSENCE IN LIST
     public void extractionCore() {
         Field field = getField();
-        if(field != null) {
+        if (field != null) {
             field.removeObject(this.core);
             this.core = null;
         }
@@ -111,5 +116,23 @@ public class Tower extends BuyableBuilding {
         if (field != null && core != null) {
             field.removeObject(core);
         }
+    }
+
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(core, "core", null);
+        capsule.write(control, "control", null);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+
+        InputCapsule capsule = im.getCapsule(this);
+        core = (Essence) capsule.readSavable("core", null);
+        control = (BasicControl) capsule.readSavable("control", null);
     }
 }

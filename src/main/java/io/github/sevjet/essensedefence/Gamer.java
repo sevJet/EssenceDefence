@@ -1,9 +1,15 @@
 package io.github.sevjet.essensedefence;
 
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import io.github.sevjet.essensedefence.control.ITextual;
 import io.github.sevjet.essensedefence.entity.Essence;
 
 import java.util.ArrayList;
+
+import java.io.IOException;
 
 public class Gamer implements ITextual {
 
@@ -51,5 +57,17 @@ public class Gamer implements ITextual {
     @Override
     public boolean isEnded() {
         return (false);
+    }
+
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(gold, "gold", 0f);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        InputCapsule capsule = im.getCapsule(this);
+        gold = capsule.readFloat("gold", 0f);
     }
 }

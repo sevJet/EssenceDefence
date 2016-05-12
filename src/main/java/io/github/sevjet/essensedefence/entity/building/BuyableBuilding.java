@@ -1,7 +1,13 @@
 package io.github.sevjet.essensedefence.entity.building;
 
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import io.github.sevjet.essensedefence.entity.IBuyable;
 import io.github.sevjet.essensedefence.util.BoxSize;
+
+import java.io.IOException;
 
 public class BuyableBuilding extends Building implements IBuyable {
 
@@ -21,6 +27,7 @@ public class BuyableBuilding extends Building implements IBuyable {
         setPrice(price);
     }
 
+    @Override
     public float getPrice() {
         return price;
     }
@@ -33,4 +40,19 @@ public class BuyableBuilding extends Building implements IBuyable {
         this.price = price;
     }
 
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(price, "price", 0f);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+
+        InputCapsule capsule = im.getCapsule(this);
+        price = capsule.readFloat("price", 0f);
+    }
 }

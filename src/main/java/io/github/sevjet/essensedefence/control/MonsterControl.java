@@ -3,7 +3,10 @@ package io.github.sevjet.essensedefence.control;
 import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
-import com.jme3.math.FastMath;
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.math.Spline;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -12,6 +15,7 @@ import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Field;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -147,6 +151,30 @@ public class MonsterControl extends BasicControl {
                 y = curVer % cols;
             }
         }
+    }
+
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(monster, "monster", null);
+        capsule.write(fortress, "fortress", null);
+        capsule.write(path, "path", null);
+        capsule.write(event, "event", null);
+        capsule.write(delayTill, "delayTill", 0L);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+
+        InputCapsule capsule = im.getCapsule(this);
+        monster = (Monster) capsule.readSavable("monster", null);
+        fortress = (Fortress) capsule.readSavable("fortress", null);
+        path = (MotionPath) capsule.readSavable("path", null);
+        event = (MotionEvent) capsule.readSavable("event", null);
+        delayTill = capsule.readLong("delayTill", 0L);
     }
 
 }
