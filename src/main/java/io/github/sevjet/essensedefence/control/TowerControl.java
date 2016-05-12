@@ -73,8 +73,7 @@ public class TowerControl extends BasicControl {
                 start = tower.getCore().getCenter();
                 end = list.get(0).getPhysicalCenter();
                 list.get(0).hit(tower.getCore().getDamage());
-                beamNode.attachChild(Creator.myLine(start, end, ColorRGBA.Blue, 44f));
-                beamNode.updateModelBound();
+                beamNode.attachChild(Creator.myLine(start, end, ColorRGBA.Red, 33f));
             }
         }
     }

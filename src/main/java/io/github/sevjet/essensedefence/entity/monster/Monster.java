@@ -5,6 +5,7 @@ import io.github.sevjet.essensedefence.control.MonsterControl;
 import io.github.sevjet.essensedefence.entity.Entity3D;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.BoxSize;
+import io.github.sevjet.essensedefence.util.Configuration;
 
 public class Monster extends Entity3D {
 
@@ -16,7 +17,7 @@ public class Monster extends Entity3D {
     private float speed = 0f;
     private float damage = 0f;
     private float exp = 1f;
-    private float money = 1f;
+    private float money = 10f;
 
     public Monster() {
         super(SIZE);
@@ -102,9 +103,14 @@ public class Monster extends Entity3D {
         this.health -= damage;
 
         if (this.health <= 0f) {
+            giveReward();
             die();
         }
         return this.health;
+    }
+
+    private void giveReward() {
+        Configuration.getGamer().incGold(money);
     }
 
     // TODO: 12/05/2016 change to protected
