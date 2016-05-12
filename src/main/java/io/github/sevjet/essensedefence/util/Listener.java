@@ -16,8 +16,12 @@ import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.entity.building.Wall;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
+import io.github.sevjet.essensedefence.entity.monster.Wave;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //TODO change on anonymous class
 public class Listener implements ActionListener {
@@ -40,6 +44,8 @@ public class Listener implements ActionListener {
             new KeyTrigger(KeyInput.KEY_4);
     public final static Trigger TRIGGER_SPAWN_MONSTER =
             new KeyTrigger(KeyInput.KEY_F);
+    public final static Trigger TRIGGER_SPAWN_WAVE =
+            new KeyTrigger(KeyInput.KEY_G);
 
     public final static String MAPPING_BUILD = "Build";
     public final static String MAPPING_RESET = "Reset";
@@ -48,6 +54,7 @@ public class Listener implements ActionListener {
     public final static String MAPPING_BUILD_PORTAL = "Build portal";
     public final static String MAPPING_BUILD_FORTRESS = "Build fortress";
     public final static String MAPPING_SPAWN_MONSTER = "Spawn monster";
+    public final static String MAPPING_SPAWN_WAVE = "Spawn wave";
 
 
     //TODO change
@@ -74,7 +81,8 @@ public class Listener implements ActionListener {
                 name.equals(MAPPING_BUILD_TOWER) ||
                 name.equals(MAPPING_BUILD_PORTAL) ||
                 name.equals(MAPPING_BUILD_FORTRESS) ||
-                name.equals(MAPPING_SPAWN_MONSTER)) {
+                name.equals(MAPPING_SPAWN_MONSTER) ||
+                name.equals(MAPPING_SPAWN_WAVE)) {
 
             CollisionResults results;
             results = rayCasting();
@@ -109,6 +117,21 @@ public class Listener implements ActionListener {
                         case MAPPING_SPAWN_MONSTER:
                             field.addObject(
                                     new Monster(cell.getX(), cell.getY(), 100, 10, 10));
+                            break;
+                        case MAPPING_SPAWN_WAVE:
+                            if (cell.getBuilding() != null && cell.getBuilding() instanceof Portal) {
+                                System.out.println("Adding wave");
+                                Portal portal = (Portal) cell.getBuilding();
+                                List<Monster> monsters = new ArrayList<Monster>();
+                                for(int i=0;i<10;i++) {
+                                    monsters.add(new Monster(10f, 2f, 0f));
+                                }
+                                Wave wave = new Wave(monsters);
+                                wave.setDelay(3000);
+                                wave.setGap(1000);
+                                portal.addWave(wave);
+                                portal.pushWave();
+                            }
                             break;
                     }
                 }

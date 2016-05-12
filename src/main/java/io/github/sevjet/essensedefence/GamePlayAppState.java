@@ -52,6 +52,8 @@ public class GamePlayAppState extends AbstractAppState {
             new KeyTrigger(KeyInput.KEY_4);
     public final static Trigger TRIGGER_SPAWN_MONSTER =
             new KeyTrigger(KeyInput.KEY_F);
+    public final static Trigger TRIGGER_SPAWN_WAVE =
+            new KeyTrigger(KeyInput.KEY_G);
     //TODO fix it
     public static Field field;
 
@@ -70,8 +72,9 @@ public class GamePlayAppState extends AbstractAppState {
         inputManager.addMapping(MAPPING_BUILD_PORTAL, TRIGGER_BUILD_PORTAL);
         inputManager.addMapping(MAPPING_BUILD_FORTRESS, TRIGGER_BUILD_FORTRESS);
         inputManager.addMapping(MAPPING_SPAWN_MONSTER, TRIGGER_SPAWN_MONSTER);
+        inputManager.addMapping(MAPPING_SPAWN_WAVE, TRIGGER_SPAWN_WAVE);
         inputManager.addListener(new Listener(), MAPPING_BUILD, MAPPING_RESET, MAPPING_BUILD_WALL,
-                MAPPING_BUILD_TOWER, MAPPING_BUILD_PORTAL, MAPPING_BUILD_FORTRESS, MAPPING_SPAWN_MONSTER);
+                MAPPING_BUILD_TOWER, MAPPING_BUILD_PORTAL, MAPPING_BUILD_FORTRESS, MAPPING_SPAWN_MONSTER, MAPPING_SPAWN_WAVE);
 //        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
         Creator.attachCenterMark();
 

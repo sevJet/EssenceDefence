@@ -7,6 +7,7 @@ import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
+import io.github.sevjet.essensedefence.entity.building.Portal;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -82,7 +83,9 @@ public class Field extends Node {
             passable[i] = new int[getCols()];
             for (int j = 0; j < getCols(); j++) {
                 passable[i][j] = (cells[i][j].isPassable() &&
-                        (cells[i][j].getBuilding() == null || cells[i][j].getBuilding() instanceof Fortress)) ? 0 : -1;
+                        (cells[i][j].getBuilding() == null ||
+                                cells[i][j].getBuilding() instanceof Fortress) ||
+                                cells[i][j].getBuilding() instanceof Portal) ? 0 : -1;
             }
         }
         return passable;
