@@ -129,7 +129,7 @@ public class Listener implements ActionListener {
                         case MAPPING_SPAWN_WAVE:
                             if (cell.getBuilding() != null && cell.getBuilding() instanceof Portal) {
                                 Portal portal = (Portal) cell.getBuilding();
-                                List<Monster> monsters = new ArrayList<>();
+                                ArrayList<Monster> monsters = new ArrayList<>();
                                 for (int i = 0; i < 10; i++) {
                                     monsters.add(new Monster(10f, 2f, 0f));
                                 }
