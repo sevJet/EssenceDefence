@@ -1,29 +1,31 @@
 package io.github.sevjet.essensedefence.control;
 
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.scene.Spatial;
 import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
-import io.github.sevjet.essensedefence.field.Field;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class WaveControl extends BasicControl {
 
-    private List<Monster> monsters;
+    private ArrayList<Monster> monsters;
     private int spawnIndex = -1;
     private float curTime = 0f;
     private float spawnTime = 0f;
     private float delay = 0f;
     private float gap = 0f;
-    private Field field = null;
     private Portal portal = null;
 
     public WaveControl() {
         monsters = new ArrayList<>();
     }
 
-    public WaveControl(List<Monster> monsters) {
+    public WaveControl(ArrayList<Monster> monsters) {
         this();
         this.monsters.addAll(monsters);
     }
@@ -60,7 +62,7 @@ public class WaveControl extends BasicControl {
         spawnTime = curTime;
     }
 
-    public List<Monster> getMonsters() {
+    public ArrayList<Monster> getMonsters() {
         return monsters;
     }
 
@@ -84,8 +86,44 @@ public class WaveControl extends BasicControl {
         monsters.add(monster);
     }
 
-    public void addMonster(List<Monster> monsters) {
+    public void addMonster(ArrayList<Monster> monsters) {
         this.monsters.addAll(monsters);
+    }
+
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.writeSavableArrayList(monsters, "monsters", null);
+        capsule.write(spawnIndex, "spawnIndex", -1);
+        capsule.write(curTime, "curTime", 0f);
+        capsule.write(spawnTime, "spawnTime", 0f);
+        capsule.write(delay, "delay", 0f);
+        capsule.write(gap, "gap", 0f);
+        capsule.write(portal, "portal", null);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+
+        InputCapsule capsule = im.getCapsule(this);
+        ArrayList list = capsule.readSavableArrayList("monsters", null);
+        if(!list.isEmpty()) {
+            monsters = new ArrayList<>(list.size());
+            for (Object el : list) {
+                if (el instanceof Monster) {
+                    monsters.add((Monster) el);
+                }
+            }
+        }
+        spawnIndex = capsule.readInt("spawnIndex", -1);
+        curTime = capsule.readFloat("curTime", 0f);
+        spawnTime = capsule.readFloat("spawnTime", 0f);
+        delay = capsule.readFloat("delay", 0f);
+        gap = capsule.readFloat("gap", 0f);
+        portal = (Portal) capsule.readSavable("portal", null);
     }
 
 }

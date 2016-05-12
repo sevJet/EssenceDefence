@@ -2,7 +2,7 @@ package io.github.sevjet.essensedefence.entity;
 
 import io.github.sevjet.essensedefence.util.BoxSize;
 
-public class Essence extends Entity3D {
+public class Essence extends Entity3D implements IBuyable {
 
     // FIXME: Not real size, made bigger for been at the center of the tower
     private static final BoxSize SIZE = new BoxSize(2, 2, 1);
@@ -43,8 +43,13 @@ public class Essence extends Entity3D {
         return level;
     }
 
+    @Override
     public float getPrice() {
         return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public boolean buy() {

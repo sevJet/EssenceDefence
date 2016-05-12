@@ -10,13 +10,13 @@ import com.jme3.input.controls.Trigger;
 import com.jme3.math.Ray;
 import com.jme3.scene.Geometry;
 import io.github.sevjet.essensedefence.GamePlayAppState;
+import io.github.sevjet.essensedefence.control.WaveControl;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.entity.building.Wall;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
-import io.github.sevjet.essensedefence.control.WaveControl;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
 
@@ -130,7 +130,7 @@ public class Listener implements ActionListener {
                             if (cell.getBuilding() != null && cell.getBuilding() instanceof Portal) {
                                 Portal portal = (Portal) cell.getBuilding();
                                 List<Monster> monsters = new ArrayList<>();
-                                for(int i=0;i<10;i++) {
+                                for (int i = 0; i < 10; i++) {
                                     monsters.add(new Monster(10f, 2f, 0f));
                                 }
                                 WaveControl wave = new WaveControl(monsters);
@@ -141,7 +141,7 @@ public class Listener implements ActionListener {
                             }
                             break;
                         case MAPPING_EXTRACTION_ESSENCE:
-                            if(cell.getBuilding() != null && cell.getBuilding() instanceof Tower) {
+                            if (cell.getBuilding() != null && cell.getBuilding() instanceof Tower) {
                                 ((Tower) cell.getBuilding()).extractionCore();
                             }
                             break;
