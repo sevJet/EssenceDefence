@@ -14,7 +14,7 @@ import java.util.List;
 public class TowerControl extends BasicControl {
     //    // TODO: 12/05/2016 move to AppState
 //    private static Node beamNode = new Node("beamNode");
-    private static Node beamNode = new Node("beamNode");
+    private Node beamNode = new Node("beamNode");
     boolean ones = false;
     private Tower tower = null;
     private List<Monster> list = null;
@@ -63,7 +63,7 @@ public class TowerControl extends BasicControl {
             return;
         }
         counter += tpf;
-        if (counter > 0.9 * tower.getCore().getSpeed())
+        if (counter > 0.5 * tower.getCore().getSpeed())
             beamNode.detachAllChildren();
         // FIXME: 12/05/2016 CHANGE speed on cooldown
         if (counter > tower.getCore().getSpeed()) {
@@ -74,6 +74,7 @@ public class TowerControl extends BasicControl {
                 end = list.get(0).getCenter();
                 list.get(0).hit(tower.getCore().getDamage());
                 beamNode.attachChild(Creator.myLine(start, end, ColorRGBA.Blue, 44f));
+                beamNode.updateModelBound();
             }
         }
     }
