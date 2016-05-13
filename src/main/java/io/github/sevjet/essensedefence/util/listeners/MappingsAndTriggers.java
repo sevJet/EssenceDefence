@@ -7,9 +7,11 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.math.Ray;
+import com.jme3.scene.Geometry;
 import io.github.sevjet.essensedefence.GamePlayAppState;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.util.Configuration;
+import io.github.sevjet.essensedefence.util.Getter;
 
 public final class MappingsAndTriggers {
 
@@ -68,5 +70,11 @@ public final class MappingsAndTriggers {
 //            }
 //        }
         return results;
+    }
+
+    public static Cell getCell(CollisionResults results) {
+        Geometry target = results.getClosestCollision().getGeometry();
+        Cell cell = (Cell) Getter.getEntity(target);
+        return cell;
     }
 }

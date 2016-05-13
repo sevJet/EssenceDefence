@@ -29,6 +29,19 @@ public class Essence extends Entity3D implements IBuyable {
         this.price = price;
     }
 
+    public static Essence buy() {
+        if (Configuration.getGamer().getGold() >= 10) {
+            Configuration.getGamer().decGold(10);
+            return new Essence(1, 5, 1, 1, 0);
+        }
+        return null;
+    }
+
+    public static void sell(Tower tower) {
+        tower.extractionCore();
+        Configuration.getGamer().incGold(10);
+    }
+
     public float getDamage() {
         return damage;
     }
@@ -52,19 +65,6 @@ public class Essence extends Entity3D implements IBuyable {
 
     public void setPrice(float price) {
         this.price = price;
-    }
-
-    public static Essence buy() {
-        if(Configuration.getGamer().getGold() >= 10) {
-            Configuration.getGamer().decGold(10);
-            return new Essence(1, 5, 1, 1, 0);
-        }
-        return null;
-    }
-
-    public static void sell(Tower tower) {
-        tower.extractionCore();
-        Configuration.getGamer().incGold(10);
     }
 
     public boolean upgrade() {

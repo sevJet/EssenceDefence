@@ -110,7 +110,7 @@ public class WaveControl extends BasicControl {
 
         InputCapsule capsule = im.getCapsule(this);
         ArrayList list = capsule.readSavableArrayList("monsters", null);
-        if(!list.isEmpty()) {
+        if (!list.isEmpty()) {
             monsters = new ArrayList<>(list.size());
             for (Object el : list) {
                 if (el instanceof Monster) {

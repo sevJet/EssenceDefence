@@ -7,9 +7,8 @@ import com.jme3.export.OutputCapsule;
 import io.github.sevjet.essensedefence.control.ITextual;
 import io.github.sevjet.essensedefence.entity.Essence;
 
-import java.util.ArrayList;
-
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Gamer implements ITextual {
 

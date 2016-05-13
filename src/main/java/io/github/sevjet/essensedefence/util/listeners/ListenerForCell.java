@@ -3,16 +3,10 @@ package io.github.sevjet.essensedefence.util.listeners;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.AnalogListener;
-import com.jme3.math.Ray;
-import com.jme3.scene.Geometry;
-import io.github.sevjet.essensedefence.GamePlayAppState;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
-import io.github.sevjet.essensedefence.util.Configuration;
 
-import static io.github.sevjet.essensedefence.util.listeners.MappingsAndTriggers.MAPPING_MAKE_PASSABLE;
-import static io.github.sevjet.essensedefence.util.listeners.MappingsAndTriggers.MAPPING_RESET;
-import static io.github.sevjet.essensedefence.util.listeners.MappingsAndTriggers.rayCasting;
+import static io.github.sevjet.essensedefence.util.listeners.MappingsAndTriggers.*;
 
 public class ListenerForCell implements AnalogListener {
 
@@ -24,9 +18,7 @@ public class ListenerForCell implements AnalogListener {
             results = rayCasting();
 
             if (results.size() > 0) {
-                Cell temp = new Cell();
-                Geometry target = results.getClosestCollision().getGeometry();
-                Cell cell = ((Field) target.getParent().getParent()).getCell(target);
+                Cell cell = getCell(results);
                 Field field = cell.getField();
                 //TODO change
                 if (field != null) {

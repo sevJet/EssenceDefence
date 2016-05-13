@@ -14,7 +14,6 @@ import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.BoxSize;
-import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Getter;
 
 import java.io.IOException;

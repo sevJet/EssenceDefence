@@ -2,7 +2,6 @@ package io.github.sevjet.essensedefence.util.listeners;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
-import com.jme3.scene.Geometry;
 import io.github.sevjet.essensedefence.control.WaveControl;
 import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
@@ -23,9 +22,7 @@ public class ListenerForMonsters implements ActionListener {
             results = rayCasting();
 
             if (results.size() > 0 && !isPressed) {
-                Cell temp = new Cell();
-                Geometry target = results.getClosestCollision().getGeometry();
-                Cell cell = ((Field) target.getParent().getParent()).getCell(target);
+                Cell cell = getCell(results);
                 Field field = cell.getField();
                 //TODO change
                 if (field != null) {

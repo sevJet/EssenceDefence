@@ -7,13 +7,11 @@ import com.jme3.export.OutputCapsule;
 import io.github.sevjet.essensedefence.control.BasicControl;
 import io.github.sevjet.essensedefence.control.MonsterControl;
 import io.github.sevjet.essensedefence.entity.Entity3D;
-import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.BoxSize;
 import io.github.sevjet.essensedefence.util.Configuration;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Monster extends Entity3D {
 

@@ -12,11 +12,11 @@ import java.util.List;
 
 
 public class TowerControl extends BasicControl {
-//    TODO: 12/05/16 Savable
+    boolean ones = false;
+    //    TODO: 12/05/16 Savable
     //    // TODO: 12/05/2016 move to AppState
 //    private static Node beamNode = new Node("beamNode");
     private Node beamNode = new Node("beamNode");
-    boolean ones = false;
     private Tower tower = null;
     private List<Monster> list = null;
     private float counter = 0;
