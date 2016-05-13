@@ -57,7 +57,7 @@ public final class MappingsAndTriggers {
     public final static String MAPPING_PUT_EXTRACTED_ESSENCE = "Put extracted essence";
     public final static String MAPPING_SELL_ESSENCE = "Sell essence";
 
-    public static CollisionResults rayCasting() {
+    static CollisionResults rayCasting() {
         CollisionResults results = new CollisionResults();
         Ray ray = new Ray(Configuration.getCam().getLocation(), Configuration.getCam().getDirection());
         //TODO fix building
@@ -72,7 +72,7 @@ public final class MappingsAndTriggers {
         return results;
     }
 
-    public static Cell getCell(CollisionResults results) {
+    static Cell getCell(CollisionResults results) {
         Geometry target = results.getClosestCollision().getGeometry();
         Cell cell = (Cell) Getter.getEntity(target);
         return cell;
