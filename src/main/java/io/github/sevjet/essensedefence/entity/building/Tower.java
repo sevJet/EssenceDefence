@@ -58,7 +58,6 @@ public class Tower extends BuyableBuilding {
         }
     }
 
-    //TODO: 12/05/16 SAVE ESSENCE IN LIST
     public void extractionCore() {
         Field field = getField();
         if (field != null) {

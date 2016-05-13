@@ -1,6 +1,8 @@
 package io.github.sevjet.essensedefence.entity;
 
+import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.util.BoxSize;
+import io.github.sevjet.essensedefence.util.Configuration;
 
 public class Essence extends Entity3D implements IBuyable {
 
@@ -52,13 +54,17 @@ public class Essence extends Entity3D implements IBuyable {
         this.price = price;
     }
 
-    public boolean buy() {
-        // @TODO Implement buy
-        return false;
+    public static Essence buy() {
+        if(Configuration.getGamer().getGold() >= 10) {
+            Configuration.getGamer().decGold(10);
+            return new Essence(1, 5, 1, 1, 0);
+        }
+        return null;
     }
 
-    public void sell() {
-        // @TODO Implement sell
+    public static void sell(Tower tower) {
+        tower.extractionCore();
+        Configuration.getGamer().incGold(10);
     }
 
     public boolean upgrade() {

@@ -158,9 +158,9 @@ public class Listener implements ActionListener {
                         case MAPPING_BUY_ESSENCE:
                             if(cell.getBuilding() != null && cell.getBuilding() instanceof Tower &&
                                     ((Tower) cell.getBuilding()).getCore() == null) {
-                                if(Configuration.getGamer().getGold() >= 10) {
-                                    Configuration.getGamer().setGold(Configuration.getGamer().getGold() - 10);
-                                    ((Tower)cell.getBuilding()).putCore(new Essence(1, 5, 1, 1, 0));
+                                Essence essence = Essence.buy();
+                                if(essence != null) {
+                                    ((Tower)cell.getBuilding()).putCore(essence);
                                 }
                             }
                             break;
@@ -174,8 +174,7 @@ public class Listener implements ActionListener {
                         case MAPPING_SELL_ESSENCE:
                             if(cell.getBuilding() != null && cell.getBuilding() instanceof Tower &&
                                     ((Tower) cell.getBuilding()).getCore() != null) {
-                                ((Tower) cell.getBuilding()).extractionCore();
-                                Configuration.getGamer().setGold(Configuration.getGamer().getGold() + 10);
+                                Essence.sell((Tower) cell.getBuilding());
                             }
                     }
                 }
