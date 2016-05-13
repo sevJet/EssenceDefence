@@ -4,11 +4,6 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.InputManager;
-import com.jme3.input.KeyInput;
-import com.jme3.input.MouseInput;
-import com.jme3.input.controls.KeyTrigger;
-import com.jme3.input.controls.MouseButtonTrigger;
-import com.jme3.input.controls.Trigger;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Essence;
@@ -22,38 +17,20 @@ import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Creator;
 import io.github.sevjet.essensedefence.util.GeometryManager;
-import io.github.sevjet.essensedefence.util.Listener;
+import io.github.sevjet.essensedefence.util.listeners.ListenerForBuilding;
+import io.github.sevjet.essensedefence.util.listeners.ListenerForCell;
+import io.github.sevjet.essensedefence.util.listeners.ListenerForEssence;
+import io.github.sevjet.essensedefence.util.listeners.ListenerForMonsters;
 
 import static io.github.sevjet.essensedefence.util.Creator.*;
-import static io.github.sevjet.essensedefence.util.Listener.*;
 import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.save;
 import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.testSerialization;
 import static io.github.sevjet.essensedefence.util.Tester.testGamer;
 import static io.github.sevjet.essensedefence.util.Tester.testText;
+import static io.github.sevjet.essensedefence.util.listeners.MappingsAndTriggers.*;
 
 public class GamePlayAppState extends AbstractAppState {
 
-
-    public final static Trigger TRIGGER_BUILD =
-            new KeyTrigger(KeyInput.KEY_E);
-    public final static Trigger TRIGGER_RESET =
-            new KeyTrigger(KeyInput.KEY_R);
-    public final static Trigger TRIGGER_ROTATE =
-            //           new KeyTrigger(KeyInput.KEY_T);
-            new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
-    //TODO change
-    public final static Trigger TRIGGER_BUILD_WALL =
-            new KeyTrigger(KeyInput.KEY_1);
-    public final static Trigger TRIGGER_BUILD_TOWER =
-            new KeyTrigger(KeyInput.KEY_2);
-    public final static Trigger TRIGGER_BUILD_PORTAL =
-            new KeyTrigger(KeyInput.KEY_3);
-    public final static Trigger TRIGGER_BUILD_FORTRESS =
-            new KeyTrigger(KeyInput.KEY_4);
-    public final static Trigger TRIGGER_SPAWN_MONSTER =
-            new KeyTrigger(KeyInput.KEY_F);
-    public final static Trigger TRIGGER_SPAWN_WAVE =
-            new KeyTrigger(KeyInput.KEY_G);
     //TODO fix it
     public static Field field;
 
@@ -65,7 +42,7 @@ public class GamePlayAppState extends AbstractAppState {
         Configuration.getRootNode().attachChild(debugNode);
 
         InputManager inputManager = Configuration.getInputManager();
-        inputManager.addMapping(MAPPING_BUILD, TRIGGER_BUILD);
+        inputManager.addMapping(MAPPING_MAKE_PASSABLE, TRIGGER_MAKE_PASSABLE);
         inputManager.addMapping(MAPPING_RESET, TRIGGER_RESET);
         inputManager.addMapping(MAPPING_BUILD_WALL, TRIGGER_BUILD_WALL);
         inputManager.addMapping(MAPPING_BUILD_TOWER, TRIGGER_BUILD_TOWER);
@@ -73,14 +50,31 @@ public class GamePlayAppState extends AbstractAppState {
         inputManager.addMapping(MAPPING_BUILD_FORTRESS, TRIGGER_BUILD_FORTRESS);
         inputManager.addMapping(MAPPING_SPAWN_MONSTER, TRIGGER_SPAWN_MONSTER);
         inputManager.addMapping(MAPPING_SPAWN_WAVE, TRIGGER_SPAWN_WAVE);
-        inputManager.addMapping(MAPPING_EXTRACTION_ESSENCE,TRIGGER_EXTRACTION_ESSENCE);
-        inputManager.addMapping(MAPPING_BUY_ESSENCE,TRIGGER_BUY_ESSENCE);
-        inputManager.addMapping(MAPPING_PUT_EXTRACTED_ESSENCE,TRIGGER_PUT_EXTRACTED_ESSENCE);
-        inputManager.addMapping(MAPPING_SELL_ESSENCE,TRIGGER_SELL_ESSENCE);
-        inputManager.addListener(new Listener(), MAPPING_BUILD, MAPPING_RESET, MAPPING_BUILD_WALL,
-                MAPPING_BUILD_TOWER, MAPPING_BUILD_PORTAL, MAPPING_BUILD_FORTRESS, MAPPING_SPAWN_MONSTER, MAPPING_SPAWN_WAVE,
-                MAPPING_EXTRACTION_ESSENCE,MAPPING_BUY_ESSENCE,MAPPING_PUT_EXTRACTED_ESSENCE,MAPPING_SELL_ESSENCE);
-//        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_BUILD});
+        inputManager.addMapping(MAPPING_EXTRACTION_ESSENCE, TRIGGER_EXTRACTION_ESSENCE);
+        inputManager.addMapping(MAPPING_BUY_ESSENCE, TRIGGER_BUY_ESSENCE);
+        inputManager.addMapping(MAPPING_PUT_EXTRACTED_ESSENCE, TRIGGER_PUT_EXTRACTED_ESSENCE);
+        inputManager.addMapping(MAPPING_SELL_ESSENCE, TRIGGER_SELL_ESSENCE);
+
+        inputManager.addListener(new ListenerForCell(),
+                MAPPING_MAKE_PASSABLE,
+                MAPPING_RESET);
+
+        inputManager.addListener(new ListenerForBuilding(),
+                MAPPING_BUILD_WALL,
+                MAPPING_BUILD_TOWER,
+                MAPPING_BUILD_PORTAL,
+                MAPPING_BUILD_FORTRESS);
+
+        inputManager.addListener(new ListenerForMonsters(),
+                MAPPING_SPAWN_MONSTER,
+                MAPPING_SPAWN_WAVE);
+
+        inputManager.addListener(new ListenerForEssence(),
+                MAPPING_BUY_ESSENCE,
+                MAPPING_SELL_ESSENCE,
+                MAPPING_EXTRACTION_ESSENCE,
+                MAPPING_PUT_EXTRACTED_ESSENCE);
+//        Configuration.getInputManager().addListener(actionListener, new String[]{MAPPING_MAKE_PASSABLE});
         Creator.attachCenterMark();
 
         GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f, "cell", ColorRGBA.Black));
