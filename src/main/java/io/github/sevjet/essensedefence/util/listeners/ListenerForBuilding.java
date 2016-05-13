@@ -13,12 +13,29 @@ import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
 
 import static io.github.sevjet.essensedefence.util.listeners.MappingsAndTriggers.*;
-import static io.github.sevjet.essensedefence.util.listeners.MappingsAndTriggers.getCell;
 
 
 public class ListenerForBuilding implements ActionListener {
 
     private Building building = null;
+
+    private Building choiceBuilding(String name) {
+        switch (name) {
+            case MAPPING_BUILD_WALL:
+                return new Wall();
+//            break;
+            case MAPPING_BUILD_TOWER:
+                return new Tower();
+//            break;
+            case MAPPING_BUILD_PORTAL:
+                return new Portal();
+//            break;
+            case MAPPING_BUILD_FORTRESS:
+                return new Fortress();
+//            break;
+        }
+        return null;
+    }
 
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
@@ -30,80 +47,78 @@ public class ListenerForBuilding implements ActionListener {
             CollisionResults results;
             results = rayCasting();
 
-            if (results.size() > 0 && isPressed) {
-                switch (name){
-                    case MAPPING_BUILD_WALL:
-                        building = new Wall();
-                        break;
-                    case MAPPING_BUILD_TOWER:
-                        building = new Tower();
-                        break;
-                    case MAPPING_BUILD_PORTAL:
-                        building = new Portal();
-                        break;
-                    case MAPPING_BUILD_FORTRESS:
-                        building = new Fortress();
-                        break;
-                }
-                Cell cell = getCell(results);
-                if (cell.getBuilding() == null)
-                    cell.build(building);
-                else cell.getField().build(0, 0, building);
-                building.getGeometry().getMaterial().getAdditionalRenderState().setWireframe(true);
-                building.getGeometry().getMaterial().setColor("Color", ColorRGBA.Yellow);
-                building.getGeometry().getMesh().setLineWidth(5f);
+            if (results.size() > 0) {
+                if (isPressed) {
+                    building = choiceBuilding(name);
+                    Cell cell = getCell(results);
 
-                building.getGeometry().addControl(new AbstractControl() {
-                    CollisionResults results2;
+                    preBuildAppearance(building.getGeometry());
+                    building.getGeometry().addControl(new PreBuildControl());
 
-                    @Override
-                    protected void controlUpdate(float tpf) {
-                        results2 = rayCasting();
-                        if (results2.size() > 0) {
-                            Cell cell = getCell(results2);
-                            Field field = cell.getField();
+                    if (cell.getBuilding() == null)
+                        cell.build(building);
+                    else
+                        cell.getField().build(0, 0, building);
+                } else {
+                    Cell cell = getCell(results);
+                    Field field = cell.getField();
 
-                            if (getSpatial().getUserData("entity") instanceof Building) {
-                                Building build = (Building) getSpatial().getUserData("entity");
-                                field.removeObject(build);
-                                if (field.enoughPlaceFor(cell, build)){
-                                    cell.build(build);
-                                } else field.build(build.getX(), build.getY(), build);
-                            }
+                    field.removeObject(building);
+                    //TODO change
+                    if (field != null) {
+                        cell.build(choiceBuilding(name));
+                        switch (name) {
+                            case MAPPING_BUILD_WALL:
+                                break;
+                            case MAPPING_BUILD_TOWER:
+                                if (cell.getBuilding() instanceof Tower)
+                                    ((Tower) cell.getBuilding()).putCore(new Essence(1, 5, 1, 1, 0));
+                                break;
+                            case MAPPING_BUILD_PORTAL:
+                                break;
+                            case MAPPING_BUILD_FORTRESS:
+                                if (cell.getBuilding() instanceof Fortress)
+                                    ((Fortress) cell.getBuilding()).setHealth(100);
+                                break;
                         }
                     }
+                }
 
-                    @Override
-                    protected void controlRender(RenderManager rm, ViewPort vp) {
-
-                    }
-                });
             }
+        }
+    }
 
-            if (results.size() > 0 && !isPressed) {
+    private Geometry preBuildAppearance(Geometry geom) {
+        geom.getMaterial().getAdditionalRenderState().setWireframe(true);
+        geom.getMaterial().setColor("Color", ColorRGBA.Yellow);
+        geom.getMesh().setLineWidth(5f);
+        return geom;
+    }
+
+    private class PreBuildControl extends AbstractControl {
+        CollisionResults results;
+
+        @Override
+        protected void controlUpdate(float tpf) {
+            results = rayCasting();
+            if (results.size() > 0) {
                 Cell cell = getCell(results);
                 Field field = cell.getField();
 
-                field.removeObject(building);
-                //TODO change
-                if (field != null) {
-                    switch (name) {
-                        case MAPPING_BUILD_WALL:
-                            cell.build(new Wall());
-                            break;
-                        case MAPPING_BUILD_TOWER:
-                            if (cell.build(new Tower()))
-                                ((Tower) cell.getBuilding()).putCore(new Essence(1, 5, 1, 1, 0));
-                            break;
-                        case MAPPING_BUILD_PORTAL:
-                            cell.build(new Portal());
-                            break;
-                        case MAPPING_BUILD_FORTRESS:
-                            cell.build(new Fortress(100f));
-                            break;
-                    }
+                if (getSpatial().getUserData("entity") instanceof Building) {
+                    Building build = (Building) getSpatial().getUserData("entity");
+                    field.removeObject(build);
+                    if (field.enoughPlaceFor(cell, build)) {
+                        cell.build(build);
+                    } else
+                        field.build(build.getX(), build.getY(), build);
                 }
             }
+        }
+
+        @Override
+        protected void controlRender(RenderManager rm, ViewPort vp) {
+
         }
     }
 }

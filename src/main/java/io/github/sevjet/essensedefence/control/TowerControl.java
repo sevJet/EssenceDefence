@@ -36,25 +36,6 @@ public class TowerControl extends BasicControl {
     protected void controlUpdate(float tpf) {
         if (!ones) {
             tower.getField().attachChild(beamNode);
-//            // TODO: 12/05/2016 create new control
-//            beamNode.addControl(new AbstractControl() {
-//                private float counter = 0;
-//
-//                @Override
-//                protected void controlUpdate(float tpf) {
-//                    counter += tpf;
-//                    if (counter > 1.3f) {
-//                        counter = 0;
-//                        System.out.println("-- detach beam");
-//                        beamNode.detachAllChildren();
-//                    }
-//                }
-//
-//                @Override
-//                protected void controlRender(RenderManager rm, ViewPort vp) {
-//
-//                }
-//            });
             ones = true;
         }
 
