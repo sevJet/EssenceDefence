@@ -14,7 +14,6 @@ import com.jme3.scene.Spatial;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Field;
-import io.github.sevjet.essensedefence.util.Configuration;
 
 import java.io.IOException;
 import java.util.LinkedList;

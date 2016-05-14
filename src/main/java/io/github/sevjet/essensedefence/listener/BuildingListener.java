@@ -18,6 +18,9 @@ public class BuildingListener implements ActionListener {
 
     private Building wireframe = null;
     private String currentMap = "";
+    private CollisionResults results;
+    private Cell cell;
+    private Field field;
 
     private Building choiceBuilding(String name) {
         switch (name) {
@@ -51,9 +54,6 @@ public class BuildingListener implements ActionListener {
         return BoxSize.FLAT;
     }
 
-    private CollisionResults results;
-    private Cell cell;
-    private Field field;
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals(MAPPING_BUILD_WALL) ||
@@ -119,7 +119,7 @@ public class BuildingListener implements ActionListener {
     }
 }
 
-
+// TODO: 14/05/2016 refactor this
 class PreBuildControl extends AbstractControl {
     CollisionResults results;
 

@@ -3,7 +3,6 @@ package io.github.sevjet.essensedefence;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.input.InputManager;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Essence;
@@ -14,7 +13,7 @@ import io.github.sevjet.essensedefence.entity.building.Wall;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
-import io.github.sevjet.essensedefence.listener.*;
+import io.github.sevjet.essensedefence.listener.ListenerManager;
 import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Creator;
 import io.github.sevjet.essensedefence.util.GeometryManager;
@@ -24,7 +23,6 @@ import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.s
 import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.testSerialization;
 import static io.github.sevjet.essensedefence.util.Tester.testGamer;
 import static io.github.sevjet.essensedefence.util.Tester.testText;
-import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
 
 public class GamePlayAppState extends AbstractAppState {
 
