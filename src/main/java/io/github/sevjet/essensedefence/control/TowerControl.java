@@ -41,14 +41,14 @@ public class TowerControl extends BasicControl {
 
 
         Vector3f start, end;
-        if (tower.getCore() == null) {
+        if (tower.isEmpty()) {
             return;
         }
         counter += tpf;
-        if (counter > 0.5 * tower.getCore().getSpeed())
+        if (counter > 0.5 * tower.getCooldownTime())
             beamNode.detachAllChildren();
-        // FIXME: 12/05/2016 CHANGE speed on cooldown
-        if (counter > tower.getCore().getSpeed()) {
+
+        if (counter > tower.getCooldownTime()) {
             counter = 0;
             list = tower.getCloseMonsters();
             if (list.size() > 0) {

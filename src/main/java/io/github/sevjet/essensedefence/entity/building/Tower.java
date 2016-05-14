@@ -79,7 +79,7 @@ public class Tower extends BuyableBuilding {
 
     // TODO: 12/05/2016 change on BoundSphere
     public List<Monster> getCloseMonsters() {
-        if (core == null)
+        if (isEmpty())
             return Collections.emptyList();
         Field field = getField();
         Node monstersNode = field.getObjects(Monster.class);
@@ -114,6 +114,14 @@ public class Tower extends BuyableBuilding {
         if (field != null && core != null) {
             field.removeObject(core);
         }
+    }
+
+    public float getCooldownTime() {
+        return (!isEmpty() ? 1f / core.getSpeed() : 0f);
+    }
+
+    public boolean isEmpty() {
+        return core == null;
     }
 
     @Override

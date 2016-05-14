@@ -51,6 +51,9 @@ public class BuildingListener implements ActionListener {
         return BoxSize.FLAT;
     }
 
+    private CollisionResults results;
+    private Cell cell;
+    private Field field;
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals(MAPPING_BUILD_WALL) ||
@@ -58,77 +61,86 @@ public class BuildingListener implements ActionListener {
                 name.equals(MAPPING_BUILD_PORTAL) ||
                 name.equals(MAPPING_BUILD_FORTRESS)) {
 
-            CollisionResults results;
             results = rayCasting();
 
             if (results.size() > 0) {
-                Cell cell = getCell(results);
-                Field field = cell.getField();
+                cell = getCell(results);
+                field = cell.getField();
 
                 if (isPressed) {
-                    if (currentMap.isEmpty() || currentMap.equals(name)) {
-                        currentMap = name;
-
-                        wireframe = new Wireframe(getBoxSize(name));
-
-                        wireframe.getGeometry().addControl(new PreBuildControl());
-
-                        wireframe.setX(cell.getX());
-                        wireframe.setY(cell.getY());
-                        field.removeAll(Wireframe.class);
-                        field.addObject(wireframe);
-                    }
+                    onPress(name, tpf);
                 } else {
-                    if (currentMap.equals(name) && field != null) {
-                        field.removeAll(Wireframe.class);
-                        Building building = choiceBuilding(name);
-                        if (field.enoughPlaceFor(cell, building)) {
-                            cell.build(building);
-                            switch (name) {
-                                case MAPPING_BUILD_WALL:
-                                    break;
-                                case MAPPING_BUILD_TOWER:
-                                    if (building instanceof Tower)
-                                        ((Tower) building).putCore(new Essence(1, 5, 1, 1, 0));
-                                    break;
-                                case MAPPING_BUILD_PORTAL:
-                                    break;
-                                case MAPPING_BUILD_FORTRESS:
-                                    if (building instanceof Fortress)
-                                        building.setHealth(100);
-                                    break;
-                            }
-                        }
-                        currentMap = "";
-                    }
+                    onUnpress(name, tpf);
                 }
 
             }
         }
     }
 
-    private class PreBuildControl extends AbstractControl {
-        CollisionResults results;
+    private void onPress(String name, float tpf) {
+        if (currentMap.isEmpty() || currentMap.equals(name)) {
+            currentMap = name;
 
-        @Override
-        protected void controlUpdate(float tpf) {
-            results = rayCasting();
-            if (results.size() > 0) {
-                Cell cell = getCell(results);
-                Field field = cell.getField();
+            wireframe = new Wireframe(getBoxSize(name));
 
-                if (getSpatial().getUserData("entity") instanceof Wireframe) {
-                    Wireframe wireframe = getSpatial().getUserData("entity");
-                    wireframe.setX(cell.getX());
-                    wireframe.setY(cell.getY());
-                    wireframe.setCanBuild(field.enoughPlaceFor(cell, wireframe));
+            wireframe.getGeometry().addControl(new PreBuildControl());
+
+            wireframe.setX(cell.getX());
+            wireframe.setY(cell.getY());
+            field.removeAll(Wireframe.class);
+            field.addObject(wireframe);
+        }
+    }
+
+    private void onUnpress(String name, float tpf) {
+        if (currentMap.equals(name) && field != null) {
+            field.removeAll(Wireframe.class);
+            Building building = choiceBuilding(name);
+            if (field.enoughPlaceFor(cell, building)) {
+                cell.build(building);
+                switch (name) {
+                    case MAPPING_BUILD_WALL:
+                        break;
+                    case MAPPING_BUILD_TOWER:
+                        if (building instanceof Tower)
+                            ((Tower) building).putCore(new Essence(1, 5, 1, 1, 0));
+                        break;
+                    case MAPPING_BUILD_PORTAL:
+                        break;
+                    case MAPPING_BUILD_FORTRESS:
+                        if (building instanceof Fortress)
+                            building.setHealth(100);
+                        break;
                 }
             }
+            currentMap = "";
         }
 
-        @Override
-        protected void controlRender(RenderManager rm, ViewPort vp) {
+    }
+}
 
+
+class PreBuildControl extends AbstractControl {
+    CollisionResults results;
+
+    @Override
+    protected void controlUpdate(float tpf) {
+        results = rayCasting();
+        if (results.size() > 0) {
+            Cell cell = getCell(results);
+            Field field = cell.getField();
+
+            if (getSpatial().getUserData("entity") instanceof Wireframe) {
+                Wireframe wireframe = getSpatial().getUserData("entity");
+                wireframe.setX(cell.getX());
+                wireframe.setY(cell.getY());
+                wireframe.setCanBuild(field.enoughPlaceFor(cell, wireframe));
+            }
         }
+    }
+
+    @Override
+    protected void controlRender(RenderManager rm, ViewPort vp) {
+
     }
 }
