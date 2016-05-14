@@ -4,7 +4,7 @@ import io.github.sevjet.essensedefence.util.BoxSize;
 
 public class Wall extends BuyableBuilding {
 
-    private static final BoxSize SIZE = new BoxSize(1, 1, 2);
+    public static final BoxSize SIZE = new BoxSize(1, 1, 2);
 
     public Wall() {
         super(SIZE, -1f, 0f);

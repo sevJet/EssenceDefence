@@ -1,4 +1,4 @@
-package io.github.sevjet.essensedefence.util.listeners;
+package io.github.sevjet.essensedefence.listener;
 
 
 import com.jme3.collision.CollisionResults;
@@ -6,9 +6,9 @@ import com.jme3.input.controls.AnalogListener;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
 
-import static io.github.sevjet.essensedefence.util.listeners.MappingsAndTriggers.*;
+import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
 
-public class ListenerForCell implements AnalogListener {
+public class CellListener implements AnalogListener {
 
     @Override
     public void onAnalog(String name, float value, float tpf) {

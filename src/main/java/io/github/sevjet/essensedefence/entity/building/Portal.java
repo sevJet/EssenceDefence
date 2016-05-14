@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Portal extends Building {
 
-    private static final BoxSize SIZE = new BoxSize(1, 2, 3);
+    public static final BoxSize SIZE = new BoxSize(1, 2, 3);
 
     private ArrayList<WaveControl> waves = new ArrayList<>();
     private int pushIndex = 0;

@@ -58,7 +58,7 @@ public class Field extends Node {
 //        this.cells = cells;
 //        for (Cell[] row : cells) {
 //            for (Cell cell : row) {
-//                if (cell.getBuilding() != null) {
+//                if (cell.isOccupied()) {
 //                    build(cell.getBuilding());
 //                }
 //                cell.updater();
@@ -83,7 +83,7 @@ public class Field extends Node {
             passable[i] = new int[getCols()];
             for (int j = 0; j < getCols(); j++) {
                 passable[i][j] = (cells[i][j].isPassable() &&
-                        (cells[i][j].getBuilding() == null ||
+                        (!cells[i][j].isOccupied() ||
                                 cells[i][j].getBuilding() instanceof Fortress) ||
                         cells[i][j].getBuilding() instanceof Portal) ? 0 : -1;
             }
@@ -151,12 +151,21 @@ public class Field extends Node {
         return false;
     }
 
+    public boolean removeAll(Class<? extends Entity> clazz) {
+        Node node = objects.get(clazz);
+        if (node != null) {
+            node.detachAllChildren();
+            return true;
+        }
+        return false;
+    }
+
     public boolean enoughPlaceFor(Cell cell, Building building) {
         for (int i = cell.getX(); i < cell.getX() + building.getSize().getWidth(); i++) {
             for (int j = cell.getY(); j < cell.getY() + building.getSize().getHeight(); j++) {
                 if (i >= cells.length ||
                         j >= cells[i].length ||
-                        cells[i][j].getBuilding() != null)
+                        cells[i][j].isOccupied())
                     return false;
             }
         }

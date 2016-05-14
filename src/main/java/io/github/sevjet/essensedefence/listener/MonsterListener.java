@@ -1,4 +1,4 @@
-package io.github.sevjet.essensedefence.util.listeners;
+package io.github.sevjet.essensedefence.listener;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
@@ -10,9 +10,9 @@ import io.github.sevjet.essensedefence.field.Field;
 
 import java.util.ArrayList;
 
-import static io.github.sevjet.essensedefence.util.listeners.MappingsAndTriggers.*;
+import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
 
-public class ListenerForMonsters implements ActionListener {
+public class MonsterListener implements ActionListener {
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals(MAPPING_SPAWN_MONSTER) ||
@@ -32,7 +32,7 @@ public class ListenerForMonsters implements ActionListener {
                                     new Monster(cell.getX(), cell.getY(), 3, 10, 10));
                             break;
                         case MAPPING_SPAWN_WAVE:
-                            if (cell.getBuilding() != null && cell.getBuilding() instanceof Portal) {
+                            if (cell.isOccupied() && cell.getBuilding() instanceof Portal) {
                                 Portal portal = (Portal) cell.getBuilding();
                                 ArrayList<Monster> monsters = new ArrayList<>();
                                 for (int i = 0; i < 10; i++) {

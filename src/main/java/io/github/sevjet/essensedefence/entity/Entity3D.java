@@ -12,7 +12,7 @@ public abstract class Entity3D extends Entity {
     }
 
     public Entity3D(int x, int y) {
-        this(x, y, new BoxSize(1, 1, 0));
+        this(x, y, BoxSize.FLAT);
     }
 
     public Entity3D(BoxSize size) {

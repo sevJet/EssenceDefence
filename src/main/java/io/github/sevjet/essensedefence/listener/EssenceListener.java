@@ -1,4 +1,4 @@
-package io.github.sevjet.essensedefence.util.listeners;
+package io.github.sevjet.essensedefence.listener;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
@@ -8,9 +8,9 @@ import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.Configuration;
 
-import static io.github.sevjet.essensedefence.util.listeners.MappingsAndTriggers.*;
+import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
 
-public class ListenerForEssence implements ActionListener {
+public class EssenceListener implements ActionListener {
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals(MAPPING_BUY_ESSENCE) ||
@@ -28,14 +28,14 @@ public class ListenerForEssence implements ActionListener {
                 if (field != null) {
                     switch (name) {
                         case MAPPING_EXTRACTION_ESSENCE:
-                            if (cell.getBuilding() != null && cell.getBuilding() instanceof Tower &&
+                            if (cell.isOccupied() && cell.getBuilding() instanceof Tower &&
                                     ((Tower) cell.getBuilding()).getCore() != null) {
                                 Configuration.getGamer().getExtractedEssences().add(((Tower) cell.getBuilding()).getCore());
                                 ((Tower) cell.getBuilding()).extractionCore();
                             }
                             break;
                         case MAPPING_BUY_ESSENCE:
-                            if (cell.getBuilding() != null && cell.getBuilding() instanceof Tower &&
+                            if (cell.isOccupied() && cell.getBuilding() instanceof Tower &&
                                     ((Tower) cell.getBuilding()).getCore() == null) {
                                 Essence essence = Essence.buy();
                                 if (essence != null) {
@@ -44,14 +44,14 @@ public class ListenerForEssence implements ActionListener {
                             }
                             break;
                         case MAPPING_PUT_EXTRACTED_ESSENCE:
-                            if (cell.getBuilding() != null && cell.getBuilding() instanceof Tower &&
+                            if (cell.isOccupied() && cell.getBuilding() instanceof Tower &&
                                     Configuration.getGamer().getExtractedEssences().size() != 0) {
                                 ((Tower) cell.getBuilding()).putCore(Configuration.getGamer().getExtractedEssences().get(0));
                                 Configuration.getGamer().getExtractedEssences().remove(0);
                             }
                             break;
                         case MAPPING_SELL_ESSENCE:
-                            if (cell.getBuilding() != null && cell.getBuilding() instanceof Tower &&
+                            if (cell.isOccupied() && cell.getBuilding() instanceof Tower &&
                                     ((Tower) cell.getBuilding()).getCore() != null) {
                                 Essence.sell((Tower) cell.getBuilding());
                             }

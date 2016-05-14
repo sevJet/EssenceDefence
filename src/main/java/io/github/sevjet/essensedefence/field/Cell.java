@@ -41,6 +41,10 @@ public class Cell extends Entity {
         updater();
     }
 
+    public boolean isOccupied() {
+        return occupiedBy != null;
+    }
+
     public boolean build(Building building) {
         Field field = getField();
         if (field != null) {

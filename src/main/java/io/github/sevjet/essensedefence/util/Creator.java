@@ -107,6 +107,26 @@ public final class Creator {
         return myLine(start, end, ColorRGBA.White, 1f);
     }
 
+    public static Geometry myWireframe(BoxSize size, String name) {
+        return myWireframe(size, name, ColorRGBA.Gray);
+    }
+
+    public static Geometry myWireframe(BoxSize size, String name, ColorRGBA color) {
+        Geometry geometry = myBox(size, name, color);
+
+        geometry.getMaterial().getAdditionalRenderState().setWireframe(true);
+        geometry.getMesh().setLineWidth(5f);
+        return geometry;
+    }
+
+    public static Geometry myBox(BoxSize size, String name) {
+        return Creator.myBox(size, name, ColorRGBA.Yellow);
+    }
+
+    public static Geometry myBox(BoxSize size, String name, ColorRGBA color) {
+        return Creator.myBox(size.getWidth() / 2f, size.getHeight() / 2f, size.getDepth() / 2f, name, color);
+    }
+
     public static Geometry myBox(float x, float y) {
         return Creator.myBox(x, y, 0, "box", Vector3f.ZERO, ColorRGBA.Black);
     }

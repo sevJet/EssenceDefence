@@ -23,7 +23,7 @@ import java.util.List;
 
 public class Tower extends BuyableBuilding {
 
-    private static final BoxSize SIZE = new BoxSize(2, 2, 3);
+    public static final BoxSize SIZE = new BoxSize(2, 2, 3);
     private BasicControl control = new TowerControl();
 
     private Essence core;

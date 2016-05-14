@@ -1,6 +1,7 @@
-package io.github.sevjet.essensedefence.util.listeners;
+package io.github.sevjet.essensedefence.listener;
 
 import com.jme3.collision.CollisionResults;
+import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.KeyTrigger;
@@ -13,16 +14,13 @@ import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Getter;
 
-public final class MappingsAndTriggers {
+public final class ListenerManager {
 
     public final static Trigger TRIGGER_MAKE_PASSABLE =
             new KeyTrigger(KeyInput.KEY_E);
     public final static Trigger TRIGGER_RESET =
             new KeyTrigger(KeyInput.KEY_R);
-    public final static Trigger TRIGGER_ROTATE =
-            //           new KeyTrigger(KeyInput.KEY_T);
-            new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
-    //TODO change
+    //  TODO change
     public final static Trigger TRIGGER_BUILD_WALL =
             new KeyTrigger(KeyInput.KEY_1);
     public final static Trigger TRIGGER_BUILD_TOWER =
@@ -56,6 +54,42 @@ public final class MappingsAndTriggers {
     public final static String MAPPING_EXTRACTION_ESSENCE = "Extraction essence";
     public final static String MAPPING_PUT_EXTRACTED_ESSENCE = "Put extracted essence";
     public final static String MAPPING_SELL_ESSENCE = "Sell essence";
+
+    public static void registerListener() {
+        InputManager inputManager = Configuration.getInputManager();
+        inputManager.addMapping(MAPPING_MAKE_PASSABLE, TRIGGER_MAKE_PASSABLE);
+        inputManager.addMapping(MAPPING_RESET, TRIGGER_RESET);
+        inputManager.addMapping(MAPPING_BUILD_WALL, TRIGGER_BUILD_WALL);
+        inputManager.addMapping(MAPPING_BUILD_TOWER, TRIGGER_BUILD_TOWER);
+        inputManager.addMapping(MAPPING_BUILD_PORTAL, TRIGGER_BUILD_PORTAL);
+        inputManager.addMapping(MAPPING_BUILD_FORTRESS, TRIGGER_BUILD_FORTRESS);
+        inputManager.addMapping(MAPPING_SPAWN_MONSTER, TRIGGER_SPAWN_MONSTER);
+        inputManager.addMapping(MAPPING_SPAWN_WAVE, TRIGGER_SPAWN_WAVE);
+        inputManager.addMapping(MAPPING_EXTRACTION_ESSENCE, TRIGGER_EXTRACTION_ESSENCE);
+        inputManager.addMapping(MAPPING_BUY_ESSENCE, TRIGGER_BUY_ESSENCE);
+        inputManager.addMapping(MAPPING_PUT_EXTRACTED_ESSENCE, TRIGGER_PUT_EXTRACTED_ESSENCE);
+        inputManager.addMapping(MAPPING_SELL_ESSENCE, TRIGGER_SELL_ESSENCE);
+
+        inputManager.addListener(new CellListener(),
+                MAPPING_MAKE_PASSABLE,
+                MAPPING_RESET);
+
+        inputManager.addListener(new BuildingListener(),
+                MAPPING_BUILD_WALL,
+                MAPPING_BUILD_TOWER,
+                MAPPING_BUILD_PORTAL,
+                MAPPING_BUILD_FORTRESS);
+
+        inputManager.addListener(new MonsterListener(),
+                MAPPING_SPAWN_MONSTER,
+                MAPPING_SPAWN_WAVE);
+
+        inputManager.addListener(new EssenceListener(),
+                MAPPING_BUY_ESSENCE,
+                MAPPING_SELL_ESSENCE,
+                MAPPING_EXTRACTION_ESSENCE,
+                MAPPING_PUT_EXTRACTED_ESSENCE);
+    }
 
     static CollisionResults rayCasting() {
         CollisionResults results = new CollisionResults();
