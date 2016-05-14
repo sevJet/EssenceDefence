@@ -14,6 +14,7 @@ import com.jme3.scene.Spatial;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.util.Configuration;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -86,6 +87,7 @@ public class MonsterControl extends BasicControl {
                 if (motionControl.getPath().getNbWayPoints() == wayPointIndex + 1) {
                     fortress.hit(monster.getDamage());
                     monster.die();
+//                    path.disableDebugShape();
                 }
                 Vector3f curWayPoint = motionControl.getPath().getWayPoint(motionControl.getCurrentWayPoint());
                 monster.setX(Math.round(curWayPoint.getX()));
@@ -93,12 +95,13 @@ public class MonsterControl extends BasicControl {
             }
         });
         path.setPathSplineType(Spline.SplineType.Linear);
+//        path.enableDebugShape(Configuration.getAssetManager(), ((Monster)getSpatial().getUserData("entity")).getField());
 
         event.setSpatial(spatial);
         event.setPath(path);
         event.setInitialDuration(path.getNbWayPoints());
         event.setSpeed(1);
-        event.setDirectionType(MotionEvent.Direction.Path);
+        event.setDirectionType(MotionEvent.Direction.PathAndRotation);
 
         spatial.addControl(event);
 
