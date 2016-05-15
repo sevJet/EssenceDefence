@@ -4,16 +4,15 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
-import io.github.sevjet.essensedefence.control.ITextual;
-import io.github.sevjet.essensedefence.entity.Essence;
+import io.github.sevjet.essensedefence.gui.ITextual;
+import io.github.sevjet.essensedefence.gui.Inventory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Gamer implements ITextual {
 
+    protected final Inventory inventory = new Inventory(10, 3);
     protected float gold = 0;
-    protected ArrayList<Essence> extractedEssences = new ArrayList();
 
     public Gamer() {
         this(0);
@@ -32,15 +31,15 @@ public class Gamer implements ITextual {
         this.gold = gold;
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
+
     public boolean decGold(float gold) {
         if (this.gold - gold < 0)
             return false;
         this.gold -= gold;
         return true;
-    }
-
-    public ArrayList<Essence> getExtractedEssences() {
-        return extractedEssences;
     }
 
     public float incGold(float gold) {

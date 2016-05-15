@@ -1,4 +1,4 @@
-package io.github.sevjet.essensedefence.control;
+package io.github.sevjet.essensedefence.gui;
 
 
 import com.jme3.export.*;

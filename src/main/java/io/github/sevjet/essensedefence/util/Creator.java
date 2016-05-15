@@ -23,7 +23,7 @@ public final class Creator {
         for (int i = 0; i < rowLen; i++) {
             geom = myLine(
                     new Vector3f(i * lineDist, 0, 0),
-                    new Vector3f(i * lineDist, rowLen - 1, 0),
+                    new Vector3f(i * lineDist, colLen - 1, 0),
                     clr,
                     lineWidth
             );
@@ -33,7 +33,7 @@ public final class Creator {
         for (int i = 0; i < colLen; i++) {
             geom = myLine(
                     new Vector3f(0, i * lineDist, 0),
-                    new Vector3f(colLen - 1, i * lineDist, 0),
+                    new Vector3f(rowLen - 1, i * lineDist, 0),
                     clr,
                     lineWidth
             );

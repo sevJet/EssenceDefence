@@ -42,6 +42,14 @@ public class Essence extends Entity3D implements IBuyable {
         Configuration.getGamer().incGold(10);
     }
 
+    public float sell() {
+        if (geometry.getParent() != null) {
+            geometry.getParent().detachChild(geometry);
+        }
+        Configuration.getGamer().incGold(price);
+        return price;
+    }
+
     public float getDamage() {
         return damage;
     }

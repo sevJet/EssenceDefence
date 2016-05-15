@@ -7,10 +7,12 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.math.Ray;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.GamePlayAppState;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Getter;
+
 
 public final class ListenerManager {
 
@@ -101,6 +103,14 @@ public final class ListenerManager {
 //                System.out.println(i.getGeometry().getName());
 //            }
 //        }
+        return results;
+    }
+
+    static CollisionResults rayCasting(Node with) {
+        CollisionResults results = new CollisionResults();
+        Ray ray = new Ray(Configuration.getCam().getLocation(), Configuration.getCam().getDirection());
+        //TODO fix building
+        with.collideWith(ray, results);
         return results;
     }
 

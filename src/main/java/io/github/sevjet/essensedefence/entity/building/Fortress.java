@@ -1,7 +1,7 @@
 package io.github.sevjet.essensedefence.entity.building;
 
-import io.github.sevjet.essensedefence.control.ITextual;
 import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.gui.ITextual;
 import io.github.sevjet.essensedefence.util.BoxSize;
 
 
