@@ -4,6 +4,7 @@ import com.jme3.export.*;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.gui.Inventory;
 import io.github.sevjet.essensedefence.util.GeometryManager;
 
 import java.io.IOException;
@@ -97,9 +98,13 @@ public abstract class Entity implements Savable {
     public Field getField() {
         if (geometry != null &&
                 geometry.getParent() != null &&
-                geometry.getParent().getParent() != null &&
-                geometry.getParent().getParent() instanceof Field) {
-            return (Field) geometry.getParent().getParent();
+                geometry.getParent().getParent() != null){
+            if (geometry.getParent().getParent() instanceof Field) {
+                return (Field) geometry.getParent().getParent();
+            }
+//            if (geometry.getParent().getParent() instanceof Inventory){
+//                return (Inventory) geometry.getParent().getParent();
+//            }
         }
         return null;
     }

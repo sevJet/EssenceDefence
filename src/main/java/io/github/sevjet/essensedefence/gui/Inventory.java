@@ -122,7 +122,6 @@ public class Inventory extends Node {
 
     protected void placeEssence(int num) {
         Essence essence = essencesList.get(num);
-        attachChild(essence.getGeometry());
         essence.getGeometry().setLocalTranslation(getCell(num).getCenter());
     }
 
