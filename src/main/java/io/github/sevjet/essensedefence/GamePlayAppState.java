@@ -3,7 +3,9 @@ package io.github.sevjet.essensedefence;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
@@ -46,7 +48,12 @@ public class GamePlayAppState extends AbstractAppState {
         GeometryManager.setDefault(Fortress.class, myBox(3 / 2f, 3 / 2f, 2f, "fortress", ColorRGBA.Gray));
         GeometryManager.setDefault(Portal.class, myBox(1f, 1 / 2f, 1.5f, "portal", ColorRGBA.Magenta));
         GeometryManager.setDefault(Monster.class, myBox(1 / 3f, 1 / 3f, 1 / 2f, "monster", ColorRGBA.Yellow));
-        GeometryManager.setDefault(Essence.class, mySphere(1 / 2f, "essence", ColorRGBA.randomColor()));
+        GeometryManager.setDefault(Essence.class, myShinySphere(1 / 2f, "essence", ColorRGBA.randomColor()));
+
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(new Vector3f(1, 0, -2).normalizeLocal());
+        sun.setColor(ColorRGBA.White);
+        Configuration.getRootNode().addLight(sun);
     }
 
     @Override

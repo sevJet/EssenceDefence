@@ -10,6 +10,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
 import com.jme3.scene.shape.Sphere;
+import com.jme3.util.TangentBinormalGenerator;
 
 public final class Creator {
     private Creator() {
@@ -167,6 +168,26 @@ public final class Creator {
         mat.setColor("Color", color);
         geom.setMaterial(mat);
         geom.setLocalTranslation(loc);
+        return geom;
+    }
+
+    public static Geometry myShinySphere(float radius, String name, ColorRGBA color) {
+        Sphere sphereMesh = new Sphere(32, 32, radius, true, false);
+        Geometry geom = new Geometry(name, sphereMesh);
+
+        sphereMesh.setTextureMode(Sphere.TextureMode.Projected);
+        TangentBinormalGenerator.generate(sphereMesh);
+
+        Material sphereMat = new Material(Configuration.getAssetManager(),
+                "Common/MatDefs/Light/Lighting.j3md");
+        sphereMat.setBoolean("UseMaterialColors", true);
+        sphereMat.setColor("Diffuse", color);
+        sphereMat.setColor("Specular", ColorRGBA.White);
+        sphereMat.setFloat("Shininess", 64f);   // [0,128]
+
+        geom.setMaterial(sphereMat);
+//        geom.rotate(1.6f, 0, 0);
+
         return geom;
     }
 
