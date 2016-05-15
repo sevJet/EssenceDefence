@@ -1,5 +1,6 @@
 package io.github.sevjet.essensedefence.entity;
 
+import com.jme3.math.ColorRGBA;
 import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.util.BoxSize;
 import io.github.sevjet.essensedefence.util.Configuration;
@@ -17,6 +18,9 @@ public class Essence extends Entity3D implements IBuyable {
 
     public Essence() {
         super(SIZE);
+
+        // TODO: 15/05/2016 delete when release
+        geometry.getMaterial().setColor("Diffuse", ColorRGBA.randomColor());
     }
 
     public Essence(float damage, float range, float speed, int level, float price) {
@@ -27,12 +31,16 @@ public class Essence extends Entity3D implements IBuyable {
         this.speed = speed;
         this.level = level;
         this.price = price;
+
+        // TODO: 15/05/2016 delete when release
+        geometry.getMaterial().setColor("Diffuse", ColorRGBA.randomColor());
     }
 
     public static Essence buy() {
         if (Configuration.getGamer().getGold() >= 10) {
             Configuration.getGamer().decGold(10);
-            return new Essence(1, 5, 1, 1, 0);
+            Essence essence = new Essence(1, 5, 1, 1, 0);
+            return essence;
         }
         return null;
     }
