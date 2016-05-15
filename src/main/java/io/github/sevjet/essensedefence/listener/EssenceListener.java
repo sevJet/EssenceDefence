@@ -162,8 +162,10 @@ public class EssenceListener implements ActionListener {
             return;
         results = rayCasting();
         isPlaced = placeOnResults(results);
-        if (!isPlaced && bufEssence != null)
+        if (!isPlaced && bufEssence != null){
             bufEssence.sell();
+            bufEssence = null;
+        }
     }
 
     private void putEssence() {
