@@ -22,6 +22,7 @@ public class EssenceListener implements ActionListener {
 
     private CollisionResults results;
     private Inventory inventory;
+
     protected void onPress(String name, float tpf) {
 
     }
@@ -30,18 +31,20 @@ public class EssenceListener implements ActionListener {
     protected void onUnpress(String name, float tpf) {
         switch (name) {
             case MAPPING_BUY_ESSENCE:
-                buyEssence();
+                if (bufEssence == null)
+                    buyEssence();
                 break;
             case MAPPING_SELL_ESSENCE:
-                sellEssence();
+                if (bufEssence == null)
+                    sellEssence();
                 break;
             case MAPPING_EXTRACTION_ESSENCE:
-                extractionEssence();
+                if (bufEssence == null)
+                    extractionEssence();
                 break;
             case MAPPING_PUT_EXTRACTED_ESSENCE:
-                if (bufEssence == null)
-                    break;
-                putEssence();
+                if (bufEssence != null)
+                    putEssence();
                 break;
         }
     }
@@ -62,7 +65,8 @@ public class EssenceListener implements ActionListener {
             results = rayCasting();
         }
     }
-//====================================== sell and extract =============================================================
+
+    //====================================== sell and extract =============================================================
     private void sellEssence() {
         results = rayCasting(Configuration.getGamer().getInventory().getObjects(Cell.class));
         Essence essence = extractFromResults(results);
@@ -145,7 +149,8 @@ public class EssenceListener implements ActionListener {
 
         return essence;
     }
-//====================================================== buy and put ===================================================
+
+    //====================================================== buy and put ===================================================
     private void buyEssence() {
         CollisionResults results;
         bufEssence = Essence.buy();
