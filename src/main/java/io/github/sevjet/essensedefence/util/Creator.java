@@ -5,6 +5,7 @@ import com.jme3.font.BitmapText;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
@@ -259,12 +260,32 @@ public final class Creator {
 //        helloText.setName(name);
         helloText.setSize(guiFont.getCharSet().getRenderedSize());
         helloText.setText(text);
+//        helloText.setQueueBucket(RenderQueue.Bucket.Transparent);
+//        helloText.setQueueBucket(RenderQueue.Bucket.Gui);
 
         helloText.setColor(clr);
         helloText.setLocalTranslation(x, y, 0);
 
         if (attached)
             Configuration.getGuiNode().attachChild(helloText);
+        return helloText;
+    }
+
+
+    public static BitmapText text3D(String text) {
+        return text3D(text, ColorRGBA.White);
+    }
+
+    public static BitmapText text3D(String text, ColorRGBA clr) {
+        BitmapFont guiFont;
+        guiFont = Configuration.getAssetManager().loadFont("interface/fonts/arial.fnt");
+        BitmapText helloText = new BitmapText(guiFont, false);
+        helloText.setText(text);
+        helloText.setSize(1.0f);
+        helloText.setQueueBucket(RenderQueue.Bucket.Transparent);
+
+        helloText.setColor(clr);
+
         return helloText;
     }
 }

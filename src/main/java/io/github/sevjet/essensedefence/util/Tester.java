@@ -3,8 +3,11 @@ package io.github.sevjet.essensedefence.util;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.font.BitmapText;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.Gamer;
@@ -72,13 +75,15 @@ public final class Tester {
                         "P - Put extracted Essence\n" +
                         "M - Sell Essence";
         BitmapText helloText = Creator.text(text);
-
+        helloText.setSize(helloText.getSize() / 5f);
+        helloText.setQueueBucket(RenderQueue.Bucket.Transparent);
+        helloText.setColor(ColorRGBA.Black);
 //        helloText.setAlpha(0.5f);
 //        helloText.setColor(ColorRGBA.Gray);
 //        helloText.setLocalTranslation(300, Configuration.getSettings().getHeight() - helloText.getLineHeight(), 0);
 //        Configuration.getGuiNode().attachChild(helloText);
 
-        helloText.setLocalTranslation(-50, 100, -100);
+        helloText.setLocalTranslation(10, 110, -70);
         Configuration.getRootNode().attachChild(helloText);
     }
 
@@ -153,6 +158,7 @@ public final class Tester {
 
         public static Field testSerialization() {
             field = new Field(50, 50);
+            field.rotate(-90 * FastMath.DEG_TO_RAD, 0, 0);
             field.setLocalTranslation(5, 10, 1);
 
             field.build(1, 1, new Wall());

@@ -8,14 +8,18 @@ import io.github.sevjet.essensedefence.control.BasicControl;
 import io.github.sevjet.essensedefence.control.MonsterControl;
 import io.github.sevjet.essensedefence.entity.Entity3D;
 import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.gui.ITextual;
+import io.github.sevjet.essensedefence.gui.Text3dControl;
 import io.github.sevjet.essensedefence.util.BoxSize;
 import io.github.sevjet.essensedefence.util.Configuration;
 
 import java.io.IOException;
 
-public class Monster extends Entity3D {
+public class Monster extends Entity3D implements ITextual {
 
     private static final BoxSize SIZE = new BoxSize(1, 1, 1);
+    // FIXME: 16/05/2016
+    boolean f = false;
     private BasicControl control = new MonsterControl();
     private float health = 0f;
     private float speed = 0f;
@@ -131,4 +135,25 @@ public class Monster extends Entity3D {
         exp = capsule.readFloat("exp", 1f);
         money = capsule.readFloat("money", 10f);
     }
+
+    @Override
+    public String outputValue() {
+        return Float.toString(health);
+    }
+
+    @Override
+    public boolean isEnded() {
+        return health <= 0 || geometry == null || geometry.getParent() == null;
+    }
+
+    @Override
+    protected boolean updater() {
+        // TODO: 16/05/2016 create method spawn
+        if (super.updater() && !f && geometry != null && geometry.getParent() != null) {
+            new Text3dControl(this, "XP:");
+            f = true;
+        }
+        return true;
+    }
 }
+

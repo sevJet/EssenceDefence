@@ -1,7 +1,6 @@
 package io.github.sevjet.essensedefence.gui;
 
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.Essence;
@@ -47,10 +46,10 @@ public class Inventory extends Node {
         gridOn();
         Configuration.getRootNode().attachChild(this);
         this.setLocalTranslation(65f, 12f, 1f);
-        this.rotate(
-                FastMath.DEG_TO_RAD,
-                180 * FastMath.DEG_TO_RAD,
-                90 * FastMath.DEG_TO_RAD);
+//        this.rotate(
+//                FastMath.DEG_TO_RAD,
+//                180 * FastMath.DEG_TO_RAD,
+//                90 * FastMath.DEG_TO_RAD);
         this.scale(5);
     }
 
@@ -153,7 +152,7 @@ public class Inventory extends Node {
         }
         if (node.hasChild(object.getGeometry())) {
             node.detachChild(object.getGeometry());
-            System.out.println("   -_="+essencesList.indexOf(object));
+            System.out.println("   -_=" + essencesList.indexOf(object));
             essencesList.set(essencesList.indexOf(object), null);
             return true;
         }

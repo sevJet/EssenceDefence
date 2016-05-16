@@ -5,6 +5,7 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Essence;
@@ -69,6 +70,11 @@ public class GamePlayAppState extends AbstractAppState {
 //        Configuration.getRootNode().attachChild(field);
 
         field = testSerialization();
+        Configuration.getGamer().getInventory().rotate(
+                -90 * FastMath.DEG_TO_RAD,
+                +90 * FastMath.DEG_TO_RAD,
+                000 * FastMath.DEG_TO_RAD
+        );
 //        guiNode.attachChild(Configuration.getRootNode());
 //        Configuration.getRootNode().scale(30);
     }
