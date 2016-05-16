@@ -11,6 +11,7 @@ import com.jme3.math.Spline;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.Control;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Field;
@@ -24,7 +25,7 @@ public class MonsterControl extends BasicControl {
     private Monster monster = null;
     private Fortress fortress = null;
     private MotionPath path = null;
-    private MotionEvent event = new MotionEvent();
+    private MotionEvent event = null;
     private long delayTill = 0L;
 
     @Override
@@ -35,8 +36,6 @@ public class MonsterControl extends BasicControl {
         } else {
             throw new IllegalArgumentException("Not a Monster spatial");
         }
-
-        event.setSpatial(spatial);
     }
 
     @Override
@@ -46,6 +45,13 @@ public class MonsterControl extends BasicControl {
         }
         if (fortress == null || fortress.isEnded()) {
             findFortress();
+            if (event != null) {
+                event.stop();
+                spatial.removeControl(MotionEvent.class);
+                event = null;
+            }
+            path = null;
+            entity.setZ(0);
         }
         if (fortress != null) {
             if (path == null || path.getNbWayPoints() == 0) {
@@ -61,6 +67,7 @@ public class MonsterControl extends BasicControl {
     }
 
     private void findFortress() {
+        fortress = null;
         Field field = entity.getField();
         if (field != null) {
             Node fortressNode = field.getObjects(Fortress.class);
@@ -86,7 +93,6 @@ public class MonsterControl extends BasicControl {
                 if (motionControl.getPath().getNbWayPoints() == wayPointIndex + 1) {
                     fortress.hit(monster.getDamage());
                     monster.die();
-//                    path.disableDebugShape();
                 }
                 Vector3f curWayPoint = motionControl.getPath().getWayPoint(motionControl.getCurrentWayPoint());
                 monster.setX(Math.round(curWayPoint.getX()));
@@ -94,15 +100,11 @@ public class MonsterControl extends BasicControl {
             }
         });
         path.setPathSplineType(Spline.SplineType.Linear);
-//        path.enableDebugShape(Configuration.getAssetManager(), ((Monster)getSpatial().getUserData("entity")).getField());
 
-        event.setSpatial(spatial);
-        event.setPath(path);
+        event = new MotionEvent(spatial, path);
         event.setInitialDuration(path.getNbWayPoints());
         event.setSpeed(1);
         event.setDirectionType(MotionEvent.Direction.PathAndRotation);
-
-        spatial.addControl(event);
 
         event.play();
     }
@@ -126,19 +128,19 @@ public class MonsterControl extends BasicControl {
                 isFound = true;
                 continue;
             }
-            if (passable[x + 1][y] == 0) {
+            if ((x + 1 < cols) && passable[x + 1][y] == 0) {
                 passable[x + 1][y] = curVer + 1;
                 queue.add((x + 1) * cols + y);
             }
-            if (passable[x - 1][y] == 0) {
+            if ((x - 1 >= 0) && passable[x - 1][y] == 0) {
                 passable[x - 1][y] = curVer + 1;
                 queue.add((x - 1) * cols + y);
             }
-            if (passable[x][y + 1] == 0) {
+            if ((y + 1 < rows) && passable[x][y + 1] == 0) {
                 passable[x][y + 1] = curVer + 1;
                 queue.add(x * cols + (y + 1));
             }
-            if (passable[x][y - 1] == 0) {
+            if ((y - 1 >= 0) && passable[x][y - 1] == 0) {
                 passable[x][y - 1] = curVer + 1;
                 queue.add(x * cols + (y - 1));
             }
