@@ -8,6 +8,11 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Entity;
+import io.github.sevjet.essensedefence.entity.building.Building;
+import io.github.sevjet.essensedefence.entity.building.Fortress;
+import io.github.sevjet.essensedefence.entity.building.Portal;
+import io.github.sevjet.essensedefence.entity.monster.Monster;
+import io.github.sevjet.essensedefence.gui.GuiControl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -87,9 +92,19 @@ public abstract class Field<T extends Cell> extends Node {
         }
         if (!node.hasChild(object.getGeometry())) {
             node.attachChild(object.getGeometry());
+            guiFor(object);
             return true;
         }
         return false;
+    }
+
+    private void guiFor(Entity object) {
+        if (object instanceof Fortress) {
+            this.addControl(new GuiControl(object, "XP:", 3f, 1f / 5f));
+        }
+        if (object instanceof Monster) {
+            this.addControl(new GuiControl(object, "xp:", 1f, 1f / 8f));
+        }
     }
 
     public boolean removeObject(final Entity object) {
