@@ -16,6 +16,7 @@ import io.github.sevjet.essensedefence.entity.building.Wall;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.field.MapCell;
 import io.github.sevjet.essensedefence.field.MapField;
 import io.github.sevjet.essensedefence.listener.ListenerManager;
 import io.github.sevjet.essensedefence.util.Configuration;
@@ -43,6 +44,7 @@ public class GamePlayAppState extends AbstractAppState {
         Creator.attachCenterMark();
 
         GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f, "cell", ColorRGBA.Black));
+        GeometryManager.setDefault(MapCell.class, GeometryManager.getDefault(Cell.class));
         GeometryManager.setDefault(Wall.class, myBox(1 / 2f, 1 / 2f, 1f, "wall", ColorRGBA.Cyan));
         GeometryManager.setDefault(Tower.class, myBox(1f, 1f, 1.5f, "tower", ColorRGBA.Green));
         GeometryManager.setDefault(Fortress.class, myBox(3 / 2f, 3 / 2f, 2f, "fortress", ColorRGBA.Gray));
