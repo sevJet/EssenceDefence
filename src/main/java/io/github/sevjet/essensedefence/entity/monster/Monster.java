@@ -8,6 +8,7 @@ import io.github.sevjet.essensedefence.control.BasicControl;
 import io.github.sevjet.essensedefence.control.MonsterControl;
 import io.github.sevjet.essensedefence.entity.Entity3D;
 import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.field.MapField;
 import io.github.sevjet.essensedefence.gui.ITextual;
 import io.github.sevjet.essensedefence.gui.Text3dControl;
 import io.github.sevjet.essensedefence.util.BoxSize;
@@ -85,6 +86,15 @@ public class Monster extends Entity3D implements ITextual {
     public void setMoney(float money) {
         this.money = money;
     }
+    
+    @Override
+    public MapField getField() {
+        Field field = super.getField();
+        if (field instanceof MapField) {
+            return (MapField) field;
+        }
+        return null;
+    }
 
     public double hit(float damage) {
         this.health -= damage;
@@ -147,9 +157,9 @@ public class Monster extends Entity3D implements ITextual {
     }
 
     @Override
-    protected boolean updater() {
+    protected boolean update() {
         // TODO: 16/05/2016 create method spawn
-        if (super.updater() && !f && geometry != null && geometry.getParent() != null) {
+        if (super.update() && !f && geometry != null && geometry.getParent() != null) {
             new Text3dControl(this, "XP:");
             f = true;
         }

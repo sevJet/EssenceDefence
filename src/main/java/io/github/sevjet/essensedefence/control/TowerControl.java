@@ -39,14 +39,14 @@ public class TowerControl extends BasicControl {
             ones = true;
         }
 
-
         Vector3f start, end;
         if (tower.isEmpty()) {
             return;
         }
         counter += tpf;
-        if (counter > 0.5 * tower.getCooldownTime())
+        if (counter > 0.5 * tower.getCooldownTime()) {
             beamNode.detachAllChildren();
+        }
 
         if (counter > tower.getCooldownTime()) {
             counter = 0;

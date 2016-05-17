@@ -121,8 +121,8 @@ public class EssenceListener implements ActionListener {
         Node fieldNode = cell.getGeometry().getParent().getParent();
 
         if (fieldNode instanceof Field) {
-            return cell.isOccupied() && cell.getBuilding() instanceof Tower &&
-                    ((Tower) cell.getBuilding()).getCore() != null;
+            return cell.hasContent() && cell.getContent() instanceof Tower &&
+                    ((Tower) cell.getContent()).getCore() != null;
         }
         if (fieldNode instanceof Inventory) {
             System.out.println("fieldNode instanceof Inventory");
@@ -138,7 +138,7 @@ public class EssenceListener implements ActionListener {
         Essence essence = null;
 
         if (fieldNode instanceof Field) {
-            Tower tower = (Tower) cell.getBuilding();
+            Tower tower = (Tower) cell.getContent();
             essence = tower.getCore();
             tower.extractionCore();
         }
@@ -206,9 +206,9 @@ public class EssenceListener implements ActionListener {
 
         Node fieldNode = cell.getGeometry().getParent().getParent();
         if (fieldNode instanceof Field)
-            return cell.isOccupied() &&
-                    cell.getBuilding() instanceof Tower &&
-                    ((Tower) cell.getBuilding()).isEmpty();
+            return cell.hasContent() &&
+                    cell.getContent() instanceof Tower &&
+                    ((Tower) cell.getContent()).isEmpty();
 
         if (fieldNode instanceof Inventory)
             return !inventory.isOccupied(cell);
@@ -221,7 +221,7 @@ public class EssenceListener implements ActionListener {
         Node fieldNode = cell.getGeometry().getParent().getParent();
 
         if (fieldNode instanceof Field) {
-            Tower tower = (Tower) cell.getBuilding();
+            Tower tower = (Tower) cell.getContent();
             tower.putCore(bufEssence);
             return true;
         }

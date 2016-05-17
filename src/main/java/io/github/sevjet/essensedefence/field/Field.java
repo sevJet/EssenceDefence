@@ -1,23 +1,24 @@
 package io.github.sevjet.essensedefence.field;
 
-import com.jme3.export.*;
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Entity;
-import io.github.sevjet.essensedefence.entity.building.Building;
-import io.github.sevjet.essensedefence.entity.building.Fortress;
-import io.github.sevjet.essensedefence.entity.building.Portal;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.github.sevjet.essensedefence.util.Creator.gridXY;
 
-public class Field extends Node {
+public abstract class Field<T extends Cell> extends Node {
 
-    protected Cell[][] cells;
+    protected ArrayList<T> cells;
     protected Map<Class<? extends Entity>, Node> objects;
     protected Node grid;
     private int rows;
@@ -27,21 +28,24 @@ public class Field extends Node {
     public Field() {
     }
 
-    public Field(int colNum, int rowNum) {
-        rows = rowNum;
-        cols = colNum;
+    public Field(final Class<T> clazz, final int cols, final int rows) {
+        this.rows = rows;
+        this.cols = cols;
         this.setName("field");
-        objects = new HashMap<>();
-        cells = new Cell[rowNum][];
-        for (int i = 0; i < rowNum; i++) {
-            cells[i] = new Cell[colNum];
-            for (int j = 0; j < colNum; j++) {
-                cells[i][j] = new Cell(i, j);
-                addObject(cells[i][j]);
-            }
+        this.objects = new HashMap<>();
+        final int len = cols * rows;
+        cells = new ArrayList<>(len);
+        for (int i = 0; i < len; i++) {
+            final int x = i % cols;
+            final int y = i / cols;
+            final T cell = newCell(x, y);
+            cells.add(cell);
+            addObject(cell);
         }
         gridOn();
     }
+
+    protected abstract T newCell(int x, int y);
 
     protected boolean gridOn() {
         // FIXME: 09/05/2016 lineWidth don't save
@@ -51,77 +55,30 @@ public class Field extends Node {
         return true;
     }
 
-//    public Field(Cell[][] cells) {
-//        this.setName("field");
-//        int rowNum = cells.length, colNum = cells[0].length;
-//        objects = new HashMap<>();
-//        this.cells = cells;
-//        for (Cell[] row : cells) {
-//            for (Cell cell : row) {
-//                if (cell.isOccupied()) {
-//                    build(cell.getBuilding());
-//                }
-//                cell.updater();
-//                addObject(cell);
-//            }
-//        }
-//        gridOn();
-//    }
-
-    public Cell getCell(int x, int y) {
-        if (x < cells.length) {
-            if (y < cells[x].length) {
-                return cells[x][y];
-            }
+    public T getCell(final int x, final int y) {
+        if (x < 0 || x >= cols || y < 0 || y >= rows) {
+            return null;
         }
-        return null;
+        final int index = y * cols + x;
+        return cells.get(index);
     }
 
-    public int[][] getPassable() {
-        int passable[][] = new int[getRows()][];
-        for (int i = 0; i < getRows(); i++) {
-            passable[i] = new int[getCols()];
-            for (int j = 0; j < getCols(); j++) {
-                passable[i][j] = (cells[i][j].isPassable() &&
-                        (!cells[i][j].isOccupied() ||
-                                cells[i][j].getBuilding() instanceof Fortress) ||
-                        cells[i][j].getBuilding() instanceof Portal) ? 0 : -1;
-            }
-        }
-        return passable;
-    }
-
-    public void build(int x, int y, Building building) {
-        for (int i = x; i < x + building.getSize().getWidth(); i++) {
-            for (int j = y; j < y + building.getSize().getHeight(); j++) {
-                cells[i][j].setBuilding(building);
-            }
-        }
-        building.setX(x);
-        building.setY(y);
-
-        addObject(building);
-    }
-
-    public void build(Building building) {
-        build(building.getX(), building.getY(), building);
-    }
-
-    public Node getObjects(Class<? extends Entity> clazz) {
+    public Node getObjects(final Class<? extends Entity> clazz) {
         return objects.get(clazz);
     }
 
-    public Cell getCell(Geometry geom) {
-        int x, y;
-        if (geom != null && geom.getParent().getParent() == this) {
-            x = (int) geom.getLocalTranslation().getX();
-            y = (int) geom.getLocalTranslation().getY();
+    public T getCell(final Geometry geom) {
+        if (geom != null &&
+                geom.getParent() != null &&
+                geom.getParent().getParent() == this) {
+            final int x = (int) geom.getLocalTranslation().getX();
+            final int y = (int) geom.getLocalTranslation().getY();
             return getCell(x, y);
         }
         return null;
     }
 
-    public boolean addObject(Entity object) {
+    public boolean addObject(final Entity object) {
         Node node = objects.get(object.getClass());
         if (node == null) {
             node = new Node();
@@ -135,24 +92,20 @@ public class Field extends Node {
         return false;
     }
 
-    public boolean removeObject(Entity object) {
+    public boolean removeObject(final Entity object) {
         Node node = objects.get(object.getClass());
         if (node == null) {
             return false;
         }
         if (node.hasChild(object.getGeometry())) {
-            if (object instanceof Building) {
-                detachFromCells((Building) object);
-//                ((Building) object).setHealth(-1);
-            }
             node.detachChild(object.getGeometry());
             return true;
         }
         return false;
     }
 
-    public boolean removeAll(Class<? extends Entity> clazz) {
-        Node node = objects.get(clazz);
+    public boolean removeAll(final Class<? extends Entity> clazz) {
+        final Node node = objects.get(clazz);
         if (node != null) {
             node.detachAllChildren();
             return true;
@@ -160,25 +113,12 @@ public class Field extends Node {
         return false;
     }
 
-    public boolean enoughPlaceFor(Cell cell, Building building) {
-        for (int i = cell.getX(); i < cell.getX() + building.getSize().getWidth(); i++) {
-            for (int j = cell.getY(); j < cell.getY() + building.getSize().getHeight(); j++) {
-                if (i >= cells.length ||
-                        j >= cells[i].length ||
-                        cells[i][j].isOccupied())
-                    return false;
-            }
-        }
-        return true;
+    public int getRows() {
+        return rows;
     }
 
-    protected void detachFromCells(Building building) {
-        building.destroy();
-        for (int i = building.getX(); i < building.getX() + building.getSize().getWidth(); i++) {
-            for (int j = building.getY(); j < building.getY() + building.getSize().getHeight(); j++) {
-                cells[i][j].free();
-            }
-        }
+    public int getCols() {
+        return cols;
     }
 
     @Override
@@ -186,9 +126,10 @@ public class Field extends Node {
         super.write(ex);
 
         OutputCapsule capsule = ex.getCapsule(this);
-        capsule.write(getRows(), "rows", 1);
-        capsule.write(getCols(), "cols", 1);
-        capsule.write(cells, "cells", null);
+        capsule.write(rows, "rows", 1);
+        capsule.write(cols, "cols", 1);
+        capsule.writeSavableArrayList(cells, "cells", null);
+        // TODO: 17.05.16 this should be saved too
 //        capsule.writeSavableMap(objects, "objects", null);
     }
 
@@ -201,21 +142,16 @@ public class Field extends Node {
         cols = capsule.readInt("cols", 1);
 
         // @TODO remake
-        Savable[][] data = capsule.readSavableArray2D("cells", null);
-        cells = new Cell[getRows()][];
-        for (int i = 0; i < getRows(); i++) {
-            cells[i] = new Cell[getCols()];
-            for (int j = 0; j < getCols(); j++) {
-                cells[i][j] = (Cell) data[i][j];
-            }
+        ArrayList data = capsule.readSavableArrayList("cells", null);
+        final int len = cols * rows;
+        cells = new ArrayList<>(len);
+        for (int i = 0; i < len; i++) {
+            final Object el = data.get(i);
+            // TODO: 17.05.16  fix this unchecked cast
+//            if (el instanceof T) {
+            cells.add((T) el);
+//            }
         }
     }
 
-    public int getRows() {
-        return rows;
-    }
-
-    public int getCols() {
-        return cols;
-    }
 }

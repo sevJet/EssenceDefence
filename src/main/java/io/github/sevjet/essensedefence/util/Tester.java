@@ -31,7 +31,7 @@ public final class Tester {
     public static void tests() {
 //        testTrigger();
 //        testWall();
-        testAllBuildings();
+//        testAllBuildings();
     }
 
 
@@ -86,7 +86,7 @@ public final class Tester {
         helloText.setLocalTranslation(10, 110, -70);
         Configuration.getRootNode().attachChild(helloText);
     }
-
+/*
     public static void testAllBuildings() {
         Field field = new Field(10, 10);
         field.setLocalTranslation(10, 10, 1);
@@ -184,5 +184,5 @@ public final class Tester {
             Configuration.getAssetManager().registerLocator("./", FileLocator.class);
             return (Field) Configuration.getAssetManager().loadModel("saved_map.j3o");
         }
-    }
+    }*/
 }

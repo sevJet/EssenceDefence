@@ -10,6 +10,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.GamePlayAppState;
 import io.github.sevjet.essensedefence.field.Cell;
+import io.github.sevjet.essensedefence.field.MapCell;
 import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Getter;
 
@@ -95,7 +96,7 @@ public final class ListenerManager {
         CollisionResults results = new CollisionResults();
         Ray ray = new Ray(Configuration.getCam().getLocation(), Configuration.getCam().getDirection());
         //TODO fix building
-        GamePlayAppState.field.getObjects(Cell.class).collideWith(ray, results);
+        GamePlayAppState.field.getObjects(MapCell.class).collideWith(ray, results);
 //        ((Field)Configuration.getRootNode().getChild("field")).objects.get(Cell.class).collideWith(ray, results);
 //        System.out.println(Field.objects.get(Cell.class).collideWith(ray, results));
 //        if (results.size() > 0){
@@ -114,9 +115,9 @@ public final class ListenerManager {
         return results;
     }
 
-    static Cell getCell(CollisionResults results) {
+    static MapCell getCell(CollisionResults results) {
         Geometry target = results.getClosestCollision().getGeometry();
-        Cell cell = (Cell) Getter.getEntity(target);
+        MapCell cell = (MapCell) Getter.getEntity(target);
         return cell;
     }
 }

@@ -32,7 +32,7 @@ public abstract class Entity implements Savable {
             geometry.setUserData("entity", this);
         }
 
-        updater();
+        update();
     }
 
     public int getX() {
@@ -42,7 +42,7 @@ public abstract class Entity implements Savable {
     public void setX(int x) {
         this.x = x;
 
-        updater();
+        update();
     }
 
     public int getY() {
@@ -52,7 +52,7 @@ public abstract class Entity implements Savable {
     public void setY(int y) {
         this.y = y;
 
-        updater();
+        update();
     }
 
     public int getZ() {
@@ -62,7 +62,7 @@ public abstract class Entity implements Savable {
     public void setZ(int z) {
         this.z = z;
 
-        updater();
+        update();
     }
 
     public Geometry getGeometry() {
@@ -76,21 +76,21 @@ public abstract class Entity implements Savable {
         }
         this.geometry = geometry;
 
-        updater();
+        update();
     }
 
     public void move(int x, int y) {
         this.x = x;
         this.y = y;
 
-        updater();
+        update();
     }
 
     public void moveRelative(int x, int y) {
         this.x += x;
         this.y += y;
 
-        updater();
+        update();
     }
 
     // @TODO this method is same as Cell.getField()
@@ -123,7 +123,7 @@ public abstract class Entity implements Savable {
         return true;
     }
 
-    protected boolean updater() {
+    protected boolean update() {
         if (geometry != null) {
             return moveToCenter();
         }

@@ -21,7 +21,7 @@ public class Wireframe extends Building {
 
     public void setCanBuild(boolean canBuild) {
         geometry.getMaterial().setColor("Color", canBuild ? ColorRGBA.Green : ColorRGBA.Red);
-        updater();
+        update();
     }
 
 }

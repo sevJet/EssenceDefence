@@ -23,7 +23,7 @@ public abstract class Entity3D extends Entity {
         super(x, y);
 
         this.size = size;
-        updater();
+        update();
     }
 
     public BoxSize getSize() {

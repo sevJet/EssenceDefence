@@ -38,7 +38,7 @@ public class Fortress extends Building implements ITextual {
                 die();
             }
         }
-        updater();
+        update();
     }
 
     private void die() {
@@ -46,12 +46,13 @@ public class Fortress extends Building implements ITextual {
         if (field != null) {
             field.removeObject(this);
         }
-        System.out.println("Fortress.die()");
+
+        destroy();
     }
 
     @Override
-    public boolean updater() {
-        super.updater();
+    public boolean update() {
+        super.update();
         return true;
     }
 
@@ -62,7 +63,7 @@ public class Fortress extends Building implements ITextual {
 
     @Override
     public boolean isEnded() {
-        return (health <= 0 || geometry.getParent() == null);
+        return (health <= 0 || isDestroyed() || geometry.getParent() == null);
     }
 
 }

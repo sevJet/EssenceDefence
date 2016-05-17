@@ -13,6 +13,8 @@ public abstract class Building extends Entity3D {
 
     protected float health = -1f;
 
+    private boolean destroyed = false;
+
     public Building() {
         super();
     }
@@ -38,8 +40,14 @@ public abstract class Building extends Entity3D {
         this.health = health;
     }
 
-    public void destroy() {
+    public void build() {  }
 
+    public void destroy() {
+        destroyed = true;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
     }
 
     @Override

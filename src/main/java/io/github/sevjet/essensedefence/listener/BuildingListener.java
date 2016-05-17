@@ -9,6 +9,8 @@ import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.*;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.field.MapCell;
+import io.github.sevjet.essensedefence.field.MapField;
 import io.github.sevjet.essensedefence.util.BoxSize;
 
 import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
@@ -19,8 +21,8 @@ public class BuildingListener implements ActionListener {
     private Building wireframe = null;
     private String currentMap = "";
     private CollisionResults results;
-    private Cell cell;
-    private Field field;
+    private MapCell cell;
+    private MapField field;
 
     private Building choiceBuilding(String name) {
         switch (name) {
@@ -96,8 +98,8 @@ public class BuildingListener implements ActionListener {
         if (currentMap.equals(name) && field != null) {
             field.removeAll(Wireframe.class);
             Building building = choiceBuilding(name);
-            if (field.enoughPlaceFor(cell, building)) {
-                cell.build(building);
+            if (field.enoughPlaceFor(cell, building) && cell instanceof MapCell) {
+                ((MapCell) cell).build(building);
                 switch (name) {
                     case MAPPING_BUILD_WALL:
                         break;
@@ -127,8 +129,8 @@ class PreBuildControl extends AbstractControl {
     protected void controlUpdate(float tpf) {
         results = rayCasting();
         if (results.size() > 0) {
-            Cell cell = getCell(results);
-            Field field = cell.getField();
+            MapCell cell = getCell(results);
+            MapField field = cell.getField();
 
             if (getSpatial().getUserData("entity") instanceof Wireframe) {
                 Wireframe wireframe = getSpatial().getUserData("entity");

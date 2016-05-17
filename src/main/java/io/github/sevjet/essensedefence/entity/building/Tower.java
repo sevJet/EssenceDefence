@@ -63,7 +63,6 @@ public class Tower extends BuyableBuilding {
             field.removeObject(this.core);
             this.core = null;
         }
-        return;
     }
 
     private void placeCore() {
@@ -79,14 +78,16 @@ public class Tower extends BuyableBuilding {
 
     // TODO: 12/05/2016 change on BoundSphere
     public List<Monster> getCloseMonsters() {
-        if (isEmpty())
+        if (isEmpty()) {
             return Collections.emptyList();
+        }
         Field field = getField();
         Node monstersNode = field.getObjects(Monster.class);
-        if (monstersNode == null)
+        if (monstersNode == null) {
             return Collections.emptyList();
+        }
 
-        List<Monster> list = new ArrayList<Monster>();
+        List<Monster> list = new ArrayList<>();
         List<Spatial> monsterSpatials = monstersNode.getChildren();
 
         Vector3f bottomCenter = geometry.getLocalTranslation();
@@ -95,13 +96,15 @@ public class Tower extends BuyableBuilding {
         for (Spatial spat : monsterSpatials) {
             if (bottomCenter.subtract(spat.getLocalTranslation()).length() <= core.getRange()) {
                 Entity entity = Getter.getEntity(spat);
-                if (entity instanceof Monster)
+                if (entity instanceof Monster) {
                     list.add((Monster) entity);
-                else throw new IllegalArgumentException(entity.getClass() + " isn't monster!");
+                } else {
+                    throw new IllegalArgumentException(entity.getClass() + " isn't monster!");
+                }
             }
         }
 
-        // TODO: 12/05/2016 delete sout
+        // TODO: 12/05/2016 delete S.out
         System.out.println("Around " + bottomCenter + " are located " + list.size() + " monsters! My range is " + core.getRange());
         return list;
     }

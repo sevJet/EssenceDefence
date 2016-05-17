@@ -15,6 +15,7 @@ import com.jme3.scene.control.Control;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.field.MapField;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -110,7 +111,7 @@ public class MonsterControl extends BasicControl {
     }
 
     private void buildPath() {
-        final Field field = entity.getField();
+        final MapField field = monster.getField();
         final int rows = field.getRows();
         final int cols = field.getCols();
         final int passable[][] = field.getPassable();

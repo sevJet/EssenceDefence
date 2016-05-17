@@ -33,8 +33,8 @@ public class MonsterListener implements ActionListener {
                             field.addObject(monster);
                             break;
                         case MAPPING_SPAWN_WAVE:
-                            if (cell.isOccupied() && cell.getBuilding() instanceof Portal) {
-                                Portal portal = (Portal) cell.getBuilding();
+                            if (cell.hasContent() && cell.getContent() instanceof Portal) {
+                                Portal portal = (Portal) cell.getContent();
                                 ArrayList<Monster> monsters = new ArrayList<>();
                                 for (int i = 0; i < 10; i++) {
                                     monster = new Monster(10f, 2f, 0f);

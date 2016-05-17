@@ -16,14 +16,13 @@ import io.github.sevjet.essensedefence.entity.building.Wall;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.field.MapField;
 import io.github.sevjet.essensedefence.listener.ListenerManager;
 import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Creator;
 import io.github.sevjet.essensedefence.util.GeometryManager;
 
 import static io.github.sevjet.essensedefence.util.Creator.*;
-import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.save;
-import static io.github.sevjet.essensedefence.util.Tester.TestForSerialization.testSerialization;
 import static io.github.sevjet.essensedefence.util.Tester.testGamer;
 import static io.github.sevjet.essensedefence.util.Tester.testText;
 
@@ -69,7 +68,10 @@ public class GamePlayAppState extends AbstractAppState {
 //        field.setLocalTranslation(-55, 10, 0);
 //        Configuration.getRootNode().attachChild(field);
 
-        field = testSerialization();
+        field = new MapField(50, 50);
+        field.rotate(-90 * FastMath.DEG_TO_RAD, 0, 0);
+        field.setLocalTranslation(5, 10, 1);
+        Configuration.getRootNode().attachChild(field);
         Configuration.getGamer().getInventory().rotate(
                 -90 * FastMath.DEG_TO_RAD,
                 +90 * FastMath.DEG_TO_RAD,
@@ -81,8 +83,8 @@ public class GamePlayAppState extends AbstractAppState {
 
     @Override
     public void cleanup() {
-        if (field != null)
-            save(field);
+//        if (field != null)
+//            save(field);
 
         super.cleanup();
     }

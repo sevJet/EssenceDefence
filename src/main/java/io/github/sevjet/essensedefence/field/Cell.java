@@ -10,106 +10,70 @@ import io.github.sevjet.essensedefence.entity.building.Building;
 
 import java.io.IOException;
 
-public class Cell extends Entity {
+public class Cell<T extends Entity> extends Entity {
 
-    protected Building occupiedBy = null;
-    protected boolean passable = false;
+    protected T content = null;
 
     public Cell() {
-        this(0, 0, false, null);
+        super(0, 0);
     }
 
     public Cell(int x, int y) {
-        this(x, y, false, null);
-    }
-
-    public Cell(int x, int y, boolean passable, Building occupiedBy) {
         super(x, y);
-        this.passable = passable;
-        this.occupiedBy = occupiedBy;
-
-        updater();
     }
 
-    public Building getBuilding() {
-        return occupiedBy;
+    public Cell(int x, int y, T content) {
+        super(x, y);
+        this.content = content;
+
+        update();
     }
 
-    public void setBuilding(Building building) {
-        this.occupiedBy = building;
-
-        updater();
+    public boolean hasContent() {
+        return content != null;
     }
 
-    public boolean isOccupied() {
-        return occupiedBy != null;
+    public T getContent() {
+        return content;
     }
 
-    public boolean build(Building building) {
-        Field field = getField();
-        if (field != null) {
-            if (field.enoughPlaceFor(this, building)) {
-                field.build(x, y, building);
-                return true;
-            }
-        }
-        return false;
+    public void setContent(T content) {
+        this.content = content;
+        update();
     }
 
-    public boolean isPassable() {
-        return passable;
+    protected void free() {
+        setContent(null);
     }
 
-    public void setPassably(boolean passable) {
-        this.passable = passable;
-
-        updater();
-    }
 
     @Override
-    protected boolean updater() {
-        if (super.updater()) {
+    protected boolean update() {
+        if (super.update()) {
             getGeometry().getMaterial().setColor("Color",
                     new ColorRGBA(
-                            (passable || occupiedBy != null ? 1 : 0),
-                            (passable ? 1 : 0),
-                            (passable && occupiedBy == null ? 1 : 0),
+                            (content != null ? 1 : 0),
+                            0,
+                            (content == null ? 1 : 0),
                             1));
             return true;
         }
         return false;
     }
-
-    public void removeBuilding() {
-        if (occupiedBy == null)
-            return;
-        Field field = getField();
-        if (field != null) {
-            field.removeObject(occupiedBy);
-        }
-    }
-
-    protected void free() {
-        occupiedBy = null;
-
-        updater();
-    }
-
     @Override
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);
 
         OutputCapsule capsule = ex.getCapsule(this);
-        capsule.write(occupiedBy, "occupiedBy", null);
-        capsule.write(passable, "passable", false);
+        capsule.write(content, "content", null);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void read(JmeImporter im) throws IOException {
         super.read(im);
 
         InputCapsule capsule = im.getCapsule(this);
-        occupiedBy = (Building) capsule.readSavable("occupiedBy", null);
-        passable = capsule.readBoolean("passable", false);
+        content = (T) capsule.readSavable("content", null);
     }
 }
