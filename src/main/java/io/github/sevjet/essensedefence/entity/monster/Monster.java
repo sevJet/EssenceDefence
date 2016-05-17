@@ -9,7 +9,6 @@ import io.github.sevjet.essensedefence.control.MonsterControl;
 import io.github.sevjet.essensedefence.entity.Entity3D;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.gui.ITextual;
-import io.github.sevjet.essensedefence.gui.Text3dControl;
 import io.github.sevjet.essensedefence.util.BoxSize;
 import io.github.sevjet.essensedefence.util.Configuration;
 
@@ -143,17 +142,7 @@ public class Monster extends Entity3D implements ITextual {
 
     @Override
     public boolean isEnded() {
-        return health <= 0 || geometry == null || geometry.getParent() == null;
-    }
-
-    @Override
-    protected boolean updater() {
-        // TODO: 16/05/2016 create method spawn
-        if (super.updater() && !f && geometry != null && geometry.getParent() != null) {
-            new Text3dControl(this, "XP:");
-            f = true;
-        }
-        return true;
+        return health <= 0 || geometry == null || geometry.getParent() == null || getField() == null;
     }
 }
 

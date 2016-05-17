@@ -10,11 +10,28 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
+import com.jme3.scene.shape.Quad;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
 
 public final class Creator {
+
     private Creator() {
+    }
+
+    public static Geometry myQuad(float x, float y, String name, ColorRGBA color) {
+        Quad mesh = new Quad(x, y);
+        Geometry geom = new Geometry(name, mesh);
+        Material mat = new Material(Configuration.getAssetManager(),
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", color);
+        geom.setMaterial(mat);
+//        geom.setLocalTranslation(loc);
+        return geom;
+    }
+
+    public static Geometry myQuad(float x, float y, ColorRGBA color) {
+        return myQuad(x, y, "guard", color);
     }
 
     //Fix for create savable grid
@@ -284,6 +301,18 @@ public final class Creator {
         helloText.setSize(1.0f);
         helloText.setQueueBucket(RenderQueue.Bucket.Transparent);
 
+        helloText.setColor(clr);
+
+        return helloText;
+    }
+
+    public static BitmapText text2D(String text, ColorRGBA clr) {
+        BitmapFont guiFont;
+        guiFont = Configuration.getAssetManager().loadFont("interface/fonts/arial.fnt");
+        BitmapText helloText = new BitmapText(guiFont, false);
+        helloText.setSize(guiFont.getCharSet().getRenderedSize());
+        helloText.setText(text);
+        helloText.setQueueBucket(RenderQueue.Bucket.Gui);
         helloText.setColor(clr);
 
         return helloText;
