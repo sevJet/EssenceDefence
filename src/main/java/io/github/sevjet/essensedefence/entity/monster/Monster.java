@@ -18,8 +18,7 @@ import java.io.IOException;
 public class Monster extends Entity3D implements ITextual {
 
     private static final BoxSize SIZE = new BoxSize(1, 1, 1);
-    // FIXME: 16/05/2016
-    boolean f = false;
+    
     private BasicControl control = new MonsterControl();
     private float health = 0f;
     private float speed = 0f;
