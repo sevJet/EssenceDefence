@@ -6,7 +6,6 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.ColorRGBA;
 import io.github.sevjet.essensedefence.entity.Entity;
-import io.github.sevjet.essensedefence.entity.building.Building;
 
 import java.io.IOException;
 
@@ -39,6 +38,12 @@ public class Cell<T extends Entity> extends Entity {
 
     public void setContent(T content) {
         this.content = content;
+
+        if (content != null) {
+            content.setX(getX());
+            content.setY(getY());
+            content.setZ(0);
+        }
         update();
     }
 
@@ -60,6 +65,7 @@ public class Cell<T extends Entity> extends Entity {
         }
         return false;
     }
+
     @Override
     public void write(JmeExporter ex) throws IOException {
         super.write(ex);

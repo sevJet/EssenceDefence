@@ -5,13 +5,13 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import io.github.sevjet.essensedefence.gui.ITextual;
-import io.github.sevjet.essensedefence.gui.Inventory;
+import io.github.sevjet.essensedefence.field.Inventory;
 
 import java.io.IOException;
 
 public class Gamer implements ITextual {
 
-    protected final Inventory inventory = new Inventory(10, 3);
+    protected final Inventory inventory = new Inventory(3, 10);
     protected float gold = 0;
 
     public Gamer() {

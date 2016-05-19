@@ -33,7 +33,7 @@ public abstract class Field<T extends Cell> extends Node {
     public Field() {
     }
 
-    public Field(final Class<T> clazz, final int cols, final int rows) {
+    public Field(final int cols, final int rows) {
         this.rows = rows;
         this.cols = cols;
         this.setName("field");
@@ -50,11 +50,11 @@ public abstract class Field<T extends Cell> extends Node {
         gridOn();
     }
 
-    protected abstract T newCell(int x, int y);
+    protected abstract T newCell(final int x, final int y);
 
     protected boolean gridOn() {
         // FIXME: 09/05/2016 lineWidth don't save
-        grid = gridXY(getRows() + 1, getCols() + 1, 1, ColorRGBA.Gray, 5f);
+        grid = gridXY(getCols() + 1, getRows() + 1, 1, ColorRGBA.Gray, 5f);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
         attachChild(grid);
         return true;

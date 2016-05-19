@@ -7,8 +7,6 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.*;
-import io.github.sevjet.essensedefence.field.Cell;
-import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.field.MapCell;
 import io.github.sevjet.essensedefence.field.MapField;
 import io.github.sevjet.essensedefence.util.BoxSize;
@@ -66,13 +64,13 @@ public class BuildingListener implements ActionListener {
             results = rayCasting();
 
             if (results.size() > 0) {
-                cell = getCell(results);
+                cell = (MapCell) getCell(results);
                 field = cell.getField();
 
                 if (isPressed) {
                     onPress(name, tpf);
                 } else {
-                    onUnpress(name, tpf);
+                    onRelease(name, tpf);
                 }
 
             }
@@ -94,12 +92,12 @@ public class BuildingListener implements ActionListener {
         }
     }
 
-    private void onUnpress(String name, float tpf) {
+    private void onRelease(String name, float tpf) {
         if (currentMap.equals(name) && field != null) {
             field.removeAll(Wireframe.class);
             Building building = choiceBuilding(name);
-            if (field.enoughPlaceFor(cell, building) && cell instanceof MapCell) {
-                ((MapCell) cell).build(building);
+            if (field.enoughPlaceFor(cell, building)) {
+                cell.build(building);
                 switch (name) {
                     case MAPPING_BUILD_WALL:
                         break;
@@ -129,7 +127,7 @@ class PreBuildControl extends AbstractControl {
     protected void controlUpdate(float tpf) {
         results = rayCasting();
         if (results.size() > 0) {
-            MapCell cell = getCell(results);
+            MapCell cell = (MapCell) getCell(results);
             MapField field = cell.getField();
 
             if (getSpatial().getUserData("entity") instanceof Wireframe) {

@@ -7,8 +7,11 @@ import io.github.sevjet.essensedefence.entity.building.Portal;
 
 public class MapField extends Field<MapCell> {
 
+    @SuppressWarnings("unused")
+    public MapField() {  }
+
     public MapField(final int cols, final int rows) {
-        super(MapCell.class, cols, rows);
+        super(cols, rows);
     }
 
     public int[][] getPassable() {
@@ -45,7 +48,7 @@ public class MapField extends Field<MapCell> {
     }
 
     @Override
-    protected MapCell newCell(int x, int y) {
+    protected MapCell newCell(final int x, final int y) {
         return new MapCell(x, y);
     }
 
@@ -60,7 +63,7 @@ public class MapField extends Field<MapCell> {
         return false;
     }
 
-    public boolean enoughPlaceFor(final Cell cell, final Building building) {
+    public boolean enoughPlaceFor(final MapCell cell, final Building building) {
         for (int i = cell.getX(); i < cell.getX() + building.getSize().getWidth(); i++) {
             for (int j = cell.getY(); j < cell.getY() + building.getSize().getHeight(); j++) {
                 final MapCell temp = getCell(i, j);

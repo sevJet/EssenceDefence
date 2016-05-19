@@ -10,6 +10,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.GamePlayAppState;
 import io.github.sevjet.essensedefence.field.Cell;
+import io.github.sevjet.essensedefence.field.InventoryCell;
 import io.github.sevjet.essensedefence.field.MapCell;
 import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Getter;
@@ -93,31 +94,33 @@ public final class ListenerManager {
     }
 
     static CollisionResults rayCasting() {
+        return rayCasting(getField());
+    }
+
+    static CollisionResults rayCasting(Node... objects) {
         CollisionResults results = new CollisionResults();
         Ray ray = new Ray(Configuration.getCam().getLocation(), Configuration.getCam().getDirection());
-        //TODO fix building
-        GamePlayAppState.field.getObjects(MapCell.class).collideWith(ray, results);
-//        ((Field)Configuration.getRootNode().getChild("field")).objects.get(Cell.class).collideWith(ray, results);
-//        System.out.println(Field.objects.get(Cell.class).collideWith(ray, results));
-//        if (results.size() > 0){
-//            for (CollisionResult i : results){
-//                System.out.println(i.getGeometry().getName());
-//            }
-//        }
+        for (Node with : objects) {
+            if (with != null) {
+                with.collideWith(ray, results);
+                if (results.size() > 0) {
+                    break;
+                }
+            }
+        }
         return results;
     }
 
-    static CollisionResults rayCasting(Node with) {
-        CollisionResults results = new CollisionResults();
-        Ray ray = new Ray(Configuration.getCam().getLocation(), Configuration.getCam().getDirection());
-        //TODO fix building
-        with.collideWith(ray, results);
-        return results;
-    }
-
-    static MapCell getCell(CollisionResults results) {
+    static Cell getCell(CollisionResults results) {
         Geometry target = results.getClosestCollision().getGeometry();
-        MapCell cell = (MapCell) Getter.getEntity(target);
-        return cell;
+        return (Cell) Getter.getEntity(target);
+    }
+
+    static Node getField() {
+        return GamePlayAppState.field.getObjects(MapCell.class);
+    }
+
+    static Node getInventory() {
+        return Configuration.getGamer().getInventory().getObjects(InventoryCell.class);
     }
 }

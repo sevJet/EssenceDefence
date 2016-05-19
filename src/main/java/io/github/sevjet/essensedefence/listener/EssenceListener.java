@@ -4,13 +4,10 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
-import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Tower;
-import io.github.sevjet.essensedefence.field.Cell;
-import io.github.sevjet.essensedefence.field.Field;
-import io.github.sevjet.essensedefence.gui.Inventory;
+import io.github.sevjet.essensedefence.field.*;
 import io.github.sevjet.essensedefence.util.Configuration;
 
 import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
@@ -18,17 +15,14 @@ import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
 public class EssenceListener implements ActionListener {
 
     private Essence bufEssence = null;
-
-
     private CollisionResults results;
     private Inventory inventory;
 
     protected void onPress(String name, float tpf) {
-
     }
 
 
-    protected void onUnpress(String name, float tpf) {
+    protected void onRelease(String name, float tpf) {
         switch (name) {
             case MAPPING_BUY_ESSENCE:
                 if (bufEssence == null)
@@ -58,7 +52,7 @@ public class EssenceListener implements ActionListener {
             if (isPressed) {
                 onPress(name, tpf);
             } else {
-                onUnpress(name, tpf);
+                onRelease(name, tpf);
             }
 
             inventory = Configuration.getGamer().getInventory();
@@ -66,9 +60,8 @@ public class EssenceListener implements ActionListener {
         }
     }
 
-    //====================================== sell and extract =============================================================
     private void sellEssence() {
-        results = rayCasting(Configuration.getGamer().getInventory().getObjects(Cell.class));
+        results = rayCasting(getInventory());
         Essence essence = extractFromResults(results);
         if (essence != null) {
             essence.sell();
@@ -84,7 +77,7 @@ public class EssenceListener implements ActionListener {
     }
 
     private void extractionEssence() {
-        results = rayCasting(Configuration.getGamer().getInventory().getObjects(Cell.class));
+        results = rayCasting(getInventory());
         Essence essence = extractFromResults(results);
         if (essence != null) {
             bufEssence = essence;
@@ -111,84 +104,65 @@ public class EssenceListener implements ActionListener {
         return essence;
     }
 
-    private boolean canExtractFrom(Cell cell) {
-        // TODO: 15/05/2016 use cell.getField()
-        if (cell == null ||
-                cell.getGeometry() == null ||
-                cell.getGeometry().getParent() == null ||
-                cell.getGeometry().getParent().getParent() == null)
+    private boolean canExtractFrom(final Cell cell) {
+        Field field = cell != null ? cell.getField() : null;
+        if (field == null) {
             return false;
-        Node fieldNode = cell.getGeometry().getParent().getParent();
+        }
 
-        if (fieldNode instanceof Field) {
+        if (field instanceof MapField) {
             return cell.hasContent() && cell.getContent() instanceof Tower &&
                     ((Tower) cell.getContent()).getCore() != null;
         }
-        if (fieldNode instanceof Inventory) {
-            System.out.println("fieldNode instanceof Inventory");
-            return inventory.isOccupied(cell);
+        if (field instanceof Inventory) {
+            System.out.println("field instanceof Inventory");
+            return cell.hasContent();
         }
 
         return false;
     }
 
     private Essence extractFromCell(Cell cell) {
-        // TODO: 15/05/2016 use cell.getField()
-        Node fieldNode = cell.getGeometry().getParent().getParent();
+        Field field = cell.getField();
         Essence essence = null;
 
-        if (fieldNode instanceof Field) {
+        if (field instanceof MapField) {
             Tower tower = (Tower) cell.getContent();
             essence = tower.getCore();
-            tower.extractionCore();
+            tower.extractCore();
         }
-        if (fieldNode instanceof Inventory) {
-            essence = inventory.getEssence(cell);
-            inventory.removeObject(essence);
+        if (field instanceof Inventory) {
+            essence = inventory.takeEssence((InventoryCell) cell);
         }
 
         return essence;
     }
 
-    //====================================================== buy and put ===================================================
     private void buyEssence() {
-        CollisionResults results;
         bufEssence = Essence.buy();
-        boolean isPlaced = false;
 
-        results = rayCasting(Configuration.getGamer().getInventory().getObjects(Cell.class));
-        isPlaced = placeOnResults(results);
-        if (isPlaced)
-            return;
-        results = rayCasting();
-        isPlaced = placeOnResults(results);
+        boolean isPlaced = placeOnResults(rayCasting(getField(), getInventory()));
         if (!isPlaced && bufEssence != null) {
             bufEssence.sell();
             bufEssence = null;
         }
     }
 
-    private void putEssence() {
-        CollisionResults results;
-        boolean isPlaced = false;
-
-        results = rayCasting(Configuration.getGamer().getInventory().getObjects(Cell.class));
-        isPlaced = placeOnResults(results);
-        if (isPlaced)
-            return;
-        placeOnResults(rayCasting());
+    private boolean putEssence() {
+        return placeOnResults(rayCasting(getField(), getInventory()));
     }
 
     private boolean placeOnResults(CollisionResults results) {
-        if (bufEssence == null)
+        if (bufEssence == null) {
             return false;
+        }
         if (results.size() > 0) {
             Cell cell = getCell(results);
             if (canPlaceOn(cell)) {
-                if (!placeOn(cell))
+                if (!placeOn(cell)) {
                     return false;
+                }
                 bufEssence.getGeometry().removeControl(EssenceMovementControl.class);
-
                 bufEssence = null;
                 return true;
             }
@@ -197,36 +171,37 @@ public class EssenceListener implements ActionListener {
     }
 
     private boolean canPlaceOn(Cell cell) {
-        // TODO: 15/05/2016 use cell.getField 
         if (cell == null ||
                 cell.getGeometry() == null ||
                 cell.getGeometry().getParent() == null ||
-                cell.getGeometry().getParent().getParent() == null)
+                cell.getGeometry().getParent().getParent() == null) {
             return false;
+        }
 
-        Node fieldNode = cell.getGeometry().getParent().getParent();
-        if (fieldNode instanceof Field)
+        Field field = cell.getField();
+        if (field instanceof MapField) {
             return cell.hasContent() &&
                     cell.getContent() instanceof Tower &&
                     ((Tower) cell.getContent()).isEmpty();
+        }
 
-        if (fieldNode instanceof Inventory)
-            return !inventory.isOccupied(cell);
+        if (field instanceof Inventory) {
+            return !cell.hasContent();
+        }
 
         return false;
     }
 
     private boolean placeOn(Cell cell) {
-        // TODO: 15/05/2016 use cell.getField() 
-        Node fieldNode = cell.getGeometry().getParent().getParent();
+        Field field = cell.getField();
 
-        if (fieldNode instanceof Field) {
+        if (field instanceof MapField) {
             Tower tower = (Tower) cell.getContent();
             tower.putCore(bufEssence);
             return true;
         }
-        if (fieldNode instanceof Inventory) {
-            return inventory.addEssence(bufEssence, cell);
+        if (field instanceof Inventory) {
+            return inventory.addEssence(bufEssence, (InventoryCell) cell);
         }
 
         return false;

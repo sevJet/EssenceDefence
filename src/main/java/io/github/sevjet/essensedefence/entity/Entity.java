@@ -93,7 +93,6 @@ public abstract class Entity implements Savable {
         update();
     }
 
-    // @TODO this method is same as Cell.getField()
     public Field getField() {
         if (geometry != null &&
                 geometry.getParent() != null &&

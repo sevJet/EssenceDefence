@@ -24,8 +24,8 @@ import java.util.List;
 public class Tower extends BuyableBuilding {
 
     public static final BoxSize SIZE = new BoxSize(2, 2, 3);
-    private BasicControl control = new TowerControl();
 
+    private BasicControl control = new TowerControl();
     private Essence core;
 
     public Tower() {
@@ -57,18 +57,27 @@ public class Tower extends BuyableBuilding {
         }
     }
 
-    public void extractionCore() {
+    public float extractCore() {
+        float result = 0f;
         Field field = getField();
-        if (field != null) {
-            field.removeObject(this.core);
-            this.core = null;
+        if (field != null && core != null) {
+            result = core.getPrice();
+            core.setOffsetX(0f);
+            core.setOffsetY(0f);
+
+            field.removeObject(core);
+            core = null;
         }
+        return result;
     }
 
     private void placeCore() {
         core.setX(x);
         core.setY(y);
         core.setZ(getSize().getDepth());
+
+        core.setOffsetX(0.5f);
+        core.setOffsetY(0.5f);
 
         Field field = getField();
         if (field != null) {
