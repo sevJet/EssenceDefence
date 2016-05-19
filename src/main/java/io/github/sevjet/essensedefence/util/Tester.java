@@ -44,11 +44,11 @@ public final class Tester {
 
             @Override
             protected void controlUpdate(float tpf) {
-                timer += tpf;
-                if (timer > 1) {
-                    Configuration.getGamer().decGold(1);
-                    timer = 0;
-                }
+//                timer += tpf;
+//                if (timer > 1) {
+//                    Configuration.getGamer().decGold(1);
+//                    timer = 0;
+//                }
 
             }
 

@@ -43,6 +43,8 @@ public final class ListenerManager {
             new KeyTrigger(KeyInput.KEY_P);
     public final static Trigger TRIGGER_SELL_ESSENCE =
             new KeyTrigger(KeyInput.KEY_M);
+    public final static Trigger TRIGGER_UPGRADE_ESSENCE =
+            new KeyTrigger(KeyInput.KEY_U);
 
     public final static String MAPPING_MAKE_PASSABLE = "Make passable";
     public final static String MAPPING_RESET = "Reset";
@@ -56,6 +58,7 @@ public final class ListenerManager {
     public final static String MAPPING_EXTRACTION_ESSENCE = "Extraction essence";
     public final static String MAPPING_PUT_EXTRACTED_ESSENCE = "Put extracted essence";
     public final static String MAPPING_SELL_ESSENCE = "Sell essence";
+    public final static String MAPPING_UPGRADE_ESSENCE = "Upgrade essence";
 
     public static void registerListener() {
         InputManager inputManager = Configuration.getInputManager();
@@ -71,6 +74,7 @@ public final class ListenerManager {
         inputManager.addMapping(MAPPING_BUY_ESSENCE, TRIGGER_BUY_ESSENCE);
         inputManager.addMapping(MAPPING_PUT_EXTRACTED_ESSENCE, TRIGGER_PUT_EXTRACTED_ESSENCE);
         inputManager.addMapping(MAPPING_SELL_ESSENCE, TRIGGER_SELL_ESSENCE);
+        inputManager.addMapping(MAPPING_UPGRADE_ESSENCE,TRIGGER_UPGRADE_ESSENCE);
 
         inputManager.addListener(new CellListener(),
                 MAPPING_MAKE_PASSABLE,
@@ -90,7 +94,8 @@ public final class ListenerManager {
                 MAPPING_BUY_ESSENCE,
                 MAPPING_SELL_ESSENCE,
                 MAPPING_EXTRACTION_ESSENCE,
-                MAPPING_PUT_EXTRACTED_ESSENCE);
+                MAPPING_PUT_EXTRACTED_ESSENCE,
+                MAPPING_UPGRADE_ESSENCE);
     }
 
     static CollisionResults rayCasting() {

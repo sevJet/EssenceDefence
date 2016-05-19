@@ -5,7 +5,9 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
+import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.Essence;
+import io.github.sevjet.essensedefence.entity.building.Building;
 import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.field.*;
 import io.github.sevjet.essensedefence.util.Configuration;
@@ -40,6 +42,10 @@ public class EssenceListener implements ActionListener {
                 if (bufEssence != null)
                     putEssence();
                 break;
+            case MAPPING_UPGRADE_ESSENCE:
+                if (bufEssence == null)
+                    upgradeEssence();
+                break;
         }
     }
 
@@ -48,7 +54,8 @@ public class EssenceListener implements ActionListener {
         if (name.equals(MAPPING_BUY_ESSENCE) ||
                 name.equals(MAPPING_EXTRACTION_ESSENCE) ||
                 name.equals(MAPPING_PUT_EXTRACTED_ESSENCE) ||
-                name.equals(MAPPING_SELL_ESSENCE)) {
+                name.equals(MAPPING_SELL_ESSENCE) ||
+                name.equals(MAPPING_UPGRADE_ESSENCE)) {
             if (isPressed) {
                 onPress(name, tpf);
             } else {
@@ -86,6 +93,32 @@ public class EssenceListener implements ActionListener {
 
         results = rayCasting();
         bufEssence = extractFromResults(results);
+    }
+
+    private void upgradeEssence() {
+        results = rayCasting(getInventory(),getField());
+        if (results.size() <= 0) {
+            return;
+        }
+        Cell cell = getCell(results);
+        if (cell == null) {
+            return;
+        }
+        if (cell instanceof MapCell) {
+            Building building = ((MapCell) cell).getContent();
+            if (building instanceof Tower) {
+                Essence essence = ((Tower) building).getCore();
+                if (essence != null) {
+                    essence.upgrade();
+                }
+            }
+        }
+        if (cell instanceof InventoryCell) {
+            Essence essence = ((InventoryCell) cell).getContent();
+            if (essence != null) {
+                essence.upgrade();
+            }
+        }
     }
 
     private Essence extractFromResults(CollisionResults results) {
