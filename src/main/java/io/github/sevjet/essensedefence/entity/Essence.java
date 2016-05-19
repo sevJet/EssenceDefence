@@ -130,8 +130,16 @@ public class Essence extends Entity3D implements IBuyable {
     }
 
     public boolean upgrade() {
-        // @TODO Implement upgrade
-        return false;
+        if(Configuration.getGamer().getGold() <= 5 * level) {
+            return false;
+        }
+        level++;
+        damage++;
+        range++;
+        speed++;
+        price++;
+        Configuration.getGamer().decGold(5 * level);
+        return true;
     }
 
     public boolean combine() {
