@@ -16,6 +16,7 @@ public interface ITextual extends Savable {
         class TextControl extends AbstractControl {
 
             private String textContent;
+            private String outputValue;
             private BitmapText text;
             private ITextual entity;
 
@@ -27,15 +28,21 @@ public interface ITextual extends Savable {
             public TextControl(ITextual object, String textContent, int rowNum) {
                 this(object);
                 this.textContent = textContent;
+                this.outputValue = "";
                 text = Creator.text(textContent, rowNum);
             }
 
 
+            // TODO: 19.05.16 hot point, remake
             @Override
             protected void controlUpdate(float tpf) {
                 if (entity.isEnded())
                     halt();
-                text.setText(textContent + " " + entity.outputValue());
+                String tmp = entity.outputValue();
+                if(outputValue.equals(tmp)) {
+                    outputValue = tmp;
+                    text.setText(textContent + " " + tmp);
+                }
             }
 
             private void halt() {
@@ -54,6 +61,7 @@ public interface ITextual extends Savable {
 
                 OutputCapsule capsule = ex.getCapsule(this);
                 capsule.write(textContent, "textContent", null);
+                capsule.write(outputValue, "outputValue", "");
                 capsule.write(text, "text", null);
                 capsule.write(entity, "entity", entity);
             }
@@ -64,6 +72,7 @@ public interface ITextual extends Savable {
 
                 InputCapsule capsule = im.getCapsule(this);
                 textContent = capsule.readString("textContent", null);
+                outputValue = capsule.readString("outputValue", "");
                 text = (BitmapText) capsule.readSavable("text", null);
                 entity = (ITextual) capsule.readSavable("entity", null);
             }

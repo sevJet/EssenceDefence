@@ -26,7 +26,7 @@ public class MonsterControl extends BasicControl {
     private Fortress fortress = null;
     private MotionPath path = null;
     private MotionEvent event = null;
-    private long delayTill = 0L;
+    private float delay = 0f;
 
     @Override
     public void setSpatial(Spatial spatial) {
@@ -40,7 +40,8 @@ public class MonsterControl extends BasicControl {
 
     @Override
     protected void controlUpdate(float tpf) {
-        if (System.currentTimeMillis() <= delayTill) {
+        delay -= tpf;
+        if (delay > 0f) {
             return;
         }
         if (fortress == null || fortress.isEnded()) {
@@ -51,18 +52,16 @@ public class MonsterControl extends BasicControl {
                 event = null;
             }
             path = null;
+            // TODO: 19.05.16 this is just update
             entity.setZ(0);
         }
         if (fortress != null) {
             if (path == null || path.getNbWayPoints() == 0) {
                 initPath();
-                delayTill = System.currentTimeMillis() + 1000L;
-            } else {
-                delayTill = System.currentTimeMillis() + 1000L;
             }
+            delay += 5f;
         } else {
-            System.out.println("No fortress found");
-            delayTill = System.currentTimeMillis() + 1000L;
+            delay += 10f;
         }
     }
 
@@ -83,7 +82,7 @@ public class MonsterControl extends BasicControl {
     private void initPath() {
         buildPath();
         if (path == null) {
-            delayTill = System.currentTimeMillis() + 1000L;
+            delay += 5f;
             return;
         }
 
@@ -166,7 +165,7 @@ public class MonsterControl extends BasicControl {
         capsule.write(fortress, "fortress", null);
         capsule.write(path, "path", null);
         capsule.write(event, "event", null);
-        capsule.write(delayTill, "delayTill", 0L);
+        capsule.write(delay, "delay", 0f);
     }
 
     @Override
@@ -178,7 +177,7 @@ public class MonsterControl extends BasicControl {
         fortress = (Fortress) capsule.readSavable("fortress", null);
         path = (MotionPath) capsule.readSavable("path", null);
         event = (MotionEvent) capsule.readSavable("event", null);
-        delayTill = capsule.readLong("delayTill", 0L);
+        delay = capsule.readFloat("delay", 0f);
     }
 
 }

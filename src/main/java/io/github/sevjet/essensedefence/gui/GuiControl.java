@@ -52,7 +52,6 @@ public class GuiControl extends AbstractControl {
         if (object.isEnded()) {
             controlNode.removeFromParent();
             getSpatial().removeControl(this);
-            return;
         }
     }
 
