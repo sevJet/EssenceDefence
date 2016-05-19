@@ -56,6 +56,7 @@ public class Portal extends Building {
 
         OutputCapsule capsule = ex.getCapsule(this);
         capsule.writeSavableArrayList(waves, "waves", null);
+        capsule.write(pushIndex, "pushIndex", 0);
     }
 
     @Override
@@ -72,5 +73,6 @@ public class Portal extends Building {
                 }
             }
         }
+        pushIndex = capsule.readInt("pushIndex", 0);
     }
 }

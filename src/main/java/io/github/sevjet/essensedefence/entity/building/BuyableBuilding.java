@@ -9,7 +9,7 @@ import io.github.sevjet.essensedefence.util.BoxSize;
 
 import java.io.IOException;
 
-public class BuyableBuilding extends Building implements IBuyable {
+public abstract class BuyableBuilding extends Building implements IBuyable {
 
     protected float price = 0f;
 

@@ -1,10 +1,16 @@
 package io.github.sevjet.essensedefence.entity;
 
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.util.BoxSize;
 import io.github.sevjet.essensedefence.util.Configuration;
+
+import java.io.IOException;
 
 public class Essence extends Entity3D implements IBuyable {
 
@@ -12,14 +18,15 @@ public class Essence extends Entity3D implements IBuyable {
     // FIXME: Not real size, made bigger for been at the center of the tower
     private static final BoxSize SIZE = new BoxSize(1, 1, 1);
 
+    private float offsetX = 0f;
+    private float offsetY = 0f;
+    private float offsetZ = 0f;
+
     private float damage = 0f;
     private float range = 0f;
     private float speed = 0f;
     private int level = 1;
     private float price = 0f;
-    private float offsetX = 0f;
-    private float offsetY = 0f;
-    private float offsetZ = 0f;
 
     public Essence() {
         super(SIZE);
@@ -132,4 +139,35 @@ public class Essence extends Entity3D implements IBuyable {
         return false;
     }
 
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(offsetX, "offsetX", 0f);
+        capsule.write(offsetY, "offsetY", 0f);
+        capsule.write(offsetZ, "offsetZ", 0f);
+
+        capsule.write(damage, "damage", 0f);
+        capsule.write(range, "range", 0f);
+        capsule.write(speed, "speed", 0f);
+        capsule.write(level, "level", 1);
+        capsule.write(price, "price", 0f);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+
+        InputCapsule capsule = im.getCapsule(this);
+        offsetX = capsule.readFloat("offsetX", 0f);
+        offsetY = capsule.readFloat("offsetY", 0f);
+        offsetZ = capsule.readFloat("offsetZ", 0f);
+
+        damage = capsule.readFloat("damage", 0f);
+        range = capsule.readFloat("range", 0f);
+        speed = capsule.readFloat("speed", 0f);
+        level = capsule.readInt("level", 1);
+        price = capsule.readFloat("price", 0f);
+    }
 }

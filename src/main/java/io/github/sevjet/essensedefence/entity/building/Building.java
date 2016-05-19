@@ -56,6 +56,7 @@ public abstract class Building extends Entity3D {
 
         OutputCapsule capsule = ex.getCapsule(this);
         capsule.write(health, "health", -1f);
+        capsule.write(destroyed, "destroyed", false);
     }
 
     @Override
@@ -64,6 +65,7 @@ public abstract class Building extends Entity3D {
 
         InputCapsule capsule = im.getCapsule(this);
         health = capsule.readFloat("health", -1f);
+        destroyed = capsule.readBoolean("destroyed", false);
     }
 
 }
