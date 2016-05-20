@@ -113,8 +113,6 @@ public class Tower extends BuyableBuilding {
             }
         }
 
-        // TODO: 12/05/2016 delete S.out
-        System.out.println("Around " + bottomCenter + " are located " + list.size() + " monsters! My range is " + core.getRange());
         return list;
     }
 

@@ -10,6 +10,7 @@ import io.github.sevjet.essensedefence.util.Configuration;
 
 public class MovementOnGuiControl extends AbstractControl {
 
+    public final static float GUI_SCALE = 1086.396240234375f;
     private Entity entity;
 
     public MovementOnGuiControl(Entity entity) {
@@ -26,8 +27,14 @@ public class MovementOnGuiControl extends AbstractControl {
         } else {
             getSpatial().setCullHint(Spatial.CullHint.Never);
         }
+
+
         getSpatial().setLocalTranslation(
                 Configuration.getCam().getScreenCoordinates(entity.getGeometry().getWorldTranslation()));
+
+        getSpatial().setLocalScale(GUI_SCALE /
+                Configuration.getCam().getLocation().distance(entity.getGeometry().getWorldTranslation()));
+
     }
 
     @Override

@@ -32,7 +32,7 @@ public class GuiControl extends AbstractControl {
         this.textName = name;
 
         bar = new DataBar(width, height);
-        bar.addControl(new BarControl(entity));
+        bar.addControl(new BarControl(object));
         controlNode.attachChild(bar);
 
         text = Creator.text2D(textName, ColorRGBA.White);
@@ -42,7 +42,6 @@ public class GuiControl extends AbstractControl {
         controlNode.attachChild(text);
 
         Configuration.getGuiNode().attachChild(controlNode);
-        controlNode.scale(2 * text.getFont().getCharSet().getRenderedSize());
 
         controlNode.addControl(new MovementOnGuiControl(entity));
     }

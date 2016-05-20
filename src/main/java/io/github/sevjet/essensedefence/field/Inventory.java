@@ -1,7 +1,6 @@
 package io.github.sevjet.essensedefence.field;
 
 import io.github.sevjet.essensedefence.entity.Essence;
-import io.github.sevjet.essensedefence.util.Configuration;
 
 public class Inventory extends Field<InventoryCell> {
 
@@ -11,21 +10,6 @@ public class Inventory extends Field<InventoryCell> {
 
     public Inventory(final int cols, final int rows) {
         super(cols, rows);
-
-        // TODO: 18.05.16 Move this thing away
-        Configuration.getRootNode().attachChild(this);
-        setLocalTranslation(70f, 10f, 1f);
-        scale(5);
-//        rotate(
-//                -90 * FastMath.DEG_TO_RAD,
-//                +90 * FastMath.DEG_TO_RAD,
-//                000 * FastMath.DEG_TO_RAD
-//        );
-//        grid.rotate(
-//                -90 * FastMath.DEG_TO_RAD,
-//                +90 * FastMath.DEG_TO_RAD,
-//                000 * FastMath.DEG_TO_RAD
-//        );
     }
 
     @Override

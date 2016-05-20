@@ -33,10 +33,12 @@ public class Main extends SimpleApplication {
         settings.setResolution(mode.getWidth(), mode.getHeight());
         settings.setFrequency(mode.getRefreshRate());
 //        settings.setFullscreen(device.isFullScreenSupported());
-        settings.setSamples(16);
+        settings.setSamples(2);
+//        settings.setSamples(16);
         settings.setBitsPerPixel(mode.getBitDepth());
 //        settings.setDisplayFps(false);
 //        settings.setDisplayStatView(false);
+
         return settings;
     }
 
@@ -49,6 +51,7 @@ public class Main extends SimpleApplication {
     }
 
     protected void initStartSettings() {
+        jme3tools.optimize.GeometryBatchFactory.optimize(rootNode);
 //        flyCam.setEnabled(false);
         flyCam.setMoveSpeed(100);
 //        cam.setLocation(new Vector3f(0f, 32f, 100f));

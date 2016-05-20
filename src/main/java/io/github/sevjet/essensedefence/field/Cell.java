@@ -77,4 +77,10 @@ public class Cell<T extends Entity> extends Entity {
         InputCapsule capsule = im.getCapsule(this);
         content = (T) capsule.readSavable("content", null);
     }
+
+    @Override
+    protected boolean moveToCenter() {
+        geometry.setLocalTranslation(getCenter().addLocal(-0.5f, -0.5f, 0));
+        return true;
+    }
 }

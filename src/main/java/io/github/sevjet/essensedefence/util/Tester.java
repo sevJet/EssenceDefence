@@ -1,27 +1,12 @@
 package io.github.sevjet.essensedefence.util;
 
-import com.jme3.asset.plugins.FileLocator;
-import com.jme3.export.binary.BinaryExporter;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
-import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.Gamer;
-import io.github.sevjet.essensedefence.entity.building.Fortress;
-import io.github.sevjet.essensedefence.entity.building.Portal;
-import io.github.sevjet.essensedefence.entity.building.Tower;
-import io.github.sevjet.essensedefence.entity.building.Wall;
-import io.github.sevjet.essensedefence.field.Field;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Random;
-
-import static io.github.sevjet.essensedefence.GamePlayAppState.field;
 
 public final class Tester {
 
@@ -37,7 +22,7 @@ public final class Tester {
 
     public static void testGamer() {
         Gamer gamer = new Gamer(100);
-        gamer.newText("Gold of gamer:", 1);
+//        gamer.newText("Gold of gamer:", 1);
         Configuration.setGamer(gamer);
         Configuration.getRootNode().addControl(new AbstractControl() {
             float timer = 0;

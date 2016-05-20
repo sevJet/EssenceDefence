@@ -5,7 +5,6 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
-import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Building;
 import io.github.sevjet.essensedefence.entity.building.Tower;
@@ -96,7 +95,7 @@ public class EssenceListener implements ActionListener {
     }
 
     private void upgradeEssence() {
-        results = rayCasting(getInventory(),getField());
+        results = rayCasting(getInventory(), getField());
         if (results.size() <= 0) {
             return;
         }

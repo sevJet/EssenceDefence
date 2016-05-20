@@ -1,9 +1,12 @@
 package io.github.sevjet.essensedefence.field;
 
+import com.jme3.input.controls.ActionListener;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
+import io.github.sevjet.essensedefence.entity.monster.Monster;
+import io.github.sevjet.essensedefence.gui.GuiControl;
 
 public class MapField extends Field<MapCell> {
 
@@ -33,7 +36,7 @@ public class MapField extends Field<MapCell> {
     public void build(final int x, final int y, final Building building) {
         for (int i = x; i < x + building.getSize().getWidth(); i++) {
             for (int j = y; j < y + building.getSize().getHeight(); j++) {
-                getCell(x, y).setContent(building);
+                getCell(i, j).setContent(building);
             }
         }
         building.setX(x);
@@ -86,4 +89,13 @@ public class MapField extends Field<MapCell> {
         }
     }
 
+    @Override
+    protected void guiFor(Entity object) {
+        if (object instanceof Fortress) {
+            this.addControl(new GuiControl(object, "XP:", 3f, 1f / 5f));
+        }
+        if (object instanceof Monster) {
+            this.addControl(new GuiControl(object, "xp:", 1f, 1f / 8f));
+        }
+    }
 }

@@ -45,6 +45,8 @@ public final class ListenerManager {
             new KeyTrigger(KeyInput.KEY_M);
     public final static Trigger TRIGGER_UPGRADE_ESSENCE =
             new KeyTrigger(KeyInput.KEY_U);
+    public final static Trigger TRIGGER_SPAWN_ALL =
+            new KeyTrigger(KeyInput.KEY_L);
 
     public final static String MAPPING_MAKE_PASSABLE = "Make passable";
     public final static String MAPPING_RESET = "Reset";
@@ -59,6 +61,7 @@ public final class ListenerManager {
     public final static String MAPPING_PUT_EXTRACTED_ESSENCE = "Put extracted essence";
     public final static String MAPPING_SELL_ESSENCE = "Sell essence";
     public final static String MAPPING_UPGRADE_ESSENCE = "Upgrade essence";
+    public final static String MAPPING_SPAWN_ALL = "Spawn all";
 
     public static void registerListener() {
         InputManager inputManager = Configuration.getInputManager();
@@ -74,7 +77,8 @@ public final class ListenerManager {
         inputManager.addMapping(MAPPING_BUY_ESSENCE, TRIGGER_BUY_ESSENCE);
         inputManager.addMapping(MAPPING_PUT_EXTRACTED_ESSENCE, TRIGGER_PUT_EXTRACTED_ESSENCE);
         inputManager.addMapping(MAPPING_SELL_ESSENCE, TRIGGER_SELL_ESSENCE);
-        inputManager.addMapping(MAPPING_UPGRADE_ESSENCE,TRIGGER_UPGRADE_ESSENCE);
+        inputManager.addMapping(MAPPING_UPGRADE_ESSENCE, TRIGGER_UPGRADE_ESSENCE);
+        inputManager.addMapping(MAPPING_SPAWN_ALL, TRIGGER_SPAWN_ALL);
 
         inputManager.addListener(new CellListener(),
                 MAPPING_MAKE_PASSABLE,
@@ -88,7 +92,8 @@ public final class ListenerManager {
 
         inputManager.addListener(new MonsterListener(),
                 MAPPING_SPAWN_MONSTER,
-                MAPPING_SPAWN_WAVE);
+                MAPPING_SPAWN_WAVE,
+                MAPPING_SPAWN_ALL);
 
         inputManager.addListener(new EssenceListener(),
                 MAPPING_BUY_ESSENCE,

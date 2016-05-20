@@ -8,6 +8,8 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.system.JmeDesktopSystem;
+import com.jme3.system.JmeSystemDelegate;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
@@ -21,7 +23,6 @@ import io.github.sevjet.essensedefence.util.Creator;
 import io.github.sevjet.essensedefence.util.GeometryManager;
 
 import static io.github.sevjet.essensedefence.util.Creator.*;
-import static io.github.sevjet.essensedefence.util.Tester.testGamer;
 import static io.github.sevjet.essensedefence.util.Tester.testText;
 
 public class GamePlayAppState extends AbstractAppState {
@@ -35,12 +36,12 @@ public class GamePlayAppState extends AbstractAppState {
     protected void initStartData() {
         Node debugNode = debugSet();
         Configuration.getRootNode().attachChild(debugNode);
-
         ListenerManager.registerListener();
 
         Creator.attachCenterMark();
 
-        GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f, "cell", ColorRGBA.Black));
+//        GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f, "cell", ColorRGBA.Black));
+        GeometryManager.setDefault(Cell.class, myQuad(1, 1, "cell", ColorRGBA.Black));
         GeometryManager.setDefault(MapCell.class, GeometryManager.getDefault(Cell.class));
         GeometryManager.setDefault(InventoryCell.class, GeometryManager.getDefault(Cell.class));
         GeometryManager.setDefault(Wall.class, myBox(1 / 2f, 1 / 2f, 1f, "wall", ColorRGBA.Cyan));
@@ -54,6 +55,37 @@ public class GamePlayAppState extends AbstractAppState {
         sun.setDirection(new Vector3f(1, 0, -2).normalizeLocal());
         sun.setColor(ColorRGBA.White);
         Configuration.getRootNode().addLight(sun);
+
+
+        Gamer gamer = new Gamer(100);
+        Configuration.setGamer(gamer);
+        gamer.setGui();
+    }
+
+    private void placeGameFields() {
+        Node invent = Configuration.getGamer().getInventory();
+
+        Configuration.getRootNode().attachChild(invent);
+        invent.setLocalTranslation(40f, 10f, 1f);
+        invent.scale(2.5f);
+        invent.rotate(
+                -90 * FastMath.DEG_TO_RAD,
+                000 * FastMath.DEG_TO_RAD,
+                000 * FastMath.DEG_TO_RAD
+        );
+//        grid.rotate(
+//                -90 * FastMath.DEG_TO_RAD,
+//                +90 * FastMath.DEG_TO_RAD,
+//                000 * FastMath.DEG_TO_RAD
+//        );
+
+        field.setLocalTranslation(5, 10, 1);
+        field.rotate(
+                -90 * FastMath.DEG_TO_RAD,
+                000 * FastMath.DEG_TO_RAD,
+                000 * FastMath.DEG_TO_RAD
+        );
+        Configuration.getRootNode().attachChild(field);
     }
 
     @Override
@@ -62,18 +94,14 @@ public class GamePlayAppState extends AbstractAppState {
 
         initStartData();
         testText();
-        testGamer();
 
 //        field = load();
 //        field.setLocalTranslation(-55, 10, 0);
 //        Configuration.getRootNode().attachChild(field);
 
-        field = new MapField(50, 50);
-//        field.rotate(-90 * FastMath.DEG_TO_RAD, 0, 0);
-        field.setLocalTranslation(5, 10, 1);
-        Configuration.getRootNode().attachChild(field);
-//        guiNode.attachChild(Configuration.getRootNode());
-//        Configuration.getRootNode().scale(30);
+        field = new MapField(25, 25);
+
+        placeGameFields();
     }
 
     @Override

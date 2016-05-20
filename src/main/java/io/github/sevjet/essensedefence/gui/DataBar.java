@@ -3,6 +3,7 @@ package io.github.sevjet.essensedefence.gui;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.shape.Quad;
 import io.github.sevjet.essensedefence.util.Creator;
 
 public class DataBar extends Node {
@@ -19,12 +20,16 @@ public class DataBar extends Node {
     public DataBar(float width, float height) {
         this.width = width;
         this.height = height;
+        float bound = 0.3f * height;
+
         bar = Creator.myQuad(width, height, ColorRGBA.Green);
-        backGround = Creator.myQuad(width, height, ColorRGBA.LightGray);
+        backGround = Creator.myQuad(width + bound, height + bound, ColorRGBA.Black);
 
         attachChild(bar);
         attachChild(backGround);
+
         moveToCenter();
+        moveBack(backGround);
     }
 
     public void setBackGroundColor(ColorRGBA color) {
@@ -52,10 +57,14 @@ public class DataBar extends Node {
         ));
     }
 
-
     private void moveToCenter() {
         bar.setLocalTranslation(-width / 2f, -height / 2f, 0);
-        backGround.setLocalTranslation(-width / 2f, -height / 2f, 0);
+        Quad q = (Quad) backGround.getMesh();
+        backGround.setLocalTranslation(-q.getWidth() / 2f, -q.getHeight() / 2f, 0f);
+    }
+
+
+    private void moveBack(Geometry backGround) {
         backGround.move(0f, 0f, -0.01f);
     }
 }
