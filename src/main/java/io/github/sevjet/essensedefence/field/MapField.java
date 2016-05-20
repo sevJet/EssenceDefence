@@ -1,6 +1,5 @@
 package io.github.sevjet.essensedefence.field;
 
-import com.jme3.input.controls.ActionListener;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
@@ -10,8 +9,11 @@ import io.github.sevjet.essensedefence.gui.GuiControl;
 
 public class MapField extends Field<MapCell> {
 
+    private int[][] graph = null;
+
     @SuppressWarnings("unused")
     public MapField() {
+        super();
     }
 
     public MapField(final int cols, final int rows) {
@@ -19,18 +21,20 @@ public class MapField extends Field<MapCell> {
     }
 
     public int[][] getPassable() {
-        int passable[][] = new int[getRows()][];
-        for (int i = 0; i < getRows(); i++) {
-            passable[i] = new int[getCols()];
-            for (int j = 0; j < getCols(); j++) {
-                final MapCell cell = getCell(i, j);
-                passable[i][j] = (cell.isPassable() &&
-                        (!cell.hasContent() ||
-                                cell.getContent() instanceof Fortress) ||
-                        cell.getContent() instanceof Portal) ? 0 : -1;
+        if (graph == null) {
+            graph = new int[getRows()][];
+            for (int i = 0; i < getRows(); i++) {
+                graph[i] = new int[getCols()];
+                for (int j = 0; j < getCols(); j++) {
+                    final MapCell cell = getCell(i, j);
+                    graph[i][j] = (cell.isPassable() &&
+                            (!cell.hasContent() ||
+                                    cell.getContent() instanceof Fortress) ||
+                            cell.getContent() instanceof Portal) ? 0 : -1;
+                }
             }
         }
-        return passable;
+        return graph;
     }
 
     public void build(final int x, final int y, final Building building) {
@@ -58,13 +62,10 @@ public class MapField extends Field<MapCell> {
 
     @Override
     public boolean removeObject(final Entity entity) {
-        if (super.removeObject(entity)) {
-            if (entity instanceof Building) {
-                freeCells((Building) entity);
-            }
-            return true;
+        if (entity instanceof Building) {
+            freeCells((Building) entity);
         }
-        return false;
+        return super.removeObject(entity);
     }
 
     public boolean enoughPlaceFor(final MapCell cell, final Building building) {
