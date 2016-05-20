@@ -74,7 +74,7 @@ public final class ListenerManager {
         inputManager.addMapping(MAPPING_BUY_ESSENCE, TRIGGER_BUY_ESSENCE);
         inputManager.addMapping(MAPPING_PUT_EXTRACTED_ESSENCE, TRIGGER_PUT_EXTRACTED_ESSENCE);
         inputManager.addMapping(MAPPING_SELL_ESSENCE, TRIGGER_SELL_ESSENCE);
-        inputManager.addMapping(MAPPING_UPGRADE_ESSENCE,TRIGGER_UPGRADE_ESSENCE);
+        inputManager.addMapping(MAPPING_UPGRADE_ESSENCE, TRIGGER_UPGRADE_ESSENCE);
 
         inputManager.addListener(new CellListener(),
                 MAPPING_MAKE_PASSABLE,

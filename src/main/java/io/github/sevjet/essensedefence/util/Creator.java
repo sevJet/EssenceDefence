@@ -8,6 +8,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.debug.Grid;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
 import com.jme3.scene.shape.Quad;
@@ -61,20 +62,21 @@ public final class Creator {
     }
 
     public static Node gridXY(int rowLen, int colLen, float lineDist, ColorRGBA clr, float lineWidth) {
-//        Node axis = new Node();
-//        Geometry geom;
-//
-//        Grid grid = new Grid(rowLen, colLen, lineDist);
-//        geom = new Geometry("gridXY", grid);
-//        Material mat = new Material(Configuration.getAssetManager(),
-//                "Common/MatDefs/Misc/Unshaded.j3md");
-//        mat.setColor("Color", clr);
-//        geom.setMaterial(mat);
-//        geom.rotate(-90f * (float) Math.PI / 180f, 0, 0);
-//        axis.attachChild(geom);
-//
-//        return axis;
-        return tempGridXY(rowLen, colLen, lineDist, clr, lineWidth);
+        Node axis = new Node();
+        Geometry geom;
+
+        Grid grid = new Grid(colLen, rowLen, lineDist);
+        grid.setLineWidth(lineWidth);
+        geom = new Geometry("gridXY", grid);
+        Material mat = new Material(Configuration.getAssetManager(),
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", clr);
+        geom.setMaterial(mat);
+        geom.rotate(-90f * (float) Math.PI / 180f, 0, 0);
+        axis.attachChild(geom);
+
+        return axis;
+//        return tempGridXY(rowLen, colLen, lineDist, clr, lineWidth);
     }
 
     public static Node gridXY(int length, ColorRGBA clr) {

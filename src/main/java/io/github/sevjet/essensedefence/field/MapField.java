@@ -4,11 +4,14 @@ import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
+import io.github.sevjet.essensedefence.entity.monster.Monster;
+import io.github.sevjet.essensedefence.gui.GuiControl;
 
 public class MapField extends Field<MapCell> {
 
     @SuppressWarnings("unused")
-    public MapField() {  }
+    public MapField() {
+    }
 
     public MapField(final int cols, final int rows) {
         super(cols, rows);
@@ -85,4 +88,13 @@ public class MapField extends Field<MapCell> {
         }
     }
 
+    @Override
+    protected void guiFor(Entity object) {
+        if (object instanceof Fortress) {
+            this.addControl(new GuiControl(object, "XP:", 5f, 1f / 5f));
+        }
+        if (object instanceof Monster) {
+            this.addControl(new GuiControl(object, "xp:", 1f, 1f / 8f));
+        }
+    }
 }

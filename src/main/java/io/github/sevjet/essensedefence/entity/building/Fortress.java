@@ -28,8 +28,6 @@ public class Fortress extends Building implements ITextual {
     }
 
     private void tempMethod() {
-        newText("Health of fortress:", 0);
-
     }
 
     public void hit(float damage) {

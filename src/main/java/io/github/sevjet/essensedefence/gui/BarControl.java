@@ -4,24 +4,32 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import io.github.sevjet.essensedefence.entity.Entity;
-import io.github.sevjet.essensedefence.util.Getter;
 
 public class BarControl extends AbstractControl {
     private ITextual object;
     private float max;
     private float now;
     private DataBar bar;
+    private BarMode mode = BarMode.StartMax;
 
-    public BarControl(Entity entity) {
-        if (entity instanceof ITextual) {
-            this.object = (ITextual) entity;
-        } else {
-            throw new ClassCastException(Getter.getEntity(getSpatial()).getClass().toString() +
-                    " must implement ITextual interface!!!");
-        }
+    public BarControl(ITextual entity) {
+        this.object = entity;
+
         max = Float.parseFloat(object.outputValue());
         now = max;
+    }
+
+    public BarControl(ITextual entity, BarMode mode) {
+        this(entity);
+        this.mode = mode;
+    }
+
+    public float getMax() {
+        return max;
+    }
+
+    public void setMax(float max) {
+        this.max = max;
     }
 
     @Override
@@ -38,6 +46,7 @@ public class BarControl extends AbstractControl {
     @Override
     protected void controlUpdate(float tpf) {
         now = Float.parseFloat(object.outputValue());
+        useMode(mode, now);
         float ratio = now / max;
         bar.setRatio(ratio);
     }
@@ -46,4 +55,17 @@ public class BarControl extends AbstractControl {
     protected void controlRender(RenderManager rm, ViewPort vp) {
 
     }
+
+    protected void useMode(BarMode mode, float now) {
+        switch (mode) {
+            case StartMax:
+                if (now > max)
+                    setMax(now);
+                break;
+            case EndlessLog10:
+                setMax(1 + (float) Math.pow(10, Math.ceil(Math.log10(now))));
+                break;
+        }
+    }
 }
+

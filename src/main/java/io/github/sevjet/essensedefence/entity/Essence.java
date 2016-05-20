@@ -62,7 +62,7 @@ public class Essence extends Entity3D implements IBuyable {
     }
 
     public float sell() {
-        if(geometry.removeFromParent()) {
+        if (geometry.removeFromParent()) {
             Configuration.getGamer().incGold(price);
             return price;
         }
@@ -130,7 +130,7 @@ public class Essence extends Entity3D implements IBuyable {
     }
 
     public boolean upgrade() {
-        if(Configuration.getGamer().getGold() <= 5 * level) {
+        if (Configuration.getGamer().getGold() <= 5 * level) {
             return false;
         }
         level++;

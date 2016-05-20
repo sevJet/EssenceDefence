@@ -8,11 +8,6 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Entity;
-import io.github.sevjet.essensedefence.entity.building.Building;
-import io.github.sevjet.essensedefence.entity.building.Fortress;
-import io.github.sevjet.essensedefence.entity.building.Portal;
-import io.github.sevjet.essensedefence.entity.monster.Monster;
-import io.github.sevjet.essensedefence.gui.GuiControl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,6 +49,7 @@ public abstract class Field<T extends Cell> extends Node {
 
     protected boolean gridOn() {
         // FIXME: 09/05/2016 lineWidth don't save
+        // FIXME: 20/05/2016 old grid, don't saved
         grid = gridXY(getCols() + 1, getRows() + 1, 1, ColorRGBA.Gray, 5f);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
         attachChild(grid);
@@ -68,10 +64,6 @@ public abstract class Field<T extends Cell> extends Node {
         return cells.get(index);
     }
 
-    public Node getObjects(final Class<? extends Entity> clazz) {
-        return objects.get(clazz);
-    }
-
     public T getCell(final Geometry geom) {
         if (geom != null &&
                 geom.getParent() != null &&
@@ -81,6 +73,10 @@ public abstract class Field<T extends Cell> extends Node {
             return getCell(x, y);
         }
         return null;
+    }
+
+    public Node getObjects(final Class<? extends Entity> clazz) {
+        return objects.get(clazz);
     }
 
     public boolean addObject(final Entity object) {
@@ -98,13 +94,13 @@ public abstract class Field<T extends Cell> extends Node {
         return false;
     }
 
-    private void guiFor(Entity object) {
-        if (object instanceof Fortress) {
-            this.addControl(new GuiControl(object, "XP:", 3f, 1f / 5f));
-        }
-        if (object instanceof Monster) {
-            this.addControl(new GuiControl(object, "xp:", 1f, 1f / 8f));
-        }
+    protected void guiFor(Entity object) {
+//        if (object instanceof Fortress) {
+//            this.addControl(new GuiControl(object, "XP:", 3f, 1f / 5f));
+//        }
+//        if (object instanceof Monster) {
+//            this.addControl(new GuiControl(object, "xp:", 1f, 1f / 8f));
+//        }
     }
 
     public boolean removeObject(final Entity object) {
@@ -138,6 +134,7 @@ public abstract class Field<T extends Cell> extends Node {
 
     @Override
     public void write(JmeExporter ex) throws IOException {
+        // TODO: 20/05/2016 detach grid
         super.write(ex);
 
         OutputCapsule capsule = ex.getCapsule(this);

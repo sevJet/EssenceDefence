@@ -40,7 +40,8 @@ public abstract class Building extends Entity3D {
         this.health = health;
     }
 
-    public void build() {  }
+    public void build() {
+    }
 
     public void destroy() {
         destroyed = true;

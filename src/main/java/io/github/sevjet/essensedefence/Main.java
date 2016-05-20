@@ -37,6 +37,7 @@ public class Main extends SimpleApplication {
         settings.setBitsPerPixel(mode.getBitDepth());
 //        settings.setDisplayFps(false);
 //        settings.setDisplayStatView(false);
+
         return settings;
     }
 
@@ -49,6 +50,7 @@ public class Main extends SimpleApplication {
     }
 
     protected void initStartSettings() {
+        jme3tools.optimize.GeometryBatchFactory.optimize(rootNode);
 //        flyCam.setEnabled(false);
         flyCam.setMoveSpeed(100);
 //        cam.setLocation(new Vector3f(0f, 32f, 100f));
