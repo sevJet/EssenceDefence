@@ -35,7 +35,7 @@ public class MapField extends Field<MapCell> {
     public void build(final int x, final int y, final Building building) {
         for (int i = x; i < x + building.getSize().getWidth(); i++) {
             for (int j = y; j < y + building.getSize().getHeight(); j++) {
-                getCell(x, y).setContent(building);
+                getCell(i, j).setContent(building);
             }
         }
         building.setX(x);
