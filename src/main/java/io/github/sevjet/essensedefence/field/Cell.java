@@ -39,11 +39,6 @@ public class Cell<T extends Entity> extends Entity {
     public void setContent(T content) {
         this.content = content;
 
-        if (content != null) {
-            content.setX(getX());
-            content.setY(getY());
-            content.setZ(0);
-        }
         update();
     }
 

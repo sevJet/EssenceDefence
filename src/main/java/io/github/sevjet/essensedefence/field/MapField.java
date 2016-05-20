@@ -8,7 +8,8 @@ import io.github.sevjet.essensedefence.entity.building.Portal;
 public class MapField extends Field<MapCell> {
 
     @SuppressWarnings("unused")
-    public MapField() {  }
+    public MapField() {
+    }
 
     public MapField(final int cols, final int rows) {
         super(cols, rows);
@@ -53,10 +54,10 @@ public class MapField extends Field<MapCell> {
     }
 
     @Override
-    public boolean removeObject(final Entity object) {
-        if (super.removeObject(object)) {
-            if (object instanceof Building) {
-                freeCells((Building) object);
+    public boolean removeObject(final Entity entity) {
+        if (super.removeObject(entity)) {
+            if (entity instanceof Building) {
+                freeCells((Building) entity);
             }
             return true;
         }
