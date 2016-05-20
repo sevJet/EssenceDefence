@@ -33,7 +33,8 @@ public class Main extends SimpleApplication {
         settings.setResolution(mode.getWidth(), mode.getHeight());
         settings.setFrequency(mode.getRefreshRate());
 //        settings.setFullscreen(device.isFullScreenSupported());
-        settings.setSamples(16);
+        settings.setSamples(2);
+//        settings.setSamples(16);
         settings.setBitsPerPixel(mode.getBitDepth());
 //        settings.setDisplayFps(false);
 //        settings.setDisplayStatView(false);

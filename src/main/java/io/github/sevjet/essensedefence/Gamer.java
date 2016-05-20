@@ -99,7 +99,7 @@ class EndlessLogBar extends AbstractControl {
         float dist10m = GUI_SCALE / 10f;
 
         bar = new DataBar(5f, 1f / 2f);
-        barC = new BarControl(gamer, BarMode.EndlessLog10);
+        barC = new BarControl(gamer, BarMode.EndlessX2);
         bar.addControl(barC);
 
         text = Creator.text2D("", ColorRGBA.White);

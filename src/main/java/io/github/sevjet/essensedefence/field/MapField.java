@@ -1,5 +1,6 @@
 package io.github.sevjet.essensedefence.field;
 
+import com.jme3.input.controls.ActionListener;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
@@ -91,7 +92,7 @@ public class MapField extends Field<MapCell> {
     @Override
     protected void guiFor(Entity object) {
         if (object instanceof Fortress) {
-            this.addControl(new GuiControl(object, "XP:", 5f, 1f / 5f));
+            this.addControl(new GuiControl(object, "XP:", 3f, 1f / 5f));
         }
         if (object instanceof Monster) {
             this.addControl(new GuiControl(object, "xp:", 1f, 1f / 8f));

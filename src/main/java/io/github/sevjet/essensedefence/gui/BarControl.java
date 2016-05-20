@@ -65,6 +65,10 @@ public class BarControl extends AbstractControl {
             case EndlessLog10:
                 setMax(1 + (float) Math.pow(10, Math.ceil(Math.log10(now))));
                 break;
+            case EndlessX2:
+                if (now > max)
+                    setMax(2 * max);
+                break;
         }
     }
 }

@@ -8,6 +8,8 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.system.JmeDesktopSystem;
+import com.jme3.system.JmeSystemDelegate;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
@@ -64,8 +66,8 @@ public class GamePlayAppState extends AbstractAppState {
         Node invent = Configuration.getGamer().getInventory();
 
         Configuration.getRootNode().attachChild(invent);
-        invent.setLocalTranslation(70f, 10f, 1f);
-        invent.scale(5);
+        invent.setLocalTranslation(40f, 10f, 1f);
+        invent.scale(2.5f);
         invent.rotate(
                 -90 * FastMath.DEG_TO_RAD,
                 000 * FastMath.DEG_TO_RAD,
@@ -76,7 +78,6 @@ public class GamePlayAppState extends AbstractAppState {
 //                +90 * FastMath.DEG_TO_RAD,
 //                000 * FastMath.DEG_TO_RAD
 //        );
-
 
         field.setLocalTranslation(5, 10, 1);
         field.rotate(
@@ -98,7 +99,7 @@ public class GamePlayAppState extends AbstractAppState {
 //        field.setLocalTranslation(-55, 10, 0);
 //        Configuration.getRootNode().attachChild(field);
 
-        field = new MapField(50, 50);
+        field = new MapField(25, 25);
 
         placeGameFields();
     }
