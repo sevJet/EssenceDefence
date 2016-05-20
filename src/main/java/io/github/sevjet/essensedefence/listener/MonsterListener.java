@@ -51,7 +51,7 @@ public class MonsterListener implements ActionListener {
                             }
                             break;
                         case MAPPING_SPAWN_ALL:
-                            for (Spatial sp : field.getObjects(Portal.class).getChildren()){
+                            for (Spatial sp : field.getObjects(Portal.class).getChildren()) {
                                 Portal p = (Portal) Getter.getEntity(sp);
 
                                 ArrayList<Monster> monsters = new ArrayList<>();

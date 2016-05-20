@@ -52,7 +52,9 @@ public class Main extends SimpleApplication {
 
     protected void initStartSettings() {
         jme3tools.optimize.GeometryBatchFactory.optimize(rootNode);
+
 //        flyCam.setEnabled(false);
+
         flyCam.setMoveSpeed(100);
 //        cam.setLocation(new Vector3f(0f, 32f, 100f));
 //        cam.setRotation(new Quaternion(0.0f, 1.0f, 0.0f, 0.0f));

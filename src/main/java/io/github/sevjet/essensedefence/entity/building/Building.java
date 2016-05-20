@@ -5,14 +5,12 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import io.github.sevjet.essensedefence.entity.Entity3D;
-import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.field.MapCell;
 import io.github.sevjet.essensedefence.field.MapField;
 import io.github.sevjet.essensedefence.util.BoxSize;
 
 import java.io.IOException;
-import java.util.Map;
 
 public abstract class Building extends Entity3D {
 
@@ -48,10 +46,10 @@ public abstract class Building extends Entity3D {
     public void build() {
         MapField field = getField();
         if (field != null) {
-            for(int i=getX();i<getX()+getSize().getWidth();i++) {
-                for(int j=getY();j<getY()+getSize().getHeight();j++) {
+            for (int i = getX(); i < getX() + getSize().getWidth(); i++) {
+                for (int j = getY(); j < getY() + getSize().getHeight(); j++) {
                     final MapCell cell = field.getCell(i, j);
-                    if(cell != null) {
+                    if (cell != null) {
                         cell.setContent(this);
                     }
                 }

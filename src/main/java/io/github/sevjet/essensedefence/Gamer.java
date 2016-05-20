@@ -17,7 +17,7 @@ import io.github.sevjet.essensedefence.util.Creator;
 
 import java.io.IOException;
 
-import static io.github.sevjet.essensedefence.gui.MovementOnGuiControl.GUI_SCALE;
+import static io.github.sevjet.essensedefence.gui.MovementOnGuiControl.SCALE_FROM_3D_TO_GUI;
 
 public class Gamer implements ITextual {
 
@@ -96,7 +96,7 @@ class EndlessLogBar extends AbstractControl {
 
     public EndlessLogBar(Gamer gamer) {
         this.gamer = gamer;
-        float dist10m = GUI_SCALE / 10f;
+        float dist10m = SCALE_FROM_3D_TO_GUI / 10f;
 
         bar = new DataBar(5f, 1f / 2f);
         barC = new BarControl(gamer, BarMode.EndlessX2);

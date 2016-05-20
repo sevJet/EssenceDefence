@@ -50,7 +50,7 @@ public abstract class Field<T extends Cell> extends Node {
     protected boolean gridOn() {
         // FIXME: 09/05/2016 lineWidth don't save
         // FIXME: 20/05/2016 old grid, don't saved
-        grid = gridXY(getCols() + 1, getRows() + 1, 1, ColorRGBA.Gray, 5f);
+        grid = gridXY(getCols() + 1, getRows() + 1, 1, ColorRGBA.Gray, 3f);
         grid.setLocalTranslation(-0.5f, -0.5f, 0);
         attachChild(grid);
         return true;
@@ -166,4 +166,7 @@ public abstract class Field<T extends Cell> extends Node {
         }
     }
 
+    public Node getGrid() {
+        return grid;
+    }
 }
