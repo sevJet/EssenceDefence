@@ -1,12 +1,8 @@
 package io.github.sevjet.essensedefence;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.Camera;
-import com.jme3.renderer.ViewPort;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
 import io.github.sevjet.essensedefence.util.Configuration;
@@ -57,7 +53,6 @@ public class Main extends SimpleApplication {
     protected void initStartSettings() {
         jme3tools.optimize.GeometryBatchFactory.optimize(rootNode);
 
-        initNewCam();
 //        flyCam.setEnabled(false);
 
         flyCam.setMoveSpeed(100);
@@ -66,19 +61,6 @@ public class Main extends SimpleApplication {
         cam.setLocation(new Vector3f(33.08874f, 48.561615f, 9.273602f));
         cam.setRotation(new Quaternion(0.008674252f, 0.86961013f, -0.49342605f, 0.015287385f));
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
-    }
-
-    private void initNewCam() {
-        Camera cam2 = cam.clone();
-        cam.setViewPort(0f, 1f, 0f, 1f);
-        cam2.setViewPort(0.7f, 1f, 0.7f, 1f);
-        ViewPort v = renderManager.createMainView("fdsf", cam2);
-        v.setEnabled(true);
-        v.attachScene(rootNode);
-        v.setBackgroundColor(ColorRGBA.Green);
-        v.setClearColor(true);
-        cam2.setLocation(new Vector3f(25f, 45f, -10f));
-        cam2.setRotation(new Quaternion(0f, 0.71243817f, -0.7017349f, 0f));
     }
 
     @Override

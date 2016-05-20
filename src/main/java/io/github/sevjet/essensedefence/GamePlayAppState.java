@@ -6,10 +6,11 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
-import com.jme3.system.JmeDesktopSystem;
-import com.jme3.system.JmeSystemDelegate;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
@@ -102,7 +103,25 @@ public class GamePlayAppState extends AbstractAppState {
         field = new MapField(25, 25);
 
         placeGameFields();
+        initNewCam(0.7f, 1f, 0.7f, 1f, ColorRGBA.Black, Configuration.getRootNode());
+        initNewCam(0.7f, 1f, 0.4f, 0.69f, ColorRGBA.LightGray, field.getObjects(MapCell.class), field.getGrid());
+        initNewCam(0f, 0.3f, 0.7f, 1f, ColorRGBA.Gray, Configuration.getGuiNode());
     }
+
+    private void initNewCam(float left, float right, float bottom, float top, ColorRGBA color, Node... nodes) {
+        Camera cam2 = Configuration.getCam().clone();
+        cam2.setViewPort(left, right, bottom, top);
+        ViewPort v = Configuration.getApp().getRenderManager().createMainView("Overhead view for cell", cam2);
+        v.setEnabled(true);
+        for (Node n : nodes) {
+            v.attachScene(n);
+        }
+        v.setBackgroundColor(color);
+        v.setClearColor(true);
+        cam2.setLocation(new Vector3f(25f, 45f, -10f));
+        cam2.setRotation(new Quaternion(0f, 0.71243817f, -0.7017349f, 0f));
+    }
+
 
     @Override
     public void cleanup() {

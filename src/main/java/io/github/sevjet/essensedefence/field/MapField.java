@@ -1,6 +1,5 @@
 package io.github.sevjet.essensedefence.field;
 
-import com.jme3.input.controls.ActionListener;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.building.Building;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
