@@ -241,10 +241,12 @@ public final class Creator {
         return debugNode;
     }
 
+    @Deprecated
     public static BitmapText text(String text) {
         return text(text, ColorRGBA.White);
     }
 
+    @Deprecated
     public static BitmapText text(String text, int rowNum) {
         BitmapFont guiFont;
 //        Configuration.getAssetManager().registerLocator("./", FileLocator.class);
@@ -253,16 +255,19 @@ public final class Creator {
         return text(text, 0, Configuration.getSettings().getHeight() - rowNum * guiFont.getCharSet().getRenderedSize());
     }
 
+    @Deprecated
     public static BitmapText text(String text, float x, float y) {
         BitmapText helloText = Creator.text(text, x, y, ColorRGBA.White);
         Configuration.getGuiNode().attachChild(helloText);
         return helloText;
     }
 
+    @Deprecated
     public static BitmapText text(String text, ColorRGBA clr) {
         return text(text, 0, Configuration.getSettings().getHeight(), clr);
     }
 
+    @Deprecated
     public static BitmapText text(String text, float x, float y, ColorRGBA clr) {
         BitmapText helloText = Creator.text(text, x, y, clr, true);
 //        helloText.setAlpha(0.5f);
@@ -270,6 +275,7 @@ public final class Creator {
         return helloText;
     }
 
+    @Deprecated
     public static BitmapText text(String text, float x, float y, ColorRGBA clr, boolean attached) {
         BitmapFont guiFont;
 //        Configuration.getAssetManager().registerLocator("./", FileLocator.class);
