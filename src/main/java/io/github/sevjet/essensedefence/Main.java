@@ -1,15 +1,26 @@
 package io.github.sevjet.essensedefence;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
 import io.github.sevjet.essensedefence.util.Configuration;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
+import static io.github.sevjet.essensedefence.GamePlayAppState.field;
 
 public class Main extends SimpleApplication {
+
+    // TODO: 21/05/2016 fix it
+    public static InfoScreen start;
 
     public static AppSettings mySettings() {
         AppSettings settings = new AppSettings(true);
@@ -51,7 +62,10 @@ public class Main extends SimpleApplication {
     }
 
     protected void initStartSettings() {
-        jme3tools.optimize.GeometryBatchFactory.optimize(rootNode);
+        Configuration.setSettings(settings);
+        Configuration.setApp(this);
+        Configuration.setAppState(stateManager);
+//        jme3tools.optimize.GeometryBatchFactory.optimize(rootNode);
 
 //        flyCam.setEnabled(false);
 
@@ -66,13 +80,13 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         initStartSettings();
-        Configuration.setSettings(settings);
-        Configuration.setApp(this);
-        Configuration.setAppState(stateManager);
 
         GamePlayAppState state = new GamePlayAppState();
         stateManager.attach(state);
 
+        setPauseOnLostFocus(false);
+        start = new InfoScreen();
+        flyCam.setDragToRotate(true);
     }
 
     @Override
@@ -83,5 +97,47 @@ public class Main extends SimpleApplication {
     @Override
     public void update() {
         super.update();
+    }
+
+    @Override
+    public void stop() {
+//        save_model();
+//
+        super.stop();
+    }
+
+    // TODO: 21/05/2016 delete
+    private void save_model() {
+        field.getGrid().removeFromParent();
+//        Configuration.getGamer().getInventory().removeFromParent();
+        detachAllControl(rootNode);
+        String userHome = System.getProperty("user.home");
+        BinaryExporter exporter = BinaryExporter.getInstance();
+        File file = new File(userHome + "/Models" + "RootNode.j3o");
+        try {
+            exporter.save(rootNode, file);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // TODO: 21/05/2016 delete
+    private void detachAllControl(Spatial spatial) {
+        Node rootNode;
+        if (spatial == null)
+            return;
+        if (spatial instanceof Node) {
+            rootNode = (Node) spatial;
+            for (Spatial sp : rootNode.getChildren()) {
+                for (int i = 0; i < sp.getNumControls(); i++) {
+                    sp.removeControl(AbstractControl.class);
+                }
+                detachAllControl(sp);
+            }
+        } else for (int i = 0; i < spatial.getNumControls(); i++) {
+            spatial.removeControl(AbstractControl.class);
+        }
     }
 }

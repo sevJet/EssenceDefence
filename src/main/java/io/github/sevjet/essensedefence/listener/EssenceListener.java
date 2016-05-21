@@ -2,17 +2,21 @@ package io.github.sevjet.essensedefence.listener;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
+import de.lessvoid.nifty.elements.Element;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Building;
 import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.field.*;
 import io.github.sevjet.essensedefence.util.Configuration;
 
+import static io.github.sevjet.essensedefence.Main.start;
 import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
 
+// TODO: 21/05/2016 refactoring alllllll
 public class EssenceListener implements ActionListener {
 
     private Essence bufEssence = null;
@@ -45,6 +49,48 @@ public class EssenceListener implements ActionListener {
                 if (bufEssence == null)
                     upgradeEssence();
                 break;
+            // TODO: 21/05/2016 refactor
+            case MAPPING_INFO:
+                results = rayCasting(getInventory(), getField());
+                if (results.size() <= 0) {
+                    return;
+                }
+                Cell cell = getCell(results);
+                if (cell == null) {
+                    return;
+                }
+                Essence essence = null;
+                if (cell instanceof MapCell) {
+                    Building building = ((MapCell) cell).getContent();
+                    if (building instanceof Tower) {
+                        essence = ((Tower) building).getCore();
+                    }
+                }
+                if (cell instanceof InventoryCell) {
+                    essence = ((InventoryCell) cell).getContent();
+                }
+
+
+                if (essence != null) {
+                    int x, y;
+                    Vector3f vec = Configuration.getCam().getScreenCoordinates(
+                            essence.getGeometry().getWorldTranslation()
+                    );
+
+                    x = ((int) vec.getX());
+                    y = ((int) vec.getY());
+
+                    Element txt = start.getElement("GLabel0");
+                    start.setText(txt, "Level: " + essence.getLevel() + '\n' +
+                            "Damage: " + essence.getDamage() + '\n' +
+                            "Range: " + essence.getRange() + '\n' +
+                            "Speed: " + essence.getSpeed() + '\n' +
+                            "Price (buy): " + essence.getPrice());
+                    start.moveTo(txt, x, y);
+                    start.update(txt);
+                    start.showAll();
+                }
+                break;
         }
     }
 
@@ -54,7 +100,8 @@ public class EssenceListener implements ActionListener {
                 name.equals(MAPPING_EXTRACTION_ESSENCE) ||
                 name.equals(MAPPING_PUT_EXTRACTED_ESSENCE) ||
                 name.equals(MAPPING_SELL_ESSENCE) ||
-                name.equals(MAPPING_UPGRADE_ESSENCE)) {
+                name.equals(MAPPING_UPGRADE_ESSENCE) ||
+                name.equals(MAPPING_INFO)) {
             if (isPressed) {
                 onPress(name, tpf);
             } else {

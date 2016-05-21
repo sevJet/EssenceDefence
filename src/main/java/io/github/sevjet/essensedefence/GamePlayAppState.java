@@ -35,12 +35,11 @@ public class GamePlayAppState extends AbstractAppState {
     }
 
     protected void initStartData() {
-        Node debugNode = debugSet();
-        Configuration.getRootNode().attachChild(debugNode);
+//        Node debugNode = debugSet();
+//        Configuration.getRootNode().attachChild(debugNode);
         ListenerManager.registerListener();
 
         Creator.attachCenterMark();
-
 //        GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f, "cell", ColorRGBA.Black));
         GeometryManager.setDefault(Cell.class, myQuad(1, 1, "cell", ColorRGBA.Black));
         GeometryManager.setDefault(MapCell.class, GeometryManager.getDefault(Cell.class));
@@ -66,7 +65,6 @@ public class GamePlayAppState extends AbstractAppState {
     private void placeGameFields() {
         Node invent = Configuration.getGamer().getInventory();
 
-        Configuration.getRootNode().attachChild(invent);
         invent.setLocalTranslation(40f, 10f, 1f);
         invent.scale(2.5f);
         invent.rotate(
@@ -74,6 +72,7 @@ public class GamePlayAppState extends AbstractAppState {
                 000 * FastMath.DEG_TO_RAD,
                 000 * FastMath.DEG_TO_RAD
         );
+        Configuration.getRootNode().attachChild(invent);
 //        grid.rotate(
 //                -90 * FastMath.DEG_TO_RAD,
 //                +90 * FastMath.DEG_TO_RAD,
@@ -96,6 +95,11 @@ public class GamePlayAppState extends AbstractAppState {
         initStartData();
         testText();
 
+        Node invent = Configuration.getGamer().getInventory();
+
+        Configuration.getRootNode().attachChild(invent);
+
+
 //        field = load();
 //        field.setLocalTranslation(-55, 10, 0);
 //        Configuration.getRootNode().attachChild(field);
@@ -106,6 +110,7 @@ public class GamePlayAppState extends AbstractAppState {
         initNewCam(0.7f, 1f, 0.7f, 1f, ColorRGBA.Black, Configuration.getRootNode());
         initNewCam(0.7f, 1f, 0.4f, 0.69f, ColorRGBA.LightGray, field.getObjects(MapCell.class), field.getGrid());
         initNewCam(0f, 0.3f, 0.7f, 1f, ColorRGBA.Gray, Configuration.getGuiNode());
+        setEnabled(false);
     }
 
     private void initNewCam(float left, float right, float bottom, float top, ColorRGBA color, Node... nodes) {
@@ -118,6 +123,7 @@ public class GamePlayAppState extends AbstractAppState {
         }
         v.setBackgroundColor(color);
         v.setClearColor(true);
+        v.setClearDepth(true);
         cam2.setLocation(new Vector3f(25f, 45f, -10f));
         cam2.setRotation(new Quaternion(0f, 0.71243817f, -0.7017349f, 0f));
     }

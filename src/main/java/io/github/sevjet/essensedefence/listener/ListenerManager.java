@@ -31,10 +31,14 @@ public final class ListenerManager {
             new KeyTrigger(KeyInput.KEY_3);
     public final static Trigger TRIGGER_BUILD_FORTRESS =
             new KeyTrigger(KeyInput.KEY_4);
+
     public final static Trigger TRIGGER_SPAWN_MONSTER =
             new KeyTrigger(KeyInput.KEY_F);
     public final static Trigger TRIGGER_SPAWN_WAVE =
             new KeyTrigger(KeyInput.KEY_G);
+    public final static Trigger TRIGGER_SPAWN_ALL =
+            new KeyTrigger(KeyInput.KEY_L);
+
     public final static Trigger TRIGGER_BUY_ESSENCE =
             new KeyTrigger(KeyInput.KEY_B);
     public final static Trigger TRIGGER_EXTRACTION_ESSENCE =
@@ -45,8 +49,9 @@ public final class ListenerManager {
             new KeyTrigger(KeyInput.KEY_M);
     public final static Trigger TRIGGER_UPGRADE_ESSENCE =
             new KeyTrigger(KeyInput.KEY_U);
-    public final static Trigger TRIGGER_SPAWN_ALL =
-            new KeyTrigger(KeyInput.KEY_L);
+
+    public final static Trigger TRIGGER_INFO =
+            new KeyTrigger(KeyInput.KEY_I);
 
     public final static String MAPPING_MAKE_PASSABLE = "Make passable";
     public final static String MAPPING_RESET = "Reset";
@@ -62,23 +67,29 @@ public final class ListenerManager {
     public final static String MAPPING_SELL_ESSENCE = "Sell essence";
     public final static String MAPPING_UPGRADE_ESSENCE = "Upgrade essence";
     public final static String MAPPING_SPAWN_ALL = "Spawn all";
+    public final static String MAPPING_INFO = "Info";
 
     public static void registerListener() {
         InputManager inputManager = Configuration.getInputManager();
         inputManager.addMapping(MAPPING_MAKE_PASSABLE, TRIGGER_MAKE_PASSABLE);
         inputManager.addMapping(MAPPING_RESET, TRIGGER_RESET);
+
         inputManager.addMapping(MAPPING_BUILD_WALL, TRIGGER_BUILD_WALL);
         inputManager.addMapping(MAPPING_BUILD_TOWER, TRIGGER_BUILD_TOWER);
         inputManager.addMapping(MAPPING_BUILD_PORTAL, TRIGGER_BUILD_PORTAL);
         inputManager.addMapping(MAPPING_BUILD_FORTRESS, TRIGGER_BUILD_FORTRESS);
+
         inputManager.addMapping(MAPPING_SPAWN_MONSTER, TRIGGER_SPAWN_MONSTER);
         inputManager.addMapping(MAPPING_SPAWN_WAVE, TRIGGER_SPAWN_WAVE);
+        inputManager.addMapping(MAPPING_SPAWN_ALL, TRIGGER_SPAWN_ALL);
+
         inputManager.addMapping(MAPPING_EXTRACTION_ESSENCE, TRIGGER_EXTRACTION_ESSENCE);
         inputManager.addMapping(MAPPING_BUY_ESSENCE, TRIGGER_BUY_ESSENCE);
         inputManager.addMapping(MAPPING_PUT_EXTRACTED_ESSENCE, TRIGGER_PUT_EXTRACTED_ESSENCE);
         inputManager.addMapping(MAPPING_SELL_ESSENCE, TRIGGER_SELL_ESSENCE);
         inputManager.addMapping(MAPPING_UPGRADE_ESSENCE, TRIGGER_UPGRADE_ESSENCE);
-        inputManager.addMapping(MAPPING_SPAWN_ALL, TRIGGER_SPAWN_ALL);
+
+        inputManager.addMapping(MAPPING_INFO, TRIGGER_INFO);
 
         inputManager.addListener(new CellListener(),
                 MAPPING_MAKE_PASSABLE,
@@ -100,7 +111,8 @@ public final class ListenerManager {
                 MAPPING_SELL_ESSENCE,
                 MAPPING_EXTRACTION_ESSENCE,
                 MAPPING_PUT_EXTRACTED_ESSENCE,
-                MAPPING_UPGRADE_ESSENCE);
+                MAPPING_UPGRADE_ESSENCE,
+                MAPPING_INFO);
     }
 
     static CollisionResults rayCasting() {
