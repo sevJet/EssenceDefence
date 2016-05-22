@@ -47,15 +47,6 @@ public abstract class Field<T extends Cell> extends Node {
 
     protected abstract T newCell(final int x, final int y);
 
-    protected boolean gridOn() {
-        // FIXME: 09/05/2016 lineWidth don't save
-        // FIXME: 20/05/2016 old grid, don't saved
-        grid = gridXY(getCols() + 1, getRows() + 1, 1, ColorRGBA.Gray, 3f);
-        grid.setLocalTranslation(-0.5f, -0.5f, 0);
-        attachChild(grid);
-        return true;
-    }
-
     public T getCell(final int x, final int y) {
         if (x < 0 || x >= cols || y < 0 || y >= rows) {
             return null;
@@ -103,6 +94,22 @@ public abstract class Field<T extends Cell> extends Node {
 //        }
     }
 
+    public abstract boolean canGet(T cell, Class<? extends Entity> contentClass);
+
+    public abstract boolean canSet(T cell, Class<? extends Entity> contentClass);
+
+    public abstract Entity getContent(T cell, Class<? extends Entity> contentClass);
+
+    public Entity getContent(final int x, final int y, Class<? extends Entity> contentClass) {
+        return getContent(getCell(x, y), contentClass);
+    }
+
+    public abstract boolean setContent(T cell, Entity content);
+
+    public boolean setContent(final int x, final int y, Entity content) {
+        return setContent(getCell(x, y), content);
+    }
+
     public boolean removeObject(final Entity object) {
         Node node = objects.get(object.getClass());
         if (node == null) {
@@ -130,6 +137,19 @@ public abstract class Field<T extends Cell> extends Node {
 
     public int getCols() {
         return cols;
+    }
+
+    protected boolean gridOn() {
+        // FIXME: 09/05/2016 lineWidth don't save
+        // FIXME: 20/05/2016 old grid, don't saved
+        grid = gridXY(getCols() + 1, getRows() + 1, 1, ColorRGBA.Gray, 3f);
+        grid.setLocalTranslation(-0.5f, -0.5f, 0);
+        attachChild(grid);
+        return true;
+    }
+
+    public Node getGrid() {
+        return grid;
     }
 
     @Override
@@ -164,9 +184,5 @@ public abstract class Field<T extends Cell> extends Node {
             cells.add((T) el);
 //            }
         }
-    }
-
-    public Node getGrid() {
-        return grid;
     }
 }

@@ -84,9 +84,16 @@ public class Main extends SimpleApplication {
         GamePlayAppState state = new GamePlayAppState();
         stateManager.attach(state);
 
-        setPauseOnLostFocus(false);
         start = new InfoScreen();
         flyCam.setDragToRotate(true);
+
+        Integer n = new Integer(5);
+        System.out.println(n + "\n" +
+                n.getClass() + '\n' +
+                n.getClass().getClass() + '\n' +
+                n.getClass().getClass().getClass() + '\n' +
+                n.getClass().getClass().getClass().getClass() + '\n'
+        );
     }
 
     @Override
