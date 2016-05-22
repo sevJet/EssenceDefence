@@ -121,7 +121,8 @@ public final class ListenerManager {
 
     static CollisionResults rayCasting(Node... objects) {
         CollisionResults results = new CollisionResults();
-        Ray ray = new Ray(Configuration.getCam().getLocation(), Configuration.getCam().getDirection());
+        Ray ray = new Ray(Configuration.getCam().getLocation(),
+                Configuration.getCam().getDirection());
         for (Node with : objects) {
             if (with != null) {
                 with.collideWith(ray, results);

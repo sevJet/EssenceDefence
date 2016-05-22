@@ -1,9 +1,11 @@
 package io.github.sevjet.essensedefence.field;
 
 import io.github.sevjet.essensedefence.entity.Entity;
+import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Building;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Portal;
+import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.gui.GuiControl;
 
@@ -98,5 +100,97 @@ public class MapField extends Field<MapCell> {
         if (object instanceof Monster) {
             this.addControl(new GuiControl(object, "xp:", 1f, 1f / 8f));
         }
+    }
+
+
+    @Override
+    public Entity getContent(MapCell cell, Class<? extends Entity> contentClass) {
+        Entity contentObject;
+        try {
+            contentObject = contentClass.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        if (contentObject instanceof Essence) {
+            Tower tower = (Tower) cell.getContent();
+            Essence essence = tower.getCore();
+            tower.extractCore();
+            return essence;
+        }
+        if (contentObject instanceof Tower) {
+
+        }
+
+        return null;
+    }
+
+
+    @Override
+    public boolean setContent(MapCell cell, Entity content) {
+        if (content instanceof Essence) {
+            Tower tower = (Tower) cell.getContent();
+            if (tower == null)
+                return false;
+            tower.putCore((Essence) content);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canGet(MapCell cell, Class<? extends Entity> contentClass) {
+        Entity contentObject;
+        try {
+            contentObject = contentClass.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if (contentObject instanceof Building) {
+            return cell.hasContent();
+        }
+        if (contentObject instanceof Essence) {
+            if (cell.hasContent() &&
+                    cell.getContent() instanceof Tower) {
+                return ((Tower) cell.getContent()).getCore() != null;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean canSet(MapCell cell, Class<? extends Entity> contentClass) {
+        Entity contentObject;
+        try {
+            contentObject = contentClass.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if (contentObject instanceof Building) {
+            return !cell.hasContent();
+        }
+        if (contentObject instanceof Essence) {
+            if (cell.hasContent() &&
+                    cell.getContent() instanceof Tower) {
+                return ((Tower) cell.getContent()).getCore() == null;
+            }
+        }
+
+        return false;
     }
 }

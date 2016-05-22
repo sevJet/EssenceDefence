@@ -96,7 +96,6 @@ public class GamePlayAppState extends AbstractAppState {
         testText();
 
         Node invent = Configuration.getGamer().getInventory();
-
         Configuration.getRootNode().attachChild(invent);
 
 

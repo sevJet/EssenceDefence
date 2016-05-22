@@ -1,5 +1,6 @@
 package io.github.sevjet.essensedefence.field;
 
+import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.Essence;
 
 public class Inventory extends Field<InventoryCell> {
@@ -75,4 +76,42 @@ public class Inventory extends Field<InventoryCell> {
         return false;
     }
 
+    @Override
+    public Entity getContent(InventoryCell cell, Class<? extends Entity> contentClass) {
+        Entity contentObject;
+        try {
+            contentObject = contentClass.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        if (contentObject instanceof Essence) {
+            return takeEssence(cell);
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean setContent(InventoryCell cell, Entity content) {
+        if (content instanceof Essence) {
+            addEssence((Essence) content, cell);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canGet(InventoryCell cell, Class<? extends Entity> contentClass) {
+        return cell.hasContent();
+    }
+
+    @Override
+    public boolean canSet(InventoryCell cell, Class<? extends Entity> contentClass) {
+        return !cell.hasContent();
+    }
 }
