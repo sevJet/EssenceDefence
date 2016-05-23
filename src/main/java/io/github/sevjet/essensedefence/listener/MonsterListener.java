@@ -32,8 +32,10 @@ public class MonsterListener implements ActionListener {
                 if (field != null) {
                     switch (name) {
                         case MAPPING_SPAWN_MONSTER:
-                            monster = new Monster(cell.getX(), cell.getY(), 30, 10, 10);
-                            field.addObject(monster);
+                            if (!cell.hasContent()) {
+                                monster = new Monster(cell.getX(), cell.getY(), 30, 10, 10);
+                                field.addObject(monster);
+                            }
                             break;
                         case MAPPING_SPAWN_WAVE:
                             if (cell.hasContent() && cell.getContent() instanceof Portal) {

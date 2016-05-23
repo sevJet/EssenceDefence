@@ -4,14 +4,11 @@ import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Building;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
-import io.github.sevjet.essensedefence.entity.building.Portal;
 import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.gui.GuiControl;
 
 public class MapField extends Field<MapCell> {
-
-    private int[][] graph = null;
 
     @SuppressWarnings("unused")
     public MapField() {
@@ -22,27 +19,11 @@ public class MapField extends Field<MapCell> {
         super(cols, rows);
     }
 
-    public int[][] getPassable() {
-        if (graph == null) {
-            graph = new int[getRows()][];
-            for (int i = 0; i < getRows(); i++) {
-                graph[i] = new int[getCols()];
-                for (int j = 0; j < getCols(); j++) {
-                    final MapCell cell = getCell(i, j);
-                    graph[i][j] = (cell.isPassable() &&
-                            (!cell.hasContent() ||
-                                    cell.getContent() instanceof Fortress) ||
-                            cell.getContent() instanceof Portal) ? 0 : -1;
-                }
-            }
-        }
-        return graph;
-    }
-
     public void build(final int x, final int y, final Building building) {
         for (int i = x; i < x + building.getSize().getWidth(); i++) {
             for (int j = y; j < y + building.getSize().getHeight(); j++) {
-                getCell(i, j).setContent(building);
+                final MapCell cell = getCell(i, j);
+                cell.setContent(building);
             }
         }
         building.setX(x);
@@ -87,7 +68,8 @@ public class MapField extends Field<MapCell> {
 
         for (int i = building.getX(); i < building.getX() + building.getSize().getWidth(); i++) {
             for (int j = building.getY(); j < building.getY() + building.getSize().getHeight(); j++) {
-                getCell(i, j).free();
+                final MapCell cell = getCell(i, j);
+                cell.free();
             }
         }
     }
@@ -108,11 +90,8 @@ public class MapField extends Field<MapCell> {
         Entity contentObject;
         try {
             contentObject = contentClass.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException ex) {
+            ex.printStackTrace();
             return null;
         }
 
@@ -147,11 +126,8 @@ public class MapField extends Field<MapCell> {
         Entity contentObject;
         try {
             contentObject = contentClass.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException ex) {
+            ex.printStackTrace();
             return false;
         }
 
@@ -173,11 +149,8 @@ public class MapField extends Field<MapCell> {
         Entity contentObject;
         try {
             contentObject = contentClass.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException ex) {
+            ex.printStackTrace();
             return false;
         }
 

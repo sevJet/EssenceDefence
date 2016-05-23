@@ -3,9 +3,8 @@ package io.github.sevjet.essensedefence.listener;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.AnalogListener;
-import io.github.sevjet.essensedefence.field.Cell;
-import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.field.MapCell;
+import io.github.sevjet.essensedefence.field.MapField;
 
 import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
 
@@ -19,16 +18,19 @@ public class CellListener implements AnalogListener {
             results = rayCasting();
 
             if (results.size() > 0) {
-                Cell cell = getCell(results);
-                Field field = cell.getField();
+                MapCell cell = (MapCell) getCell(results);
+                MapField field = cell.getField();
                 //TODO change
-                if (field != null && cell instanceof MapCell) {
+                if (field != null) {
                     switch (name) {
                         case MAPPING_RESET:
                             //TODO change on casting buildings
-                            ((MapCell) cell).removeBuilding();
+                            if (cell.hasContent()) {
+                                cell.removeBuilding();
+                                break;
+                            }
                         case MAPPING_MAKE_PASSABLE:
-                            ((MapCell) cell).setPassably(name.equals(MAPPING_MAKE_PASSABLE));
+                            cell.setPassably(name.equals(MAPPING_MAKE_PASSABLE));
                             break;
                     }
                 }

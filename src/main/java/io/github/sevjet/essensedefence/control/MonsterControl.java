@@ -9,16 +9,14 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.Spline;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
-import io.github.sevjet.essensedefence.field.Field;
+import io.github.sevjet.essensedefence.field.MapCell;
 import io.github.sevjet.essensedefence.field.MapField;
+import io.github.sevjet.essensedefence.util.PathBuilder;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class MonsterControl extends BasicControl {
 
@@ -44,38 +42,18 @@ public class MonsterControl extends BasicControl {
         if (delay > 0f) {
             return;
         }
-        if (fortress == null || fortress.isEnded()) {
-            findFortress();
+        delay = 0f;
+        if (path == null || fortress == null || fortress.isEnded()) {
             if (event != null) {
                 event.stop();
                 spatial.removeControl(MotionEvent.class);
                 event = null;
             }
-            path = null;
-            // TODO: 19.05.16 this is just update
-            entity.setZ(0);
+            initPath();
+            delay += 2f;
         }
-        if (fortress != null) {
-            if (path == null || path.getNbWayPoints() == 0) {
-                initPath();
-            }
-            delay += 5f;
-        } else {
+        if (path == null) {
             delay += 10f;
-        }
-    }
-
-    private void findFortress() {
-        fortress = null;
-        Field field = entity.getField();
-        if (field != null) {
-            Node fortressNode = field.getObjects(Fortress.class);
-            if (fortressNode != null) {
-                Spatial spatial = fortressNode.getChildren().size() > 0 ? fortressNode.getChild(0) : null;
-                if (spatial != null) {
-                    fortress = spatial.getUserData("entity");
-                }
-            }
         }
     }
 
@@ -109,49 +87,17 @@ public class MonsterControl extends BasicControl {
     }
 
     private void buildPath() {
-        final MapField field = monster.getField();
-        final int rows = field.getRows();
-        final int cols = field.getCols();
-        final int passable[][] = field.getPassable();
-        final Queue<Integer> queue = new LinkedList<>();
-        queue.add(Math.round(fortress.getCenter().getX() * cols + fortress.getCenter().getY()));
-        passable[Math.round(fortress.getCenter().getX())][Math.round(fortress.getCenter().getY())] = -2;
-        queue.element();
-        boolean isFound = false;
-        int curVer, x = -1, y = -1;
-        while (!isFound && queue.size() > 0) {
-            curVer = queue.poll();
-            x = curVer / cols;
-            y = curVer % cols;
-            if (x == entity.getX() && y == entity.getY()) {
-                isFound = true;
-                continue;
-            }
-            if ((x + 1 < cols) && passable[x + 1][y] == 0) {
-                passable[x + 1][y] = curVer + 1;
-                queue.add((x + 1) * cols + y);
-            }
-            if ((x - 1 >= 0) && passable[x - 1][y] == 0) {
-                passable[x - 1][y] = curVer + 1;
-                queue.add((x - 1) * cols + y);
-            }
-            if ((y + 1 < rows) && passable[x][y + 1] == 0) {
-                passable[x][y + 1] = curVer + 1;
-                queue.add(x * cols + (y + 1));
-            }
-            if ((y - 1 >= 0) && passable[x][y - 1] == 0) {
-                passable[x][y - 1] = curVer + 1;
-                queue.add(x * cols + (y - 1));
-            }
-        }
-        if (isFound) {
-            path = new MotionPath();
-            while (x != Math.round(fortress.getCenter().getX()) ||
-                    y != Math.round(fortress.getCenter().getY())) {
-                path.addWayPoint(new Vector3f(x, y, entity.getCenter().getZ()));
-                curVer = passable[x][y] - 1;
-                x = curVer / cols;
-                y = curVer % cols;
+        MapField field = monster.getField();
+        path = PathBuilder.atField(field)
+                .from(monster.getX(), monster.getY())
+                .floatingAt(monster.getCenter().getZ())
+                .to(Fortress.class)
+                .build();
+        if (path != null && path.getNbWayPoints() > 0) {
+            Vector3f point = path.getWayPoint(path.getNbWayPoints() - 1);
+            MapCell cell = field.getCell(Math.round(point.getX()), Math.round(point.getY()));
+            if (cell.hasContent() && cell.getContent() instanceof Fortress) {
+                fortress = (Fortress) cell.getContent();
             }
         }
     }

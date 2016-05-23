@@ -6,12 +6,15 @@ import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.ColorRGBA;
 import io.github.sevjet.essensedefence.entity.building.Building;
+import io.github.sevjet.essensedefence.entity.building.Fortress;
+import io.github.sevjet.essensedefence.entity.building.Portal;
 
 import java.io.IOException;
 
 public class MapCell extends Cell<Building> {
 
     protected boolean passable = false;
+    protected boolean passableBuilding = false;
 
     public MapCell() {
         this(0, 0, false, null);
@@ -36,6 +39,7 @@ public class MapCell extends Cell<Building> {
     @Deprecated
     public void setBuilding(Building building) {
         setContent(building);
+        passableBuilding = building instanceof Portal || building instanceof Fortress;
 
         update();
     }
@@ -66,11 +70,12 @@ public class MapCell extends Cell<Building> {
     }
 
     public boolean isPassable() {
-        return passable;
+        return passable || passableBuilding;
     }
 
     public void setPassably(final boolean passable) {
         this.passable = passable;
+
 
         update();
     }

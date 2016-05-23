@@ -42,6 +42,10 @@ public class Cell<T extends Entity> extends Entity {
         update();
     }
 
+    public boolean contains(Class<? extends Entity> clazz) {
+        return clazz.isInstance(content);
+    }
+
     protected void free() {
         setContent(null);
     }
