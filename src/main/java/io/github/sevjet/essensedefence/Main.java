@@ -65,11 +65,15 @@ public class Main extends SimpleApplication {
         }
         settings.setTitle("EssenceDefence 1.0");
 
-        settings.setResolution(high.getWidth(), high.getHeight());
-        settings.setFrequency(high.getFrequency());
-        settings.setBitsPerPixel(high.getBitsPerPixel());
-        System.out.println(high.getWidth() + " " + high.getHeight() + " " + high.getFrequency() + " " + high.getBitsPerPixel());
-        settings.setFullscreen(device.isFullScreenSupported());
+        java.awt.DisplayMode mode = device.getDisplayMode();
+        settings.setResolution(mode.getWidth(), mode.getHeight());
+        settings.setFrequency(mode.getRefreshRate());
+        settings.setBitsPerPixel(mode.getBitDepth());
+//        System.out.println(high.getWidth() + " " + high.getHeight() + " " + high.getFrequency() + " " + high.getBitsPerPixel());
+//        settings.setResolution(high.getWidth(), high.getHeight());
+//        settings.setFrequency(high.getFrequency());
+//        settings.setBitsPerPixel(high.getBitsPerPixel());
+//        settings.setFullscreen(device.isFullScreenSupported());
 
         settings.setSamples(2);
 //        settings.setSamples(16);
@@ -79,6 +83,7 @@ public class Main extends SimpleApplication {
 
     public static void main(String[] args) throws LWJGLException {
         System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
+        System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
         Display.setResizable(true);
         Main app = new Main();
 
