@@ -40,6 +40,7 @@ public class Inventory extends Field<InventoryCell> {
                 cell.setContent(essence);
                 essence.setX(cell.getX());
                 essence.setY(cell.getY());
+                essence.setZ(0);
                 addObject(essence);
                 return true;
             }
