@@ -5,6 +5,7 @@ import io.github.sevjet.essensedefence.GamePlayAppState;
 import io.github.sevjet.essensedefence.niftyGui.StartScreen;
 import io.github.sevjet.essensedefence.util.Configuration;
 
+import static io.github.sevjet.essensedefence.listener.EssenceListener.info;
 import static io.github.sevjet.essensedefence.listener.ListenerManager.MAPPING_EXIT;
 
 public class GameListener implements ActionListener {
@@ -15,7 +16,7 @@ public class GameListener implements ActionListener {
                 Configuration.getAppState().getState(GamePlayAppState.class).stateDetached(
                         Configuration.getAppState()
                 );
-
+                info = null;
                 StartScreen screen = new StartScreen("interface/mainMenu.xml");
             }
         }

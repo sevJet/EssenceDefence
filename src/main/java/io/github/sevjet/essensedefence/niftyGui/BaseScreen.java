@@ -8,13 +8,17 @@ import static io.github.sevjet.essensedefence.Main.nifty;
 
 public abstract class BaseScreen implements ScreenController {
 
-    public BaseScreen(String xml) {
+    public BaseScreen(String xml, String screenName) {
         try {
-            nifty.fromXml(xml, "start", this);
+            nifty.fromXml(xml, screenName, this);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public BaseScreen(String xml) {
+        this(xml, "start");
     }
 
     public Nifty getNifty() {

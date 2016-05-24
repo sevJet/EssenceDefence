@@ -15,13 +15,13 @@ import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
 
 public class EssenceListener implements ActionListener {
 
+    public static InfoScreen info = null;
     private Essence bufEssence = null;
     private CollisionResults results;
     private Inventory inventory;
 
     protected void onPress(String name, float tpf) {
     }
-
 
     protected void onRelease(String name, float tpf) {
         switch (name) {
@@ -83,7 +83,9 @@ public class EssenceListener implements ActionListener {
             x = ((int) vec.getX());
             y = ((int) vec.getY());
 
-            InfoScreen info = new InfoScreen("interface/testNifty.xml");
+//            InfoScreen info = new InfoScreen("interface/testNifty.xml");
+            if (info == null)
+                info = new InfoScreen("interface/mainMenu.xml", "start2");
             Element txt = info.getElement("txt");
             if (txt == null)
                 return;

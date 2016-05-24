@@ -8,16 +8,25 @@ import static io.github.sevjet.essensedefence.Main.nifty;
 
 public class InfoScreen extends BaseScreen {
 
+    protected String screenName = null;
+
     public InfoScreen(String xml) {
         super(xml);
 
-//        nifty.getCurrentScreen().findElementByName("txt").hide();
-        nifty.getCurrentScreen().getRootElement().setVisible(false);
+        nifty.getScreen("start2").findElementByName("txt").hide();
+//        nifty.getCurrentScreen().getRootElement().setVisible(false);
     }
 
+    public InfoScreen(String xml, String screenName) {
+        super(xml, screenName);
+
+        this.screenName = screenName;
+//        nifty.getCurrentScreen().findElementByName("txt").hide();
+        nifty.getScreen(screenName).findElementByName("txt").hide();
+    }
 
     public Element getElement(String name) {
-        return nifty.getCurrentScreen().findElementByName(name);
+        return nifty.getScreen(screenName).findElementByName(name);
     }
 
     public boolean setText(Element el, String text) {
@@ -29,7 +38,7 @@ public class InfoScreen extends BaseScreen {
     }
 
     public boolean moveTo(String name, int x, int y) {
-        Element el = nifty.getCurrentScreen().findElementByName(name);
+        Element el = getElement(name);
         return moveTo(el, x, y);
     }
 
@@ -56,7 +65,9 @@ public class InfoScreen extends BaseScreen {
     }
 
     public void showAll() {
-        nifty.getCurrentScreen().getRootElement().setVisible(true);
+
+//        nifty.getCurrentScreen().getRootElement().setVisible(true);
+        nifty.getScreen("start2").getRootElement().setVisible(true);
     }
 
     public void hideAll() {
