@@ -115,7 +115,6 @@ public class Monster extends Entity3D implements ITextual {
         if (field != null) {
             field.removeObject(this);
         }
-        System.out.println("Monster.die()");
     }
 
     @Override

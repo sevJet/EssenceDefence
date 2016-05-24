@@ -12,6 +12,8 @@ import io.github.sevjet.essensedefence.util.Configuration;
 
 public class MapField extends Field<MapCell> {
 
+    private long lastUpdate = System.currentTimeMillis();
+
     @SuppressWarnings("unused")
     public MapField() {
         super();
@@ -34,6 +36,8 @@ public class MapField extends Field<MapCell> {
         addObject(building);
 
         building.build();
+
+        lastUpdate = System.currentTimeMillis();
     }
 
     public void build(final Building building) {
@@ -47,6 +51,8 @@ public class MapField extends Field<MapCell> {
 
     @Override
     public boolean removeObject(final Entity entity) {
+        lastUpdate = System.currentTimeMillis();
+
         if (entity instanceof Building) {
             freeCells((Building) entity);
         }
@@ -120,6 +126,8 @@ public class MapField extends Field<MapCell> {
 
     @Override
     public boolean setContent(MapCell cell, Entity content) {
+        lastUpdate = System.currentTimeMillis();
+
         if (content instanceof Essence) {
             Tower tower = (Tower) cell.getContent();
             if (tower == null)
@@ -174,5 +182,9 @@ public class MapField extends Field<MapCell> {
         }
 
         return false;
+    }
+
+    public boolean wasUpdated(long from) {
+        return lastUpdate > from;
     }
 }

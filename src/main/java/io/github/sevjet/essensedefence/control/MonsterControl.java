@@ -25,6 +25,7 @@ public class MonsterControl extends BasicControl {
     private MotionPath path = null;
     private MotionEvent event = null;
     private float delay = 0f;
+    private long lastUpdated = System.currentTimeMillis();
 
     @Override
     public void setSpatial(Spatial spatial) {
@@ -43,14 +44,17 @@ public class MonsterControl extends BasicControl {
             return;
         }
         delay = 0f;
-        if (path == null || fortress == null || fortress.isEnded()) {
+
+        if (path == null || fortress == null || fortress.isEnded() || monster.getField().wasUpdated(lastUpdated)) {
             if (event != null) {
                 event.stop();
                 spatial.removeControl(MotionEvent.class);
                 event = null;
             }
             initPath();
+
             delay += 2f;
+            lastUpdated = System.currentTimeMillis();
         }
         if (path == null) {
             delay += 10f;
