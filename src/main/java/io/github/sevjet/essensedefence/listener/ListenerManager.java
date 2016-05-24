@@ -6,6 +6,8 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.math.Ray;
+import com.jme3.math.Vector2f;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.GamePlayAppState;
@@ -135,8 +137,7 @@ public final class ListenerManager {
 
     static CollisionResults rayCasting(Node... objects) {
         CollisionResults results = new CollisionResults();
-        Ray ray = new Ray(Configuration.getCam().getLocation(),
-                Configuration.getCam().getDirection());
+        Ray ray = fromCursor();
         for (Node with : objects) {
             if (with != null) {
                 with.collideWith(ray, results);
@@ -159,5 +160,24 @@ public final class ListenerManager {
 
     static Node getInventory() {
         return Configuration.getGamer().getInventory().getObjects(InventoryCell.class);
+    }
+
+    private static Ray fromCamera() {
+        return new Ray(Configuration.getCam().getLocation(),
+                Configuration.getCam().getDirection());
+    }
+
+    private static Ray fromCursor() {
+        Vector2f click2d = Configuration.getInputManager().getCursorPosition();
+        Vector3f click3d = Configuration.getCam().getWorldCoordinates(
+                new Vector2f(click2d.getX(), click2d.getY()), 0f);
+
+        Vector3f dir = Configuration.getCam().getWorldCoordinates(
+                new Vector2f(click2d.getX(), click2d.getY()), 1f).
+                subtract(click3d);
+
+        Ray ray = new Ray(click3d, dir);
+
+        return ray;
     }
 }
