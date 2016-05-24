@@ -7,20 +7,21 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.*;
+import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.MapCell;
 import io.github.sevjet.essensedefence.field.MapField;
 import io.github.sevjet.essensedefence.util.BoxSize;
+import io.github.sevjet.essensedefence.util.PathBuilder;
 
 import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
 
 
 public class BuildingListener implements ActionListener {
 
-    private Building wireframe = null;
     private String currentMap = "";
-    private CollisionResults results;
     private MapCell cell;
     private MapField field;
+    private Wireframe wireframe;
 
     private Building choiceBuilding(String name) {
         switch (name) {
@@ -54,6 +55,20 @@ public class BuildingListener implements ActionListener {
         return BoxSize.FLAT;
     }
 
+    private Class<? extends Building> getBuildingClass(String name) {
+        switch (name) {
+            case MAPPING_BUILD_WALL:
+                return Wall.class;
+            case MAPPING_BUILD_TOWER:
+                return Tower.class;
+            case MAPPING_BUILD_PORTAL:
+                return Portal.class;
+            case MAPPING_BUILD_FORTRESS:
+                return Fortress.class;
+        }
+        return Building.class;
+    }
+
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals(MAPPING_BUILD_WALL) ||
@@ -61,7 +76,7 @@ public class BuildingListener implements ActionListener {
                 name.equals(MAPPING_BUILD_PORTAL) ||
                 name.equals(MAPPING_BUILD_FORTRESS)) {
 
-            results = rayCasting();
+            CollisionResults results = rayCasting();
 
             if (results.size() > 0) {
                 cell = (MapCell) getCell(results);
@@ -81,7 +96,7 @@ public class BuildingListener implements ActionListener {
         if (currentMap.isEmpty() || currentMap.equals(name)) {
             currentMap = name;
 
-            wireframe = new Wireframe(getBoxSize(name));
+            wireframe = new Wireframe(getBuildingClass(name), getBoxSize(name));
 
             wireframe.getGeometry().addControl(new PreBuildControl());
 
@@ -97,20 +112,29 @@ public class BuildingListener implements ActionListener {
             field.removeAll(Wireframe.class);
             Building building = choiceBuilding(name);
             if (field.enoughPlaceFor(cell, building)) {
-                cell.build(building);
-                switch (name) {
-                    case MAPPING_BUILD_WALL:
-                        break;
-                    case MAPPING_BUILD_TOWER:
-                        if (building instanceof Tower)
-                            ((Tower) building).putCore(new Essence(1, 5, 1, 1, 0));
-                        break;
-                    case MAPPING_BUILD_PORTAL:
-                        break;
-                    case MAPPING_BUILD_FORTRESS:
-                        if (building instanceof Fortress)
-                            building.setHealth(100);
-                        break;
+                if (PathBuilder.atField(field)
+                        .withBuilding(wireframe.getBuildingClass())
+                        .withSize(wireframe.getSize())
+                        .atPoint(cell.getX(), cell.getY())
+                        .from(Portal.class)
+                        .andFrom(Monster.class)
+                        .to(Fortress.class)
+                        .isValid()) {
+                    cell.build(building);
+                    switch (name) {
+                        case MAPPING_BUILD_WALL:
+                            break;
+                        case MAPPING_BUILD_TOWER:
+                            if (building instanceof Tower)
+                                ((Tower) building).putCore(new Essence(1, 5, 1, 1, 0));
+                            break;
+                        case MAPPING_BUILD_PORTAL:
+                            break;
+                        case MAPPING_BUILD_FORTRESS:
+                            if (building instanceof Fortress)
+                                building.setHealth(100);
+                            break;
+                    }
                 }
             }
             currentMap = "";
@@ -134,7 +158,18 @@ class PreBuildControl extends AbstractControl {
                 Wireframe wireframe = getSpatial().getUserData("entity");
                 wireframe.setX(cell.getX());
                 wireframe.setY(cell.getY());
-                wireframe.setCanBuild(field.enoughPlaceFor(cell, wireframe));
+                boolean canBuild = false;
+                if (field.enoughPlaceFor(cell, wireframe)) {
+                    canBuild = PathBuilder.atField(field)
+                            .withBuilding(wireframe.getBuildingClass())
+                            .withSize(wireframe.getSize())
+                            .atPoint(cell.getX(), cell.getY())
+                            .from(Portal.class)
+                            .andFrom(Monster.class)
+                            .to(Fortress.class)
+                            .isValid();
+                }
+                wireframe.setCanBuild(canBuild);
             }
         }
     }

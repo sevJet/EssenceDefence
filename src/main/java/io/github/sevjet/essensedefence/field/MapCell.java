@@ -14,7 +14,7 @@ import java.io.IOException;
 public class MapCell extends Cell<Building> {
 
     protected boolean passable = false;
-    protected boolean passableBuilding = false;
+    protected boolean passableBuilding = true;
 
     public MapCell() {
         this(0, 0, false, null);
@@ -39,7 +39,6 @@ public class MapCell extends Cell<Building> {
     @Deprecated
     public void setBuilding(Building building) {
         setContent(building);
-        passableBuilding = building instanceof Portal || building instanceof Fortress;
 
         update();
     }
@@ -47,6 +46,15 @@ public class MapCell extends Cell<Building> {
     @Deprecated
     public boolean isOccupied() {
         return hasContent();
+    }
+
+    @Override
+    public void setContent(Building content) {
+        super.setContent(content);
+
+        passableBuilding = content == null ||
+                content instanceof Portal ||
+                content instanceof Fortress;
     }
 
     public boolean build(final Building building) {
@@ -70,7 +78,7 @@ public class MapCell extends Cell<Building> {
     }
 
     public boolean isPassable() {
-        return passable || passableBuilding;
+        return content == null ? passable : passableBuilding;
     }
 
     public void setPassably(final boolean passable) {

@@ -7,10 +7,18 @@ import static io.github.sevjet.essensedefence.util.Creator.myWireframe;
 
 public class Wireframe extends Building {
 
-    public Wireframe(BoxSize size) {
+    // TODO: 24.05.16 Savable
+    private Class<? extends Building> buildingClass;
+
+    public Wireframe(Class<? extends Building> buildingClass, BoxSize size) {
         super(size, -1f);
 
         initGeometry();
+        this.buildingClass = buildingClass;
+    }
+
+    public Class<? extends Building> getBuildingClass() {
+        return buildingClass;
     }
 
     private void initGeometry() {
