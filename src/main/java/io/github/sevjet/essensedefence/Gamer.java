@@ -21,8 +21,9 @@ import static io.github.sevjet.essensedefence.gui.MovementOnGuiControl.SCALE_FRO
 
 public class Gamer implements ITextual {
 
-    protected final Inventory inventory = new Inventory(3, 10);
+    protected Inventory inventory = new Inventory(3, 10);
     protected float gold = 0;
+    protected Node gamerGui = new Node("gamerGui");
 
     public Gamer() {
         this(0);
@@ -43,6 +44,10 @@ public class Gamer implements ITextual {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     public boolean decGold(float gold) {
@@ -68,8 +73,16 @@ public class Gamer implements ITextual {
     }
 
     public void setGui() {
-        Configuration.getGuiNode().addControl(new EndlessLogBar(this));
+        gamerGui = new Node("gamerGui");
+        EndlessLogBar bar = new EndlessLogBar(this);
+        gamerGui.addControl(bar);
+        gamerGui.attachChild(bar.getGamerGui());
+//        Configuration.getGuiNode().addControl(new EndlessLogBar(this));
+//        Configuration.getGuiNode().attachChild(gamerGui);
+    }
 
+    public Node getGui() {
+        return gamerGui;
     }
 
 
@@ -88,7 +101,7 @@ public class Gamer implements ITextual {
 
 // TODO: 20/05/2016 move from this class & change
 class EndlessLogBar extends AbstractControl {
-    private Node gamerGui = new Node();
+    private Node gamerGui = new Node("gui");
     private BitmapText text;
     private DataBar bar;
     private BarControl barC;
@@ -114,7 +127,11 @@ class EndlessLogBar extends AbstractControl {
                 Configuration.getSettings().getHeight() - 50f,
                 0);
 
-        Configuration.getGuiNode().attachChild(gamerGui);
+//        Configuration.getGuiNode().attachChild(gamerGui);
+    }
+
+    public Node getGamerGui() {
+        return gamerGui;
     }
 
     @Override

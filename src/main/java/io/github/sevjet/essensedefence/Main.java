@@ -2,25 +2,47 @@ package io.github.sevjet.essensedefence;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.export.binary.BinaryExporter;
+import com.jme3.light.DirectionalLight;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.niftygui.NiftyJmeDisplay;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
+import de.lessvoid.nifty.Nifty;
+import io.github.sevjet.essensedefence.entity.Essence;
+import io.github.sevjet.essensedefence.entity.building.Fortress;
+import io.github.sevjet.essensedefence.entity.building.Portal;
+import io.github.sevjet.essensedefence.entity.building.Tower;
+import io.github.sevjet.essensedefence.entity.building.Wall;
+import io.github.sevjet.essensedefence.entity.monster.Monster;
+import io.github.sevjet.essensedefence.field.Cell;
+import io.github.sevjet.essensedefence.field.InventoryCell;
+import io.github.sevjet.essensedefence.field.MapCell;
+import io.github.sevjet.essensedefence.listener.ListenerManager;
+import io.github.sevjet.essensedefence.niftyGui.StartScreen;
 import io.github.sevjet.essensedefence.util.Configuration;
+import io.github.sevjet.essensedefence.util.GeometryManager;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
 import static io.github.sevjet.essensedefence.GamePlayAppState.field;
+import static io.github.sevjet.essensedefence.util.Creator.*;
 
 public class Main extends SimpleApplication {
 
     // TODO: 21/05/2016 fix it
-    public static InfoScreen start;
+//    public static InfoScreen info;
+    public static NiftyJmeDisplay niftyDisplay;
+    public static StartScreen start;
+    public static Nifty nifty;
+    public static GamePlayAppState state;
 
     public static AppSettings mySettings() {
         AppSettings settings = new AppSettings(true);
@@ -47,8 +69,6 @@ public class Main extends SimpleApplication {
         settings.setSamples(2);
 //        settings.setSamples(16);
         settings.setBitsPerPixel(mode.getBitDepth());
-//        settings.setDisplayFps(false);
-//        settings.setDisplayStatView(false);
 
         return settings;
     }
@@ -59,9 +79,54 @@ public class Main extends SimpleApplication {
         app.setSettings(mySettings());
         app.setShowSettings(false);
         app.start();
+
+    }
+
+    //     TODO: 21/05/2016 delete
+    public static void detachAllControl(Spatial spatial) {
+        Node rootNode;
+        if (spatial == null)
+            return;
+        if (spatial instanceof Node) {
+            rootNode = (Node) spatial;
+            for (Spatial sp : rootNode.getChildren()) {
+                for (int i = 0; i < sp.getNumControls(); i++) {
+                    sp.removeControl(AbstractControl.class);
+                }
+                detachAllControl(sp);
+            }
+        } else for (int i = 0; i < spatial.getNumControls(); i++) {
+            spatial.removeControl(AbstractControl.class);
+        }
+    }
+
+    private void initStartData() {
+        //        GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f, "cell", ColorRGBA.Black));
+        GeometryManager.setDefault(Cell.class, myQuad(1, 1, "cell", ColorRGBA.Black));
+        GeometryManager.setDefault(MapCell.class, GeometryManager.getDefault(Cell.class));
+        GeometryManager.setDefault(InventoryCell.class, GeometryManager.getDefault(Cell.class));
+        GeometryManager.setDefault(Wall.class, myBox(1 / 2f, 1 / 2f, 1f, "wall", ColorRGBA.Cyan));
+        GeometryManager.setDefault(Tower.class, myBox(1f, 1f, 1.5f, "tower", ColorRGBA.Green));
+        GeometryManager.setDefault(Fortress.class, myBox(3 / 2f, 3 / 2f, 2f, "fortress", ColorRGBA.Gray));
+        GeometryManager.setDefault(Portal.class, myBox(1f, 1 / 2f, 1.5f, "portal", ColorRGBA.Magenta));
+        GeometryManager.setDefault(Monster.class, myBox(1 / 3f, 1 / 3f, 1 / 2f, "monster", ColorRGBA.Yellow));
+        GeometryManager.setDefault(Essence.class, myShinySphere(1 / 2f, "essence", ColorRGBA.randomColor()));
+
+        Gamer gamer = new Gamer(100);
+        Configuration.setGamer(gamer);
+        gamer.setGui();
+
+
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(new Vector3f(1, 0, -2).normalizeLocal());
+        sun.setColor(ColorRGBA.White);
+        Configuration.getRootNode().addLight(sun);
     }
 
     protected void initStartSettings() {
+//        setDisplayFps(false);
+//        setDisplayStatView(false);
+
         Configuration.setSettings(settings);
         Configuration.setApp(this);
         Configuration.setAppState(stateManager);
@@ -75,25 +140,27 @@ public class Main extends SimpleApplication {
         cam.setLocation(new Vector3f(33.08874f, 48.561615f, 9.273602f));
         cam.setRotation(new Quaternion(0.008674252f, 0.86961013f, -0.49342605f, 0.015287385f));
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
+        inputManager.clearMappings();
+        ListenerManager.registerListener();
     }
 
     @Override
     public void simpleInitApp() {
         initStartSettings();
-
-        GamePlayAppState state = new GamePlayAppState();
-        stateManager.attach(state);
-
-        start = new InfoScreen();
+        initStartData();
         flyCam.setDragToRotate(true);
 
-        Integer n = new Integer(5);
-        System.out.println(n + "\n" +
-                n.getClass() + '\n' +
-                n.getClass().getClass() + '\n' +
-                n.getClass().getClass().getClass() + '\n' +
-                n.getClass().getClass().getClass().getClass() + '\n'
-        );
+
+        niftyDisplay = new NiftyJmeDisplay(assetManager,
+                inputManager,
+                audioRenderer,
+                guiViewPort);
+
+        ViewPort guiViewPort = Configuration.getApp().getGuiViewPort();
+        nifty = niftyDisplay.getNifty();
+        guiViewPort.addProcessor(niftyDisplay);
+
+        start = new StartScreen("interface/mainMenu.xml");
     }
 
     @Override
@@ -127,24 +194,6 @@ public class Main extends SimpleApplication {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    // TODO: 21/05/2016 delete
-    private void detachAllControl(Spatial spatial) {
-        Node rootNode;
-        if (spatial == null)
-            return;
-        if (spatial instanceof Node) {
-            rootNode = (Node) spatial;
-            for (Spatial sp : rootNode.getChildren()) {
-                for (int i = 0; i < sp.getNumControls(); i++) {
-                    sp.removeControl(AbstractControl.class);
-                }
-                detachAllControl(sp);
-            }
-        } else for (int i = 0; i < spatial.getNumControls(); i++) {
-            spatial.removeControl(AbstractControl.class);
         }
     }
 }

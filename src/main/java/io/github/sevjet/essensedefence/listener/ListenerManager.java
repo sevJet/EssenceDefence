@@ -53,21 +53,30 @@ public final class ListenerManager {
     public final static Trigger TRIGGER_INFO =
             new KeyTrigger(KeyInput.KEY_I);
 
+    public final static Trigger TRIGGER_EXIT =
+            new KeyTrigger(KeyInput.KEY_ESCAPE);
+
     public final static String MAPPING_MAKE_PASSABLE = "Make passable";
     public final static String MAPPING_RESET = "Reset";
+
     public final static String MAPPING_BUILD_WALL = "Build wall";
     public final static String MAPPING_BUILD_TOWER = "Build tower";
     public final static String MAPPING_BUILD_PORTAL = "Build portal";
     public final static String MAPPING_BUILD_FORTRESS = "Build fortress";
+
     public final static String MAPPING_SPAWN_MONSTER = "Spawn monster";
     public final static String MAPPING_SPAWN_WAVE = "Spawn wave";
-    public final static String MAPPING_BUY_ESSENCE = "Buy essence";
-    public final static String MAPPING_EXTRACTION_ESSENCE = "Extraction essence";
-    public final static String MAPPING_PUT_EXTRACTED_ESSENCE = "Put extracted essence";
-    public final static String MAPPING_SELL_ESSENCE = "Sell essence";
-    public final static String MAPPING_UPGRADE_ESSENCE = "Upgrade essence";
     public final static String MAPPING_SPAWN_ALL = "Spawn all";
+
+    public final static String MAPPING_BUY_ESSENCE = "Buy essence";
+    public final static String MAPPING_SELL_ESSENCE = "Sell essence";
+    public final static String MAPPING_PUT_EXTRACTED_ESSENCE = "Put extracted essence";
+    public final static String MAPPING_EXTRACTION_ESSENCE = "Extraction essence";
+    public final static String MAPPING_UPGRADE_ESSENCE = "Upgrade essence";
+
     public final static String MAPPING_INFO = "Info";
+
+    public final static String MAPPING_EXIT = "Exit";
 
     public static void registerListener() {
         InputManager inputManager = Configuration.getInputManager();
@@ -91,6 +100,8 @@ public final class ListenerManager {
 
         inputManager.addMapping(MAPPING_INFO, TRIGGER_INFO);
 
+        inputManager.addMapping(MAPPING_EXIT, TRIGGER_EXIT);
+
         inputManager.addListener(new CellListener(),
                 MAPPING_MAKE_PASSABLE,
                 MAPPING_RESET);
@@ -113,6 +124,9 @@ public final class ListenerManager {
                 MAPPING_PUT_EXTRACTED_ESSENCE,
                 MAPPING_UPGRADE_ESSENCE,
                 MAPPING_INFO);
+
+        inputManager.addListener(new GameListener(),
+                MAPPING_EXIT);
     }
 
     static CollisionResults rayCasting() {

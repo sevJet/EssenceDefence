@@ -8,6 +8,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.debug.Grid;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Line;
@@ -223,13 +224,13 @@ public final class Creator {
         return geom;
     }
 
-    public static void attachCenterMark() {
+    public static Spatial centerMark() {
         Geometry c = Creator.myBox("center mark",
                 Vector3f.ZERO, ColorRGBA.White);
         c.scale(5);
         c.setLocalTranslation(Configuration.getSettings().getWidth() / 2,
                 Configuration.getSettings().getHeight() / 2, 0);
-        Configuration.getGuiNode().attachChild(c);
+        return c;
     }
 
     public static Node debugSet() {

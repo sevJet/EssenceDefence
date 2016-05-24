@@ -38,8 +38,9 @@ public class BarControl extends AbstractControl {
         if (getSpatial() instanceof DataBar) {
             bar = (DataBar) getSpatial();
         } else {
-            throw new ClassCastException(getSpatial().getClass().toString() +
-                    " must be DataBar");
+            if (getSpatial() != null)
+                throw new ClassCastException(getSpatial().getClass().toString() +
+                        " must be DataBar");
         }
     }
 

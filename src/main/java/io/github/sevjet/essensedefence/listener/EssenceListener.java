@@ -8,9 +8,9 @@ import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.field.Inventory;
+import io.github.sevjet.essensedefence.niftyGui.InfoScreen;
 import io.github.sevjet.essensedefence.util.Configuration;
 
-import static io.github.sevjet.essensedefence.Main.start;
 import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
 
 public class EssenceListener implements ActionListener {
@@ -83,15 +83,19 @@ public class EssenceListener implements ActionListener {
             x = ((int) vec.getX());
             y = ((int) vec.getY());
 
-            Element txt = start.getElement("GLabel0");
-            start.setText(txt, "Level: " + essence.getLevel() + '\n' +
+            InfoScreen info = new InfoScreen("interface/testNifty.xml");
+            Element txt = info.getElement("txt");
+            if (txt == null)
+                return;
+            txt.hide();
+            info.setText(txt, "Level: " + essence.getLevel() + '\n' +
                     "Damage: " + essence.getDamage() + '\n' +
                     "Range: " + essence.getRange() + '\n' +
                     "Speed: " + essence.getSpeed() + '\n' +
                     "Price (buy): " + essence.getPrice());
-            start.moveTo(txt, x, y);
-            start.update(txt);
-            start.showAll();
+            info.moveTo(txt, x, y);
+            info.update(txt);
+            info.showAll();
         }
 
     }

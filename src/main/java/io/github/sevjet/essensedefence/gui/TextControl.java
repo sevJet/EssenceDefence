@@ -28,8 +28,9 @@ public class TextControl extends AbstractControl {
         if (getSpatial() instanceof BitmapText) {
             text = (BitmapText) getSpatial();
         } else {
-            throw new ClassCastException(getSpatial().getClass().toString() +
-                    " must be BitmapText");
+            if (getSpatial() != null)
+                throw new ClassCastException(getSpatial().getClass().toString() +
+                        " must be BitmapText");
         }
     }
 

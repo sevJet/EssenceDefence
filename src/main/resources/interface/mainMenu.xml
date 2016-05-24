@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<nifty xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://nifty-gui.lessvoid.com/nifty-gui"
+       xsi:schemaLocation="https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd
+       https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd">
+    <useControls filename="nifty-default-controls.xml"/>
+    <useStyles filename="nifty-default-styles.xml"/>
+    <screen id="start" controller="io.github.sevjet.essensedefence.niftyGui.StartScreen">
+        <layer id="mainLayer" childLayout="center"
+               backgroundImage="startImage2.png">
+            <panel id="GPanel0" childLayout="absolute" width="100.0%"
+                   height="100.0%">
+                <control name="button" id="btnStart" childLayout="center" x="50" width="80%" y="100" label="New game"
+                         align="center" height="46px">
+                    <interact onClick="start()" />
+                </control>
+                <control name="button" id="btnContinue" childLayout="center" backgroundImage="button/button.png" x="50"
+                         width="80%" y="200" valign="center" label="Continue" height="46px">
+                    <interact onClick="continueGame()" />
+                </control>
+                <control name="button" id="btnExit" childLayout="center" x="50" width="80%" y="300" label="Exit"
+                         align="center" height="46px">
+                    <interact onClick="exit()" />
+                </control>
+            </panel>
+        </layer>
+    </screen>
+</nifty>

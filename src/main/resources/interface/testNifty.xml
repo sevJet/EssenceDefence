@@ -2,11 +2,16 @@
 <nifty>
     <useControls filename="nifty-default-controls.xml"/>
     <useStyles filename="nifty-default-styles.xml"/>
-    <screen id="start" controller="io.github.sevjet.essensedefence.InfoScreen">
+    <screen id="start" controller="io.github.sevjet.essensedefence.niftyGui.InfoScreen">
         <layer id="GLayer0" childLayout="absolute">
-            <control name="label" id="GLabel0" backgroundColor="#000000aa" color="#009900ff" width="20%" height="50%"
+            <control name="label" id="txt" backgroundColor="#000000aa" color="#009900ff" width="20%" height="50%"
                      x="0" y="0" text="Test text" textHAlign="left"
-                     textVAlign="top" font="aurulent-sans-16.fnt" wrap="true"/>
+                     textVAlign="top" font="aurulent-sans-16.fnt" wrap="true">
+                <effect>
+                    <onStartScreen name="fade" startDelay="2000" start="#f" end="#0" length="2000"
+                                   neverStopRendering="true"/>
+                </effect>
+            </control>
         </layer>
     </screen>
 </nifty>

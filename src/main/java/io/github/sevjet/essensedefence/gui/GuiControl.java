@@ -7,7 +7,6 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.entity.Entity;
-import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.Creator;
 import io.github.sevjet.essensedefence.util.Getter;
 
@@ -16,7 +15,7 @@ public class GuiControl extends AbstractControl {
     private ITextual object;
     private String textName;
 
-    private Node controlNode = new Node();
+    private Node controlNode = new Node("gui");
     private DataBar bar;
 
     public GuiControl(Entity entity, String name, float width, float height) {
@@ -41,9 +40,11 @@ public class GuiControl extends AbstractControl {
         text.addControl(new TextControl((ITextual) entity, textName));
         controlNode.attachChild(text);
 
-        Configuration.getGuiNode().attachChild(controlNode);
-
         controlNode.addControl(new MovementOnGuiControl(entity));
+    }
+
+    public Node getControlNode() {
+        return controlNode;
     }
 
     @Override

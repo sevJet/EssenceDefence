@@ -1,5 +1,6 @@
 package io.github.sevjet.essensedefence.field;
 
+import io.github.sevjet.essensedefence.GamePlayAppState;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.Building;
@@ -7,6 +8,7 @@ import io.github.sevjet.essensedefence.entity.building.Fortress;
 import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.gui.GuiControl;
+import io.github.sevjet.essensedefence.util.Configuration;
 
 public class MapField extends Field<MapCell> {
 
@@ -76,11 +78,18 @@ public class MapField extends Field<MapCell> {
 
     @Override
     protected void guiFor(Entity object) {
+        GuiControl guiControl = null;
         if (object instanceof Fortress) {
-            this.addControl(new GuiControl(object, "XP:", 3f, 1f / 5f));
+            guiControl = new GuiControl(object, "XP:", 3f, 1f / 5f);
+            this.addControl(guiControl);
         }
         if (object instanceof Monster) {
-            this.addControl(new GuiControl(object, "xp:", 1f, 1f / 8f));
+            guiControl = new GuiControl(object, "xp:", 1f, 1f / 8f);
+            this.addControl(guiControl);
+        }
+        if (guiControl != null) {
+            Configuration.getAppState().getState(GamePlayAppState.class).
+                    getLocalGui().attachChild(guiControl.getControlNode());
         }
     }
 
@@ -101,7 +110,7 @@ public class MapField extends Field<MapCell> {
             tower.extractCore();
             return essence;
         }
-        if (contentObject instanceof Tower) {
+        if (contentObject instanceof Building) {
 
         }
 
