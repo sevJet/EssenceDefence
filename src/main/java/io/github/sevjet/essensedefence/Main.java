@@ -27,6 +27,9 @@ import io.github.sevjet.essensedefence.listener.ListenerManager;
 import io.github.sevjet.essensedefence.niftyGui.StartScreen;
 import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.GeometryManager;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 
 import java.awt.*;
 import java.io.File;
@@ -44,36 +47,39 @@ public class Main extends SimpleApplication {
     public static Nifty nifty;
     public static GamePlayAppState state;
 
-    public static AppSettings mySettings() {
+    public static AppSettings mySettings() throws LWJGLException {
         AppSettings settings = new AppSettings(true);
 
         GraphicsDevice device = GraphicsEnvironment.
                 getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        DisplayMode mode = device.getDisplayMode();
-//        DisplayMode[] modes = device.getDisplayModes();
-//        int high = 0;
-//        for (int i = 1; i < modes.length; i++) {
-//            if (modes[i].getWidth() * modes[i].getHeight() > modes[high].getWidth() * modes[high].getHeight() ||
-//                    (modes[i].getWidth() * modes[i].getHeight() == modes[high].getWidth() * modes[high].getHeight() &&
-//                            modes[i].getRefreshRate() >= modes[high].getRefreshRate() &&
-//                            modes[i].getBitDepth() >= modes[high].getBitDepth()))
-//                high = i;
-//            System.out.println(i+"  "+modes[i].getWidth()+' '+modes[i].getHeight()+' '+
-//                    modes[i].getRefreshRate()+ ' ' +modes[i].getBitDepth());
-//        }
-        settings.setTitle("Our Tower Defense Demo");
-//        settings.setSettingsDialogImage("Interface/splashscreen.png");
-        settings.setResolution(mode.getWidth(), mode.getHeight());
-        settings.setFrequency(mode.getRefreshRate());
+        DisplayMode[] modes = Display.getAvailableDisplayModes();
+        DisplayMode high = modes[0];
+        for (int i = 1; i < modes.length; i++) {
+            if (modes[i].getWidth() * modes[i].getHeight() > high.getWidth() * high.getHeight() ||
+                    (modes[i].getWidth() * modes[i].getHeight() == high.getWidth() * high.getHeight() &&
+                            modes[i].getFrequency() >= high.getFrequency() &&
+                            modes[i].getBitsPerPixel() >= high.getBitsPerPixel()))
+                high = modes[i];
+            System.out.println(i + "  " + modes[i].getWidth() + ' ' + modes[i].getHeight() + ' ' +
+                    modes[i].getFrequency() + ' ' + modes[i].getBitsPerPixel());
+        }
+        settings.setTitle("EssenceDefence 1.0");
+
+        settings.setResolution(high.getWidth(), high.getHeight());
+        settings.setFrequency(high.getFrequency());
+        settings.setBitsPerPixel(high.getBitsPerPixel());
+        System.out.println(high.getWidth() + " " + high.getHeight() + " " + high.getFrequency() + " " + high.getBitsPerPixel());
         settings.setFullscreen(device.isFullScreenSupported());
+
         settings.setSamples(2);
 //        settings.setSamples(16);
-        settings.setBitsPerPixel(mode.getBitDepth());
 
         return settings;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws LWJGLException {
+        System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
+        Display.setResizable(true);
         Main app = new Main();
 
         app.setSettings(mySettings());

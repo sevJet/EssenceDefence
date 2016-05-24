@@ -151,30 +151,23 @@ public class PathBuilder {
 
         Node currentNode;
         Entity entity;
-        try {
-            for (Class<? extends Entity> clazz : startClasses) {
-                currentNode = field.getObjects(clazz);
-                if (currentNode != null) {
-                    for (Spatial spatial : currentNode.getChildren()) {
-                        entity = spatial.getUserData("entity");
-                        if (entity != null) {
-                            char prev = previous[entity.getX()][entity.getY()];
-                            previous[entity.getX()][entity.getY()] = '+';
-                            if (prev == ' ') {
-                                previous[entity.getX()][entity.getY()] = '-';
-                                return false;
-                            }
-                        } else {
-                            throw new IllegalStateException("Spatial in Node is not belongs to Entity " + clazz.getName());
+        for (Class<? extends Entity> clazz : startClasses) {
+            currentNode = field.getObjects(clazz);
+            if (currentNode != null) {
+                for (Spatial spatial : currentNode.getChildren()) {
+                    entity = spatial.getUserData("entity");
+                    if (entity != null) {
+                        char prev = previous[entity.getX()][entity.getY()];
+                        previous[entity.getX()][entity.getY()] = '+';
+                        if (prev == ' ') {
+                            previous[entity.getX()][entity.getY()] = '-';
+                            return false;
                         }
+                    } else {
+                        throw new IllegalStateException("Spatial in Node is not belongs to Entity " + clazz.getName());
                     }
                 }
             }
-        } finally {
-            for (char[] line : previous) {
-                System.out.println(line);
-            }
-            System.out.println();
         }
 
         return true;
