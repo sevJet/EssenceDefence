@@ -18,6 +18,8 @@ public abstract class BasicControl extends AbstractControl {
 
     @Override
     public void setSpatial(Spatial spatial) {
+        if (spatial == null)
+            return;
         Entity entity = spatial.getUserData("entity");
         if (entity == null) {
             throw new IllegalArgumentException("Not an Entity spatial");
