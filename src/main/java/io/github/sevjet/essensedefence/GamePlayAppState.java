@@ -14,7 +14,6 @@ import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.field.Inventory;
 import io.github.sevjet.essensedefence.field.MapField;
 import io.github.sevjet.essensedefence.util.Configuration;
-import io.github.sevjet.essensedefence.util.Creator;
 
 public class GamePlayAppState extends AbstractAppState {
 
@@ -39,7 +38,7 @@ public class GamePlayAppState extends AbstractAppState {
 //        Configuration.getRootNode().attachChild(debugNode);
 //        ListenerManager.registerListener();
 
-        localGui.attachChild(Creator.centerMark());
+//        localGui.attachChild(Creator.centerMark());
 
 
         Gamer gamer = Configuration.getGamer();

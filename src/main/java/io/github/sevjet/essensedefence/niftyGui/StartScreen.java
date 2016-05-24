@@ -25,7 +25,7 @@ public class StartScreen extends BaseScreen {
         Configuration.getAppState().attach(state);
         state.stateAttached(Configuration.getAppState());
 
-        this.getNifty().getCurrentScreen().getRootElement().setVisible(false);
+        this.getNifty().getCurrentScreen().findElementByName("mainLayer").setVisible(false);
         nifty.getCurrentScreen().findElementByName("mainLayer").markForRemoval();
     }
 
@@ -35,7 +35,7 @@ public class StartScreen extends BaseScreen {
         Configuration.getAppState().attach(state);
         state.stateAttached(Configuration.getAppState());
 
-        this.getNifty().getCurrentScreen().getRootElement().setVisible(false);
+        this.getNifty().getCurrentScreen().findElementByName("mainLayer").setVisible(false);
         nifty.getCurrentScreen().findElementByName("mainLayer").markForRemoval();
     }
 
