@@ -19,7 +19,7 @@ public class PathBuilder {
 
     private MapField field = null;
     private Point start = null;
-    private float baseZ = 0;
+    private Vector3f base = Vector3f.ZERO;
     private Set<Class<? extends Entity>> startClasses = new LinkedHashSet<>();
     private Class<? extends Building> finishClass = Fortress.class;
     private Class<? extends Building> buildingClass = null;
@@ -72,8 +72,8 @@ public class PathBuilder {
         return this;
     }
 
-    public PathBuilder floatingAt(final float z) {
-        this.baseZ = z;
+    public PathBuilder floatingAt(final Vector3f base) {
+        this.base = base;
 
         return this;
     }
@@ -227,12 +227,12 @@ public class PathBuilder {
                         break;
                 }
             }
-            list.add(new Point(current));
             Collections.reverse(list);
 
             MotionPath path = new MotionPath();
+            path.addWayPoint(base);
             for (Point point : list) {
-                path.addWayPoint(new Vector3f(point.x, point.y, baseZ));
+                path.addWayPoint(new Vector3f(point.x, point.y, base.getZ()));
             }
             return path;
         }

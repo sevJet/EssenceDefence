@@ -94,7 +94,7 @@ public class MonsterControl extends BasicControl {
         MapField field = monster.getField();
         path = PathBuilder.atField(field)
                 .from(monster.getX(), monster.getY())
-                .floatingAt(monster.getCenter().getZ())
+                .floatingAt(monster.getPhysicalCenter())
                 .to(Fortress.class)
                 .build();
         if (path != null && path.getNbWayPoints() > 0) {
