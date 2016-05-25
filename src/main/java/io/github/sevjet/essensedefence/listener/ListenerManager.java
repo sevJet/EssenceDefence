@@ -159,7 +159,7 @@ public final class ListenerManager {
     }
 
     static Node getField() {
-        return GamePlayAppState.field.getObjects(MapCell.class);
+        return GamePlayAppState.field != null ? GamePlayAppState.field.getObjects(MapCell.class) : null;
     }
 
     static Node getInventory() {

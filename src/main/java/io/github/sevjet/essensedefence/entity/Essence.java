@@ -5,6 +5,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.util.BoxSize;
@@ -14,8 +15,6 @@ import java.io.IOException;
 
 public class Essence extends Entity3D implements IBuyable {
 
-    // TODO: 19.05.16 Savable
-    // FIXME: Not real size, made bigger for been at the center of the tower
     private static final BoxSize SIZE = new BoxSize(1, 1, 1);
 
     private float offsetX = 0f;
@@ -51,7 +50,7 @@ public class Essence extends Entity3D implements IBuyable {
     public static Essence buy() {
         if (Configuration.getGamer().getGold() >= 10) {
             Configuration.getGamer().decGold(10);
-            return new Essence(1, 5, 1, 1, 10);
+            return Essence.getNew();
         }
         return null;
     }
@@ -59,6 +58,10 @@ public class Essence extends Entity3D implements IBuyable {
     // TODO: 19.05.16 Check do we need this?
     public static void sell(Tower tower) {
         Configuration.getGamer().incGold(tower.extractCore());
+    }
+
+    public static Essence getNew() {
+        return new Essence(2f, 3f, 1f, 1, 10f);
     }
 
     public float sell() {
@@ -130,15 +133,17 @@ public class Essence extends Entity3D implements IBuyable {
     }
 
     public boolean upgrade() {
-        if (Configuration.getGamer().getGold() <= 5 * level) {
+        if (Configuration.getGamer().getGold() < price) {
             return false;
         }
+        Configuration.getGamer().decGold(price);
+
         level++;
-        damage++;
-        range++;
-        speed++;
-        price++;
-        Configuration.getGamer().decGold(5 * level);
+        damage = FastMath.floor(damage * 1.25f * 100f) / 100f;
+        range = FastMath.floor(range * 1.1f * 100f) / 100f;
+        speed = FastMath.floor(speed * 1.3f * 100f) / 100f;
+        price = price * FastMath.log(price, 2 * level);
+        price = FastMath.floor(price * 100f) / 100f;
         return true;
     }
 
