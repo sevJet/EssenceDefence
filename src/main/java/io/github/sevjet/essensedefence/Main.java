@@ -70,7 +70,7 @@ public class Main extends SimpleApplication {
         settings.setFrequency(mode.getRefreshRate());
         settings.setBitsPerPixel(mode.getBitDepth());
 //        System.out.println(high.getWidth() + " " + high.getHeight() + " " + high.getFrequency() + " " + high.getBitsPerPixel());
-//        settings.setResolution(high.getWidth(), high.getHeight());
+//        settings.setResolution(high.getWidth()+1, high.getHeight());
 //        settings.setFrequency(high.getFrequency());
 //        settings.setBitsPerPixel(high.getBitsPerPixel());
 //        settings.setFullscreen(device.isFullScreenSupported());
@@ -84,13 +84,14 @@ public class Main extends SimpleApplication {
     public static void main(String[] args) throws LWJGLException {
         System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
         System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+        System.setProperty("apple.awt.UIElement", "true");
         Display.setResizable(true);
+
         Main app = new Main();
 
         app.setSettings(mySettings());
         app.setShowSettings(false);
         app.start();
-
     }
 
     //     TODO: 21/05/2016 delete
