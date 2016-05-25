@@ -130,7 +130,7 @@ public class Main extends SimpleApplication {
 
 
         DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(1, 0, -2).normalizeLocal());
+        sun.setDirection(new Vector3f(0, -1, 0).normalizeLocal());
         sun.setColor(ColorRGBA.White);
         Configuration.getRootNode().addLight(sun);
     }

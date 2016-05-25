@@ -193,7 +193,7 @@ public final class Creator {
     }
 
     public static Geometry myShinySphere(float radius, String name, ColorRGBA color) {
-        Sphere sphereMesh = new Sphere(32, 32, radius, true, false);
+        Sphere sphereMesh = new Sphere(3, 6, radius, true, false);
         Geometry geom = new Geometry(name, sphereMesh);
 
         sphereMesh.setTextureMode(Sphere.TextureMode.Projected);

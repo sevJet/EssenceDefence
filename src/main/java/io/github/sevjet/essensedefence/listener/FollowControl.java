@@ -24,10 +24,12 @@ public class FollowControl extends AbstractControl {
                 click2d.subtract(center).mult(dist).add(click2d), 0f).
                 add(Configuration.getCam().getDirection().mult(dist)));
 
+        getSpatial().rotate(tpf, 0, 0);
     }
 
     @Override
     protected void controlRender(RenderManager rm, ViewPort vp) {
 
     }
+
 }

@@ -21,6 +21,18 @@ public class EssenceListener implements ActionListener {
     private Inventory inventory;
 
     protected void onPress(String name, float tpf) {
+        switch (name) {
+            case MAPPING_EXTRACTION_ESSENCE:
+                if (bufEssence == null) {
+                    extractionEssence();
+//                    Essence local = bufEssence;
+//                    putEssence();
+//                    System.out.println(local.getGeometry().getLocalTranslation());
+//                    extractionEssence();
+                }
+                break;
+        }
+
     }
 
     protected void onRelease(String name, float tpf) {
@@ -33,13 +45,15 @@ public class EssenceListener implements ActionListener {
                 if (bufEssence == null)
                     sellEssence();
                 break;
-            case MAPPING_EXTRACTION_ESSENCE:
-                if (bufEssence == null)
-                    extractionEssence();
-                break;
+//            case MAPPING_EXTRACTION_ESSENCE:
+//                if (bufEssence == null)
+//                    extractionEssence();
+//                break;
             case MAPPING_PUT_EXTRACTED_ESSENCE:
-                if (bufEssence != null)
+                if (bufEssence != null) {
                     putEssence();
+
+                }
                 break;
             case MAPPING_UPGRADE_ESSENCE:
                 if (bufEssence == null)

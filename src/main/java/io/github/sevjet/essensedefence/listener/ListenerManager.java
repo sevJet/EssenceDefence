@@ -3,7 +3,9 @@ package io.github.sevjet.essensedefence.listener;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
@@ -44,16 +46,18 @@ public final class ListenerManager {
     public final static Trigger TRIGGER_BUY_ESSENCE =
             new KeyTrigger(KeyInput.KEY_B);
     public final static Trigger TRIGGER_EXTRACTION_ESSENCE =
-            new KeyTrigger(KeyInput.KEY_N);
+//            new KeyTrigger(KeyInput.KEY_N);
+            new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
     public final static Trigger TRIGGER_PUT_EXTRACTED_ESSENCE =
-            new KeyTrigger(KeyInput.KEY_P);
+//            new KeyTrigger(KeyInput.KEY_P);
+            new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
     public final static Trigger TRIGGER_SELL_ESSENCE =
             new KeyTrigger(KeyInput.KEY_M);
     public final static Trigger TRIGGER_UPGRADE_ESSENCE =
             new KeyTrigger(KeyInput.KEY_U);
 
     public final static Trigger TRIGGER_INFO =
-            new KeyTrigger(KeyInput.KEY_I);
+            new MouseButtonTrigger(MouseInput.BUTTON_RIGHT);
 
     public final static Trigger TRIGGER_EXIT =
             new KeyTrigger(KeyInput.KEY_ESCAPE);
