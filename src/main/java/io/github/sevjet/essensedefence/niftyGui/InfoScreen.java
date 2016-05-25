@@ -1,5 +1,6 @@
 package io.github.sevjet.essensedefence.niftyGui;
 
+import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.tools.SizeValue;
@@ -62,6 +63,7 @@ public class InfoScreen extends BaseScreen {
             return;
         }
         el.getParent().layoutElements();
+        el.startEffect(EffectEventId.onClick);
     }
 
     public void showAll() {

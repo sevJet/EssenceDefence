@@ -30,7 +30,7 @@
                      x="0" y="0" text="Test text" textHAlign="left"
                      textVAlign="top" font="aurulent-sans-16.fnt" wrap="true">
                 <effect>
-                    <onActive name="fade" startDelay="2000" start="#f" end="#0" length="2000"
+                    <onClick name="fade" startDelay="2000" start="#f" end="#0" length="2000"
                                    neverStopRendering="true"/>
                 </effect>
             </control>
