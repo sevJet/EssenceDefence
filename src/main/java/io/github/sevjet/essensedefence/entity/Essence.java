@@ -140,8 +140,8 @@ public class Essence extends Entity3D implements IBuyable {
 
         level++;
         damage = FastMath.floor(damage * 1.25f * 100f) / 100f;
-        range = FastMath.floor(range * 1.1f * 100f) / 100f;
-        speed = FastMath.floor(speed * 1.3f * 100f) / 100f;
+        range = FastMath.floor(range * 1.03f * 100f) / 100f;
+        speed = FastMath.floor(speed * 1.1f * 100f) / 100f;
         price = price * FastMath.log(price, 2 * level);
         price = FastMath.floor(price * 100f) / 100f;
         return true;
