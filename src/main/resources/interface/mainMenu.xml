@@ -22,6 +22,10 @@
                     <interact onClick="exit()" />
                 </control>
             </panel>
+            <effect>
+                <onHide name="fade" start="#f" end="#0" length="300"
+                        neverStopRendering="true"/>
+            </effect>
         </layer>
     </screen>
     <screen id="start2" controller="io.github.sevjet.essensedefence.niftyGui.InfoScreen">

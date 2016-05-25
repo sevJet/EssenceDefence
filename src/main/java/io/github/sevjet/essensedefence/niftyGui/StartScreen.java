@@ -4,13 +4,13 @@ import de.lessvoid.nifty.elements.Element;
 import io.github.sevjet.essensedefence.GamePlayAppState;
 import io.github.sevjet.essensedefence.util.Configuration;
 
-import static io.github.sevjet.essensedefence.Main.nifty;
 import static io.github.sevjet.essensedefence.Main.state;
 
 public class StartScreen extends BaseScreen {
 
     public StartScreen(String xml) {
         super(xml);
+
     }
 
     public void start() {
@@ -25,8 +25,8 @@ public class StartScreen extends BaseScreen {
         Configuration.getAppState().attach(state);
         state.stateAttached(Configuration.getAppState());
 
-        this.getNifty().getCurrentScreen().findElementByName("mainLayer").setVisible(false);
-        nifty.getCurrentScreen().findElementByName("mainLayer").markForRemoval();
+        this.getNifty().getCurrentScreen().findElementByName("mainLayer").hide();
+//        nifty.getCurrentScreen().findElementByName("mainLayer").markForRemoval();
     }
 
     public void continueGame() {
@@ -35,8 +35,8 @@ public class StartScreen extends BaseScreen {
         Configuration.getAppState().attach(state);
         state.stateAttached(Configuration.getAppState());
 
-        this.getNifty().getCurrentScreen().findElementByName("mainLayer").setVisible(false);
-        nifty.getCurrentScreen().findElementByName("mainLayer").markForRemoval();
+        this.getNifty().getCurrentScreen().findElementByName("mainLayer").hide();
+//        nifty.getCurrentScreen().findElementByName("mainLayer").markForRemoval();
     }
 
     public void exit() {
