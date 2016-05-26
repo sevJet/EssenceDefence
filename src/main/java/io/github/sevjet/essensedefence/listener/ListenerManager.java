@@ -55,6 +55,8 @@ public final class ListenerManager {
             new KeyTrigger(KeyInput.KEY_M);
     public final static Trigger TRIGGER_UPGRADE_ESSENCE =
             new KeyTrigger(KeyInput.KEY_U);
+    public final static Trigger TRIGGER_COMBINE_ESSENCE =
+            new KeyTrigger(KeyInput.KEY_C);
 
     public final static Trigger TRIGGER_INFO =
             new MouseButtonTrigger(MouseInput.BUTTON_RIGHT);
@@ -79,6 +81,7 @@ public final class ListenerManager {
     public final static String MAPPING_PUT_EXTRACTED_ESSENCE = "Put extracted essence";
     public final static String MAPPING_EXTRACTION_ESSENCE = "Extraction essence";
     public final static String MAPPING_UPGRADE_ESSENCE = "Upgrade essence";
+    public final static String MAPPING_COMBINE_ESSENCE = "Combine essence";
 
     public final static String MAPPING_INFO = "Info";
 
@@ -103,6 +106,7 @@ public final class ListenerManager {
         inputManager.addMapping(MAPPING_PUT_EXTRACTED_ESSENCE, TRIGGER_PUT_EXTRACTED_ESSENCE);
         inputManager.addMapping(MAPPING_SELL_ESSENCE, TRIGGER_SELL_ESSENCE);
         inputManager.addMapping(MAPPING_UPGRADE_ESSENCE, TRIGGER_UPGRADE_ESSENCE);
+        inputManager.addMapping(MAPPING_COMBINE_ESSENCE,TRIGGER_COMBINE_ESSENCE);
 
         inputManager.addMapping(MAPPING_INFO, TRIGGER_INFO);
 
@@ -129,6 +133,7 @@ public final class ListenerManager {
                 MAPPING_EXTRACTION_ESSENCE,
                 MAPPING_PUT_EXTRACTED_ESSENCE,
                 MAPPING_UPGRADE_ESSENCE,
+                MAPPING_COMBINE_ESSENCE,
                 MAPPING_INFO);
 
         inputManager.addListener(new GameListener(),
