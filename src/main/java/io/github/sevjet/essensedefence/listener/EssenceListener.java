@@ -210,11 +210,6 @@ public class EssenceListener implements ActionListener {
                 }
                 return true;
             }
-            if (field instanceof EssenceShop) {
-                bufEssence.sell();
-                clearBuf();
-                return true;
-            }
         }
         return false;
     }
