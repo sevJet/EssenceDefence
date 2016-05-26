@@ -39,6 +39,7 @@ public abstract class Entity implements Savable {
         return x;
     }
 
+    @Deprecated
     public void setX(int x) {
         this.x = x;
 
@@ -49,6 +50,7 @@ public abstract class Entity implements Savable {
         return y;
     }
 
+    @Deprecated
     public void setY(int y) {
         this.y = y;
 
@@ -59,6 +61,7 @@ public abstract class Entity implements Savable {
         return z;
     }
 
+    @Deprecated
     public void setZ(int z) {
         this.z = z;
 
@@ -75,22 +78,37 @@ public abstract class Entity implements Savable {
             throw new IllegalArgumentException("Geometry can not be null");
         }
         this.geometry = geometry;
-
         update();
+    }
+
+    public void translate(int x, int y) {
+        translate(x, y, 0);
+    }
+
+    public void translate(int x, int y, int z) {
+        translate(x, y, z, true);
+    }
+
+    public void translate(int x, int y, int z, boolean doUpdate) {
+        move(this.x + x, this.y + y, this.z + z, doUpdate);
     }
 
     public void move(int x, int y) {
-        this.x = x;
-        this.y = y;
-
-        update();
+        move(x, y, this.z);
     }
 
-    public void moveRelative(int x, int y) {
-        this.x += x;
-        this.y += y;
+    public void move(int x, int y, int z) {
+        move(x, y, z, true);
+    }
 
-        update();
+    public void move(int x, int y, int z, boolean doUpdate) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+
+        if (doUpdate) {
+            update();
+        }
     }
 
     public Field getField() {
@@ -123,10 +141,7 @@ public abstract class Entity implements Savable {
     }
 
     protected boolean update() {
-        if (geometry != null) {
-            return moveToCenter();
-        }
-        return false;
+        return geometry != null && moveToCenter();
     }
 
     @Override

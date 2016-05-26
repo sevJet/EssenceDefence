@@ -189,8 +189,6 @@ public final class ListenerManager {
                 new Vector2f(click2d.getX(), click2d.getY()), 1f).
                 subtract(click3d);
 
-        Ray ray = new Ray(click3d, dir);
-
-        return ray;
+        return new Ray(click3d, dir);
     }
 }

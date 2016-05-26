@@ -30,8 +30,7 @@ public class MapField extends Field<MapCell> {
                 cell.setContent(building);
             }
         }
-        building.setX(x);
-        building.setY(y);
+        building.move(x, y);
 
         addObject(building);
 
@@ -115,9 +114,6 @@ public class MapField extends Field<MapCell> {
             Essence essence = tower.getCore();
             tower.extractCore();
             return essence;
-        }
-        if (contentObject instanceof Building) {
-
         }
 
         return null;

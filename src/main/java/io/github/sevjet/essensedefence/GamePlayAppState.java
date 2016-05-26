@@ -55,8 +55,8 @@ public class GamePlayAppState extends AbstractAppState {
         field.setLocalTranslation(0f, 0f, 0f);
         field.rotate(
                 -90 * FastMath.DEG_TO_RAD,
-                000 * FastMath.DEG_TO_RAD,
-                000 * FastMath.DEG_TO_RAD
+                0 * FastMath.DEG_TO_RAD,
+                0 * FastMath.DEG_TO_RAD
         );
         localRoot.attachChild(field);
 
@@ -66,8 +66,8 @@ public class GamePlayAppState extends AbstractAppState {
         invent.scale(2f);
         invent.rotate(
                 -90 * FastMath.DEG_TO_RAD,
-                000 * FastMath.DEG_TO_RAD,
-                000 * FastMath.DEG_TO_RAD
+                0 * FastMath.DEG_TO_RAD,
+                0 * FastMath.DEG_TO_RAD
         );
         localRoot.attachChild(invent);
 
