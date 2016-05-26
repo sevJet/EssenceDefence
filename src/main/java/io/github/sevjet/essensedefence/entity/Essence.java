@@ -41,11 +41,12 @@ public class Essence extends Entity3D implements IBuyable {
     public Essence(float damage, float range, float speed, int level, float price) {
         super(SIZE);
 
-        this.damage = damage;
-        this.range = range;
-        this.speed = speed;
-        this.level = level;
-        this.price = price;
+        this.damage = trim(damage);
+        this.range = trim(range);
+        this.speed = trim(speed);
+        this.level =
+                level;
+        this.price = trim(price);
 
         // TODO: 15/05/2016 delete when release
         geometry.getMaterial().setColor("Diffuse", ColorRGBA.randomColor());

@@ -1,7 +1,6 @@
 package io.github.sevjet.essensedefence;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.export.binary.BinaryExporter;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -31,8 +30,6 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 import static io.github.sevjet.essensedefence.util.Creator.*;
 
