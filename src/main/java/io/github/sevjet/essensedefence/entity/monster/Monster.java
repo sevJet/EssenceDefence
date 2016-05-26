@@ -86,6 +86,10 @@ public class Monster extends Entity3D implements ITextual {
         this.money = money;
     }
 
+    public static Monster getDefaultMonster() {
+        return new Monster(30, 10, 10);
+    }
+
     @Override
     public MapField getField() {
         Field field = super.getField();

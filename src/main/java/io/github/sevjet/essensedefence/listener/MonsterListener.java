@@ -33,7 +33,9 @@ public class MonsterListener implements ActionListener {
                     switch (name) {
                         case MAPPING_SPAWN_MONSTER:
                             if (!cell.hasContent()) {
-                                monster = new Monster(cell.getX(), cell.getY(), 30, 10, 10);
+                                monster = Monster.getDefaultMonster();
+                                monster.setX(cell.getX());
+                                monster.setY(cell.getY());
                                 field.addObject(monster);
                             }
                             break;
@@ -42,7 +44,7 @@ public class MonsterListener implements ActionListener {
                                 Portal portal = (Portal) cell.getContent();
                                 ArrayList<Monster> monsters = new ArrayList<>();
                                 for (int i = 0; i < 10; i++) {
-                                    monster = new Monster(10f, 2f, 0f);
+                                    monster = Monster.getDefaultMonster();
                                     monsters.add(monster);
                                 }
                                 WaveControl wave = new WaveControl(monsters);
@@ -58,7 +60,7 @@ public class MonsterListener implements ActionListener {
 
                                 ArrayList<Monster> monsters = new ArrayList<>();
                                 for (int i = 0; i < 15; i++) {
-                                    monster = new Monster(10f, 2f, 0f);
+                                    monster = Monster.getDefaultMonster();
                                     monsters.add(monster);
                                 }
                                 WaveControl wave = new WaveControl(monsters);

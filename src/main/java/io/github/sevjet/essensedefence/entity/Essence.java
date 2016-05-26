@@ -48,9 +48,9 @@ public class Essence extends Entity3D implements IBuyable {
     }
 
     public static Essence buy() {
-        if (Configuration.getGamer().getGold() >= 10) {
-            Configuration.getGamer().decGold(10);
-            return Essence.getNew();
+        Essence essence = getNew();
+        if (Configuration.getGamer().decGold(essence.getPrice())) {
+            return essence;
         }
         return null;
     }
