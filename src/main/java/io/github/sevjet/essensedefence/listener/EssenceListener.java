@@ -52,12 +52,16 @@ public class EssenceListener implements ActionListener {
             case MAPPING_PUT_EXTRACTED_ESSENCE:
                 if (bufEssence != null) {
                     putEssence();
-
                 }
                 break;
             case MAPPING_UPGRADE_ESSENCE:
                 if (bufEssence == null)
                     upgradeEssence();
+                break;
+            case MAPPING_COMBINE_ESSENCE:
+                if(bufEssence != null) {
+                    combineEssence();
+                }
                 break;
             case MAPPING_INFO:
                 infoAbout();
@@ -72,6 +76,7 @@ public class EssenceListener implements ActionListener {
                 name.equals(MAPPING_PUT_EXTRACTED_ESSENCE) ||
                 name.equals(MAPPING_SELL_ESSENCE) ||
                 name.equals(MAPPING_UPGRADE_ESSENCE) ||
+                name.equals(MAPPING_COMBINE_ESSENCE) ||
                 name.equals(MAPPING_INFO)) {
             if (isPressed) {
                 onPress(name, tpf);
@@ -140,6 +145,22 @@ public class EssenceListener implements ActionListener {
         if (bufEssence != null)
             bufEssence.upgrade();
         putEssence();
+    }
+
+    private void combineEssence() {
+        Essence extractionEssence = bufEssence;
+        bufEssence.getGeometry().removeFromParent();
+        clearBuf();
+        extractionEssence();
+        Essence placedEssence = bufEssence;
+        putEssence();
+        if(placedEssence != null) {
+            placedEssence.combine(extractionEssence);
+        }
+        else {
+            bufEssence = extractionEssence;
+            bufEssence.getGeometry().addControl(new FollowControl());
+        }
     }
 
     private void extractionEssence() {
