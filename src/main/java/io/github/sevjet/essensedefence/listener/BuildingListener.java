@@ -5,7 +5,6 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
-import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.entity.building.*;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.MapCell;
@@ -124,8 +123,6 @@ public class BuildingListener implements ActionListener {
                         case MAPPING_BUILD_WALL:
                             break;
                         case MAPPING_BUILD_TOWER:
-                            if (building instanceof Tower)
-                                ((Tower) building).putCore(Essence.getNew());
                             break;
                         case MAPPING_BUILD_PORTAL:
                             break;
