@@ -12,7 +12,6 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import io.github.sevjet.essensedefence.field.Field;
-import io.github.sevjet.essensedefence.field.Inventory;
 import io.github.sevjet.essensedefence.field.MapField;
 import io.github.sevjet.essensedefence.util.BoxSize;
 import io.github.sevjet.essensedefence.util.Configuration;
@@ -45,21 +44,22 @@ public class GamePlayAppState extends AbstractAppState {
     }
 
     private void placeGameFields() {
-        field = new MapField(25, 25);
-        localRoot.attachChild(field);
-
-        field.setLocalTranslation(5, 10, 1);
+        int n, m;
+        n = 25;
+        m = n;
+        field = new MapField(n, m);
+        field.setLocalTranslation(0f, 0f, 0f);
         field.rotate(
                 -90 * FastMath.DEG_TO_RAD,
                 0 * FastMath.DEG_TO_RAD,
                 0 * FastMath.DEG_TO_RAD
         );
+        localRoot.attachChild(field);
 
-        Configuration.getGamer().setInventory(new Inventory(3, 10));
+        Configuration.getGamer().resetInventory();
         Node invent = Configuration.getGamer().getInventory();
-
-        invent.setLocalTranslation(40f, 10f, 1f);
-        invent.scale(2.5f);
+        invent.setLocalTranslation(m + 5, 0f, -10f);
+        invent.scale(2f);
         invent.rotate(
                 -90 * FastMath.DEG_TO_RAD,
                 0 * FastMath.DEG_TO_RAD,
@@ -67,6 +67,16 @@ public class GamePlayAppState extends AbstractAppState {
         );
         localRoot.attachChild(invent);
 
+        Configuration.getGamer().resetShop();
+        Node shop = Configuration.getGamer().getShop();
+        shop.setLocalTranslation(m + 3, 0f, -1f);
+        shop.scale(3f);
+        shop.rotate(
+                -90 * FastMath.DEG_TO_RAD,
+                000 * FastMath.DEG_TO_RAD,
+                000 * FastMath.DEG_TO_RAD
+        );
+        localRoot.attachChild(shop);
     }
 
     @Override

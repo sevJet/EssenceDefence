@@ -59,15 +59,6 @@ public class Main extends SimpleApplication {
 
 //        DisplayMode[] modes = Display.getAvailableDisplayModes();
 //        DisplayMode high = modes[0];
-//        for (int i = 1; i < modes.length; i++) {
-//            if (modes[i].getWidth() * modes[i].getHeight() > high.getWidth() * high.getHeight() ||
-//                    (modes[i].getWidth() * modes[i].getHeight() == high.getWidth() * high.getHeight() &&
-//                            modes[i].getFrequency() >= high.getFrequency() &&
-//                            modes[i].getBitsPerPixel() >= high.getBitsPerPixel()))
-//                high = modes[i];
-//            System.out.println(i + "  " + modes[i].getWidth() + ' ' + modes[i].getHeight() + ' ' +
-//                    modes[i].getFrequency() + ' ' + modes[i].getBitsPerPixel());
-//        }
 //        System.out.println(high.getWidth() + " " + high.getHeight() + " " + high.getFrequency() + " " + high.getBitsPerPixel());
 //        settings.setResolution(high.getWidth()+1, high.getHeight());
 //        settings.setFrequency(high.getFrequency());

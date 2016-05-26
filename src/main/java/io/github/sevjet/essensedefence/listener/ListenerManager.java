@@ -171,6 +171,10 @@ public final class ListenerManager {
         return Configuration.getGamer().getInventory().getObjects(InventoryCell.class);
     }
 
+    static Node getShop() {
+        return Configuration.getGamer().getShop().getObjects(InventoryCell.class);
+    }
+
     private static Ray fromCamera() {
         return new Ray(Configuration.getCam().getLocation(),
                 Configuration.getCam().getDirection());

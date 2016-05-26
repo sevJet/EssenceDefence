@@ -2,10 +2,11 @@ package io.github.sevjet.essensedefence.listener;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
-import com.jme3.math.Vector3f;
+import com.jme3.math.Vector2f;
 import de.lessvoid.nifty.elements.Element;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.field.Cell;
+import io.github.sevjet.essensedefence.field.EssenceShop;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.field.Inventory;
 import io.github.sevjet.essensedefence.niftyGui.InfoScreen;
@@ -46,7 +47,12 @@ public class EssenceListener implements ActionListener {
                 if (bufEssence != null) {
                     putEssence();
                     if (bufEssence != null && lastCell != null) {
-                        putEssence(lastCell);
+                        if (lastCell.getField() instanceof EssenceShop) {
+                            bufEssence.sell();
+                            clearBuf();
+                        } else {
+                            putEssence(lastCell);
+                        }
                         lastCell = null;
                     }
                 }
@@ -89,28 +95,22 @@ public class EssenceListener implements ActionListener {
         Essence essence;
         extractionEssence();
         essence = bufEssence;
-        putEssence();
+        if (!putEssence())
+            clearBuf();
 
         if (essence != null) {
             int x, y;
-            Vector3f vec = Configuration.getCam().getScreenCoordinates(
-                    essence.getGeometry().getWorldTranslation()
-            );
+            Vector2f vec = Configuration.getInputManager().getCursorPosition();
             x = ((int) vec.getX());
-            y = ((int) vec.getY());
+            y = Configuration.getSettings().getHeight() - ((int) vec.getY());
 
-//            InfoScreen info = new InfoScreen("interface/testNifty.xml");
             if (info == null)
                 info = new InfoScreen("interface/mainMenu.xml", "start2");
             Element txt = info.getElement("txt");
             if (txt == null)
                 return;
             txt.hide();
-            info.setText(txt, "Level: " + essence.getLevel() + '\n' +
-                    "Damage: " + essence.getDamage() + '\n' +
-                    "Range: " + essence.getRange() + '\n' +
-                    "Speed: " + essence.getSpeed() + '\n' +
-                    "Price (buy): " + essence.getPrice());
+            info.setText(txt, essence.getInfo());
             info.moveTo(txt, x, y);
             info.update(txt);
             info.showAll();
@@ -146,7 +146,6 @@ public class EssenceListener implements ActionListener {
 
     private void combineEssence() {
         Essence extractionEssence = bufEssence;
-        bufEssence.getGeometry().removeFromParent();
         clearBuf();
         extractionEssence();
         Essence placedEssence = bufEssence;
@@ -160,14 +159,23 @@ public class EssenceListener implements ActionListener {
     }
 
     private void extractionEssence() {
-        results = rayCasting(getInventory(), getField());
-        bufEssence = extractFromResults(results);
+        results = rayCasting(getInventory(), getField(), getShop());
+        Essence essence = extractFromResults(results);
+        bufEssence = essence;
+        if (lastCell != null &&
+                lastCell.getField() instanceof EssenceShop) {
+            if (essence != null &&
+                    !Configuration.getGamer().decGold(essence.getPrice())) {
+                putEssence();
+            }
+        }
     }
 
     private boolean putEssence() {
-        return placeOnResults(rayCasting(getField(), getInventory()));
+        return placeOnResults(rayCasting(getField(), getInventory(), getShop()));
     }
 
+    // TODO: 26/05/2016 recreate
     private boolean putEssence(Cell lastCell) {
         if (bufEssence == null) {
             return false;
@@ -176,9 +184,34 @@ public class EssenceListener implements ActionListener {
             Cell cell = lastCell;
             Field field = cell.getField();
             if (field.canSet(cell, Essence.class)) {
-                if (!field.setContent(cell, bufEssence)) {
+                Essence localBuf = bufEssence;
+                clearBuf();
+                if (!field.setContent(cell, localBuf)) {
                     return false;
                 }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean placeOnResults(CollisionResults results) {
+        if (bufEssence == null) {
+            return false;
+        }
+        if (results.size() > 0) {
+            Cell cell = getCell(results);
+            Field field = cell.getField();
+            if (field.canSet(cell, Essence.class)) {
+                Essence localBuf = bufEssence;
+                clearBuf();
+                if (!field.setContent(cell, localBuf)) {
+                    return false;
+                }
+                return true;
+            }
+            if (field instanceof EssenceShop) {
+                bufEssence.sell();
                 clearBuf();
                 return true;
             }
@@ -204,26 +237,11 @@ public class EssenceListener implements ActionListener {
         return essence;
     }
 
-    private boolean placeOnResults(CollisionResults results) {
-        if (bufEssence == null) {
-            return false;
-        }
-        if (results.size() > 0) {
-            Cell cell = getCell(results);
-            Field field = cell.getField();
-            if (field.canSet(cell, Essence.class)) {
-                if (!field.setContent(cell, bufEssence)) {
-                    return false;
-                }
-                clearBuf();
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void clearBuf() {
+        if (bufEssence == null)
+            return;
         bufEssence.getGeometry().removeControl(FollowControl.class);
+        bufEssence.getGeometry().removeFromParent();
         bufEssence = null;
     }
 }

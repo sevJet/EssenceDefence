@@ -11,6 +11,8 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
+import io.github.sevjet.essensedefence.entity.Essence;
+import io.github.sevjet.essensedefence.field.EssenceShop;
 import io.github.sevjet.essensedefence.field.Inventory;
 import io.github.sevjet.essensedefence.gui.*;
 import io.github.sevjet.essensedefence.util.Configuration;
@@ -23,6 +25,7 @@ import static io.github.sevjet.essensedefence.gui.MovementOnGuiControl.SCALE_FRO
 public class Gamer implements ITextual {
 
     protected Inventory inventory = new Inventory(3, 10);
+    protected EssenceShop shop = new EssenceShop(3, 3);
     protected float gold = 0;
     protected Node gamerGui = new Node("gamerGui");
 
@@ -47,8 +50,28 @@ public class Gamer implements ITextual {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
+
+    public void resetInventory() {
+        this.inventory = new Inventory(3, 10);
+    }
+
+    public EssenceShop getShop() {
+        return shop;
+    }
+
+    public void resetShop() {
+        this.shop = new EssenceShop(3, 3);
+        for (int i = 0; i < shop.getRows(); i++) {
+            for (int j = 0; j < shop.getCols(); j++) {
+                float damage, range, speed, price;
+                damage = 0.1f + (float) Math.random() * 5;
+                range = 2f + (float) Math.random() * 3;
+                speed = 0.5f + (float) Math.random() * 2;
+                price = damage + range + speed;
+                Essence essence = new Essence(damage, range, speed, 1, price);
+                shop.setContent(i, j, essence);
+            }
+        }
     }
 
     public boolean decGold(float gold) {
@@ -58,10 +81,10 @@ public class Gamer implements ITextual {
         return true;
     }
 
+
     public float incGold(float gold) {
         return this.gold = FastMath.floor((this.gold + gold) * 100f) / 100f;
     }
-
 
     @Override
     public String outputValue() {
@@ -82,10 +105,10 @@ public class Gamer implements ITextual {
 //        Configuration.getGuiNode().attachChild(gamerGui);
     }
 
+
     public Node getGui() {
         return gamerGui;
     }
-
 
     @Override
     public void write(JmeExporter ex) throws IOException {
