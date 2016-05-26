@@ -66,7 +66,7 @@ public class Gamer implements ITextual {
                 float damage, range, speed, price;
                 damage = 0.1f + (float) Math.random() * 5;
                 range = 2f + (float) Math.random() * 3;
-                speed = 0.5f + (float) Math.random() * 2;
+                speed = 0.5f + (float) Math.random() * 5;
                 price = damage + range + speed;
                 Essence essence = new Essence(damage, range, speed, 1, price);
                 shop.setContent(i, j, essence);

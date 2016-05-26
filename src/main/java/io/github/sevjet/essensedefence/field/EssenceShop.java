@@ -37,7 +37,7 @@ public class EssenceShop extends Inventory {
 
     @Override
     public boolean canSet(InventoryCell cell, Class<? extends Entity> contentClass) {
-        return false;
+        return true;
     }
 
     @Override
