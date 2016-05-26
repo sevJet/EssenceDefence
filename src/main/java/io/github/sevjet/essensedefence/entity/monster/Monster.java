@@ -50,6 +50,10 @@ public class Monster extends Entity3D implements ITextual {
         geometry.addControl(control);
     }
 
+    public static Monster getDefaultMonster() {
+        return new Monster(30, 10, 10);
+    }
+
     public float getHealth() {
         return health;
     }
@@ -84,10 +88,6 @@ public class Monster extends Entity3D implements ITextual {
 
     public void setMoney(float money) {
         this.money = money;
-    }
-
-    public static Monster getDefaultMonster() {
-        return new Monster(30, 10, 10);
     }
 
     @Override

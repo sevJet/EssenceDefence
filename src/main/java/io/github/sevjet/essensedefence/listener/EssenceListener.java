@@ -17,6 +17,7 @@ public class EssenceListener implements ActionListener {
 
     public static InfoScreen info = null;
     private Essence bufEssence = null;
+    private Cell lastCell = null;
     private CollisionResults results;
     private Inventory inventory;
 
@@ -25,10 +26,6 @@ public class EssenceListener implements ActionListener {
             case MAPPING_EXTRACTION_ESSENCE:
                 if (bufEssence == null) {
                     extractionEssence();
-//                    Essence local = bufEssence;
-//                    putEssence();
-//                    System.out.println(local.getGeometry().getLocalTranslation());
-//                    extractionEssence();
                 }
                 break;
         }
@@ -45,13 +42,13 @@ public class EssenceListener implements ActionListener {
                 if (bufEssence == null)
                     sellEssence();
                 break;
-//            case MAPPING_EXTRACTION_ESSENCE:
-//                if (bufEssence == null)
-//                    extractionEssence();
-//                break;
             case MAPPING_PUT_EXTRACTED_ESSENCE:
                 if (bufEssence != null) {
                     putEssence();
+                    if (bufEssence != null && lastCell != null) {
+                        putEssence(lastCell);
+                        lastCell = null;
+                    }
                 }
                 break;
             case MAPPING_UPGRADE_ESSENCE:
@@ -59,7 +56,7 @@ public class EssenceListener implements ActionListener {
                     upgradeEssence();
                 break;
             case MAPPING_COMBINE_ESSENCE:
-                if(bufEssence != null) {
+                if (bufEssence != null) {
                     combineEssence();
                 }
                 break;
@@ -154,10 +151,9 @@ public class EssenceListener implements ActionListener {
         extractionEssence();
         Essence placedEssence = bufEssence;
         putEssence();
-        if(placedEssence != null) {
+        if (placedEssence != null) {
             placedEssence.combine(extractionEssence);
-        }
-        else {
+        } else {
             bufEssence = extractionEssence;
             bufEssence.getGeometry().addControl(new FollowControl());
         }
@@ -172,10 +168,29 @@ public class EssenceListener implements ActionListener {
         return placeOnResults(rayCasting(getField(), getInventory()));
     }
 
+    private boolean putEssence(Cell lastCell) {
+        if (bufEssence == null) {
+            return false;
+        }
+        if (lastCell != null) {
+            Cell cell = lastCell;
+            Field field = cell.getField();
+            if (field.canSet(cell, Essence.class)) {
+                if (!field.setContent(cell, bufEssence)) {
+                    return false;
+                }
+                clearBuf();
+                return true;
+            }
+        }
+        return false;
+    }
+
     private Essence extractFromResults(CollisionResults results) {
         Essence essence = null;
         if (results.size() > 0) {
             Cell cell = getCell(results);
+            lastCell = cell;
             Field field = cell.getField();
 
             if (field.canGet(cell, Essence.class)) {

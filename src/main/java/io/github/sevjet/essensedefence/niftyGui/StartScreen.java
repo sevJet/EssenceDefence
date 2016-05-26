@@ -10,7 +10,6 @@ public class StartScreen extends BaseScreen {
 
     public StartScreen(String xml) {
         super(xml);
-
     }
 
     public void start() {
