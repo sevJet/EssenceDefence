@@ -165,8 +165,7 @@ public class EssenceListener implements ActionListener {
 
     private void extractionEssence() {
         results = rayCasting(getInventory(), getField());
-        Essence essence = extractFromResults(results);
-        bufEssence = essence;
+        bufEssence = extractFromResults(results);
     }
 
     private boolean putEssence() {

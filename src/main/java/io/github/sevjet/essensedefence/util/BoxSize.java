@@ -71,8 +71,8 @@ public class BoxSize implements Savable, Cloneable {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return new BoxSize(height, width, depth);
+    protected BoxSize clone() throws CloneNotSupportedException {
+        return (BoxSize) super.clone();
     }
 
     @Override

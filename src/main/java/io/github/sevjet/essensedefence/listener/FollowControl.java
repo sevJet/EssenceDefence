@@ -19,7 +19,7 @@ public class FollowControl extends AbstractControl {
 //        getSpatial().setLocalTranslation(Configuration.getCam().getLocation().add(
 //                Configuration.getCam().getDirection().mult(15)
 //        ));
-        Vector2f temp = center.subtract(click2d);
+        center.subtract(click2d);
         getSpatial().setLocalTranslation(Configuration.getCam().getWorldCoordinates(
                 click2d.subtract(center).mult(dist).add(click2d), 0f).
                 add(Configuration.getCam().getDirection().mult(dist)));

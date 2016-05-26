@@ -1,7 +1,6 @@
 package io.github.sevjet.essensedefence.control;
 
 import com.jme3.cinematic.MotionPath;
-import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.MotionEvent;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
@@ -68,17 +67,13 @@ public class MonsterControl extends BasicControl {
             return;
         }
 
-        path.addListener(new MotionPathListener() {
-            @Override
-            public void onWayPointReach(MotionEvent motionControl, int wayPointIndex) {
-                if (motionControl.getPath().getNbWayPoints() == wayPointIndex + 1) {
-                    fortress.hit(monster.getDamage());
-                    monster.die();
-                }
-                Vector3f curWayPoint = motionControl.getPath().getWayPoint(motionControl.getCurrentWayPoint());
-                monster.setX(Math.round(curWayPoint.getX()));
-                monster.setY(Math.round(curWayPoint.getY()));
+        path.addListener((motionControl, wayPointIndex) -> {
+            if (motionControl.getPath().getNbWayPoints() == wayPointIndex + 1) {
+                fortress.hit(monster.getDamage());
+                monster.die();
             }
+            Vector3f curWayPoint = motionControl.getPath().getWayPoint(motionControl.getCurrentWayPoint());
+            monster.move(Math.round(curWayPoint.getX()), Math.round(curWayPoint.getY()));
         });
         path.setPathSplineType(Spline.SplineType.Linear);
 

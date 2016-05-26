@@ -61,8 +61,8 @@ public class GamePlayAppState extends AbstractAppState {
         field.setLocalTranslation(5, 10, 1);
         field.rotate(
                 -90 * FastMath.DEG_TO_RAD,
-                000 * FastMath.DEG_TO_RAD,
-                000 * FastMath.DEG_TO_RAD
+                0 * FastMath.DEG_TO_RAD,
+                0 * FastMath.DEG_TO_RAD
         );
 
         Configuration.getGamer().setInventory(new Inventory(3, 10));
@@ -72,8 +72,8 @@ public class GamePlayAppState extends AbstractAppState {
         invent.scale(2.5f);
         invent.rotate(
                 -90 * FastMath.DEG_TO_RAD,
-                000 * FastMath.DEG_TO_RAD,
-                000 * FastMath.DEG_TO_RAD
+                0 * FastMath.DEG_TO_RAD,
+                0 * FastMath.DEG_TO_RAD
         );
         localRoot.attachChild(invent);
 

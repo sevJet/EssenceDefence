@@ -44,8 +44,7 @@ public class Portal extends Building {
     public void spawn(Monster monster) {
         Field field;
         if ((field = getField()) != null) {
-            monster.setX(getX());
-            monster.setY(getY());
+            monster.move(getX(), getY());
             field.addObject(monster);
         }
     }

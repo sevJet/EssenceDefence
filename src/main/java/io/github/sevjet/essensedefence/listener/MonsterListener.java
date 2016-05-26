@@ -34,8 +34,7 @@ public class MonsterListener implements ActionListener {
                         case MAPPING_SPAWN_MONSTER:
                             if (!cell.hasContent()) {
                                 monster = Monster.getDefaultMonster();
-                                monster.setX(cell.getX());
-                                monster.setY(cell.getY());
+                                monster.move(cell.getX(), cell.getY());
                                 field.addObject(monster);
                             }
                             break;

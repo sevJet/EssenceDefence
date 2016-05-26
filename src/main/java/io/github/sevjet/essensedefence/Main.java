@@ -29,7 +29,6 @@ import io.github.sevjet.essensedefence.util.Configuration;
 import io.github.sevjet.essensedefence.util.GeometryManager;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 
 import java.awt.*;
 import java.io.File;

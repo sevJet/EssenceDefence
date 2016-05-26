@@ -1,2 +1,2 @@
-# EssenseDefence
-Tower Defence game based on essense concept
+# EssenceDefence
+Tower Defence game based on essence concept

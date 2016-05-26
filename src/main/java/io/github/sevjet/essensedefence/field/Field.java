@@ -90,7 +90,7 @@ public abstract class Field<T extends Cell> extends Node {
 //            this.addControl(new GuiControl(object, "XP:", 3f, 1f / 5f));
 //        }
 //        if (object instanceof Monster) {
-//            System.out.printf("xp controll");
+//            System.out.printf("xp control");
 //            this.addControl(new GuiControl(object, "xp:", 1f, 1f / 8f));
 //        }
     }
@@ -124,9 +124,7 @@ public abstract class Field<T extends Cell> extends Node {
     }
 
     public void removeAll() {
-        for (Class<? extends Entity> clazz : objects.keySet()) {
-            removeAll(clazz);
-        }
+        objects.keySet().forEach(this::removeAll);
     }
 
     public boolean removeAll(final Class<? extends Entity> clazz) {

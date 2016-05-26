@@ -100,8 +100,7 @@ public class BuildingListener implements ActionListener {
 
             wireframe.getGeometry().addControl(new PreBuildControl());
 
-            wireframe.setX(cell.getX());
-            wireframe.setY(cell.getY());
+            wireframe.move(cell.getX(), cell.getY());
             field.removeAll(Wireframe.class);
             field.addObject(wireframe);
         }
@@ -156,8 +155,7 @@ class PreBuildControl extends AbstractControl {
 
             if (getSpatial().getUserData("entity") instanceof Wireframe) {
                 Wireframe wireframe = getSpatial().getUserData("entity");
-                wireframe.setX(cell.getX());
-                wireframe.setY(cell.getY());
+                wireframe.move(cell.getX(), cell.getY());
                 boolean canBuild = false;
                 if (field.enoughPlaceFor(cell, wireframe)) {
                     canBuild = PathBuilder.atField(field)

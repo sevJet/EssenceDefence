@@ -72,9 +72,7 @@ public class Tower extends BuyableBuilding {
     }
 
     private void placeCore() {
-        core.setX(x);
-        core.setY(y);
-        core.setZ(getSize().getDepth());
+        core.move(getX(), getY(), getSize().getDepth());
 
         core.setOffsetX(0.5f);
         core.setOffsetY(0.5f);

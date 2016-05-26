@@ -38,8 +38,7 @@ public class Inventory extends Field<InventoryCell> {
         if (cell != null) {
             if (!cell.hasContent()) {
                 cell.setContent(essence);
-                essence.setX(cell.getX());
-                essence.setY(cell.getY());
+                essence.move(cell.getX(), cell.getY(), 0);
                 essence.setZ(0);
                 addObject(essence);
                 return true;
@@ -69,7 +68,7 @@ public class Inventory extends Field<InventoryCell> {
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
                 final InventoryCell cell = getCell(i, j);
-                if (getCell(i, j).getContent().equals(essence)) {
+                if (cell.getContent().equals(essence)) {
                     return true;
                 }
             }
