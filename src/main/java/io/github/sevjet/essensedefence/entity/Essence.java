@@ -191,4 +191,18 @@ public class Essence extends Entity3D implements IBuyable {
         level = capsule.readInt("level", 1);
         price = capsule.readFloat("price", 0f);
     }
+
+    public Essence clone() {
+        Essence essence = new Essence(damage, range, speed, level, price);
+        essence.setGeometry(geometry.clone());
+        return essence;
+    }
+
+    public String getInfo() {
+        return "Level: " + getLevel() + '\n' +
+                "Damage: " + getDamage() + '\n' +
+                "Range: " + getRange() + '\n' +
+                "Speed: " + getSpeed() + '\n' +
+                "Price (buy): " + getPrice();
+    }
 }

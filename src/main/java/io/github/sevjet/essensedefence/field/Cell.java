@@ -87,4 +87,10 @@ public class Cell<T extends Entity> extends Entity {
         geometry.setLocalTranslation(getCenter().addLocal(-0.5f, -0.5f, 0));
         return true;
     }
+
+    @Override
+    public Field getField() {
+        Field field = super.getField();
+        return field;
+    }
 }

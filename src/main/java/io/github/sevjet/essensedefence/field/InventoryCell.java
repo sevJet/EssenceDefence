@@ -17,14 +17,14 @@ public class InventoryCell extends Cell<Essence> {
         super(x, y, content);
     }
 
-    @Override
-    public Inventory getField() {
-        Field field = super.getField();
-        if (field instanceof Inventory) {
-            return (Inventory) field;
-        }
-        return null;
-    }
+//    @Override
+//    public Inventory getField() {
+//        Field field = super.getField();
+//        if (field instanceof Inventory) {
+//            return (Inventory) field;
+//        }
+//        return null;
+//    }
 
     @Override
     protected boolean update() {

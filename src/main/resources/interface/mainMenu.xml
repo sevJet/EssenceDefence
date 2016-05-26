@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <nifty xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://nifty-gui.lessvoid.com/nifty-gui"
-       xsi:schemaLocation="https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd
-       https://raw.githubusercontent.com/void256/nifty-gui/1.4/nifty-core/src/main/resources/nifty.xsd">
+>
     <useControls filename="nifty-default-controls.xml"/>
     <useStyles filename="nifty-default-styles.xml"/>
     <screen id="start" controller="io.github.sevjet.essensedefence.niftyGui.StartScreen">
@@ -11,15 +10,15 @@
                    height="100.0%">
                 <control name="button" id="btnStart" childLayout="center" x="50" width="80%" y="100" label="New game"
                          align="center" height="46px">
-                    <interact onClick="start()" />
+                    <interact onClick="start()"/>
                 </control>
                 <control name="button" id="btnContinue" childLayout="center" backgroundImage="button/button.png" x="50"
                          width="80%" y="200" valign="center" label="Continue" height="46px">
-                    <interact onClick="continueGame()" />
+                    <interact onClick="continueGame()"/>
                 </control>
                 <control name="button" id="btnExit" childLayout="center" x="50" width="80%" y="300" label="Exit"
                          align="center" height="46px">
-                    <interact onClick="exit()" />
+                    <interact onClick="exit()"/>
                 </control>
             </panel>
             <effect>
@@ -35,7 +34,7 @@
                      textVAlign="top" font="aurulent-sans-16.fnt" wrap="true">
                 <effect>
                     <onClick name="fade" startDelay="2000" start="#f" end="#0" length="2000"
-                                   neverStopRendering="true"/>
+                             neverStopRendering="true"/>
                 </effect>
             </control>
         </layer>
