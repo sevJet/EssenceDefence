@@ -50,27 +50,28 @@ public class Main extends SimpleApplication {
     public static AppSettings mySettings() throws LWJGLException {
         AppSettings settings = new AppSettings(true);
 
-        GraphicsDevice device = GraphicsEnvironment.
-                getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        DisplayMode[] modes = Display.getAvailableDisplayModes();
-        DisplayMode high = modes[0];
-        for (int i = 1; i < modes.length; i++) {
-            if (modes[i].getWidth() * modes[i].getHeight() > high.getWidth() * high.getHeight() ||
-                    (modes[i].getWidth() * modes[i].getHeight() == high.getWidth() * high.getHeight() &&
-                            modes[i].getFrequency() >= high.getFrequency() &&
-                            modes[i].getBitsPerPixel() >= high.getBitsPerPixel()))
-                high = modes[i];
-            System.out.println(i + "  " + modes[i].getWidth() + ' ' + modes[i].getHeight() + ' ' +
-                    modes[i].getFrequency() + ' ' + modes[i].getBitsPerPixel());
-        }
         settings.setTitle("EssenceDefence 1.0");
 
+        GraphicsDevice device = GraphicsEnvironment.
+                getLocalGraphicsEnvironment().getDefaultScreenDevice();
         java.awt.DisplayMode mode = device.getDisplayMode();
         settings.setResolution(mode.getWidth(), mode.getHeight());
         settings.setFrequency(mode.getRefreshRate());
         settings.setBitsPerPixel(mode.getBitDepth());
+
+//        DisplayMode[] modes = Display.getAvailableDisplayModes();
+//        DisplayMode high = modes[0];
+//        for (int i = 1; i < modes.length; i++) {
+//            if (modes[i].getWidth() * modes[i].getHeight() > high.getWidth() * high.getHeight() ||
+//                    (modes[i].getWidth() * modes[i].getHeight() == high.getWidth() * high.getHeight() &&
+//                            modes[i].getFrequency() >= high.getFrequency() &&
+//                            modes[i].getBitsPerPixel() >= high.getBitsPerPixel()))
+//                high = modes[i];
+//            System.out.println(i + "  " + modes[i].getWidth() + ' ' + modes[i].getHeight() + ' ' +
+//                    modes[i].getFrequency() + ' ' + modes[i].getBitsPerPixel());
+//        }
 //        System.out.println(high.getWidth() + " " + high.getHeight() + " " + high.getFrequency() + " " + high.getBitsPerPixel());
-//        settings.setResolution(high.getWidth(), high.getHeight());
+//        settings.setResolution(high.getWidth()+1, high.getHeight());
 //        settings.setFrequency(high.getFrequency());
 //        settings.setBitsPerPixel(high.getBitsPerPixel());
 //        settings.setFullscreen(device.isFullScreenSupported());
@@ -84,13 +85,14 @@ public class Main extends SimpleApplication {
     public static void main(String[] args) throws LWJGLException {
         System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
         System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+        System.setProperty("apple.awt.UIElement", "true");
         Display.setResizable(true);
+
         Main app = new Main();
 
         app.setSettings(mySettings());
         app.setShowSettings(false);
         app.start();
-
     }
 
     //     TODO: 21/05/2016 delete

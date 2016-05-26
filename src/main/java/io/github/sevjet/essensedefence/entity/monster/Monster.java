@@ -4,6 +4,7 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.math.FastMath;
 import io.github.sevjet.essensedefence.control.BasicControl;
 import io.github.sevjet.essensedefence.control.MonsterControl;
 import io.github.sevjet.essensedefence.entity.Entity3D;
@@ -95,7 +96,7 @@ public class Monster extends Entity3D implements ITextual {
     }
 
     public double hit(float damage) {
-        this.health -= damage;
+        this.health = FastMath.floor((this.health - damage) * 100f) / 100f;
 
         if (this.health <= 0f) {
             giveReward();

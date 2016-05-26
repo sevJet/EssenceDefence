@@ -126,7 +126,7 @@ public class BuildingListener implements ActionListener {
                             break;
                         case MAPPING_BUILD_TOWER:
                             if (building instanceof Tower)
-                                ((Tower) building).putCore(new Essence(1, 5, 1, 1, 0));
+                                ((Tower) building).putCore(Essence.getNew());
                             break;
                         case MAPPING_BUILD_PORTAL:
                             break;
