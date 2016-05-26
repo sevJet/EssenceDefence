@@ -17,6 +17,10 @@ public class Essence extends Entity3D implements IBuyable {
 
     private static final BoxSize SIZE = new BoxSize(1, 1, 1);
 
+    private final float damageK = 1.25f;
+    private final float rangeK = 1.03f;
+    private final float speedK = 1.1f;
+
     private float offsetX = 0f;
     private float offsetY = 0f;
     private float offsetZ = 0f;
@@ -133,31 +137,40 @@ public class Essence extends Entity3D implements IBuyable {
     }
 
     public boolean upgrade() {
-        if (Configuration.getGamer().getGold() < price) {
-            return false;
-        }
-        Configuration.getGamer().decGold(price);
+        if (Configuration.getGamer().decGold(price)) {
+            level++;
+            damage = trim(damage * damageK);
+            range = trim(range * rangeK);
+            speed = trim(speed * speedK);
+            price = trim(price * FastMath.log(price, 2 * level));
 
-        level++;
-        damage = FastMath.floor(damage * 1.25f * 100f) / 100f;
-        range = FastMath.floor(range * 1.03f * 100f) / 100f;
-        speed = FastMath.floor(speed * 1.1f * 100f) / 100f;
-        price = price * FastMath.log(price, 2 * level);
-        price = FastMath.floor(price * 100f) / 100f;
-        return true;
-    }
-
-    public boolean combine(Essence extractionEssence) {
-        if (Configuration.getGamer().getGold() >= 10) {
-            this.damage += extractionEssence.damage;
-            this.speed += extractionEssence.speed;
-            this.range += extractionEssence.range;
-            this.level += extractionEssence.level;
-            this.price += extractionEssence.price;
-            Configuration.getGamer().decGold(10);
             return true;
         }
         return false;
+    }
+
+    public boolean combine(Essence essence) {
+        float price = (this.price + essence.price) * 0.25f;
+        price = FastMath.floor(price * 100f) / 100f;
+
+        if (Configuration.getGamer().decGold(price)) {
+            int level = this.level + essence.level;
+            float leftK = this.level * 1.0f / level;
+            float rightK = essence.level * 1.0f / level;
+            this.damage = trim((this.damage * leftK + essence.damage * rightK) * damageK);
+            this.range = trim((this.range * leftK + essence.range * rightK) * rangeK);
+            this.speed = trim((this.speed * leftK + essence.speed * rightK) * speedK);
+            this.level = level;
+            this.price = this.price * leftK + essence.price * rightK;
+            this.price = trim(this.price * FastMath.log(price, 2 * level));
+
+            return true;
+        }
+        return false;
+    }
+
+    private float trim(final float num) {
+        return FastMath.floor(num * 100f) / 100f;
     }
 
     @Override
