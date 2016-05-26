@@ -106,7 +106,7 @@ public final class ListenerManager {
         inputManager.addMapping(MAPPING_PUT_EXTRACTED_ESSENCE, TRIGGER_PUT_EXTRACTED_ESSENCE);
         inputManager.addMapping(MAPPING_SELL_ESSENCE, TRIGGER_SELL_ESSENCE);
         inputManager.addMapping(MAPPING_UPGRADE_ESSENCE, TRIGGER_UPGRADE_ESSENCE);
-        inputManager.addMapping(MAPPING_COMBINE_ESSENCE,TRIGGER_COMBINE_ESSENCE);
+        inputManager.addMapping(MAPPING_COMBINE_ESSENCE, TRIGGER_COMBINE_ESSENCE);
 
         inputManager.addMapping(MAPPING_INFO, TRIGGER_INFO);
 

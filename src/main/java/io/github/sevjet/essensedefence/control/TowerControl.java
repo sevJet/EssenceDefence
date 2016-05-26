@@ -41,6 +41,7 @@ public class TowerControl extends BasicControl {
 
         Vector3f start, end;
         if (tower.isEmpty()) {
+            beamNode.detachAllChildren();
             return;
         }
         counter += tpf;

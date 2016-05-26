@@ -8,7 +8,6 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import io.github.sevjet.essensedefence.entity.building.Tower;
-import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.util.BoxSize;
 import io.github.sevjet.essensedefence.util.Configuration;
 
@@ -149,7 +148,7 @@ public class Essence extends Entity3D implements IBuyable {
     }
 
     public boolean combine(Essence extractionEssence) {
-        if(Configuration.getGamer().getGold() >= 10) {
+        if (Configuration.getGamer().getGold() >= 10) {
             this.damage += extractionEssence.damage;
             this.speed += extractionEssence.speed;
             this.range += extractionEssence.range;
