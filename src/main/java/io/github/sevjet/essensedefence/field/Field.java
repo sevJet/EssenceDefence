@@ -1,14 +1,18 @@
 package io.github.sevjet.essensedefence.field;
 
+import com.jme3.asset.plugins.FileLocator;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import io.github.sevjet.essensedefence.entity.Entity;
+import io.github.sevjet.essensedefence.util.Configuration;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -155,6 +159,28 @@ public abstract class Field<T extends Cell> extends Node {
 
     public Node getGrid() {
         return grid;
+    }
+
+    public static boolean save(Field field, File file) {
+        if(field != null) {
+            BinaryExporter exporter = BinaryExporter.getInstance();
+            try {
+                return exporter.save(field, file);
+            } catch (IOException ex) {
+                ex.printStackTrace(System.err);
+            }
+        }
+        return false;
+    }
+
+    public static Field load(File file) {
+        if (file != null && file.exists()) {
+            Configuration.getAssetManager().registerLocator(file.getParent(), FileLocator.class);
+            Field field = (Field) Configuration.getAssetManager().loadModel(file.getAbsolutePath());
+            Configuration.getAssetManager().unregisterLocator(file.getParent(), FileLocator.class);
+            return field;
+        }
+        return null;
     }
 
     @Override

@@ -10,10 +10,13 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.field.Inventory;
 import io.github.sevjet.essensedefence.field.MapField;
+import io.github.sevjet.essensedefence.util.BoxSize;
 import io.github.sevjet.essensedefence.util.Configuration;
+import io.github.sevjet.essensedefence.util.Creator;
 
 public class GamePlayAppState extends AbstractAppState {
 
@@ -34,13 +37,6 @@ public class GamePlayAppState extends AbstractAppState {
     }
 
     protected void initStartData() {
-//        Node debugNode = debugSet();
-//        Configuration.getRootNode().attachChild(debugNode);
-//        ListenerManager.registerListener();
-
-//        localGui.attachChild(Creator.centerMark());
-
-
         Gamer gamer = Configuration.getGamer();
         gamer.setGold(100);
         gamer.setGui();
@@ -49,12 +45,6 @@ public class GamePlayAppState extends AbstractAppState {
     }
 
     private void placeGameFields() {
-//        grid.rotate(
-//                -90 * FastMath.DEG_TO_RAD,
-//                +90 * FastMath.DEG_TO_RAD,
-//                000 * FastMath.DEG_TO_RAD
-//        );
-
         field = new MapField(25, 25);
         localRoot.attachChild(field);
 
@@ -114,8 +104,6 @@ public class GamePlayAppState extends AbstractAppState {
 
     @Override
     public void cleanup() {
-//        if (field != null)
-//            save(field);
         super.cleanup();
 
         Main.detachAllControl(localGui);

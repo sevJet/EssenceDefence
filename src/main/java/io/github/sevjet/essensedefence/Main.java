@@ -34,7 +34,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-import static io.github.sevjet.essensedefence.GamePlayAppState.field;
 import static io.github.sevjet.essensedefence.util.Creator.*;
 
 public class Main extends SimpleApplication {
@@ -192,20 +191,4 @@ public class Main extends SimpleApplication {
         super.stop();
     }
 
-    // TODO: 21/05/2016 delete
-    private void save_model() {
-        field.getGrid().removeFromParent();
-//        Configuration.getGamer().getInventory().removeFromParent();
-        detachAllControl(rootNode);
-        String userHome = System.getProperty("user.home");
-        BinaryExporter exporter = BinaryExporter.getInstance();
-        File file = new File(userHome + "/Models" + "RootNode.j3o");
-        try {
-            exporter.save(rootNode, file);
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
