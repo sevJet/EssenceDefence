@@ -28,16 +28,16 @@ public final class ListenerManager {
             new KeyTrigger(KeyInput.KEY_R);
     //  TODO change
     public final static Trigger TRIGGER_BUILD_WALL =
-            new KeyTrigger(KeyInput.KEY_1);
+            new KeyTrigger(KeyInput.KEY_W);
     public final static Trigger TRIGGER_BUILD_TOWER =
-            new KeyTrigger(KeyInput.KEY_2);
+            new KeyTrigger(KeyInput.KEY_T);
     public final static Trigger TRIGGER_BUILD_PORTAL =
-            new KeyTrigger(KeyInput.KEY_3);
+            new KeyTrigger(KeyInput.KEY_P);
     public final static Trigger TRIGGER_BUILD_FORTRESS =
-            new KeyTrigger(KeyInput.KEY_4);
+            new KeyTrigger(KeyInput.KEY_F);
 
     public final static Trigger TRIGGER_SPAWN_MONSTER =
-            new KeyTrigger(KeyInput.KEY_F);
+            new KeyTrigger(KeyInput.KEY_M);
     public final static Trigger TRIGGER_SPAWN_WAVE =
             new KeyTrigger(KeyInput.KEY_G);
     public final static Trigger TRIGGER_SPAWN_ALL =
@@ -46,13 +46,11 @@ public final class ListenerManager {
     public final static Trigger TRIGGER_BUY_ESSENCE =
             new KeyTrigger(KeyInput.KEY_B);
     public final static Trigger TRIGGER_EXTRACTION_ESSENCE =
-//            new KeyTrigger(KeyInput.KEY_N);
             new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
     public final static Trigger TRIGGER_PUT_EXTRACTED_ESSENCE =
-//            new KeyTrigger(KeyInput.KEY_P);
             new MouseButtonTrigger(MouseInput.BUTTON_LEFT);
     public final static Trigger TRIGGER_SELL_ESSENCE =
-            new KeyTrigger(KeyInput.KEY_M);
+            new KeyTrigger(KeyInput.KEY_S);
     public final static Trigger TRIGGER_UPGRADE_ESSENCE =
             new KeyTrigger(KeyInput.KEY_U);
     public final static Trigger TRIGGER_COMBINE_ESSENCE =

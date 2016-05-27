@@ -5,9 +5,11 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.FlyByCamera;
 import com.jme3.input.InputManager;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
+import de.lessvoid.nifty.Nifty;
 import io.github.sevjet.essensedefence.Gamer;
 
 public class Configuration {
@@ -15,7 +17,9 @@ public class Configuration {
     private SimpleApplication app = null;
     private AppStateManager appState = null;
     private AppSettings settings = null;
-    // FIXME: 10/05/2016 move out?
+    private NiftyJmeDisplay niftyDisplay = null;
+    private Nifty nifty = null;
+
     private Gamer gamer = null;
 
     private Configuration() {
@@ -24,6 +28,28 @@ public class Configuration {
 
     public static Configuration getInstance() {
         return _instance;
+    }
+
+    public static Nifty getNifty() {
+        Configuration instance = getInstance();
+        return instance.nifty;
+    }
+
+    public static void setNifty(Nifty newNifty) {
+        Configuration instance = getInstance();
+        Nifty oldNifty = instance.nifty;
+        instance.nifty = (oldNifty == null ? newNifty : oldNifty);
+    }
+
+    public static NiftyJmeDisplay getNiftyDisplay() {
+        Configuration instance = getInstance();
+        return instance.niftyDisplay;
+    }
+
+    public static void setNiftyDisplay(NiftyJmeDisplay newDisplay) {
+        Configuration instance = getInstance();
+        NiftyJmeDisplay oldDisplay = instance.niftyDisplay;
+        instance.niftyDisplay = (oldDisplay == null ? newDisplay : oldDisplay);
     }
 
     public static Gamer getGamer() {

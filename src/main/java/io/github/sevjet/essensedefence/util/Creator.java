@@ -4,7 +4,10 @@ import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
+import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -242,61 +245,6 @@ public final class Creator {
         return debugNode;
     }
 
-    @Deprecated
-    public static BitmapText text(String text) {
-        return text(text, ColorRGBA.White);
-    }
-
-    @Deprecated
-    public static BitmapText text(String text, int rowNum) {
-        BitmapFont guiFont;
-//        Configuration.getAssetManager().registerLocator("./", FileLocator.class);
-//        guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
-        guiFont = Configuration.getAssetManager().loadFont("interface/fonts/arial.fnt");
-        return text(text, 0, Configuration.getSettings().getHeight() - rowNum * guiFont.getCharSet().getRenderedSize());
-    }
-
-    @Deprecated
-    public static BitmapText text(String text, float x, float y) {
-        BitmapText helloText = Creator.text(text, x, y, ColorRGBA.White);
-        Configuration.getGuiNode().attachChild(helloText);
-        return helloText;
-    }
-
-    @Deprecated
-    public static BitmapText text(String text, ColorRGBA clr) {
-        return text(text, 0, Configuration.getSettings().getHeight(), clr);
-    }
-
-    @Deprecated
-    public static BitmapText text(String text, float x, float y, ColorRGBA clr) {
-        BitmapText helloText = Creator.text(text, x, y, clr, true);
-//        helloText.setAlpha(0.5f);
-        Configuration.getGuiNode().attachChild(helloText);
-        return helloText;
-    }
-
-    @Deprecated
-    public static BitmapText text(String text, float x, float y, ColorRGBA clr, boolean attached) {
-        BitmapFont guiFont;
-//        Configuration.getAssetManager().registerLocator("./", FileLocator.class);
-//        guiFont = Configuration.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
-        guiFont = Configuration.getAssetManager().loadFont("interface/fonts/arial.fnt");
-        BitmapText helloText = new BitmapText(guiFont, false);
-//        helloText.setName(name);
-        helloText.setSize(guiFont.getCharSet().getRenderedSize());
-        helloText.setText(text);
-//        helloText.setQueueBucket(RenderQueue.Bucket.Transparent);
-//        helloText.setQueueBucket(RenderQueue.Bucket.Gui);
-
-        helloText.setColor(clr);
-        helloText.setLocalTranslation(x, y, 0);
-
-        if (attached)
-            Configuration.getGuiNode().attachChild(helloText);
-        return helloText;
-    }
-
 
     public static BitmapText text3D(String text) {
         return text3D(text, ColorRGBA.White);
@@ -325,5 +273,21 @@ public final class Creator {
         helloText.setColor(clr);
 
         return helloText;
+    }
+
+    public Camera cam(float left, float right, float bottom, float top, ColorRGBA color, Node... nodes) {
+        Camera cam2 = Configuration.getCam().clone();
+        cam2.setViewPort(left, right, bottom, top);
+        ViewPort v = Configuration.getApp().getRenderManager().createMainView("Overhead view for cell", cam2);
+        v.setEnabled(true);
+        for (Node n : nodes) {
+            v.attachScene(n);
+        }
+        v.setBackgroundColor(color);
+        v.setClearColor(true);
+        v.setClearDepth(true);
+        cam2.setLocation(new Vector3f(17f, 13f, 35f));
+        cam2.setRotation(new Quaternion(0f, 1f, 0f, 0f));
+        return cam2;
     }
 }

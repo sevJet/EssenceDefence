@@ -25,7 +25,6 @@ public class StartScreen extends BaseScreen {
         state.stateAttached(Configuration.getAppState());
 
         this.getNifty().getCurrentScreen().findElementByName("mainLayer").hide();
-//        nifty.getCurrentScreen().findElementByName("mainLayer").markForRemoval();
     }
 
     public void continueGame() {
@@ -35,7 +34,6 @@ public class StartScreen extends BaseScreen {
         state.stateAttached(Configuration.getAppState());
 
         this.getNifty().getCurrentScreen().findElementByName("mainLayer").hide();
-//        nifty.getCurrentScreen().findElementByName("mainLayer").markForRemoval();
     }
 
     public void exit() {

@@ -1,10 +1,7 @@
 package io.github.sevjet.essensedefence.util;
 
-import com.jme3.font.BitmapText;
-import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
-import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.Gamer;
 
@@ -44,33 +41,33 @@ public final class Tester {
         });
     }
 
-    public static void testText() {
-        String text =
-                "1 - Wall\n" +
-                        "2 - Tower\n" +
-                        "3 - Portal\n" +
-                        "4 - Fortress\n" +
-                        "\n" +
-                        "E - make Cell passable\n" +
-                        "R - reset\n" +
-                        "F - Monster\n" +
-                        "G - Start Wave\n" +
-                        "B - Buy Essence\n" +
-                        "N - Extraction Essence\n" +
-                        "P - Put extracted Essence\n" +
-                        "M - Sell Essence";
-        BitmapText helloText = Creator.text(text);
-        helloText.setSize(helloText.getSize() / 5f);
-        helloText.setQueueBucket(RenderQueue.Bucket.Transparent);
-        helloText.setColor(ColorRGBA.Black);
-//        helloText.setAlpha(0.5f);
-//        helloText.setColor(ColorRGBA.Gray);
-//        helloText.setLocalTranslation(300, Configuration.getSettings().getHeight() - helloText.getLineHeight(), 0);
-//        Configuration.getGuiNode().attachChild(helloText);
-
-        helloText.setLocalTranslation(10, 110, -70);
-        Configuration.getRootNode().attachChild(helloText);
-    }
+//    public static void testText() {
+//        String text =
+//                "1 - Wall\n" +
+//                        "2 - Tower\n" +
+//                        "3 - Portal\n" +
+//                        "4 - Fortress\n" +
+//                        "\n" +
+//                        "E - make Cell passable\n" +
+//                        "R - reset\n" +
+//                        "F - Monster\n" +
+//                        "G - Start Wave\n" +
+//                        "B - Buy Essence\n" +
+//                        "N - Extraction Essence\n" +
+//                        "P - Put extracted Essence\n" +
+//                        "M - Sell Essence";
+//        BitmapText helloText = Creator.text(text);
+//        helloText.setSize(helloText.getSize() / 5f);
+//        helloText.setQueueBucket(RenderQueue.Bucket.Transparent);
+//        helloText.setColor(ColorRGBA.Black);
+////        helloText.setAlpha(0.5f);
+////        helloText.setColor(ColorRGBA.Gray);
+////        helloText.setLocalTranslation(300, Configuration.getSettings().getHeight() - helloText.getLineHeight(), 0);
+////        Configuration.getGuiNode().attachChild(helloText);
+//
+//        helloText.setLocalTranslation(10, 110, -70);
+//        Configuration.getRootNode().attachChild(helloText);
+//    }
 /*
     public static void testAllBuildings() {
         Field field = new Field(10, 10);

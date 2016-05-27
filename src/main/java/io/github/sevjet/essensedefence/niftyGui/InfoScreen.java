@@ -5,8 +5,6 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.tools.SizeValue;
 
-import static io.github.sevjet.essensedefence.Main.nifty;
-
 public class InfoScreen extends BaseScreen {
 
     protected String screenName = null;

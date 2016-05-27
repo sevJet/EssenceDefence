@@ -36,10 +36,7 @@ import static io.github.sevjet.essensedefence.util.Creator.*;
 public class Main extends SimpleApplication {
 
     // TODO: 21/05/2016 fix it
-//    public static InfoScreen info;
-    public static NiftyJmeDisplay niftyDisplay;
     public static StartScreen start;
-    public static Nifty nifty;
     public static GamePlayAppState state;
 
     public static AppSettings mySettings() throws LWJGLException {
@@ -100,7 +97,6 @@ public class Main extends SimpleApplication {
     }
 
     private void initStartData() {
-        //        GeometryManager.setDefault(Cell.class, myBox(1 / 2f, 1 / 2f, "cell", ColorRGBA.Black));
         GeometryManager.setDefault(Cell.class, myQuad(1, 1, "cell", ColorRGBA.Black));
         GeometryManager.setDefault(MapCell.class, GeometryManager.getDefault(Cell.class));
         GeometryManager.setDefault(InventoryCell.class, GeometryManager.getDefault(Cell.class));
@@ -126,17 +122,29 @@ public class Main extends SimpleApplication {
         setDisplayFps(false);
         setDisplayStatView(false);
 
+        NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager,
+                inputManager,
+                audioRenderer,
+                guiViewPort);
+
+        ViewPort guiViewPort = getGuiViewPort();
+        Nifty nifty = niftyDisplay.getNifty();
+        guiViewPort.addProcessor(niftyDisplay);
+
         Configuration.setSettings(settings);
         Configuration.setApp(this);
         Configuration.setAppState(stateManager);
+        Configuration.setNiftyDisplay(niftyDisplay);
+        Configuration.setNifty(nifty);
+
 
         flyCam.setEnabled(false);
-
         flyCam.setMoveSpeed(100);
         cam.setLocation(new Vector3f(17f, 14f, 40f));
         cam.setRotation(new Quaternion(0f, 1f, 0f, 0f));
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
         inputManager.clearMappings();
+        inputManager.clearRawInputListeners();
         ListenerManager.registerListener();
     }
 
@@ -146,15 +154,6 @@ public class Main extends SimpleApplication {
         initStartData();
         flyCam.setDragToRotate(true);
 
-
-        niftyDisplay = new NiftyJmeDisplay(assetManager,
-                inputManager,
-                audioRenderer,
-                guiViewPort);
-
-        ViewPort guiViewPort = Configuration.getApp().getGuiViewPort();
-        nifty = niftyDisplay.getNifty();
-        guiViewPort.addProcessor(niftyDisplay);
 
         start = new StartScreen("interface/mainMenu.xml");
     }
