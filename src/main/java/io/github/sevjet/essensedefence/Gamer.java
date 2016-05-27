@@ -61,17 +61,30 @@ public class Gamer implements ITextual {
 
     public void resetShop() {
         this.shop = new EssenceShop(3, 3);
-        for (int i = 0; i < shop.getRows(); i++) {
-            for (int j = 0; j < shop.getCols(); j++) {
-                float damage, range, speed, price;
-                damage = 0.1f + (float) Math.random() * 5;
-                range = 2f + (float) Math.random() * 3;
-                speed = 0.5f + (float) Math.random() * 5;
-                price = damage + range + speed;
-                Essence essence = new Essence(damage, range, speed, 1, price);
-                shop.setContent(i, j, essence);
-            }
-        }
+
+        shop.setContent(0, 0, new Essence(5f, 2f, 1f, 1, 10f, ColorRGBA.Red));
+        shop.setContent(1, 0, new Essence(3f, 2f, 5f, 1, 10f, ColorRGBA.Yellow));
+        shop.setContent(2, 0, new Essence(3f, 4f, 1f, 1, 10f, ColorRGBA.Blue));
+
+        shop.setContent(0, 1, new Essence(5f, 2f, 5f, 1, 20f, ColorRGBA.Red.add(ColorRGBA.Yellow)));
+        shop.setContent(1, 1, new Essence(5f, 4f, 1f, 1, 20f, ColorRGBA.Blue.add(ColorRGBA.Red)));
+        shop.setContent(2, 1, new Essence(3f, 4f, 5f, 1, 20f, ColorRGBA.Yellow.add(ColorRGBA.Blue)));
+
+        shop.setContent(0, 2, new Essence(5f, 4f, 5f, 1, 30f, ColorRGBA.Red.add(ColorRGBA.Yellow).add(ColorRGBA.Blue)));
+        shop.setContent(1, 2, new Essence(10f, 2f, 0.5f, 1, 50f, ColorRGBA.Red.add(new ColorRGBA(-0.25f, -0.25f, -0.25f, -0.1f))));
+        shop.setContent(2, 2, new Essence(1f, 2f, 10f, 1, 50f, ColorRGBA.Yellow.add(new ColorRGBA(-0.25f, -0.25f, -0.25f, -0.1f))));
+
+//        for (int i = 0; i < shop.getRows(); i++) {
+//            for (int j = 0; j < shop.getCols(); j++) {
+//                float damage, range, speed, price;
+//                damage = 0.1f + (float) Math.random() * 5;
+//                range = 2f + (float) Math.random() * 3;
+//                speed = 0.5f + (float) Math.random() * 5;
+//                price = damage + range + speed;
+//                Essence essence = new Essence(damage, range, speed, 1, price);
+//                shop.setContent(i, j, essence);
+//            }
+//        }
     }
 
     public boolean decGold(float gold) {

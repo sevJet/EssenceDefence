@@ -42,7 +42,6 @@ public class EssenceShop extends Inventory {
 
     @Override
     public Essence takeEssence(final InventoryCell cell) {
-        Essence essence = getEssence(cell).clone();
-        return essence;
+        return getEssence(cell).clone();
     }
 }
