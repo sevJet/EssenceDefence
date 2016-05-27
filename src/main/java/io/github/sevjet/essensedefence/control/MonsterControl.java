@@ -85,7 +85,7 @@ public class MonsterControl extends BasicControl {
             }
         };
         event.setInitialDuration(path.getNbWayPoints());
-        event.setSpeed(1);
+        event.setSpeed(monster.getSpeed());
         event.setDirectionType(MotionEvent.Direction.PathAndRotation);
 
         event.play();

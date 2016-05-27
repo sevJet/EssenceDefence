@@ -51,7 +51,7 @@ public class Monster extends Entity3D implements ITextual {
     }
 
     public static Monster getDefaultMonster() {
-        return new Monster(30, 10, 10);
+        return new Monster(30, 1, 10);
     }
 
     public float getHealth() {
