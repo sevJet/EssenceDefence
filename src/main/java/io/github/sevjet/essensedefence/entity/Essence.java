@@ -152,7 +152,7 @@ public class Essence extends Entity3D implements IBuyable {
     }
 
     public boolean combine(Essence essence) {
-        float price = (this.price + essence.price) * 0.25f;
+        float price = (this.price + essence.price) * 0.5f;
         price = FastMath.floor(price * 100f) / 100f;
 
         if (Configuration.getGamer().decGold(price)) {
@@ -163,8 +163,7 @@ public class Essence extends Entity3D implements IBuyable {
             this.range = trim((this.range * leftK + essence.range * rightK) * rangeK);
             this.speed = trim((this.speed * leftK + essence.speed * rightK) * speedK);
             this.level = level;
-            this.price = this.price * leftK + essence.price * rightK;
-            this.price = trim(this.price * FastMath.log(price, 2 * level));
+            this.price = trim((this.price * leftK + essence.price * rightK) * 0.5f);
 
             return true;
         }

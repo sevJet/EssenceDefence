@@ -133,7 +133,7 @@ public class Main extends SimpleApplication {
         flyCam.setEnabled(false);
 
         flyCam.setMoveSpeed(100);
-        cam.setLocation(new Vector3f(17f, 13f, 35f));
+        cam.setLocation(new Vector3f(17f, 13f, 40f));
         cam.setRotation(new Quaternion(0f, 1f, 0f, 0f));
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
         inputManager.clearMappings();
