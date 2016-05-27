@@ -69,7 +69,7 @@ public class Main extends SimpleApplication {
     }
 
     public static void main(String[] args) throws LWJGLException {
-        System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
+//        System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
         System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
         System.setProperty("apple.awt.UIElement", "true");
         Display.setResizable(true);
@@ -117,7 +117,7 @@ public class Main extends SimpleApplication {
 
 
         DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(0, -1, 0).normalizeLocal());
+        sun.setDirection(new Vector3f(0.3f, -0.4f, -1).normalizeLocal());
         sun.setColor(ColorRGBA.White);
         Configuration.getRootNode().addLight(sun);
     }
@@ -133,7 +133,7 @@ public class Main extends SimpleApplication {
         flyCam.setEnabled(false);
 
         flyCam.setMoveSpeed(100);
-        cam.setLocation(new Vector3f(17f, 13f, 40f));
+        cam.setLocation(new Vector3f(17f, 14f, 40f));
         cam.setRotation(new Quaternion(0f, 1f, 0f, 0f));
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
         inputManager.clearMappings();

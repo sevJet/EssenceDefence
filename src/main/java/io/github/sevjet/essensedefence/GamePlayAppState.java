@@ -37,7 +37,6 @@ public class GamePlayAppState extends AbstractAppState {
         gamer.setGold(100f);
         gamer.setGui();
         localGui.attachChild(gamer.getGui());
-
     }
 
     private void placeGameFields() {

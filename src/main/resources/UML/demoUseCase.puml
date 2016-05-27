@@ -1,5 +1,6 @@
 @startuml
-!include skin/darcula.txt
+'!include skin/darcula.txt
+skinparam monochrome true
 
 'title Tower Defense
 left to right direction

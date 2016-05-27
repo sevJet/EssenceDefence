@@ -1,5 +1,5 @@
 @startuml
-!include ../skin/darcula.txt
+'!include ../skin/darcula.txt
 'skinparam monochrome true
 hide empty description
 'skinparam handwritten true

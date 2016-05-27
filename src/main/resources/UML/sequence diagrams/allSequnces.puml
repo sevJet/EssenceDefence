@@ -1,22 +1,8 @@
 @startuml
-  !include Game.puml
-@enduml
-
-@startuml
   !include Gamer.puml
 @enduml
 
 
 @startuml
-  !include Wave.puml
-@enduml
-
-
-@startuml
   !include Monster.puml
-@enduml
-
-
-@startuml
-  !include Essence.puml
 @enduml

@@ -1,5 +1,6 @@
 @startuml
-!include skin.puml
+'!include skin/darcula.txt
+skinparam monochrome true
 !include package.puml
 !include class.puml
 !include relationship.puml

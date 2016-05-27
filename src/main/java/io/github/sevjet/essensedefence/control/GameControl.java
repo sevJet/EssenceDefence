@@ -38,7 +38,7 @@ public class GameControl extends AbstractControl {
         boolean isWaveEnded = true;
         ArrayList<Portal> portals = new ArrayList<>();
         Node portalNode = field.getObjects(Portal.class);
-        if(portalNode != null) {
+        if (portalNode != null) {
             portalNode.getChildren()
                     .forEach(portalSpatial -> portals.add(portalSpatial.getUserData("entity")));
         }
@@ -49,12 +49,12 @@ public class GameControl extends AbstractControl {
             isWaveEnded = false;
         }
         if (isWaveEnded) {
-            if( timer == -1f) {
+            if (timer == -1f) {
                 timer = gap;
             } else {
                 timer -= tpf;
             }
-            if(timer <= 0f) {
+            if (timer <= 0f) {
                 timer = -1f;
 
                 portals.forEach(Portal::pushWave);

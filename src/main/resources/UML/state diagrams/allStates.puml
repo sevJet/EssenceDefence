@@ -1,22 +1,32 @@
 @startuml
   !include Game.puml
+  '!include ../skin/darcula.txt
+  skinparam monochrome true
 @enduml
 
 @startuml
   !include Gamer.puml
+  '!include ../skin/darcula.txt
+    skinparam monochrome true
 @enduml
 
 
 @startuml
   !include Wave.puml
+  '!include ../skin/darcula.txt
+    skinparam monochrome true
 @enduml
 
 
 @startuml
   !include Monster.puml
+  '!include ../skin/darcula.txt
+    skinparam monochrome true
 @enduml
 
 
 @startuml
   !include Essence.puml
+  '!include ../skin/darcula.txt
+    skinparam monochrome true
 @enduml
