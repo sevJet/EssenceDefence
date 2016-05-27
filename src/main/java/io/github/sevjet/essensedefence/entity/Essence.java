@@ -157,8 +157,8 @@ public class Essence extends Entity3D implements IBuyable {
 
         if (Configuration.getGamer().decGold(price)) {
             int level = this.level + essence.level;
-            float leftK = this.level * 1.0f / level;
-            float rightK = essence.level * 1.0f / level;
+            float rightK = this.level * 1.0f / level;
+            float leftK = essence.level * 1.0f / level;
             this.damage = trim((this.damage * leftK + essence.damage * rightK) * damageK);
             this.range = trim((this.range * leftK + essence.range * rightK) * rangeK);
             this.speed = trim((this.speed * leftK + essence.speed * rightK) * speedK);
