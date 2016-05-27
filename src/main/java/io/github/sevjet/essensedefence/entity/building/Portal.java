@@ -35,10 +35,17 @@ public class Portal extends Building {
         waves.add(wave);
     }
 
-    public void pushWave() {
+    public boolean pushWave() {
         if (waves.size() > pushIndex) {
             geometry.addControl(waves.get(pushIndex++));
+            return true;
         }
+        return false;
+    }
+
+    public boolean isWaveActive() {
+        WaveControl wave = geometry.getControl(WaveControl.class);
+        return wave != null;
     }
 
     public void spawn(Monster monster) {

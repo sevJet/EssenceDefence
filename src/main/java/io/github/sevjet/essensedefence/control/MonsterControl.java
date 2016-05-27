@@ -71,13 +71,19 @@ public class MonsterControl extends BasicControl {
             if (motionControl.getPath().getNbWayPoints() == wayPointIndex + 1) {
                 fortress.hit(monster.getDamage());
                 monster.die();
+                spatial.removeControl(this);
             }
             Vector3f curWayPoint = motionControl.getPath().getWayPoint(motionControl.getCurrentWayPoint());
-            monster.move(Math.round(curWayPoint.getX()), Math.round(curWayPoint.getY()));
+            monster.move(Math.round(curWayPoint.getX()), Math.round(curWayPoint.getY()), monster.getZ(), false);
         });
         path.setPathSplineType(Spline.SplineType.Linear);
 
-        event = new MotionEvent(spatial, path);
+        event = new MotionEvent(spatial, path) {
+            @Override
+            public void update(float tpf) {
+                super.update(tpf);
+            }
+        };
         event.setInitialDuration(path.getNbWayPoints());
         event.setSpeed(1);
         event.setDirectionType(MotionEvent.Direction.PathAndRotation);

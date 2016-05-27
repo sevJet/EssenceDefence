@@ -50,7 +50,6 @@ public class MonsterListener implements ActionListener {
                                 wave.setDelay(3f);
                                 wave.setGap(2f);
                                 portal.addWave(wave);
-                                portal.pushWave();
                             }
                             break;
                         case MAPPING_SPAWN_ALL:
@@ -67,7 +66,6 @@ public class MonsterListener implements ActionListener {
                                 wave.setGap(2f);
 
                                 p.addWave(wave);
-                                p.pushWave();
                             }
                             break;
                     }

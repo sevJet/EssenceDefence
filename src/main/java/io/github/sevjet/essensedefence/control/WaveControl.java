@@ -43,6 +43,7 @@ public class WaveControl extends BasicControl {
     @Override
     protected void controlUpdate(float tpf) {
         if (spawnIndex >= monsters.size()) {
+            spatial.removeControl(this);
             return;
         }
         curTime += tpf;

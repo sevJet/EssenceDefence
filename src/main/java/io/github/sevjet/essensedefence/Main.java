@@ -129,15 +129,12 @@ public class Main extends SimpleApplication {
         Configuration.setSettings(settings);
         Configuration.setApp(this);
         Configuration.setAppState(stateManager);
-//        jme3tools.optimize.GeometryBatchFactory.optimize(rootNode);
 
-//        flyCam.setEnabled(false);
+        flyCam.setEnabled(false);
 
         flyCam.setMoveSpeed(100);
-//        cam.setLocation(new Vector3f(0f, 32f, 100f));
-//        cam.setRotation(new Quaternion(0.0f, 1.0f, 0.0f, 0.0f));
-        cam.setLocation(new Vector3f(33.08874f, 48.561615f, 9.273602f));
-        cam.setRotation(new Quaternion(0.008674252f, 0.86961013f, -0.49342605f, 0.015287385f));
+        cam.setLocation(new Vector3f(17f, 13f, 35f));
+        cam.setRotation(new Quaternion(0f, 1f, 0f, 0f));
         rootNode.attachChild(SkyFactory.createSky(assetManager, "textures/skySphere.jpg", true));
         inputManager.clearMappings();
         ListenerManager.registerListener();

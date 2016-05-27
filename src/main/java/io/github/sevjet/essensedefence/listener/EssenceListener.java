@@ -4,6 +4,7 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.math.Vector2f;
 import de.lessvoid.nifty.elements.Element;
+import io.github.sevjet.essensedefence.control.FollowControl;
 import io.github.sevjet.essensedefence.entity.Essence;
 import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.EssenceShop;

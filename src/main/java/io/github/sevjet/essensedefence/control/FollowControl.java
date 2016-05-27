@@ -1,4 +1,4 @@
-package io.github.sevjet.essensedefence.listener;
+package io.github.sevjet.essensedefence.control;
 
 import com.jme3.math.Vector2f;
 import com.jme3.renderer.RenderManager;

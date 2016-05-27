@@ -4,12 +4,12 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+import io.github.sevjet.essensedefence.control.GameControl;
 import io.github.sevjet.essensedefence.field.Field;
 import io.github.sevjet.essensedefence.field.MapField;
 import io.github.sevjet.essensedefence.util.Configuration;
@@ -42,38 +42,25 @@ public class GamePlayAppState extends AbstractAppState {
 
     private void placeGameFields() {
         int n, m;
-        n = 25;
+        n = 26;
         m = n;
         field = new MapField(n, m);
         field.setLocalTranslation(0f, 0f, 0f);
-        field.rotate(
-                -90 * FastMath.DEG_TO_RAD,
-                0 * FastMath.DEG_TO_RAD,
-                0 * FastMath.DEG_TO_RAD
-        );
+        field.addControl(new GameControl(10f));
         localRoot.attachChild(field);
-
-        Configuration.getGamer().resetInventory();
-        Node invent = Configuration.getGamer().getInventory();
-        invent.setLocalTranslation(m + 5, 0f, -10f);
-        invent.scale(2f);
-        invent.rotate(
-                -90 * FastMath.DEG_TO_RAD,
-                0 * FastMath.DEG_TO_RAD,
-                0 * FastMath.DEG_TO_RAD
-        );
-        localRoot.attachChild(invent);
 
         Configuration.getGamer().resetShop();
         Node shop = Configuration.getGamer().getShop();
-        shop.setLocalTranslation(m + 3, 0f, -1f);
-        shop.scale(3f);
-        shop.rotate(
-                -90 * FastMath.DEG_TO_RAD,
-                000 * FastMath.DEG_TO_RAD,
-                000 * FastMath.DEG_TO_RAD
-        );
+
+        shop.setLocalTranslation(m + 2, 20f + 0.5f, 0f);
+        shop.scale(2f);
         localRoot.attachChild(shop);
+
+        Configuration.getGamer().resetInventory();
+        Node invent = Configuration.getGamer().getInventory();
+        invent.setLocalTranslation(m + 2, 0.5f, 0f);
+        invent.scale(2f);
+        localRoot.attachChild(invent);
     }
 
     @Override
@@ -104,10 +91,9 @@ public class GamePlayAppState extends AbstractAppState {
         v.setBackgroundColor(color);
         v.setClearColor(true);
         v.setClearDepth(true);
-        cam2.setLocation(new Vector3f(25f, 45f, -10f));
-        cam2.setRotation(new Quaternion(0f, 0.71243817f, -0.7017349f, 0f));
+        cam2.setLocation(new Vector3f(17f, 13f, 35f));
+        cam2.setRotation(new Quaternion(0f, 1f, 0f, 0f));
     }
-
 
     @Override
     public void cleanup() {
