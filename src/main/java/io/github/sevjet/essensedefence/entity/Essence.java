@@ -144,7 +144,7 @@ public class Essence extends Entity3D implements IBuyable {
             damage = trim(damage * damageK);
             range = trim(range * rangeK);
             speed = trim(speed * speedK);
-            price = trim(price * FastMath.log(price, 2 * level));
+            price = trim(price * FastMath.sqrt(price));
 
             return true;
         }
