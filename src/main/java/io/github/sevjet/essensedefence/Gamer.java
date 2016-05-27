@@ -101,8 +101,6 @@ public class Gamer implements ITextual {
         EndlessLogBar bar = new EndlessLogBar(this);
         gamerGui.addControl(bar);
         gamerGui.attachChild(bar.getGamerGui());
-//        Configuration.getGuiNode().addControl(new EndlessLogBar(this));
-//        Configuration.getGuiNode().attachChild(gamerGui);
     }
 
 

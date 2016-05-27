@@ -163,11 +163,13 @@ public class EssenceListener implements ActionListener {
         results = rayCasting(getInventory(), getField(), getShop());
         Essence essence = extractFromResults(results);
         bufEssence = essence;
+
+        // TODO: 27/05/2016 move to another method
         if (lastCell != null &&
                 lastCell.getField() instanceof EssenceShop) {
             if (essence != null &&
                     !Configuration.getGamer().decGold(essence.getPrice())) {
-                putEssence();
+                clearBuf();
             }
         }
     }
