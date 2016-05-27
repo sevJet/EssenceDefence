@@ -11,23 +11,14 @@ public class Fortress extends Building implements ITextual {
 
     public Fortress() {
         super(SIZE, -1f);
-
-        tempMethod();
     }
 
     public Fortress(float health) {
         super(SIZE, health);
-
-        tempMethod();
     }
 
     public Fortress(int x, int y, float health) {
         super(x, y, SIZE, health);
-
-        tempMethod();
-    }
-
-    private void tempMethod() {
     }
 
     public void hit(float damage) {
