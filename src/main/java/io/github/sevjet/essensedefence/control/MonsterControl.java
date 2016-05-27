@@ -78,12 +78,7 @@ public class MonsterControl extends BasicControl {
         });
         path.setPathSplineType(Spline.SplineType.Linear);
 
-        event = new MotionEvent(spatial, path) {
-            @Override
-            public void update(float tpf) {
-                super.update(tpf);
-            }
-        };
+        event = new MotionEvent(spatial, path);
         event.setInitialDuration(path.getNbWayPoints());
         event.setSpeed(monster.getSpeed());
         event.setDirectionType(MotionEvent.Direction.PathAndRotation);

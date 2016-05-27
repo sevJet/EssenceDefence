@@ -234,6 +234,9 @@ public class PathBuilder {
             for (Point point : list) {
                 path.addWayPoint(new Vector3f(point.x, point.y, base.getZ()));
             }
+            if(path.getNbWayPoints() == 2 && path.getWayPoint(0).equals(path.getWayPoint(1))) {
+                return null;
+            }
             return path;
         }
 

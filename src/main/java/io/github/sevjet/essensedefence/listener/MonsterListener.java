@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import static io.github.sevjet.essensedefence.listener.ListenerManager.*;
 
 public class MonsterListener implements ActionListener {
-    @Override
 
+    private int level = 1;
+
+    @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals(MAPPING_SPAWN_MONSTER) ||
                 name.equals(MAPPING_SPAWN_WAVE) ||
@@ -42,8 +44,9 @@ public class MonsterListener implements ActionListener {
                             if (cell.hasContent() && cell.getContent() instanceof Portal) {
                                 Portal portal = (Portal) cell.getContent();
                                 ArrayList<Monster> monsters = new ArrayList<>();
-                                for (int i = 0; i < 10; i++) {
+                                for (int i = 0; i < 15; i++) {
                                     monster = Monster.getDefaultMonster();
+                                    monster.upgrade(level++);
                                     monsters.add(monster);
                                 }
                                 WaveControl wave = new WaveControl(monsters);
@@ -57,8 +60,9 @@ public class MonsterListener implements ActionListener {
                                 Portal p = (Portal) Getter.getEntity(sp);
 
                                 ArrayList<Monster> monsters = new ArrayList<>();
-                                for (int i = 0; i < 15; i++) {
+                                for (int i = 0; i < 1; i++) {
                                     monster = Monster.getDefaultMonster();
+                                    monster.upgrade(level);
                                     monsters.add(monster);
                                 }
                                 WaveControl wave = new WaveControl(monsters);
@@ -67,6 +71,7 @@ public class MonsterListener implements ActionListener {
 
                                 p.addWave(wave);
                             }
+                            level++;
                             break;
                     }
                 }

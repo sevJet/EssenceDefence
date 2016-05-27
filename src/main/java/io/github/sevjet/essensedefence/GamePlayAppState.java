@@ -20,6 +20,7 @@ public class GamePlayAppState extends AbstractAppState {
     protected Node localRoot = new Node("localRoot");
 
     public GamePlayAppState() {
+
     }
 
     public Node getLocalRoot() {
