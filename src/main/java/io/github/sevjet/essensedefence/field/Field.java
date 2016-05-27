@@ -49,6 +49,28 @@ public abstract class Field<T extends Cell> extends Node {
         gridOn();
     }
 
+    public static boolean save(Field field, File file) {
+        if (field != null) {
+            BinaryExporter exporter = BinaryExporter.getInstance();
+            try {
+                return exporter.save(field, file);
+            } catch (IOException ex) {
+                ex.printStackTrace(System.err);
+            }
+        }
+        return false;
+    }
+
+    public static Field load(File file) {
+        if (file != null && file.exists()) {
+            Configuration.getAssetManager().registerLocator(file.getParent(), FileLocator.class);
+            Field field = (Field) Configuration.getAssetManager().loadModel(file.getAbsolutePath());
+            Configuration.getAssetManager().unregisterLocator(file.getParent(), FileLocator.class);
+            return field;
+        }
+        return null;
+    }
+
     protected abstract T newCell(final int x, final int y);
 
     public T getCell(final int x, final int y) {
@@ -159,28 +181,6 @@ public abstract class Field<T extends Cell> extends Node {
 
     public Node getGrid() {
         return grid;
-    }
-
-    public static boolean save(Field field, File file) {
-        if(field != null) {
-            BinaryExporter exporter = BinaryExporter.getInstance();
-            try {
-                return exporter.save(field, file);
-            } catch (IOException ex) {
-                ex.printStackTrace(System.err);
-            }
-        }
-        return false;
-    }
-
-    public static Field load(File file) {
-        if (file != null && file.exists()) {
-            Configuration.getAssetManager().registerLocator(file.getParent(), FileLocator.class);
-            Field field = (Field) Configuration.getAssetManager().loadModel(file.getAbsolutePath());
-            Configuration.getAssetManager().unregisterLocator(file.getParent(), FileLocator.class);
-            return field;
-        }
-        return null;
     }
 
     @Override

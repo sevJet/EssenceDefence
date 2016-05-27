@@ -13,16 +13,13 @@ public class InfoScreen extends BaseScreen {
 
     public InfoScreen(String xml) {
         super(xml);
-
         nifty.getScreen("start2").findElementByName("txt").hide();
-//        nifty.getCurrentScreen().getRootElement().setVisible(false);
     }
 
     public InfoScreen(String xml, String screenName) {
         super(xml, screenName);
 
         this.screenName = screenName;
-//        nifty.getCurrentScreen().findElementByName("txt").hide();
         nifty.getScreen(screenName).findElementByName("txt").hide();
     }
 
@@ -67,8 +64,6 @@ public class InfoScreen extends BaseScreen {
     }
 
     public void showAll() {
-
-//        nifty.getCurrentScreen().getRootElement().setVisible(true);
         nifty.getScreen("start2").getRootElement().setVisible(true);
     }
 

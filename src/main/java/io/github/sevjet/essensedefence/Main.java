@@ -123,8 +123,8 @@ public class Main extends SimpleApplication {
     }
 
     protected void initStartSettings() {
-//        setDisplayFps(false);
-//        setDisplayStatView(false);
+        setDisplayFps(false);
+        setDisplayStatView(false);
 
         Configuration.setSettings(settings);
         Configuration.setApp(this);

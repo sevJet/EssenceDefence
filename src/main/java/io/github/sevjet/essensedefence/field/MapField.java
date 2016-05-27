@@ -85,11 +85,11 @@ public class MapField extends Field<MapCell> {
     protected void guiFor(Entity object) {
         GuiControl guiControl = null;
         if (object instanceof Fortress) {
-            guiControl = new GuiControl(object, "XP:", 3f, 1f / 5f);
+            guiControl = new GuiControl(object, "XP:", 6f, 1f / 3f);
             this.addControl(guiControl);
         }
         if (object instanceof Monster) {
-            guiControl = new GuiControl(object, "xp:", 1f, 1f / 8f);
+            guiControl = new GuiControl(object, "xp:", 2f, 1f / 5f);
             this.addControl(guiControl);
         }
         if (guiControl != null) {

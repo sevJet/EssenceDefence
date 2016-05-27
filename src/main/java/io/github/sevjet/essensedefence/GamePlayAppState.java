@@ -34,7 +34,7 @@ public class GamePlayAppState extends AbstractAppState {
 
     protected void initStartData() {
         Gamer gamer = Configuration.getGamer();
-        gamer.setGold(100);
+        gamer.setGold(100f);
         gamer.setGui();
         localGui.attachChild(gamer.getGui());
 
