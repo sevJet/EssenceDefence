@@ -69,7 +69,6 @@ public class Main extends SimpleApplication {
 //        System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
         System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
         System.setProperty("apple.awt.UIElement", "true");
-        Display.setResizable(true);
 
         Main app = new Main();
 

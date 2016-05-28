@@ -3,7 +3,7 @@
 >
     <useControls filename="nifty-default-controls.xml"/>
     <useStyles filename="nifty-default-styles.xml"/>
-    <screen id="start" controller="io.github.sevjet.essencedefence.essensedefence.niftyGui.StartScreen">
+    <screen id="start" controller="io.github.sevjet.essencedefence.niftyGui.StartScreen">
         <layer id="mainLayer" childLayout="center"
                backgroundImage="startImage2.png">
             <panel id="mainPanel" childLayout="absolute" width="100.0%"
@@ -27,7 +27,7 @@
             </effect>
         </layer>
     </screen>
-    <screen id="start2" controller="io.github.sevjet.essencedefence.essensedefence.niftyGui.InfoScreen">
+    <screen id="start2" controller="io.github.sevjet.essencedefence.niftyGui.InfoScreen">
         <layer id="GLayer0" childLayout="absolute">
             <control name="label" id="txt" backgroundColor="#000000aa" color="#009900ff" width="20%" height="50%"
                      x="0" y="0" text="Test text" textHAlign="left"
