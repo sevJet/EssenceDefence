@@ -11,14 +11,20 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
+
+import java.io.IOException;
+
 import io.github.sevjet.essencedefence.entity.Essence;
 import io.github.sevjet.essencedefence.field.EssenceShop;
 import io.github.sevjet.essencedefence.field.Inventory;
-import io.github.sevjet.essencedefence.gui.*;
+import io.github.sevjet.essencedefence.gui.BarControl;
+import io.github.sevjet.essencedefence.gui.BarMode;
+import io.github.sevjet.essencedefence.gui.DataBar;
+import io.github.sevjet.essencedefence.gui.ITextual;
+import io.github.sevjet.essencedefence.gui.MovementOnGuiControl;
+import io.github.sevjet.essencedefence.gui.TextControl;
 import io.github.sevjet.essencedefence.util.Configuration;
 import io.github.sevjet.essencedefence.util.Creator;
-
-import java.io.IOException;
 
 public class Gamer implements ITextual {
 

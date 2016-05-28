@@ -1,6 +1,7 @@
 package io.github.sevjet.essencedefence.entity.building;
 
 import com.jme3.math.ColorRGBA;
+
 import io.github.sevjet.essencedefence.util.BoxSize;
 
 import static io.github.sevjet.essencedefence.util.Creator.myWireframe;

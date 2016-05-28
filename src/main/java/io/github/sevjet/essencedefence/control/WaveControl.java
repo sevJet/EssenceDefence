@@ -5,11 +5,12 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.scene.Spatial;
-import io.github.sevjet.essencedefence.entity.building.Portal;
-import io.github.sevjet.essencedefence.entity.monster.Monster;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import io.github.sevjet.essencedefence.entity.building.Portal;
+import io.github.sevjet.essencedefence.entity.monster.Monster;
 
 public class WaveControl extends BasicControl {
 

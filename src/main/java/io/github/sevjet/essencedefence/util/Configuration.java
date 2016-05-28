@@ -9,7 +9,9 @@ import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
+
 import de.lessvoid.nifty.Nifty;
+
 import io.github.sevjet.essencedefence.Gamer;
 
 public class Configuration {

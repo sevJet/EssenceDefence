@@ -1,6 +1,7 @@
 package io.github.sevjet.essencedefence.niftyGui;
 
 import de.lessvoid.nifty.elements.Element;
+
 import io.github.sevjet.essencedefence.GamePlayAppState;
 import io.github.sevjet.essencedefence.Main;
 import io.github.sevjet.essencedefence.util.Configuration;

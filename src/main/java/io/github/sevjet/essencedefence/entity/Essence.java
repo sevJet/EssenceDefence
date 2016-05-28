@@ -7,11 +7,12 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
+
+import java.io.IOException;
+
 import io.github.sevjet.essencedefence.entity.building.Tower;
 import io.github.sevjet.essencedefence.util.BoxSize;
 import io.github.sevjet.essencedefence.util.Configuration;
-
-import java.io.IOException;
 
 public class Essence extends Entity3D implements IBuyable {
 

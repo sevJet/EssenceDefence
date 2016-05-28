@@ -4,13 +4,14 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
 import io.github.sevjet.essencedefence.control.WaveControl;
 import io.github.sevjet.essencedefence.entity.monster.Monster;
 import io.github.sevjet.essencedefence.field.Field;
 import io.github.sevjet.essencedefence.util.BoxSize;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class Portal extends Building {
 

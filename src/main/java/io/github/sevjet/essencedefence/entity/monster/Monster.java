@@ -5,6 +5,9 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
 import com.jme3.math.FastMath;
+
+import java.io.IOException;
+
 import io.github.sevjet.essencedefence.control.BasicControl;
 import io.github.sevjet.essencedefence.control.MonsterControl;
 import io.github.sevjet.essencedefence.entity.Entity3D;
@@ -13,8 +16,6 @@ import io.github.sevjet.essencedefence.field.MapField;
 import io.github.sevjet.essencedefence.gui.ITextual;
 import io.github.sevjet.essencedefence.util.BoxSize;
 import io.github.sevjet.essencedefence.util.Configuration;
-
-import java.io.IOException;
 
 public class Monster extends Entity3D implements ITextual {
 

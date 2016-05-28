@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<nifty xmlns="http://nifty-gui.lessvoid.com/nifty-gui"
->
+<nifty>
     <useControls filename="nifty-default-controls.xml"/>
     <useStyles filename="nifty-default-styles.xml"/>
     <screen id="start" controller="io.github.sevjet.essencedefence.niftyGui.StartScreen">
@@ -8,15 +7,18 @@
                backgroundImage="startImage2.png">
             <panel id="mainPanel" childLayout="absolute" width="100.0%"
                    height="100.0%">
-                <control name="button" id="btnStart" childLayout="center" x="50" width="80%" y="100" label="New game"
+                <control name="button" id="btnStart" childLayout="center" x="50" width="80%" y="100"
+                         label="New game"
                          align="center" height="46px">
                     <interact onClick="start()"/>
                 </control>
-                <control name="button" id="btnContinue" childLayout="center" backgroundImage="button/button.png" x="50"
+                <control name="button" id="btnContinue" childLayout="center"
+                         backgroundImage="button/button.png" x="50"
                          width="80%" y="200" valign="center" label="Continue" height="46px">
                     <interact onClick="continueGame()"/>
                 </control>
-                <control name="button" id="btnExit" childLayout="center" x="50" width="80%" y="300" label="Exit"
+                <control name="button" id="btnExit" childLayout="center" x="50" width="80%" y="300"
+                         label="Exit"
                          align="center" height="46px">
                     <interact onClick="exit()"/>
                 </control>
@@ -29,7 +31,8 @@
     </screen>
     <screen id="start2" controller="io.github.sevjet.essencedefence.niftyGui.InfoScreen">
         <layer id="GLayer0" childLayout="absolute">
-            <control name="label" id="txt" backgroundColor="#000000aa" color="#009900ff" width="20%" height="50%"
+            <control name="label" id="txt" backgroundColor="#000000aa" color="#009900ff" width="20%"
+                     height="50%"
                      x="0" y="0" text="Test text" textHAlign="left"
                      textVAlign="top" font="aurulent-sans-16.fnt" wrap="true">
                 <effect>

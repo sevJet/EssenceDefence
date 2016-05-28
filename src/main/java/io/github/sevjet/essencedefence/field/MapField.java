@@ -89,7 +89,7 @@ public class MapField extends Field<MapCell> {
             this.addControl(guiControl);
         }
         if (object instanceof Monster) {
-            guiControl = new GuiControl (object, "hp:", 2f, 1f / 5f);
+            guiControl = new GuiControl(object, "hp:", 2f, 1f / 5f);
             this.addControl(guiControl);
         }
         if (guiControl != null) {

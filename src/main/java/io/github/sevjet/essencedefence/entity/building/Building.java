@@ -4,13 +4,14 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
+
+import java.io.IOException;
+
 import io.github.sevjet.essencedefence.entity.Entity3D;
 import io.github.sevjet.essencedefence.field.Field;
 import io.github.sevjet.essencedefence.field.MapCell;
 import io.github.sevjet.essencedefence.field.MapField;
 import io.github.sevjet.essencedefence.util.BoxSize;
-
-import java.io.IOException;
 
 public abstract class Building extends Entity3D {
 

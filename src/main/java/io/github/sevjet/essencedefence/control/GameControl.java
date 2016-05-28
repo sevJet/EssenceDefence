@@ -5,10 +5,11 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import io.github.sevjet.essencedefence.entity.building.Portal;
-import io.github.sevjet.essencedefence.field.MapField;
 
 import java.util.ArrayList;
+
+import io.github.sevjet.essencedefence.entity.building.Portal;
+import io.github.sevjet.essencedefence.field.MapField;
 
 public class GameControl extends AbstractControl {
 

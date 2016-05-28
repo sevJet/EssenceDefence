@@ -7,6 +7,12 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import io.github.sevjet.essencedefence.control.BasicControl;
 import io.github.sevjet.essencedefence.control.TowerControl;
 import io.github.sevjet.essencedefence.entity.Entity;
@@ -15,11 +21,6 @@ import io.github.sevjet.essencedefence.entity.monster.Monster;
 import io.github.sevjet.essencedefence.field.Field;
 import io.github.sevjet.essencedefence.util.BoxSize;
 import io.github.sevjet.essencedefence.util.Getter;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class Tower extends BuyableBuilding {
 

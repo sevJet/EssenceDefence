@@ -9,14 +9,15 @@ import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import io.github.sevjet.essencedefence.entity.Entity;
-import io.github.sevjet.essencedefence.util.Configuration;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.github.sevjet.essencedefence.entity.Entity;
+import io.github.sevjet.essencedefence.util.Configuration;
 
 import static io.github.sevjet.essencedefence.util.Creator.gridXY;
 

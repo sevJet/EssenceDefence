@@ -4,6 +4,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
+
 import io.github.sevjet.essencedefence.util.Configuration;
 
 public class FollowControl extends AbstractControl {

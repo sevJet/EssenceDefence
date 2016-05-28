@@ -8,9 +8,10 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import io.github.sevjet.essencedefence.entity.Entity;
 
 import java.io.IOException;
+
+import io.github.sevjet.essencedefence.entity.Entity;
 
 public abstract class BasicControl extends AbstractControl {
 

@@ -12,7 +12,13 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
+
 import de.lessvoid.nifty.Nifty;
+
+import org.lwjgl.LWJGLException;
+
+import java.awt.*;
+
 import io.github.sevjet.essencedefence.entity.Essence;
 import io.github.sevjet.essencedefence.entity.building.Fortress;
 import io.github.sevjet.essencedefence.entity.building.Portal;
@@ -26,12 +32,10 @@ import io.github.sevjet.essencedefence.listener.ListenerManager;
 import io.github.sevjet.essencedefence.niftyGui.StartScreen;
 import io.github.sevjet.essencedefence.util.Configuration;
 import io.github.sevjet.essencedefence.util.GeometryManager;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
 
-import java.awt.*;
-
-import static io.github.sevjet.essencedefence.util.Creator.*;
+import static io.github.sevjet.essencedefence.util.Creator.myBox;
+import static io.github.sevjet.essencedefence.util.Creator.myQuad;
+import static io.github.sevjet.essencedefence.util.Creator.myShinySphere;
 
 public class Main extends SimpleApplication {
 

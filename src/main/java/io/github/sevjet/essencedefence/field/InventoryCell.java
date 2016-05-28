@@ -1,6 +1,7 @@
 package io.github.sevjet.essencedefence.field;
 
 import com.jme3.math.ColorRGBA;
+
 import io.github.sevjet.essencedefence.entity.Essence;
 
 public class InventoryCell extends Cell<Essence> {

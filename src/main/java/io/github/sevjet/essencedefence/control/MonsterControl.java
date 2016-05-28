@@ -9,13 +9,14 @@ import com.jme3.export.OutputCapsule;
 import com.jme3.math.Spline;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+
+import java.io.IOException;
+
 import io.github.sevjet.essencedefence.entity.building.Fortress;
 import io.github.sevjet.essencedefence.entity.monster.Monster;
 import io.github.sevjet.essencedefence.field.MapCell;
 import io.github.sevjet.essencedefence.field.MapField;
 import io.github.sevjet.essencedefence.util.PathBuilder;
-
-import java.io.IOException;
 
 public class MonsterControl extends BasicControl {
 

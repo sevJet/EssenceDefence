@@ -4,16 +4,21 @@ import com.jme3.cinematic.MotionPath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+
 import io.github.sevjet.essencedefence.entity.Entity;
 import io.github.sevjet.essencedefence.entity.building.Building;
 import io.github.sevjet.essencedefence.entity.building.Fortress;
 import io.github.sevjet.essencedefence.entity.building.Portal;
 import io.github.sevjet.essencedefence.field.MapCell;
 import io.github.sevjet.essencedefence.field.MapField;
-
-import java.awt.*;
-import java.util.*;
-import java.util.Queue;
 
 public class PathBuilder {
 
@@ -234,7 +239,7 @@ public class PathBuilder {
             for (Point point : list) {
                 path.addWayPoint(new Vector3f(point.x, point.y, base.getZ()));
             }
-            if(path.getNbWayPoints() == 2 && path.getWayPoint(0).equals(path.getWayPoint(1))) {
+            if (path.getNbWayPoints() == 2 && path.getWayPoint(0).equals(path.getWayPoint(1))) {
                 return null;
             }
             return path;

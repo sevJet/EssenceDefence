@@ -2,10 +2,11 @@ package io.github.sevjet.essencedefence.util;
 
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
-import io.github.sevjet.essencedefence.entity.Entity;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import io.github.sevjet.essencedefence.entity.Entity;
 
 import static io.github.sevjet.essencedefence.util.Creator.myBox;
 

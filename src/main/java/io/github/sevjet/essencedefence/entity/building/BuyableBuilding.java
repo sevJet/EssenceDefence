@@ -4,10 +4,11 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
-import io.github.sevjet.essencedefence.entity.IBuyable;
-import io.github.sevjet.essencedefence.util.BoxSize;
 
 import java.io.IOException;
+
+import io.github.sevjet.essencedefence.entity.IBuyable;
+import io.github.sevjet.essencedefence.util.BoxSize;
 
 public abstract class BuyableBuilding extends Building implements IBuyable {
 

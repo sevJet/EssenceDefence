@@ -1,6 +1,7 @@
 package io.github.sevjet.essencedefence.entity;
 
 import com.jme3.math.Vector3f;
+
 import io.github.sevjet.essencedefence.util.BoxSize;
 
 public abstract class Entity3D extends Entity {
