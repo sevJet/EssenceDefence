@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/EssenseDefence.iml" filepath="$PROJECT_DIR$/.idea/modules/EssenseDefence.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/EssenseDefence_main.iml" filepath="$PROJECT_DIR$/.idea/modules/EssenseDefence_main.iml" group="EssenseDefence" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/EssenseDefence_test.iml" filepath="$PROJECT_DIR$/.idea/modules/EssenseDefence_test.iml" group="EssenseDefence" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/EssenceDefence.iml" filepath="$PROJECT_DIR$/.idea/modules/EssenceDefence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/EssenceDefence_main.iml" filepath="$PROJECT_DIR$/.idea/modules/EssenceDefence_main.iml" group="EssenceDefence" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/EssenceDefence_test.iml" filepath="$PROJECT_DIR$/.idea/modules/EssenceDefence_test.iml" group="EssenceDefence" />
     </modules>
   </component>
 </project>
