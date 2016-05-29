@@ -34,14 +34,10 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-jar {
-    manifest {
-        attributes(
-                "Main-Class": mainClassName,
-                "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
+jar.manifest.attributes(
+        "Main-Class": mainClassName,
+        "Class-Path": configurations.compile.collect { it.getName() }.join(' ')
         )
-    }
-}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.13'

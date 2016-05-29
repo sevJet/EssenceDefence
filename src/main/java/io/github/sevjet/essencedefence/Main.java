@@ -7,17 +7,18 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.ViewPort;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import com.jme3.system.AppSettings;
+import com.jme3.system.Natives;
 import com.jme3.util.SkyFactory;
 
 import de.lessvoid.nifty.Nifty;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
 
 import java.awt.*;
+import java.io.IOException;
+import java.util.Arrays;
 
 import io.github.sevjet.essencedefence.entity.Essence;
 import io.github.sevjet.essencedefence.entity.building.Fortress;
@@ -33,6 +34,7 @@ import io.github.sevjet.essencedefence.niftyGui.StartScreen;
 import io.github.sevjet.essencedefence.util.Configuration;
 import io.github.sevjet.essencedefence.util.GeometryManager;
 
+import static com.jme3.system.JmeSystem.getPlatform;
 import static io.github.sevjet.essencedefence.util.Creator.myBox;
 import static io.github.sevjet.essencedefence.util.Creator.myQuad;
 import static io.github.sevjet.essencedefence.util.Creator.myShinySphere;
@@ -43,60 +45,65 @@ public class Main extends SimpleApplication {
     public static StartScreen start;
     public static GamePlayAppState state;
 
-    public static AppSettings mySettings() throws LWJGLException {
+    public static AppSettings mySettings(boolean isOSX) throws LWJGLException {
         AppSettings settings = new AppSettings(true);
 
         settings.setTitle("EssenceDefence 1.0");
 
+        try {
+            settings.setAudioRenderer("LWJGL");
+            Natives.extractNativeLibs(getPlatform(), settings);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         GraphicsDevice device = GraphicsEnvironment.
                 getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        java.awt.DisplayMode mode = device.getDisplayMode();
-        settings.setResolution(mode.getWidth(), mode.getHeight());
-        settings.setFrequency(mode.getRefreshRate());
-        settings.setBitsPerPixel(mode.getBitDepth());
+        if (isOSX) {
+            System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+            System.setProperty("apple.awt.UIElement", "true");
 
-//        DisplayMode[] modes = Display.getAvailableDisplayModes();
-//        DisplayMode high = modes[0];
-//        System.out.println(high.getWidth() + " " + high.getHeight() + " " + high.getFrequency() + " " + high.getBitsPerPixel());
-//        settings.setResolution(high.getWidth()+1, high.getHeight());
-//        settings.setFrequency(high.getFrequency());
-//        settings.setBitsPerPixel(high.getBitsPerPixel());
-//        settings.setFullscreen(device.isFullScreenSupported());
+            java.awt.DisplayMode mode = device.getDisplayMode();
+            settings.setResolution(mode.getWidth(), mode.getHeight());
+            settings.setFrequency(mode.getRefreshRate());
+            settings.setBitsPerPixel(mode.getBitDepth());
+            settings.setFullscreen(true);
+        } else {
+            org.lwjgl.opengl.DisplayMode mode = Arrays.stream(Display.getAvailableDisplayModes())
+                    .reduce(new org.lwjgl.opengl.DisplayMode(0, 0), (prev, el) -> {
+                        long prevSize = (long) prev.getHeight() * prev.getWidth();
+                        long elSize = (long) el.getHeight() * el.getWidth();
+                        if (prevSize < elSize) {
+                            return el;
+                        }
+                        if (prevSize == elSize &&
+                                prev.getBitsPerPixel() <= el.getBitsPerPixel() &&
+                                prev.getFrequency() <= el.getFrequency()) {
+                            return el;
+                        }
+
+                        return prev;
+                    });
+            settings.setResolution(mode.getWidth(), mode.getHeight());
+            settings.setFrequency(mode.getFrequency());
+            settings.setBitsPerPixel(mode.getBitsPerPixel());
+            settings.setFullscreen(device.isFullScreenSupported());
+        }
 
         settings.setSamples(2);
-//        settings.setSamples(16);
 
         return settings;
     }
 
     public static void main(String[] args) throws LWJGLException {
-//        System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
-        System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
-        System.setProperty("apple.awt.UIElement", "true");
-
         Main app = new Main();
 
-        app.setSettings(mySettings());
+        app.setSettings(mySettings(System.getProperty("os.name")
+                .toLowerCase()
+                .contains("mac")));
         app.setShowSettings(false);
         app.start();
-    }
-
-    //     TODO: 21/05/2016 delete
-    public static void detachAllControl(Spatial spatial) {
-        Node rootNode;
-        if (spatial == null)
-            return;
-        if (spatial instanceof Node) {
-            rootNode = (Node) spatial;
-            for (Spatial sp : rootNode.getChildren()) {
-                for (int i = 0; i < sp.getNumControls(); i++) {
-                    sp.removeControl(AbstractControl.class);
-                }
-                detachAllControl(sp);
-            }
-        } else for (int i = 0; i < spatial.getNumControls(); i++) {
-            spatial.removeControl(AbstractControl.class);
-        }
+        Display.setResizable(true);
+        Display.setFullscreen(true);
     }
 
     private void initStartData() {
