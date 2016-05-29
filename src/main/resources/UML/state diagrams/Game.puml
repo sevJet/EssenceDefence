@@ -1,0 +1,20 @@
+@startuml
+'!include ../skin/darcula.txt
+'skinparam monochrome true
+hide empty description
+
+state "Game play" as playG
+state "Game over" as overG
+state "Win" as win
+state "Exit from game" as exitG
+
+[*] --> playG : start game
+playG --> overG : destroy fortress
+playG --> win : all monster die\n [no wave left]
+overG --> exitG : press enter
+win --> exitG : press enter
+exitG --> [*] : game process end
+
+
+
+@enduml

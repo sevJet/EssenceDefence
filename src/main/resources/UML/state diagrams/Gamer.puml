@@ -1,0 +1,25 @@
+@startuml
+'!include ../skin/darcula.txt
+'skinparam monochrome true
+hide empty description
+
+  state "Building towers" as buildT
+  state "Building walls" as buildW
+  state "Wait" as wait
+  state "Essence activity" as activityE
+
+
+  [*] -r-> wait : start game
+
+  wait -u-> buildW : change\n monsters way\n [enough money]
+  buildW --> wait
+
+  wait --> buildT : add place\n to essence\n [enough money]
+  buildT --> wait
+
+  wait --> activityE : need attacker\n element
+  activityE --> wait
+
+  wait --r-> [*] : end game
+
+@enduml

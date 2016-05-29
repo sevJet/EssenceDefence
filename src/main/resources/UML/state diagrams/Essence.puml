@@ -1,0 +1,28 @@
+@startuml
+'!include ../skin/darcula.txt
+'skinparam monochrome true
+hide empty description
+
+    state "Upgrade" as upgrade
+    state "Combine" as combine
+    state "Not active" as nActive
+    state "Active" as active{
+        active : entry/ cooldown(time)
+    }
+
+
+    [*] -> nActive : buy essence\n [enough money]
+    [*] --> active : choice essence\n [exists at least one essence]
+    [*] --> active : essences combined
+
+    nActive --> active : insert into tower\n [tower built]
+    active --> nActive : pull out
+    active --> upgrade : need more damage\n [enough money]
+    active --> combine : need special effect\n [enough money]
+    upgrade --> active : essence level up
+
+    combine --> [*] : essences combined
+    active -r-> [*] : sell
+
+
+@enduml

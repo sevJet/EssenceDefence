@@ -1,0 +1,38 @@
+@startuml
+'!include skin/darcula.txt
+skinparam monochrome true
+
+|game|
+    start
+    :start game;
+|gamer|
+:give money;
+    fork
+    :gamer activity;
+
+    |portal|
+        fork again
+        :portal activity;
+    fork again
+    |fortress|
+    repeat
+        if () then ([monster reach fortress])
+            if () then ([health <= 0])
+                :destroy fortress;
+                |game|
+                    :game over;
+                    stop
+                |fortress|
+                ':detach
+                -[#gray]->
+            else  ([else])
+            endif
+        else
+        endif
+    repeat while () is ([one more monster left])
+    fork end
+|game|
+    :win;
+    stop
+
+@enduml

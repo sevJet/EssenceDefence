@@ -1,0 +1,47 @@
+@startuml
+
+skinparam {
+
+    class {
+
+        BackgroundColor #2b2b2b
+        BorderColor #697786
+        AttributeFontColor #a9b7c6
+        FontColor #cc7832
+        StereotypeFontColor #a9b7c6
+
+        FontSize 14
+        'FontStyle bold
+
+        Arrow {
+            Color #cc7832
+            FontColor #A9B7C6
+            FontStyle bold
+            Style italic
+        }
+    }
+
+    backgroundColor #3c3f41
+    titleFontColor #A9B7C6
+    titleFontSize 44
+    packageBackgroundColor #808080-#black
+    packageFontColor #cccccc
+
+    circledCharacter {
+        FontColor #f0f0f0
+        FontSize 17
+        FontStyle bold
+        FontName  Courier
+        Radius 12
+    }
+
+    stereotypeCBackgroundColor #909090
+    stereotypeABackgroundColor #CC0000
+    stereotypeIBackgroundColor #0033aa
+
+    noteBackgroundColor #808080
+    noteBorderColor #black
+
+}
+
+@enduml

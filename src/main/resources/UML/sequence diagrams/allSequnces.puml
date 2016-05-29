@@ -1,0 +1,8 @@
+@startuml
+  !include Gamer.puml
+@enduml
+
+
+@startuml
+  !include Monster.puml
+@enduml

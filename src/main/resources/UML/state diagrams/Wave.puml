@@ -1,0 +1,17 @@
+@startuml
+'!include ../skin/darcula.txt
+'skinparam monochrome true
+hide empty description
+
+
+state "Spawn monster" as spawnM
+state "Idle" as idle
+
+[*] -right-> spawnM : portal spawn wave
+spawnM -right-> idle : monster move
+idle --> spawnM : end delay
+spawnM -down-> [*] : [in wave no monsters left]
+
+
+
+@enduml

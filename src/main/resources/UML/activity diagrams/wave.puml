@@ -1,0 +1,26 @@
+@startuml
+'!include skin/darcula.txt
+skinparam monochrome true
+
+|game|
+    start
+    :start game;
+
+|portal|
+:receive waves;
+repeat
+    :delay(time);
+    :spawn wave;
+    |wave|
+    'fork
+    repeat
+        :delay(time);
+        '|monster|
+        :spawn monster;
+    repeat while () is ([number monster > 0])
+    -[#black]-> [else];
+repeat while () is ([number wave > 0])
+-[#black]-> [else];
+|portal|
+stop
+@enduml
