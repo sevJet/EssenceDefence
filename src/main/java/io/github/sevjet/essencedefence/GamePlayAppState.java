@@ -16,6 +16,7 @@ import io.github.sevjet.essencedefence.util.Creator;
 public class GamePlayAppState extends AbstractAppState {
 
     //TODO fix it
+    @Deprecated
     public static Field field;
     protected Node localGui = new Node("localGui");
     protected Node localRoot = new Node("localRoot");

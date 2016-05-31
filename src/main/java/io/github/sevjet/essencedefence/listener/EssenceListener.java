@@ -14,6 +14,7 @@ import io.github.sevjet.essencedefence.field.Field;
 import io.github.sevjet.essencedefence.field.Inventory;
 import io.github.sevjet.essencedefence.niftyGui.InfoScreen;
 import io.github.sevjet.essencedefence.util.Configuration;
+import io.github.sevjet.essencedefence.util.RayHelper;
 
 public class EssenceListener implements ActionListener {
 
@@ -122,7 +123,7 @@ public class EssenceListener implements ActionListener {
     private void buyEssence() {
         bufEssence = Essence.buy();
 
-        boolean isPlaced = placeOnResults(ListenerManager.rayCasting(ListenerManager.getField(), ListenerManager.getInventory()));
+        boolean isPlaced = placeOnResults(RayHelper.rayCasting(RayHelper.getMapField(), RayHelper.getInventory()));
         if (!isPlaced && bufEssence != null) {
             bufEssence.sell();
             bufEssence = null;
@@ -130,7 +131,7 @@ public class EssenceListener implements ActionListener {
     }
 
     private void sellEssence() {
-        results = ListenerManager.rayCasting(ListenerManager.getInventory(), ListenerManager.getField());
+        results = RayHelper.rayCasting(RayHelper.getInventory(), RayHelper.getMapField());
         Essence essence = extractFromResults(results);
         if (essence != null) {
             essence.sell();
@@ -160,7 +161,7 @@ public class EssenceListener implements ActionListener {
     }
 
     private void extractionEssence() {
-        results = ListenerManager.rayCasting(ListenerManager.getInventory(), ListenerManager.getField(), ListenerManager.getShop());
+        results = RayHelper.rayCasting(RayHelper.getInventory(), RayHelper.getMapField(), RayHelper.getShop());
         Essence essence = extractFromResults(results);
         bufEssence = essence;
 
@@ -175,7 +176,7 @@ public class EssenceListener implements ActionListener {
     }
 
     private boolean putEssence() {
-        return placeOnResults(ListenerManager.rayCasting(ListenerManager.getField(), ListenerManager.getInventory(), ListenerManager.getShop()));
+        return placeOnResults(RayHelper.rayCasting(RayHelper.getMapField(), RayHelper.getInventory(), RayHelper.getShop()));
     }
 
     // TODO: 26/05/2016 recreate
@@ -203,7 +204,7 @@ public class EssenceListener implements ActionListener {
             return false;
         }
         if (results.size() > 0) {
-            Cell cell = ListenerManager.getCell(results);
+            Cell cell = RayHelper.getCell(results);
             Field field = cell.getField();
             if (field.canSet(cell, Essence.class)) {
                 Essence localBuf = bufEssence;
@@ -220,7 +221,7 @@ public class EssenceListener implements ActionListener {
     private Essence extractFromResults(CollisionResults results) {
         Essence essence = null;
         if (results.size() > 0) {
-            Cell cell = ListenerManager.getCell(results);
+            Cell cell = RayHelper.getCell(results);
             lastCell = cell;
             Field field = cell.getField();
 

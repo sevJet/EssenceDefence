@@ -12,6 +12,7 @@ import io.github.sevjet.essencedefence.entity.monster.Monster;
 import io.github.sevjet.essencedefence.field.Cell;
 import io.github.sevjet.essencedefence.field.Field;
 import io.github.sevjet.essencedefence.util.Getter;
+import io.github.sevjet.essencedefence.util.RayHelper;
 
 public class MonsterListener implements ActionListener {
 
@@ -24,10 +25,10 @@ public class MonsterListener implements ActionListener {
                 name.equals(ListenerManager.MAPPING_SPAWN_ALL)) {
             Monster monster;
             CollisionResults results;
-            results = ListenerManager.rayCasting();
+            results = RayHelper.rayCasting();
 
             if (results.size() > 0 && !isPressed) {
-                Cell cell = ListenerManager.getCell(results);
+                Cell cell = RayHelper.getCell(results);
                 Field field = cell.getField();
                 //TODO change
                 if (field != null) {

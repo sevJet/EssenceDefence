@@ -6,6 +6,7 @@ import com.jme3.input.controls.AnalogListener;
 
 import io.github.sevjet.essencedefence.field.MapCell;
 import io.github.sevjet.essencedefence.field.MapField;
+import io.github.sevjet.essencedefence.util.RayHelper;
 
 public class CellListener implements AnalogListener {
 
@@ -14,10 +15,10 @@ public class CellListener implements AnalogListener {
         if (name.equals(ListenerManager.MAPPING_MAKE_PASSABLE) ||
                 name.equals(ListenerManager.MAPPING_RESET)) {
             CollisionResults results;
-            results = ListenerManager.rayCasting();
+            results = RayHelper.rayCasting();
 
             if (results.size() > 0) {
-                MapCell cell = (MapCell) ListenerManager.getCell(results);
+                MapCell cell = (MapCell) RayHelper.getCell(results);
                 MapField field = cell.getField();
                 //TODO change
                 if (field != null) {

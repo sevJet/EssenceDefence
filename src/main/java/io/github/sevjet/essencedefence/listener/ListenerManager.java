@@ -1,24 +1,13 @@
 package io.github.sevjet.essencedefence.listener;
 
-import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.controls.Trigger;
-import com.jme3.math.Ray;
-import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 
-import io.github.sevjet.essencedefence.GamePlayAppState;
-import io.github.sevjet.essencedefence.field.Cell;
-import io.github.sevjet.essencedefence.field.InventoryCell;
-import io.github.sevjet.essencedefence.field.MapCell;
 import io.github.sevjet.essencedefence.util.Configuration;
-import io.github.sevjet.essencedefence.util.Getter;
 
 
 public final class ListenerManager {
@@ -137,57 +126,5 @@ public final class ListenerManager {
 
         inputManager.addListener(new GameListener(),
                 MAPPING_EXIT);
-    }
-
-    static CollisionResults rayCasting() {
-        return rayCasting(getField());
-    }
-
-    static CollisionResults rayCasting(Node... objects) {
-        CollisionResults results = new CollisionResults();
-        Ray ray = fromCursor();
-        for (Node with : objects) {
-            if (with != null) {
-                with.collideWith(ray, results);
-                if (results.size() > 0) {
-                    break;
-                }
-            }
-        }
-        return results;
-    }
-
-    static Cell getCell(CollisionResults results) {
-        Geometry target = results.getClosestCollision().getGeometry();
-        return (Cell) Getter.getEntity(target);
-    }
-
-    static Node getField() {
-        return GamePlayAppState.field != null ? GamePlayAppState.field.getObjects(MapCell.class) : null;
-    }
-
-    static Node getInventory() {
-        return Configuration.getGamer().getInventory().getObjects(InventoryCell.class);
-    }
-
-    static Node getShop() {
-        return Configuration.getGamer().getShop().getObjects(InventoryCell.class);
-    }
-
-    private static Ray fromCamera() {
-        return new Ray(Configuration.getCam().getLocation(),
-                Configuration.getCam().getDirection());
-    }
-
-    private static Ray fromCursor() {
-        Vector2f click2d = Configuration.getInputManager().getCursorPosition();
-        Vector3f click3d = Configuration.getCam().getWorldCoordinates(
-                new Vector2f(click2d.getX(), click2d.getY()), 0f);
-
-        Vector3f dir = Configuration.getCam().getWorldCoordinates(
-                new Vector2f(click2d.getX(), click2d.getY()), 1f).
-                subtract(click3d);
-
-        return new Ray(click3d, dir);
     }
 }

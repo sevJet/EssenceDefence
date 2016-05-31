@@ -13,6 +13,8 @@ import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
 
 import io.github.sevjet.essencedefence.Gamer;
+import io.github.sevjet.essencedefence.field.EssenceShop;
+import io.github.sevjet.essencedefence.field.Inventory;
 
 public class Configuration {
     private static Configuration _instance = new Configuration();
@@ -63,6 +65,16 @@ public class Configuration {
         Configuration instance = getInstance();
         Gamer oldGamer = instance.gamer;
         instance.gamer = (oldGamer == null ? newGamer : oldGamer);
+    }
+
+    public static Inventory getInventory() {
+        Configuration instance = getInstance();
+        return instance.gamer != null ? instance.gamer.getInventory() : null;
+    }
+
+    public static EssenceShop getShop() {
+        Configuration instance = getInstance();
+        return instance.gamer != null ? instance.gamer.getShop() : null;
     }
 
     public static SimpleApplication getApp() {

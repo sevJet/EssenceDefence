@@ -2,10 +2,8 @@ package io.github.sevjet.essencedefence.listener;
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
-import com.jme3.scene.control.AbstractControl;
 
+import io.github.sevjet.essencedefence.control.WireframeControl;
 import io.github.sevjet.essencedefence.entity.building.Building;
 import io.github.sevjet.essencedefence.entity.building.Fortress;
 import io.github.sevjet.essencedefence.entity.building.Portal;
@@ -17,6 +15,7 @@ import io.github.sevjet.essencedefence.field.MapCell;
 import io.github.sevjet.essencedefence.field.MapField;
 import io.github.sevjet.essencedefence.util.BoxSize;
 import io.github.sevjet.essencedefence.util.PathBuilder;
+import io.github.sevjet.essencedefence.util.RayHelper;
 
 
 public class BuildingListener implements ActionListener {
@@ -79,10 +78,10 @@ public class BuildingListener implements ActionListener {
                 name.equals(ListenerManager.MAPPING_BUILD_PORTAL) ||
                 name.equals(ListenerManager.MAPPING_BUILD_FORTRESS)) {
 
-            CollisionResults results = ListenerManager.rayCasting();
+            CollisionResults results = RayHelper.rayCasting();
 
             if (results.size() > 0) {
-                cell = (MapCell) ListenerManager.getCell(results);
+                cell = (MapCell) RayHelper.getCell(results);
                 field = cell.getField();
 
                 if (isPressed) {
@@ -101,7 +100,7 @@ public class BuildingListener implements ActionListener {
 
             wireframe = new Wireframe(getBuildingClass(name), getBoxSize(name));
 
-            wireframe.getGeometry().addControl(new PreBuildControl());
+            wireframe.getGeometry().addControl(new WireframeControl());
 
             wireframe.move(cell.getX(), cell.getY());
             field.removeAll(Wireframe.class);
@@ -139,45 +138,6 @@ public class BuildingListener implements ActionListener {
             }
             currentMap = "";
         }
-
-    }
-}
-
-// TODO: 14/05/2016 refactor this
-class PreBuildControl extends AbstractControl {
-    CollisionResults results;
-
-    @Override
-    protected void controlUpdate(float tpf) {
-        results = ListenerManager.rayCasting();
-        if (results.size() > 0) {
-            MapCell cell = (MapCell) ListenerManager.getCell(results);
-            MapField field = cell.getField();
-
-            if (getSpatial().getUserData("entity") instanceof Wireframe) {
-                Wireframe wireframe = getSpatial().getUserData("entity");
-                wireframe.move(cell.getX(), cell.getY());
-                boolean canBuild = false;
-                if (field.enoughPlaceFor(cell, wireframe)) {
-                    canBuild = PathBuilder.atField(field)
-                            .withBuilding(wireframe.getBuildingClass())
-                            .withSize(wireframe.getSize())
-                            .atPoint(cell.getX(), cell.getY())
-                            .from(Portal.class)
-                            .andFrom(Monster.class)
-                            .to(Fortress.class)
-                            .isValid();
-                }
-                wireframe.setCanBuild(canBuild);
-            }
-        } else {
-            spatial.removeFromParent();
-            spatial.removeControl(this);
-        }
-    }
-
-    @Override
-    protected void controlRender(RenderManager rm, ViewPort vp) {
 
     }
 }

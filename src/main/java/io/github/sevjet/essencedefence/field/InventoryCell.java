@@ -19,8 +19,8 @@ public class InventoryCell extends Cell<Essence> {
     }
 
 //    @Override
-//    public Inventory getField() {
-//        Field field = super.getField();
+//    public Inventory getMapField() {
+//        Field field = super.getMapField();
 //        if (field instanceof Inventory) {
 //            return (Inventory) field;
 //        }
