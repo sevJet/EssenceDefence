@@ -66,7 +66,6 @@ public class Main extends SimpleApplication {
             settings.setResolution(mode.getWidth(), mode.getHeight());
             settings.setFrequency(mode.getRefreshRate());
             settings.setBitsPerPixel(mode.getBitDepth());
-            settings.setFullscreen(true);
         } else {
             org.lwjgl.opengl.DisplayMode mode = Arrays.stream(Display.getAvailableDisplayModes())
                     .reduce(new org.lwjgl.opengl.DisplayMode(0, 0), (prev, el) -> {

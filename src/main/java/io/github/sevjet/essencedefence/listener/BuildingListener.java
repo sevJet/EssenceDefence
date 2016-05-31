@@ -170,6 +170,9 @@ class PreBuildControl extends AbstractControl {
                 }
                 wireframe.setCanBuild(canBuild);
             }
+        } else {
+            spatial.removeFromParent();
+            spatial.removeControl(this);
         }
     }
 
