@@ -50,7 +50,7 @@ public class RayHelper {
         return null;
     }
 
-    public static Entity colliideClosest(Node... objects) {
+    public static Entity collideClosest(Node... objects) {
         CollisionResults results = new CollisionResults();
         Ray ray = fromCursor();
         for (Node with : objects) {

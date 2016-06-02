@@ -103,7 +103,6 @@ public class MapCell extends Cell<Building> {
         return false;
     }
 
-    @Deprecated
     public void removeBuilding() {
         if (!hasContent())
             return;

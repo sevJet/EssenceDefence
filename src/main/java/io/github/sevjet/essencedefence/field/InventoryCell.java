@@ -18,14 +18,16 @@ public class InventoryCell extends Cell<Essence> {
         super(x, y, content);
     }
 
-//    @Override
-//    public Inventory getMapField() {
-//        Field field = super.getMapField();
-//        if (field instanceof Inventory) {
-//            return (Inventory) field;
-//        }
-//        return null;
-//    }
+    public Essence extractEssence() {
+        if (hasContent()) {
+            final Essence buf = content;
+            getField().removeObject(buf);
+            free();
+
+            return buf;
+        }
+        return null;
+    }
 
     @Override
     protected boolean update() {
@@ -41,4 +43,8 @@ public class InventoryCell extends Cell<Essence> {
         return false;
     }
 
+    @Override
+    public Inventory getField() {
+        return (Inventory) super.getField();
+    }
 }

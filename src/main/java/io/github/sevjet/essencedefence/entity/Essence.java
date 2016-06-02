@@ -10,7 +10,6 @@ import com.jme3.math.Vector3f;
 
 import java.io.IOException;
 
-import io.github.sevjet.essencedefence.entity.building.Tower;
 import io.github.sevjet.essencedefence.util.BoxSize;
 import io.github.sevjet.essencedefence.util.Configuration;
 
@@ -18,10 +17,10 @@ public class Essence extends Entity3D implements IBuyable {
 
     private static final BoxSize SIZE = new BoxSize(1, 1, 1);
 
-    private final float damageK = 1.25f;
-    private final float rangeK = 1.03f;
-    private final float speedK = 1.1f;
-    private final float priceK = 2.0f;
+    private static final float damageK = 1.25f;
+    private static final float rangeK = 1.03f;
+    private static final float speedK = 1.1f;
+    private static final float priceK = 2.0f;
 
     private float offsetX = 0f;
     private float offsetY = 0f;
@@ -33,10 +32,13 @@ public class Essence extends Entity3D implements IBuyable {
     private int level = 1;
     private float price = 0f;
 
+    private ColorRGBA color;
+
     public Essence() {
         super(SIZE);
 
-        geometry.getMaterial().setColor("Diffuse", ColorRGBA.randomColor());
+        color = ColorRGBA.randomColor();
+        geometry.getMaterial().setColor("Diffuse", color);
     }
 
     public Essence(float damage, float range, float speed, int level, float price) {
@@ -52,7 +54,25 @@ public class Essence extends Entity3D implements IBuyable {
         this.level = level;
         this.price = trim(price);
 
+        this.color = color;
+
         geometry.getMaterial().setColor("Diffuse", color);
+    }
+
+    public Essence(Essence essence) {
+        this(essence.damage,
+                essence.range,
+                essence.speed,
+                essence.level,
+                essence.price,
+                essence.color.clone());
+    }
+
+    public Essence buySame() {
+        if (Configuration.getGamer().decGold(price)) {
+            return new Essence(this);
+        }
+        return null;
     }
 
     public static Essence buy() {
@@ -63,22 +83,23 @@ public class Essence extends Entity3D implements IBuyable {
         return null;
     }
 
-    // TODO: 19.05.16 Check do we need this?
-    public static void sell(Tower tower) {
-        Configuration.getGamer().incGold(tower.extractCore());
-    }
-
     public static Essence getNew() {
         return new Essence(2f, 3f, 1f, 1, 10f);
     }
 
     public float sell() {
-//        if (geometry.removeFromParent()) {
         Configuration.getGamer().incGold(price);
-        this.geometry.removeFromParent();
+        geometry.removeFromParent();
+
         return price;
-//        }
-//        return 0f;
+    }
+
+    public ColorRGBA getColor() {
+        return color;
+    }
+
+    public void setColor(ColorRGBA color) {
+        this.color = color;
     }
 
     public float getDamage() {
@@ -149,6 +170,7 @@ public class Essence extends Entity3D implements IBuyable {
             speed = trim(speed * speedK);
             price = trim(price * priceK);
 
+            System.out.println("UPGRADE");
             return true;
         }
         return false;
@@ -166,6 +188,9 @@ public class Essence extends Entity3D implements IBuyable {
             this.speed += essence.speed;
             this.level += essence.level;
             this.price = trim(price * priceK);
+
+            color.interpolate(essence.getColor(), 0.5f);
+            geometry.getMaterial().setColor("Diffuse", color);
 
             return true;
         }

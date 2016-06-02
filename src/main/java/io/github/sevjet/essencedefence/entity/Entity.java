@@ -10,6 +10,7 @@ import com.jme3.scene.Geometry;
 
 import java.io.IOException;
 
+import io.github.sevjet.essencedefence.field.Cell;
 import io.github.sevjet.essencedefence.field.Field;
 import io.github.sevjet.essencedefence.util.GeometryManager;
 
@@ -116,12 +117,12 @@ public abstract class Entity implements Savable {
         }
     }
 
-    public Field getField() {
+    public Field<? extends Cell> getField() {
         if (geometry != null &&
                 geometry.getParent() != null &&
                 geometry.getParent().getParent() != null) {
             if (geometry.getParent().getParent() instanceof Field) {
-                return (Field) geometry.getParent().getParent();
+                return (Field<? extends Cell>) geometry.getParent().getParent();
             }
 //            if (geometry.getParent().getParent() instanceof Inventory){
 //                return (Inventory) geometry.getParent().getParent();

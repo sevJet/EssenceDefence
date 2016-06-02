@@ -90,8 +90,7 @@ public class Cell<T extends Entity> extends Entity {
     }
 
     @Override
-    public Field getField() {
-        Field field = super.getField();
-        return field;
+    public Field<? extends Cell> getField() {
+        return super.getField();
     }
 }

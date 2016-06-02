@@ -1,9 +1,9 @@
 package io.github.sevjet.essencedefence.listener;
 
-import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
 
 import io.github.sevjet.essencedefence.control.WireframeControl;
+import io.github.sevjet.essencedefence.entity.Entity;
 import io.github.sevjet.essencedefence.entity.building.Building;
 import io.github.sevjet.essencedefence.entity.building.Fortress;
 import io.github.sevjet.essencedefence.entity.building.Portal;
@@ -17,7 +17,6 @@ import io.github.sevjet.essencedefence.util.BoxSize;
 import io.github.sevjet.essencedefence.util.PathBuilder;
 import io.github.sevjet.essencedefence.util.RayHelper;
 
-
 public class BuildingListener implements ActionListener {
 
     private String currentMap = "";
@@ -29,16 +28,12 @@ public class BuildingListener implements ActionListener {
         switch (name) {
             case ListenerManager.MAPPING_BUILD_WALL:
                 return new Wall();
-//            break;
             case ListenerManager.MAPPING_BUILD_TOWER:
                 return new Tower();
-//            break;
             case ListenerManager.MAPPING_BUILD_PORTAL:
                 return new Portal();
-//            break;
             case ListenerManager.MAPPING_BUILD_FORTRESS:
                 return new Fortress();
-//            break;
         }
         return null;
     }
@@ -71,6 +66,21 @@ public class BuildingListener implements ActionListener {
         return Building.class;
     }
 
+    private void initBuilding(String name, Building building) {
+        switch (name) {
+            case ListenerManager.MAPPING_BUILD_WALL:
+                break;
+            case ListenerManager.MAPPING_BUILD_TOWER:
+                break;
+            case ListenerManager.MAPPING_BUILD_PORTAL:
+                break;
+            case ListenerManager.MAPPING_BUILD_FORTRESS:
+                if (building instanceof Fortress)
+                    building.setHealth(100);
+                break;
+        }
+    }
+
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         if (name.equals(ListenerManager.MAPPING_BUILD_WALL) ||
@@ -78,39 +88,40 @@ public class BuildingListener implements ActionListener {
                 name.equals(ListenerManager.MAPPING_BUILD_PORTAL) ||
                 name.equals(ListenerManager.MAPPING_BUILD_FORTRESS)) {
 
-            CollisionResults results = RayHelper.rayCasting();
-
-            if (results.size() > 0) {
-                cell = (MapCell) RayHelper.getCell(results);
+            Entity closest = RayHelper.collideClosest(RayHelper.getMapField());
+            if (closest != null) {
+                cell = (MapCell) closest;
                 field = cell.getField();
 
                 if (isPressed) {
-                    onPress(name, tpf);
+                    onPress(name);
                 } else {
-                    onRelease(name, tpf);
+                    onRelease(name);
                 }
 
             }
         }
     }
 
-    private void onPress(String name, float tpf) {
-        if (currentMap.isEmpty() || currentMap.equals(name)) {
+    private void onPress(String name) {
+        if (currentMap.isEmpty()) {
             currentMap = name;
+        }
+        if (currentMap.equals(name)) {
+            field.removeAll(Wireframe.class);
 
             wireframe = new Wireframe(getBuildingClass(name), getBoxSize(name));
-
             wireframe.getGeometry().addControl(new WireframeControl());
-
             wireframe.move(cell.getX(), cell.getY());
-            field.removeAll(Wireframe.class);
+
             field.addObject(wireframe);
         }
     }
 
-    private void onRelease(String name, float tpf) {
+    private void onRelease(String name) {
         if (currentMap.equals(name) && field != null) {
             field.removeAll(Wireframe.class);
+
             Building building = choiceBuilding(name);
             if (field.enoughPlaceFor(cell, building)) {
                 if (PathBuilder.atField(field)
@@ -122,18 +133,7 @@ public class BuildingListener implements ActionListener {
                         .to(Fortress.class)
                         .isValid()) {
                     cell.build(building);
-                    switch (name) {
-                        case ListenerManager.MAPPING_BUILD_WALL:
-                            break;
-                        case ListenerManager.MAPPING_BUILD_TOWER:
-                            break;
-                        case ListenerManager.MAPPING_BUILD_PORTAL:
-                            break;
-                        case ListenerManager.MAPPING_BUILD_FORTRESS:
-                            if (building instanceof Fortress)
-                                building.setHealth(100);
-                            break;
-                    }
+                    initBuilding(name, building);
                 }
             }
             currentMap = "";

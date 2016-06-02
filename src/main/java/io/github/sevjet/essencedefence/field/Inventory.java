@@ -39,7 +39,6 @@ public class Inventory extends Field<InventoryCell> {
             if (!cell.hasContent()) {
                 cell.setContent(essence);
                 essence.move(cell.getX(), cell.getY(), 0);
-                essence.setZ(0);
                 addObject(essence);
                 return true;
             }
@@ -107,11 +106,11 @@ public class Inventory extends Field<InventoryCell> {
 
     @Override
     public boolean canGet(InventoryCell cell, Class<? extends Entity> contentClass) {
-        return cell.hasContent();
+        return cell.hasContent() && contentClass.isAssignableFrom(Essence.class);
     }
 
     @Override
     public boolean canSet(InventoryCell cell, Class<? extends Entity> contentClass) {
-        return !cell.hasContent();
+        return !cell.hasContent() && contentClass.isAssignableFrom(Essence.class);
     }
 }

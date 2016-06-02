@@ -1,17 +1,17 @@
 package io.github.sevjet.essencedefence.listener;
 
-import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.math.Vector2f;
+import com.jme3.scene.Node;
 
 import de.lessvoid.nifty.elements.Element;
 
 import io.github.sevjet.essencedefence.control.FollowControl;
+import io.github.sevjet.essencedefence.entity.Entity;
 import io.github.sevjet.essencedefence.entity.Essence;
-import io.github.sevjet.essencedefence.field.Cell;
-import io.github.sevjet.essencedefence.field.EssenceShop;
-import io.github.sevjet.essencedefence.field.Field;
+import io.github.sevjet.essencedefence.entity.building.Tower;
 import io.github.sevjet.essencedefence.field.Inventory;
+import io.github.sevjet.essencedefence.field.InventoryCell;
 import io.github.sevjet.essencedefence.niftyGui.InfoScreen;
 import io.github.sevjet.essencedefence.util.Configuration;
 import io.github.sevjet.essencedefence.util.RayHelper;
@@ -19,54 +19,40 @@ import io.github.sevjet.essencedefence.util.RayHelper;
 public class EssenceListener implements ActionListener {
 
     public static InfoScreen info = null;
-    private Essence bufEssence = null;
-    private Cell lastCell = null;
-    private CollisionResults results;
-    private Inventory inventory;
 
-    protected void onPress(String name, float tpf) {
+    private final Node hand;
+    private Essence handEssence = null;
+
+    public EssenceListener() {
+        hand = new Node("hand");
+        Configuration.getRootNode().attachChild(hand);
+    }
+
+    protected void onPress(String name) {
         switch (name) {
             case ListenerManager.MAPPING_EXTRACTION_ESSENCE:
-                if (bufEssence == null) {
-                    extractionEssence();
-                }
+                takeEssence();
                 break;
         }
 
     }
 
-    protected void onRelease(String name, float tpf) {
+    protected void onRelease(String name) {
         switch (name) {
             case ListenerManager.MAPPING_BUY_ESSENCE:
-                if (bufEssence == null)
-                    buyEssence();
+                buyEssence();
                 break;
             case ListenerManager.MAPPING_SELL_ESSENCE:
-                if (bufEssence == null)
-                    sellEssence();
+                sellEssence();
                 break;
             case ListenerManager.MAPPING_PUT_EXTRACTED_ESSENCE:
-                if (bufEssence != null) {
-                    putEssence();
-                    if (bufEssence != null && lastCell != null) {
-                        if (lastCell.getField() instanceof EssenceShop) {
-                            bufEssence.sell();
-                            clearBuf();
-                        } else {
-                            putEssence(lastCell);
-                        }
-                        lastCell = null;
-                    }
-                }
+                putEssence();
                 break;
             case ListenerManager.MAPPING_UPGRADE_ESSENCE:
-                if (bufEssence == null)
-                    upgradeEssence();
+                upgradeEssence();
                 break;
             case ListenerManager.MAPPING_COMBINE_ESSENCE:
-                if (bufEssence != null) {
-                    combineEssence();
-                }
+                combineEssence();
                 break;
             case ListenerManager.MAPPING_INFO:
                 infoAbout();
@@ -84,33 +70,33 @@ public class EssenceListener implements ActionListener {
                 name.equals(ListenerManager.MAPPING_COMBINE_ESSENCE) ||
                 name.equals(ListenerManager.MAPPING_INFO)) {
             if (isPressed) {
-                onPress(name, tpf);
+                onPress(name);
             } else {
-                onRelease(name, tpf);
+                onRelease(name);
             }
-
-            inventory = Configuration.getGamer().getInventory();
         }
     }
 
     private void infoAbout() {
-        Essence essence;
-        extractionEssence();
-        essence = bufEssence;
-        if (!putEssence())
-            clearBuf();
+        final Entity entity = RayHelper.collideClosest(
+                RayHelper.getMapField(Essence.class),
+                RayHelper.getInventory(Essence.class),
+                RayHelper.getShop(Essence.class));
+        if (entity != null) {
+            final Essence essence = (Essence) entity;
 
-        if (essence != null) {
             int x, y;
             Vector2f vec = Configuration.getInputManager().getCursorPosition();
             x = ((int) vec.getX());
             y = Configuration.getSettings().getHeight() - ((int) vec.getY());
 
-            if (info == null)
+            if (info == null) {
                 info = new InfoScreen("interface/mainMenu.xml", "start2");
+            }
             Element txt = info.getElement("txt");
-            if (txt == null)
+            if (txt == null) {
                 return;
+            }
             txt.hide();
             info.setText(txt, essence.getInfo());
             info.moveTo(txt, x, y);
@@ -121,126 +107,196 @@ public class EssenceListener implements ActionListener {
     }
 
     private void buyEssence() {
-        bufEssence = Essence.buy();
-
-        boolean isPlaced = placeOnResults(RayHelper.rayCasting(RayHelper.getMapField(), RayHelper.getInventory()));
-        if (!isPlaced && bufEssence != null) {
-            bufEssence.sell();
-            bufEssence = null;
+        if (handEssence != null) {
+            return;
         }
+
+        final Essence essence = Essence.buy();
+        if (essence == null) {
+            return;
+        }
+
+        final Entity entity = RayHelper.collideClosest(
+                RayHelper.getMapField(Tower.class),
+                RayHelper.getInventory());
+        if (entity != null) {
+            if (entity instanceof Tower) {
+                final Tower tower = (Tower) entity;
+                if (tower.isEmpty()) {
+                    tower.putCore(essence);
+                    return;
+                }
+            } else if (entity instanceof InventoryCell) {
+                final InventoryCell cell = (InventoryCell) entity;
+                if (!cell.hasContent()) {
+                    cell.setContent(essence);
+                    return;
+                }
+            }
+        }
+        essence.sell();
     }
 
     private void sellEssence() {
-        results = RayHelper.rayCasting(RayHelper.getInventory(), RayHelper.getMapField());
-        Essence essence = extractFromResults(results);
-        if (essence != null) {
-            essence.sell();
+        if (handEssence != null) {
+            return;
         }
-        bufEssence = null;
+        final Entity entity = RayHelper.collideClosest(
+                RayHelper.getMapField(Tower.class),
+                RayHelper.getInventory());
+        if (entity != null) {
+            if (entity instanceof Tower) {
+                final Tower tower = (Tower) entity;
+                if (!tower.isEmpty()) {
+                    tower.extractCore()
+                            .sell();
+                }
+            } else if (entity instanceof InventoryCell) {
+                final InventoryCell cell = (InventoryCell) entity;
+                if (cell.hasContent()) {
+                    cell.getContent()
+                            .sell();
+                    cell.setContent(null);
+                }
+            }
+        }
     }
 
     private void upgradeEssence() {
-        extractionEssence();
-        if (bufEssence != null)
-            bufEssence.upgrade();
-        putEssence();
+        if (handEssence == null) {
+            final Entity entity = RayHelper.collideClosest(
+                    RayHelper.getMapField(Tower.class),
+                    RayHelper.getInventory());
+            if (entity != null) {
+                if (entity instanceof Tower) {
+                    final Tower tower = (Tower) entity;
+                    if (!tower.isEmpty()) {
+                        tower.getCore()
+                                .upgrade();
+                    }
+                } else if (entity instanceof InventoryCell) {
+                    final InventoryCell cell = (InventoryCell) entity;
+                    if (cell.hasContent()) {
+                        cell.getContent()
+                                .upgrade();
+                    }
+                }
+            }
+        } else {
+            handEssence.upgrade();
+        }
     }
 
     private void combineEssence() {
-        Essence extractionEssence = bufEssence;
-        clearBuf();
-        extractionEssence();
-        Essence placedEssence = bufEssence;
-        putEssence();
-        if (placedEssence != null) {
-            placedEssence.combine(extractionEssence);
-        } else {
-            bufEssence = extractionEssence;
-            bufEssence.getGeometry().addControl(new FollowControl());
-        }
-    }
-
-    private void extractionEssence() {
-        results = RayHelper.rayCasting(RayHelper.getInventory(), RayHelper.getMapField(), RayHelper.getShop());
-        Essence essence = extractFromResults(results);
-        bufEssence = essence;
-
-        // TODO: 27/05/2016 move to another method
-        if (lastCell != null &&
-                lastCell.getField() instanceof EssenceShop) {
-            if (essence != null &&
-                    !Configuration.getGamer().decGold(essence.getPrice())) {
-                clearBuf();
-            }
-        }
-    }
-
-    private boolean putEssence() {
-        return placeOnResults(RayHelper.rayCasting(RayHelper.getMapField(), RayHelper.getInventory(), RayHelper.getShop()));
-    }
-
-    // TODO: 26/05/2016 recreate
-    private boolean putEssence(Cell lastCell) {
-        if (bufEssence == null) {
-            return false;
-        }
-        if (lastCell != null) {
-            Cell cell = lastCell;
-            Field field = cell.getField();
-            if (field.canSet(cell, Essence.class)) {
-                Essence localBuf = bufEssence;
-                clearBuf();
-                if (!field.setContent(cell, localBuf)) {
-                    return false;
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean placeOnResults(CollisionResults results) {
-        if (bufEssence == null) {
-            return false;
-        }
-        if (results.size() > 0) {
-            Cell cell = RayHelper.getCell(results);
-            Field field = cell.getField();
-            if (field.canSet(cell, Essence.class)) {
-                Essence localBuf = bufEssence;
-                clearBuf();
-                if (!field.setContent(cell, localBuf)) {
-                    return false;
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Essence extractFromResults(CollisionResults results) {
-        Essence essence = null;
-        if (results.size() > 0) {
-            Cell cell = RayHelper.getCell(results);
-            lastCell = cell;
-            Field field = cell.getField();
-
-            if (field.canGet(cell, Essence.class)) {
-                essence = (Essence) field.getContent(cell, Essence.class);
-
-                Configuration.getRootNode().attachChild(essence.getGeometry());
-                essence.getGeometry().addControl(new FollowControl());
-            }
-        }
-
-        return essence;
-    }
-
-    private void clearBuf() {
-        if (bufEssence == null)
+        if (handEssence == null) {
             return;
-        bufEssence.getGeometry().removeControl(FollowControl.class);
-        bufEssence.getGeometry().removeFromParent();
-        bufEssence = null;
+        }
+
+        Essence essence = null;
+        final Entity entity = RayHelper.collideClosest(
+                RayHelper.getMapField(Tower.class),
+                RayHelper.getInventory());
+        if (entity != null) {
+            if (entity instanceof Tower) {
+                final Tower tower = (Tower) entity;
+                if (!tower.isEmpty()) {
+                    essence = tower.getCore();
+                }
+            } else if (entity instanceof InventoryCell) {
+                final InventoryCell cell = (InventoryCell) entity;
+                if (cell.hasContent()) {
+                    essence = cell.getContent();
+                }
+            }
+        }
+
+        if (essence != null) {
+            if (essence.combine(handEssence)) {
+                clearHand();
+            }
+        }
     }
+
+    private void takeEssence() {
+        if (handEssence != null) {
+            return;
+        }
+
+        final Entity entity = RayHelper.collideClosest(
+                RayHelper.getMapField(Tower.class),
+                RayHelper.getInventory(InventoryCell.class),
+                RayHelper.getShop(Essence.class));
+        if (entity != null) {
+            if (entity instanceof Tower) {
+                final Tower tower = (Tower) entity;
+                handEssence = tower.extractCore();
+            } else if (entity instanceof InventoryCell) {
+                final InventoryCell cell = (InventoryCell) entity;
+                handEssence = cell.extractEssence();
+            } else if (entity instanceof Essence) {
+                final Essence essence = (Essence) entity;
+                handEssence = essence.buySame();
+            }
+        }
+
+        if (handEssence != null) {
+            attachHand();
+        }
+    }
+
+    private void putEssence() {
+        if (handEssence == null) {
+            return;
+        }
+
+        boolean isPlaced = false;
+        Entity entity = RayHelper.collideClosest(
+                RayHelper.getMapField(Tower.class),
+                RayHelper.getInventory());
+        if (entity != null) {
+            if (entity instanceof Tower) {
+                final Tower tower = (Tower) entity;
+                if (tower.isEmpty()) {
+                    tower.putCore(handEssence);
+                    isPlaced = true;
+                }
+            } else if (entity instanceof InventoryCell) {
+                final InventoryCell cell = (InventoryCell) entity;
+                final Inventory inventory = cell.getField();
+                isPlaced = inventory.addEssence(handEssence, cell);
+            }
+        } else {
+            entity = RayHelper.collideClosest(RayHelper.getShop());
+            if (entity != null && entity instanceof InventoryCell) {
+                handEssence.sell();
+                isPlaced = true;
+            }
+        }
+
+        if (isPlaced) {
+            clearHand();
+        }
+    }
+
+    private void clearHand() {
+        if (handEssence == null) {
+            return;
+        }
+
+        detachHand();
+        handEssence = null;
+    }
+
+    private void attachHand() {
+        hand.attachChild(handEssence.getGeometry());
+
+        handEssence.getGeometry().addControl(new FollowControl());
+    }
+
+    private void detachHand() {
+        hand.detachChild(handEssence.getGeometry());
+
+        handEssence.getGeometry().removeControl(FollowControl.class);
+    }
+
 }

@@ -11,6 +11,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
+import com.jme3.terrain.noise.Color;
 
 import java.io.IOException;
 
@@ -66,17 +67,36 @@ public class Gamer implements ITextual {
     public void resetShop() {
         this.shop = new EssenceShop(3, 3);
 
+        ColorRGBA temp;
+
         shop.setContent(0, 0, new Essence(5f, 2f, 1f, 1, 10f, ColorRGBA.Red));
         shop.setContent(1, 0, new Essence(3f, 2f, 5f, 1, 10f, ColorRGBA.Yellow));
         shop.setContent(2, 0, new Essence(3f, 4f, 1f, 1, 10f, ColorRGBA.Blue));
 
-        shop.setContent(0, 1, new Essence(5f, 2f, 5f, 1, 20f, ColorRGBA.Red.add(ColorRGBA.Yellow)));
-        shop.setContent(1, 1, new Essence(5f, 4f, 1f, 1, 20f, ColorRGBA.Blue.add(ColorRGBA.Red)));
-        shop.setContent(2, 1, new Essence(3f, 4f, 5f, 1, 20f, ColorRGBA.Yellow.add(ColorRGBA.Blue)));
+        temp = ColorRGBA.Red.clone();
+        temp.interpolate(ColorRGBA.Yellow, 0.5f);
+        shop.setContent(0, 1, new Essence(5f, 2f, 5f, 1, 20f, temp));
 
-        shop.setContent(0, 2, new Essence(5f, 4f, 5f, 1, 30f, ColorRGBA.Red.add(ColorRGBA.Yellow).add(ColorRGBA.Blue)));
-        shop.setContent(1, 2, new Essence(10f, 2f, 0.5f, 1, 50f, ColorRGBA.Red.add(new ColorRGBA(-0.25f, -0.25f, -0.25f, -0.1f))));
-        shop.setContent(2, 2, new Essence(1f, 2f, 10f, 1, 50f, ColorRGBA.Yellow.add(new ColorRGBA(-0.25f, -0.25f, -0.25f, -0.1f))));
+        temp = ColorRGBA.Blue.clone();
+        temp.interpolate(ColorRGBA.Red, 0.5f);
+        shop.setContent(1, 1, new Essence(5f, 4f, 1f, 1, 20f, temp));
+
+        temp = ColorRGBA.Yellow.clone();
+        temp.interpolate(ColorRGBA.Blue, 0.5f);
+        shop.setContent(2, 1, new Essence(3f, 4f, 5f, 1, 20f, temp));
+
+
+        temp = ColorRGBA.Red.clone();
+        temp.interpolate(ColorRGBA.Yellow, 0.5f);
+        temp.interpolate(ColorRGBA.Blue, 1 / 3f);
+        shop.setContent(0, 2, new Essence(5f, 4f, 5f, 1, 30f, temp));
+
+        temp = ColorRGBA.Red.clone();
+        temp.interpolate(ColorRGBA.Black, 0.25f);
+        shop.setContent(1, 2, new Essence(10f, 2f, 0.5f, 1, 50f, temp));
+        temp = ColorRGBA.Yellow.clone();
+        temp.interpolate(ColorRGBA.Black, 0.25f);
+        shop.setContent(2, 2, new Essence(1f, 2f, 10f, 1, 50f, temp));
 
 //        for (int i = 0; i < shop.getRows(); i++) {
 //            for (int j = 0; j < shop.getCols(); j++) {

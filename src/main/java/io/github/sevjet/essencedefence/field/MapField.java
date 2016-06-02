@@ -111,9 +111,7 @@ public class MapField extends Field<MapCell> {
 
         if (contentObject instanceof Essence) {
             Tower tower = (Tower) cell.getContent();
-            Essence essence = tower.getCore();
-            tower.extractCore();
-            return essence;
+            return tower.extractCore();
         }
 
         return null;

@@ -7,7 +7,7 @@ import com.jme3.scene.control.AbstractControl;
 
 import io.github.sevjet.essencedefence.util.Configuration;
 
-public class FollowControl extends AbstractControl {
+public class FollowControl extends BasicControl {
 
     @Override
     protected void controlUpdate(float tpf) {
@@ -21,16 +21,11 @@ public class FollowControl extends AbstractControl {
 //                Configuration.getCam().getDirection().mult(15)
 //        ));
         center.subtract(click2d);
-        getSpatial().setLocalTranslation(Configuration.getCam().getWorldCoordinates(
+        spatial.setLocalTranslation(Configuration.getCam().getWorldCoordinates(
                 click2d.subtract(center).mult(dist).add(click2d), 0f).
                 add(Configuration.getCam().getDirection().mult(dist)));
 
-        getSpatial().rotate(tpf, 0, 0);
-    }
-
-    @Override
-    protected void controlRender(RenderManager rm, ViewPort vp) {
-
+        spatial.rotate(tpf, 0, 0);
     }
 
 }

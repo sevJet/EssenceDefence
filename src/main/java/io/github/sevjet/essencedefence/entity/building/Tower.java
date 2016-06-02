@@ -52,24 +52,24 @@ public class Tower extends BuyableBuilding {
     }
 
     public void putCore(Essence core) {
-        if (this.core == null) {
+        if (this.core == null && core != null) {
             this.core = core;
             placeCore();
         }
     }
 
-    public float extractCore() {
-        float result = 0f;
+    public Essence extractCore() {
+        Essence essence = null;
         Field field = getField();
         if (field != null && core != null) {
-            result = core.getPrice();
+            essence = core;
             core.setOffsetX(0f);
             core.setOffsetY(0f);
 
             field.removeObject(core);
             core = null;
         }
-        return result;
+        return essence;
     }
 
     private void placeCore() {
