@@ -1,17 +1,17 @@
 package io.github.sevjet.essencedefence.listener;
 
-import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import java.util.ArrayList;
 
 import io.github.sevjet.essencedefence.control.WaveControl;
+import io.github.sevjet.essencedefence.entity.Entity;
 import io.github.sevjet.essencedefence.entity.building.Portal;
 import io.github.sevjet.essencedefence.entity.monster.Monster;
-import io.github.sevjet.essencedefence.field.Cell;
-import io.github.sevjet.essencedefence.field.Field;
-import io.github.sevjet.essencedefence.util.Getter;
+import io.github.sevjet.essencedefence.field.MapCell;
+import io.github.sevjet.essencedefence.field.MapField;
 import io.github.sevjet.essencedefence.util.RayHelper;
 
 public class MonsterListener implements ActionListener {
@@ -24,13 +24,17 @@ public class MonsterListener implements ActionListener {
                 name.equals(ListenerManager.MAPPING_SPAWN_WAVE) ||
                 name.equals(ListenerManager.MAPPING_SPAWN_ALL)) {
             Monster monster;
-            CollisionResults results;
-            results = RayHelper.rayCasting();
 
-            if (results.size() > 0 && !isPressed) {
-                Cell cell = RayHelper.getCell(results);
-                Field field = cell.getField();
-                //TODO change
+
+            if (!isPressed) {
+                final Entity entity = RayHelper.collideClosest(RayHelper.getMapField());
+                MapCell cell = null;
+                MapField field = null;
+                if (entity != null && entity instanceof MapCell) {
+                    cell = (MapCell) entity;
+                    field = cell.getField();
+                }
+
                 if (field != null) {
                     switch (name) {
                         case ListenerManager.MAPPING_SPAWN_MONSTER:
@@ -43,39 +47,51 @@ public class MonsterListener implements ActionListener {
                         case ListenerManager.MAPPING_SPAWN_WAVE:
                             if (cell.hasContent() && cell.getContent() instanceof Portal) {
                                 Portal portal = (Portal) cell.getContent();
-                                ArrayList<Monster> monsters = new ArrayList<>();
-                                for (int i = 0; i < 15; i++) {
-                                    monster = Monster.getDefaultMonster();
-                                    monster.upgrade(level++);
-                                    monsters.add(monster);
-                                }
-                                WaveControl wave = new WaveControl(monsters);
-                                wave.setDelay(3f);
-                                wave.setGap(2f);
-                                portal.addWave(wave);
+                                addWave(portal, level++);
                             }
                             break;
                         case ListenerManager.MAPPING_SPAWN_ALL:
-                            for (Spatial sp : field.getObjects(Portal.class).getChildren()) {
-                                Portal p = (Portal) Getter.getEntity(sp);
-
-                                ArrayList<Monster> monsters = new ArrayList<>();
-                                for (int i = 0; i < 1; i++) {
-                                    monster = Monster.getDefaultMonster();
-                                    monster.upgrade(level);
-                                    monsters.add(monster);
-                                }
-                                WaveControl wave = new WaveControl(monsters);
-                                wave.setDelay(3f);
-                                wave.setGap(2f);
-
-                                p.addWave(wave);
-                            }
-                            level++;
+                            addWave(field, level++);
                             break;
                     }
                 }
             }
         }
+    }
+
+    private void addWave(final MapField field, final int level) {
+        addWave(field, level, 15, 3f, 2f);
+    }
+
+    private void addWave(final MapField field, final int level, final int count, final float delay, final float gap) {
+        Node portals = field.getObjects(Portal.class);
+        if (portals != null) {
+            for (final Spatial spatial : portals.getChildren()) {
+                final Entity entity = spatial.getUserData("entity");
+                if (entity != null) {
+                    final Portal portal = (Portal) entity;
+                    addWave(portal, level, count, delay, gap);
+                }
+            }
+        }
+    }
+
+    private void addWave(final Portal portal, final int level) {
+        addWave(portal, level, 15, 3f, 2f);
+    }
+
+    private void addWave(final Portal portal, final int level, final int count, final float delay, final float gap) {
+        ArrayList<Monster> monsters = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            Monster monster = Monster.getDefaultMonster();
+            monster.upgrade(level);
+            monsters.add(monster);
+        }
+
+        WaveControl wave = new WaveControl(monsters);
+        wave.setDelay(delay);
+        wave.setGap(gap);
+
+        portal.addWave(wave);
     }
 }
