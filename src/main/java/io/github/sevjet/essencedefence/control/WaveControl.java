@@ -97,7 +97,7 @@ public class WaveControl extends BasicControl {
         super.write(ex);
 
         OutputCapsule capsule = ex.getCapsule(this);
-        capsule.writeSavableArrayList(monsters, "monsters", null);
+        capsule.writeSavableArrayList(monsters, "monsters", new ArrayList());
         capsule.write(spawnIndex, "spawnIndex", -1);
         capsule.write(curTime, "curTime", 0f);
         capsule.write(spawnTime, "spawnTime", 0f);
@@ -107,18 +107,17 @@ public class WaveControl extends BasicControl {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void read(JmeImporter im) throws IOException {
         super.read(im);
 
         InputCapsule capsule = im.getCapsule(this);
-        ArrayList list = capsule.readSavableArrayList("monsters", null);
+        ArrayList list = capsule.readSavableArrayList("monsters", new ArrayList());
         if (!list.isEmpty()) {
-            monsters = new ArrayList<>(list.size());
-            for (Object el : list) {
-                if (el instanceof Monster) {
-                    monsters.add((Monster) el);
-                }
-            }
+            monsters = new ArrayList<>();
+            list.stream()
+                    .filter(el -> el instanceof Monster)
+                    .forEach(el -> monsters.add((Monster) el));
         }
         spawnIndex = capsule.readInt("spawnIndex", -1);
         curTime = capsule.readFloat("curTime", 0f);

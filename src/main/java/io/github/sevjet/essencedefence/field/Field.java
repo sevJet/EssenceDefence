@@ -9,6 +9,7 @@ import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,7 @@ import static io.github.sevjet.essencedefence.util.Creator.gridXY;
 public abstract class Field<T extends Cell> extends Node {
 
     protected ArrayList<T> cells;
-    protected Map<Class<? extends Entity>, Node> objects;
+    protected Map<String, Node> objects;
     protected Node grid;
     private int rows;
     private int cols;
@@ -47,6 +48,7 @@ public abstract class Field<T extends Cell> extends Node {
             cells.add(cell);
             addObject(cell);
         }
+
         gridOn();
     }
 
@@ -65,9 +67,9 @@ public abstract class Field<T extends Cell> extends Node {
     public static Field load(File file) {
         if (file != null && file.exists()) {
             Configuration.getAssetManager().registerLocator(file.getParent(), FileLocator.class);
-            Field field = (Field) Configuration.getAssetManager().loadModel(file.getAbsolutePath());
+            Spatial spatial = Configuration.getAssetManager().loadModel(file.getAbsolutePath());
             Configuration.getAssetManager().unregisterLocator(file.getParent(), FileLocator.class);
-            return field;
+            return (Field) spatial;
         }
         return null;
     }
@@ -82,6 +84,7 @@ public abstract class Field<T extends Cell> extends Node {
         return cells.get(index);
     }
 
+    @Deprecated
     public T getCell(final Geometry geom) {
         if (geom != null &&
                 geom.getParent() != null &&
@@ -94,14 +97,14 @@ public abstract class Field<T extends Cell> extends Node {
     }
 
     public Node getObjects(final Class<? extends Entity> clazz) {
-        return objects.get(clazz);
+        return objects.get(clazz.getName());
     }
 
     public boolean addObject(final Entity object) {
-        Node node = objects.get(object.getClass());
+        Node node = objects.get(object.getClass().getName());
         if (node == null) {
             node = new Node();
-            objects.put(object.getClass(), node);
+            objects.put(object.getClass().getName(), node);
             attachChild(node);
         }
         if (!node.hasChild(object.getGeometry())) {
@@ -113,21 +116,19 @@ public abstract class Field<T extends Cell> extends Node {
     }
 
     protected void guiFor(Entity object) {
-//        if (object instanceof Fortress) {
-//            this.addControl(new GuiControl(object, "XP:", 3f, 1f / 5f));
-//        }
-//        if (object instanceof Monster) {
-//            System.out.printf("xp control");
-//            this.addControl(new GuiControl(object, "xp:", 1f, 1f / 8f));
-//        }
+
     }
 
+    @Deprecated
     public abstract boolean canGet(T cell, Class<? extends Entity> contentClass);
 
+    @Deprecated
     public abstract boolean canSet(T cell, Class<? extends Entity> contentClass);
 
+    @Deprecated
     public abstract Entity getContent(T cell, Class<? extends Entity> contentClass);
 
+    @Deprecated
     public Entity getContent(final int x, final int y, Class<? extends Entity> contentClass) {
         return getContent(getCell(x, y), contentClass);
     }
@@ -139,7 +140,7 @@ public abstract class Field<T extends Cell> extends Node {
     }
 
     public boolean removeObject(final Entity object) {
-        Node node = objects.get(object.getClass());
+        Node node = objects.get(object.getClass().getName());
         if (node == null) {
             return false;
         }
@@ -150,12 +151,8 @@ public abstract class Field<T extends Cell> extends Node {
         return false;
     }
 
-    public void removeAll() {
-        objects.keySet().forEach(this::removeAll);
-    }
-
     public boolean removeAll(final Class<? extends Entity> clazz) {
-        final Node node = objects.get(clazz);
+        final Node node = objects.get(clazz.getName());
         if (node != null) {
             node.detachAllChildren();
             return true;
@@ -180,10 +177,6 @@ public abstract class Field<T extends Cell> extends Node {
         return true;
     }
 
-    public Node getGrid() {
-        return grid;
-    }
-
     @Override
     public void write(JmeExporter ex) throws IOException {
         // TODO: 20/05/2016 detach grid
@@ -192,12 +185,12 @@ public abstract class Field<T extends Cell> extends Node {
         OutputCapsule capsule = ex.getCapsule(this);
         capsule.write(rows, "rows", 1);
         capsule.write(cols, "cols", 1);
-        capsule.writeSavableArrayList(cells, "cells", null);
-        // TODO: 17.05.16 this should be saved too
-//        capsule.writeSavableMap(objects, "objects", null);
+        capsule.writeSavableArrayList(cells, "cells", new ArrayList());
+        capsule.writeStringSavableMap(objects, "objects", new HashMap<>());
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void read(JmeImporter im) throws IOException {
         super.read(im);
 
@@ -205,16 +198,12 @@ public abstract class Field<T extends Cell> extends Node {
         rows = capsule.readInt("rows", 1);
         cols = capsule.readInt("cols", 1);
 
-        // @TODO remake
-        ArrayList data = capsule.readSavableArrayList("cells", null);
         final int len = cols * rows;
         cells = new ArrayList<>(len);
-        for (int i = 0; i < len; i++) {
-            final Object el = data.get(i);
-            // TODO: 17.05.16  fix this unchecked cast
-//            if (el instanceof T) {
-            cells.add((T) el);
-//            }
-        }
+        capsule.readSavableArrayList("cells", new ArrayList()).stream()
+                .limit(len)
+                .forEach(el -> cells.add((T) el));
+
+        objects = (Map<String, Node>) capsule.readStringSavableMap("objects", new HashMap<>());
     }
 }

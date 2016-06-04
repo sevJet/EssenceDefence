@@ -1,8 +1,14 @@
 package io.github.sevjet.essencedefence.control;
 
+import com.jme3.export.InputCapsule;
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
+import com.jme3.export.OutputCapsule;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+
+import java.io.IOException;
 
 import io.github.sevjet.essencedefence.entity.building.Tower;
 import io.github.sevjet.essencedefence.util.Creator;
@@ -10,10 +16,7 @@ import io.github.sevjet.essencedefence.util.Creator;
 
 public class TowerControl extends BasicControl {
 
-    private boolean isAttached = false;
-    //    TODO: 12/05/16 Savable
-    //    // TODO: 12/05/2016 move to AppState
-    private Node beamNode = new Node("beamNode");
+    private Node beamNode = null;
     private Tower tower = null;
     private float counter = 0f;
 
@@ -31,9 +34,9 @@ public class TowerControl extends BasicControl {
 
     @Override
     protected void controlUpdate(float tpf) {
-        if (!isAttached) {
+        if (beamNode == null) {
+            beamNode = new Node("beamNode");
             tower.getField().attachChild(beamNode);
-            isAttached = true;
         }
 
         if (tower.isEmpty()) {
@@ -59,4 +62,26 @@ public class TowerControl extends BasicControl {
                     });
         }
     }
+
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+
+        OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(beamNode, "beamNode", null);
+        capsule.write(tower, "tower", null);
+        capsule.write(counter, "counter", 0f);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+
+        InputCapsule capsule = im.getCapsule(this);
+        beamNode = (Node) capsule.readSavable("beamNode", null);
+        tower = (Tower) capsule.readSavable("tower", null);
+        counter = capsule.readFloat("counter", 0f);
+
+    }
+
 }

@@ -118,6 +118,7 @@ public class MapCell extends Cell<Building> {
 
         OutputCapsule capsule = ex.getCapsule(this);
         capsule.write(passable, "passable", false);
+        capsule.write(passableBuilding, "passableBuilding", true);
     }
 
     @Override
@@ -126,6 +127,7 @@ public class MapCell extends Cell<Building> {
 
         InputCapsule capsule = im.getCapsule(this);
         passable = capsule.readBoolean("passable", false);
+        passableBuilding = capsule.readBoolean("passableBuilding", true);
     }
 
 }

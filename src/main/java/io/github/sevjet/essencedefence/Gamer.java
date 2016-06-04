@@ -4,42 +4,36 @@ import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
-import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
-import com.jme3.scene.control.AbstractControl;
-import com.jme3.terrain.noise.Color;
 
 import java.io.IOException;
 
 import io.github.sevjet.essencedefence.entity.Essence;
 import io.github.sevjet.essencedefence.field.EssenceShop;
 import io.github.sevjet.essencedefence.field.Inventory;
-import io.github.sevjet.essencedefence.gui.BarControl;
-import io.github.sevjet.essencedefence.gui.BarMode;
-import io.github.sevjet.essencedefence.gui.DataBar;
+import io.github.sevjet.essencedefence.gui.EndlessLogBar;
 import io.github.sevjet.essencedefence.gui.ITextual;
-import io.github.sevjet.essencedefence.gui.MovementOnGuiControl;
-import io.github.sevjet.essencedefence.gui.TextControl;
-import io.github.sevjet.essencedefence.util.Configuration;
-import io.github.sevjet.essencedefence.util.Creator;
 
 public class Gamer implements ITextual {
 
-    protected Inventory inventory = new Inventory(3, 10);
-    protected EssenceShop shop = new EssenceShop(3, 3);
-    protected float gold = 0;
-    protected Node gamerGui = new Node("gamerGui");
+    protected Inventory inventory = null;
+    protected EssenceShop shop = null;
+    protected float gold = 0f;
+    protected Node gamerGui = null;
 
     public Gamer() {
-        this(0);
+        gold = 0f;
     }
 
     public Gamer(int gold) {
         this.gold = gold;
+        inventory = new Inventory(3, 10);
+        shop = new EssenceShop(3, 3);
+        gamerGui = new Node("gamerGui");
+
+        initShop();
     }
 
     public float getGold() {
@@ -67,8 +61,11 @@ public class Gamer implements ITextual {
     public void resetShop() {
         this.shop = new EssenceShop(3, 3);
 
-        ColorRGBA temp;
+        initShop();
+    }
 
+    private void initShop() {
+        ColorRGBA temp;
         shop.setContent(0, 0, new Essence(5f, 2f, 1f, 1, 10f, ColorRGBA.Red));
         shop.setContent(1, 0, new Essence(3f, 2f, 5f, 1, 10f, ColorRGBA.Yellow));
         shop.setContent(2, 0, new Essence(3f, 4f, 1f, 1, 10f, ColorRGBA.Blue));
@@ -97,18 +94,6 @@ public class Gamer implements ITextual {
         temp = ColorRGBA.Yellow.clone();
         temp.interpolate(ColorRGBA.Black, 0.25f);
         shop.setContent(2, 2, new Essence(1f, 2f, 10f, 1, 50f, temp));
-
-//        for (int i = 0; i < shop.getRows(); i++) {
-//            for (int j = 0; j < shop.getCols(); j++) {
-//                float damage, range, speed, price;
-//                damage = 0.1f + (float) Math.random() * 5;
-//                range = 2f + (float) Math.random() * 3;
-//                speed = 0.5f + (float) Math.random() * 5;
-//                price = damage + range + speed;
-//                Essence essence = new Essence(damage, range, speed, 1, price);
-//                shop.setContent(i, j, essence);
-//            }
-//        }
     }
 
     public boolean decGold(float gold) {
@@ -148,61 +133,18 @@ public class Gamer implements ITextual {
     @Override
     public void write(JmeExporter ex) throws IOException {
         OutputCapsule capsule = ex.getCapsule(this);
+        capsule.write(inventory, "inventory", null);
+        capsule.write(shop, "shop", null);
         capsule.write(gold, "gold", 0f);
+        capsule.write(gamerGui, "gamerGui", null);
     }
 
     @Override
     public void read(JmeImporter im) throws IOException {
         InputCapsule capsule = im.getCapsule(this);
+        inventory = (Inventory) capsule.readSavable("inventory", new Inventory(3, 10));
+        shop = (EssenceShop) capsule.readSavable("shop", new EssenceShop(3, 3));
         gold = capsule.readFloat("gold", 0f);
-    }
-}
-
-// TODO: 20/05/2016 move from this class & change
-class EndlessLogBar extends AbstractControl {
-    private Node gamerGui = new Node("gui");
-    private BitmapText text;
-    private DataBar bar;
-    private BarControl barC;
-    private Gamer gamer;
-
-    public EndlessLogBar(Gamer gamer) {
-        this.gamer = gamer;
-        float dist10m = MovementOnGuiControl.SCALE_FROM_3D_TO_GUI / 10f;
-
-        bar = new DataBar(5f, 1f / 2f);
-        barC = new BarControl(gamer, BarMode.EndlessX2);
-        bar.addControl(barC);
-
-        text = Creator.text2D("", ColorRGBA.White);
-        text.setSize(text.getFont().getCharSet().getRenderedSize() / dist10m);
-        text.addControl(new TextControl(gamer, ""));
-
-        gamerGui.attachChild(bar);
-        gamerGui.attachChild(text);
-        gamerGui.setLocalScale(dist10m);
-        gamerGui.setLocalTranslation(
-                Configuration.getSettings().getWidth() / 2f,
-                Configuration.getSettings().getHeight() - 50f,
-                0);
-
-//        Configuration.getGuiNode().attachChild(gamerGui);
-    }
-
-    public Node getGamerGui() {
-        return gamerGui;
-    }
-
-    @Override
-    protected void controlUpdate(float tpf) {
-        text.setLocalTranslation(
-                -text.getLineWidth() / 2f,
-                text.getLineHeight() / 2f,
-                0);
-    }
-
-    @Override
-    protected void controlRender(RenderManager rm, ViewPort vp) {
-
+        gamerGui = (Node) capsule.readSavable("gamerGui", new Node("gamerGui"));
     }
 }

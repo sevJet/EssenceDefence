@@ -7,17 +7,18 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
 
+import io.github.sevjet.essencedefence.control.BasicControl;
 import io.github.sevjet.essencedefence.entity.Entity;
 import io.github.sevjet.essencedefence.util.Creator;
 import io.github.sevjet.essencedefence.util.Getter;
 
 public class GuiControl extends AbstractControl {
+
     private Entity entity;
     private ITextual object;
-    private String textName;
+    protected String textName;
 
     private Node controlNode = new Node("gui");
-    private DataBar bar;
 
     public GuiControl(Entity entity, String name, float width, float height) {
         BitmapText text;
@@ -31,7 +32,7 @@ public class GuiControl extends AbstractControl {
         this.entity = entity;
         this.textName = name;
 
-        bar = new DataBar(width, height);
+        DataBar bar = new DataBar(width, height);
         bar.addControl(new BarControl(object));
         controlNode.attachChild(bar);
 
@@ -60,4 +61,5 @@ public class GuiControl extends AbstractControl {
     protected void controlRender(RenderManager rm, ViewPort vp) {
 
     }
+
 }

@@ -66,6 +66,7 @@ public class GamePlayAppState extends AbstractAppState {
         n = 26;
         m = n;
         field = new MapField(n, m);
+
         field.setLocalTranslation(0f, 0f, 0f);
         field.addControl(new GameControl(10f));
         localRoot.attachChild(field);

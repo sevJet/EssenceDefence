@@ -179,8 +179,6 @@ public class Essence extends Entity3D implements IBuyable {
             range = trim(range * rangeK);
             speed = trim(speed * speedK);
             price = trim(price * priceK);
-
-            System.out.println("UPGRADE");
             return true;
         }
         return false;
@@ -244,9 +242,11 @@ public class Essence extends Entity3D implements IBuyable {
     }
 
     public Essence clone() {
-        Essence essence = new Essence(damage, range, speed, level, price);
-        essence.setGeometry(geometry.clone());
-        return essence;
+        try {
+            return (Essence) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     public String getInfo() {
@@ -254,6 +254,6 @@ public class Essence extends Entity3D implements IBuyable {
                 "Damage: " + getDamage() + '\n' +
                 "Range: " + getRange() + '\n' +
                 "Speed: " + getSpeed() + '\n' +
-                "Price (buy): " + getPrice();
+                "Price (upgrade): " + getPrice();
     }
 }
