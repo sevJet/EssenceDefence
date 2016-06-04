@@ -1,26 +1,29 @@
 package io.github.sevjet.essencedefence.entity.building;
 
+import com.jme3.bounding.BoundingSphere;
+import com.jme3.effect.Particle;
+import com.jme3.effect.ParticleEmitter;
+import com.jme3.effect.ParticleMesh;
 import com.jme3.export.InputCapsule;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.export.OutputCapsule;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import io.github.sevjet.essencedefence.control.BasicControl;
 import io.github.sevjet.essencedefence.control.TowerControl;
-import io.github.sevjet.essencedefence.entity.Entity;
 import io.github.sevjet.essencedefence.entity.Essence;
 import io.github.sevjet.essencedefence.entity.monster.Monster;
 import io.github.sevjet.essencedefence.field.Field;
+import io.github.sevjet.essencedefence.field.MapField;
 import io.github.sevjet.essencedefence.util.BoxSize;
-import io.github.sevjet.essencedefence.util.Getter;
+import io.github.sevjet.essencedefence.util.Creator;
+import io.github.sevjet.essencedefence.util.RayHelper;
 
 public class Tower extends BuyableBuilding {
 
@@ -84,35 +87,24 @@ public class Tower extends BuyableBuilding {
         }
     }
 
-    // TODO: 12/05/2016 change on BoundSphere
     public List<Monster> getCloseMonsters() {
         if (isEmpty()) {
             return Collections.emptyList();
         }
-        Field field = getField();
-        Node monstersNode = field.getObjects(Monster.class);
+
+        final MapField field = getField();
+        final Node monstersNode = field.getObjects(Monster.class);
         if (monstersNode == null) {
             return Collections.emptyList();
         }
 
-        List<Monster> list = new ArrayList<>();
-        List<Spatial> monsterSpatials = monstersNode.getChildren();
+        BoundingSphere sphere = new BoundingSphere(core.getRange(),
+                geometry.getLocalTranslation().setZ(0));
 
-        Vector3f bottomCenter = geometry.getLocalTranslation();
-        bottomCenter.setZ(0);
-
-        for (Spatial spat : monsterSpatials) {
-            if (bottomCenter.subtract(spat.getLocalTranslation()).length() <= core.getRange()) {
-                Entity entity = Getter.getEntity(spat);
-                if (entity instanceof Monster) {
-                    list.add((Monster) entity);
-                } else {
-                    throw new IllegalArgumentException(entity.getClass() + " isn't monster!");
-                }
-            }
-        }
-
-        return list;
+        return RayHelper.collide(sphere, monstersNode.getChildren()).stream()
+                .filter(entity -> entity instanceof Monster)
+                .map(entity -> (Monster) entity)
+                .collect(Collectors.toList());
     }
 
     @Override

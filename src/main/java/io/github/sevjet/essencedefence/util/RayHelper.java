@@ -1,11 +1,16 @@
 package io.github.sevjet.essencedefence.util;
 
+import com.jme3.bounding.BoundingVolume;
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.github.sevjet.essencedefence.GamePlayAppState;
 import io.github.sevjet.essencedefence.entity.Entity;
@@ -24,7 +29,7 @@ public class RayHelper {
     }
 
     @Deprecated
-    public static CollisionResults rayCasting(Node... objects) {
+    public static CollisionResults rayCasting(final Node... objects) {
         CollisionResults results = new CollisionResults();
         Ray ray = fromCursor();
         for (Node with : objects) {
@@ -39,7 +44,7 @@ public class RayHelper {
     }
 
     @Deprecated
-    public static Cell getCell(CollisionResults results) {
+    public static Cell getCell(final CollisionResults results) {
         if (results != null && results.size() > 0 && results.getClosestCollision() != null) {
             Geometry target = results.getClosestCollision().getGeometry();
             Entity entity = target.getUserData("entity");
@@ -50,7 +55,7 @@ public class RayHelper {
         return null;
     }
 
-    public static Entity collideClosest(Node... objects) {
+    public static Entity collideClosest(final Node... objects) {
         CollisionResults results = new CollisionResults();
         Ray ray = fromCursor();
         for (Node with : objects) {
@@ -67,11 +72,29 @@ public class RayHelper {
         return null;
     }
 
+    public static List<Entity> collide(final BoundingVolume what, final List<Spatial> with) {
+        ArrayList<Entity> collided = new ArrayList<>();
+        if (what == null) {
+            return collided;
+        }
+
+        with.stream()
+                .filter(el -> el != null &&
+                        what.intersects(el.getWorldBound()))
+                .forEach(el -> {
+                    final Entity entity = el.getUserData("entity");
+                    if (entity != null) {
+                        collided.add(entity);
+                    }
+                });
+        return collided;
+    }
+
     public static Node getMapField() {
         return getMapField(MapCell.class);
     }
 
-    public static Node getMapField(Class<? extends Entity> elementClass) {
+    public static Node getMapField(final Class<? extends Entity> elementClass) {
         return getFieldElements(GamePlayAppState.field, elementClass);
     }
 
@@ -79,7 +102,7 @@ public class RayHelper {
         return getInventory(InventoryCell.class);
     }
 
-    public static Node getInventory(Class<? extends Entity> elementClass) {
+    public static Node getInventory(final Class<? extends Entity> elementClass) {
         return getFieldElements(Configuration.getInventory(), elementClass);
     }
 
@@ -87,11 +110,11 @@ public class RayHelper {
         return getShop(InventoryCell.class);
     }
 
-    public static Node getShop(Class<? extends Entity> elementClass) {
+    public static Node getShop(final Class<? extends Entity> elementClass) {
         return getFieldElements(Configuration.getShop(), elementClass);
     }
 
-    public static Node getFieldElements(Field field, Class<? extends Entity> elementClass) {
+    public static Node getFieldElements(final Field field, Class<? extends Entity> elementClass) {
         return field != null ? field.getObjects(elementClass) : EMPTY_NODE;
     }
 

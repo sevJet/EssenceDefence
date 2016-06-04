@@ -31,6 +31,8 @@ public class Essence extends Entity3D implements IBuyable {
     private float speed = 0f;
     private int level = 1;
     private float price = 0f;
+    // TODO: 04.06.16 Rename
+    private int monsters = 1;
 
     private ColorRGBA color;
 
@@ -125,6 +127,14 @@ public class Essence extends Entity3D implements IBuyable {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public int getMonsters() {
+        return monsters;
+    }
+
+    public void setMonsters(int monsters) {
+        this.monsters = monsters;
     }
 
     public float getOffsetX() {
