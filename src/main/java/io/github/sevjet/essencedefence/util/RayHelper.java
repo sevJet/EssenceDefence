@@ -12,6 +12,7 @@ import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.sevjet.essencedefence.Game;
 import io.github.sevjet.essencedefence.GamePlayAppState;
 import io.github.sevjet.essencedefence.entity.Entity;
 import io.github.sevjet.essencedefence.field.Cell;
@@ -95,7 +96,7 @@ public class RayHelper {
     }
 
     public static Node getMapField(final Class<? extends Entity> elementClass) {
-        return getFieldElements(GamePlayAppState.field, elementClass);
+        return getFieldElements(Game.instance().field(), elementClass);
     }
 
     public static Node getInventory() {
@@ -103,7 +104,7 @@ public class RayHelper {
     }
 
     public static Node getInventory(final Class<? extends Entity> elementClass) {
-        return getFieldElements(Configuration.getInventory(), elementClass);
+        return getFieldElements(Game.instance().inventory(), elementClass);
     }
 
     public static Node getShop() {
@@ -111,7 +112,7 @@ public class RayHelper {
     }
 
     public static Node getShop(final Class<? extends Entity> elementClass) {
-        return getFieldElements(Configuration.getShop(), elementClass);
+        return getFieldElements(Game.instance().shop(), elementClass);
     }
 
     public static Node getFieldElements(final Field field, Class<? extends Entity> elementClass) {

@@ -7,37 +7,37 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
 
-import io.github.sevjet.essencedefence.Gamer;
+import io.github.sevjet.essencedefence.game.Player;
 import io.github.sevjet.essencedefence.util.Configuration;
 import io.github.sevjet.essencedefence.util.Creator;
 
 public class EndlessLogBar extends AbstractControl {
 
-    private Node gamerGui = new Node("gui");
+    private Node playerGui = new Node("gui");
     private BitmapText text;
 
-    public EndlessLogBar(Gamer gamer) {
+    public EndlessLogBar(Player player) {
         final float dist10m = MovementOnGuiControl.SCALE_FROM_3D_TO_GUI / 10f;
 
         DataBar bar = new DataBar(5f, 1f / 2f);
-        BarControl barC = new BarControl(gamer, BarMode.EndlessX2);
+        BarControl barC = new BarControl(player, BarMode.EndlessX2);
         bar.addControl(barC);
 
         text = Creator.text2D("", ColorRGBA.White);
         text.setSize(text.getFont().getCharSet().getRenderedSize() / dist10m);
-        text.addControl(new TextControl(gamer, ""));
+        text.addControl(new TextControl(player, ""));
 
-        gamerGui.attachChild(bar);
-        gamerGui.attachChild(text);
-        gamerGui.setLocalScale(dist10m);
-        gamerGui.setLocalTranslation(
+        playerGui.attachChild(bar);
+        playerGui.attachChild(text);
+        playerGui.setLocalScale(dist10m);
+        playerGui.setLocalTranslation(
                 Configuration.getSettings().getWidth() / 2f,
                 Configuration.getSettings().getHeight() - 50f,
                 0);
     }
 
     public Node getGamerGui() {
-        return gamerGui;
+        return playerGui;
     }
 
     @Override

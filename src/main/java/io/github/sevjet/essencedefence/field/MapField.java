@@ -94,7 +94,7 @@ public class MapField extends Field<MapCell> {
         }
         if (guiControl != null) {
             Configuration.getAppState().getState(GamePlayAppState.class).
-                    getLocalGui().attachChild(guiControl.getControlNode());
+                    getGui().attachChild(guiControl.getControlNode());
         }
     }
 

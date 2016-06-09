@@ -6,7 +6,7 @@ apply plugin: 'application'
 
 compileJava.options.encoding = 'UTF-8'
 
-mainClassName = 'io.github.sevjet.essencedefence.Main'
+mainClassName = 'io.github.sevjet.essencedefence.Bootstrap'
 
 repositories {
     mavenCentral()

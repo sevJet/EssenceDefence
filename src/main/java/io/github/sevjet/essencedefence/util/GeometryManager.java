@@ -7,8 +7,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.github.sevjet.essencedefence.entity.Entity;
+import io.github.sevjet.essencedefence.entity.Essence;
+import io.github.sevjet.essencedefence.entity.building.Fortress;
+import io.github.sevjet.essencedefence.entity.building.Portal;
+import io.github.sevjet.essencedefence.entity.building.Tower;
+import io.github.sevjet.essencedefence.entity.building.Wall;
+import io.github.sevjet.essencedefence.entity.monster.Monster;
+import io.github.sevjet.essencedefence.field.Cell;
+import io.github.sevjet.essencedefence.field.InventoryCell;
+import io.github.sevjet.essencedefence.field.MapCell;
 
 import static io.github.sevjet.essencedefence.util.Creator.myBox;
+import static io.github.sevjet.essencedefence.util.Creator.myQuad;
+import static io.github.sevjet.essencedefence.util.Creator.myShinySphere;
 
 public class GeometryManager {
 
@@ -40,5 +51,19 @@ public class GeometryManager {
         Geometry oldValue = instance.defaultGeometry.get(clazz);
         instance.defaultGeometry.put(clazz, newValue.clone());
         return oldValue;
+    }
+
+    public static void init() {
+        getInstance().defaultGeometry.clear();
+
+        setDefault(Cell.class, myQuad(1, 1, "cell", ColorRGBA.Black));
+        setDefault(MapCell.class, getDefault(Cell.class));
+        setDefault(InventoryCell.class, getDefault(Cell.class));
+        setDefault(Wall.class, myBox(1 / 2f, 1 / 2f, 1f, "wall", ColorRGBA.Cyan));
+        setDefault(Tower.class, myBox(1f, 1f, 1.5f, "tower", ColorRGBA.Green));
+        setDefault(Fortress.class, myBox(3 / 2f, 3 / 2f, 2f, "fortress", ColorRGBA.Gray));
+        setDefault(Portal.class, myBox(1f, 1 / 2f, 1.5f, "portal", ColorRGBA.Magenta));
+        setDefault(Monster.class, myBox(1 / 3f, 1 / 3f, 1 / 2f, "monster", ColorRGBA.Yellow));
+        setDefault(Essence.class, myShinySphere(1 / 2f, "essence", ColorRGBA.randomColor()));
     }
 }

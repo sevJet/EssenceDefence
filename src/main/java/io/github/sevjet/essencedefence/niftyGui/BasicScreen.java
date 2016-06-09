@@ -6,24 +6,44 @@ import de.lessvoid.nifty.screen.ScreenController;
 
 import io.github.sevjet.essencedefence.util.Configuration;
 
-public abstract class BaseScreen implements ScreenController {
+public abstract class BasicScreen implements ScreenController {
+
     protected Nifty nifty;
 
-    public BaseScreen(String xml, String screenName) {
+    protected final String xml;
+    protected final String screenName;
+
+    public BasicScreen(String xml, String screenName) {
+        this.xml = xml;
+        this.screenName = screenName;
+
         nifty = Configuration.getNifty();
         try {
-            nifty.fromXml(xml, screenName, this);
+            nifty.registerScreenController(this);
+            nifty.fromXmlWithoutStartScreen(xml);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public BaseScreen(String xml) {
-        this(xml, "start");
+    public BasicScreen(String xml) {
+        this(xml, "default");
+    }
+
+    public String getScreenName() {
+        return screenName;
     }
 
     public Nifty getNifty() {
         return nifty;
+    }
+
+    public void show() {
+        nifty.gotoScreen(screenName);
+    }
+
+    public void hide() {
+        nifty.exit();
     }
 
     @Override
@@ -38,5 +58,7 @@ public abstract class BaseScreen implements ScreenController {
 
     @Override
     public void onEndScreen() {
+
     }
+
 }

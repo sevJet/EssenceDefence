@@ -8,6 +8,7 @@ import com.jme3.math.FastMath;
 
 import java.io.IOException;
 
+import io.github.sevjet.essencedefence.Game;
 import io.github.sevjet.essencedefence.control.BasicControl;
 import io.github.sevjet.essencedefence.control.MonsterControl;
 import io.github.sevjet.essencedefence.entity.Entity3D;
@@ -15,7 +16,6 @@ import io.github.sevjet.essencedefence.field.Field;
 import io.github.sevjet.essencedefence.field.MapField;
 import io.github.sevjet.essencedefence.gui.ITextual;
 import io.github.sevjet.essencedefence.util.BoxSize;
-import io.github.sevjet.essencedefence.util.Configuration;
 
 public class Monster extends Entity3D implements ITextual {
 
@@ -111,7 +111,7 @@ public class Monster extends Entity3D implements ITextual {
     }
 
     private void giveReward() {
-        Configuration.getGamer().incGold(money);
+        Game.instance().player().give(money);
     }
 
     public void upgrade(int level) {

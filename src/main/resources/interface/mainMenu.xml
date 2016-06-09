@@ -2,7 +2,7 @@
 <nifty>
     <useControls filename="nifty-default-controls.xml"/>
     <useStyles filename="nifty-default-styles.xml"/>
-    <screen id="start" controller="io.github.sevjet.essencedefence.niftyGui.StartScreen">
+    <screen id="mainMenu" controller="io.github.sevjet.essencedefence.niftyGui.MainMenu">
         <layer id="mainLayer" childLayout="center"
                backgroundImage="startImage2.png">
             <panel id="mainPanel" childLayout="absolute" width="100.0%"
@@ -10,7 +10,7 @@
                 <control name="button" id="btnStart" childLayout="center" x="50" width="80%" y="100"
                          label="New game"
                          align="center" height="46px">
-                    <interact onClick="start()"/>
+                    <interact onClick="newGame()"/>
                 </control>
                 <control name="button" id="btnContinue" childLayout="center"
                          backgroundImage="button/button.png" x="50"
@@ -29,7 +29,7 @@
             </effect>
         </layer>
     </screen>
-    <screen id="start2" controller="io.github.sevjet.essencedefence.niftyGui.InfoScreen">
+    <screen id="info" controller="io.github.sevjet.essencedefence.niftyGui.EssenceInfo">
         <layer id="GLayer0" childLayout="absolute">
             <control name="label" id="txt" backgroundColor="#000000aa" color="#009900ff" width="20%"
                      height="50%"

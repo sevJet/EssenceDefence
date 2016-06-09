@@ -39,32 +39,6 @@ public final class Creator {
         return myQuad(x, y, "guard", color);
     }
 
-    //Fix for create savable grid
-    private static Node tempGridXY(int rowLen, int colLen, float lineDist, ColorRGBA clr, float lineWidth) {
-        Node axis = new Node();
-        Geometry geom;
-        for (int i = 0; i < rowLen; i++) {
-            geom = myLine(
-                    new Vector3f(i * lineDist, 0, 0),
-                    new Vector3f(i * lineDist, colLen - 1, 0),
-                    clr,
-                    lineWidth
-            );
-
-            axis.attachChild(geom);
-        }
-        for (int i = 0; i < colLen; i++) {
-            geom = myLine(
-                    new Vector3f(0, i * lineDist, 0),
-                    new Vector3f(rowLen - 1, i * lineDist, 0),
-                    clr,
-                    lineWidth
-            );
-            axis.attachChild(geom);
-        }
-        return axis;
-    }
-
     public static Node gridXY(int rowLen, int colLen, float lineDist, ColorRGBA clr, float lineWidth) {
         Node axis = new Node();
         Geometry geom;
@@ -80,7 +54,6 @@ public final class Creator {
         axis.attachChild(geom);
 
         return axis;
-//        return tempGridXY(rowLen, colLen, lineDist, clr, lineWidth);
     }
 
     public static Node gridXY(int length, ColorRGBA clr) {

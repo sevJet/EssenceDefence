@@ -10,8 +10,8 @@ import com.jme3.math.Vector3f;
 
 import java.io.IOException;
 
+import io.github.sevjet.essencedefence.Game;
 import io.github.sevjet.essencedefence.util.BoxSize;
-import io.github.sevjet.essencedefence.util.Configuration;
 
 public class Essence extends Entity3D implements IBuyable {
 
@@ -70,17 +70,17 @@ public class Essence extends Entity3D implements IBuyable {
                 essence.color.clone());
     }
 
-    public Essence buySame() {
-        if (Configuration.getGamer().decGold(price)) {
-            return new Essence(this);
+    public static Essence buy() {
+        Essence essence = getNew();
+        if (Game.instance().player().take(essence.getPrice())) {
+            return essence;
         }
         return null;
     }
 
-    public static Essence buy() {
-        Essence essence = getNew();
-        if (Configuration.getGamer().decGold(essence.getPrice())) {
-            return essence;
+    public Essence buySame() {
+        if (Game.instance().player().take(price)) {
+            return new Essence(this);
         }
         return null;
     }
@@ -90,7 +90,7 @@ public class Essence extends Entity3D implements IBuyable {
     }
 
     public float sell() {
-        Configuration.getGamer().incGold(price);
+        Game.instance().player().give(price);
         geometry.removeFromParent();
 
         return price;
@@ -173,7 +173,7 @@ public class Essence extends Entity3D implements IBuyable {
     }
 
     public boolean upgrade() {
-        if (Configuration.getGamer().decGold(price)) {
+        if (Game.instance().player().take(price)) {
             level++;
             damage = trim(damage * damageK);
             range = trim(range * rangeK);
@@ -187,7 +187,7 @@ public class Essence extends Entity3D implements IBuyable {
     public boolean combine(Essence essence) {
         float price = trim((this.price + essence.price) * 1.25f);
 
-        if (Configuration.getGamer().decGold(price)) {
+        if (Game.instance().player().take(price)) {
 //            int level = this.level + essence.level;
 //            float rightK = this.level * 1.0f / level;
 //            float leftK = essence.level * 1.0f / level;

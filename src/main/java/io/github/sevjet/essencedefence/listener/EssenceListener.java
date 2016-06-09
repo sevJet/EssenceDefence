@@ -12,13 +12,13 @@ import io.github.sevjet.essencedefence.entity.Essence;
 import io.github.sevjet.essencedefence.entity.building.Tower;
 import io.github.sevjet.essencedefence.field.Inventory;
 import io.github.sevjet.essencedefence.field.InventoryCell;
-import io.github.sevjet.essencedefence.niftyGui.InfoScreen;
+import io.github.sevjet.essencedefence.niftyGui.EssenceInfo;
 import io.github.sevjet.essencedefence.util.Configuration;
 import io.github.sevjet.essencedefence.util.RayHelper;
 
 public class EssenceListener implements ActionListener {
 
-    public static InfoScreen info = null;
+    public static EssenceInfo info = null;
 
     private final Node hand;
     private Essence handEssence = null;
@@ -91,7 +91,7 @@ public class EssenceListener implements ActionListener {
             y = Configuration.getSettings().getHeight() - ((int) vec.getY());
 
             if (info == null) {
-                info = new InfoScreen("interface/mainMenu.xml", "start2");
+                info = new EssenceInfo("interface/mainMenu.xml", "info");
             }
             Element txt = info.getElement("txt");
             if (txt == null) {

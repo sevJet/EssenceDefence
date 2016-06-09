@@ -5,20 +5,14 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.tools.SizeValue;
 
-public class InfoScreen extends BaseScreen {
+public class EssenceInfo extends BasicScreen {
 
-    protected String screenName = null;
-
-    public InfoScreen(String xml) {
-        super(xml);
-        nifty.getScreen("start2").findElementByName("txt").hide();
-    }
-
-    public InfoScreen(String xml, String screenName) {
+    public EssenceInfo(String xml, String screenName) {
         super(xml, screenName);
 
-        this.screenName = screenName;
-        nifty.getScreen(screenName).findElementByName("txt").hide();
+        nifty.getScreen(screenName)
+                .findElementByName("txt")
+                .hide();
     }
 
     public Element getElement(String name) {
@@ -31,11 +25,6 @@ public class InfoScreen extends BaseScreen {
 
         el.getRenderer(TextRenderer.class).setText(text);
         return true;
-    }
-
-    public boolean moveTo(String name, int x, int y) {
-        Element el = getElement(name);
-        return moveTo(el, x, y);
     }
 
     public boolean moveTo(Element el, int x, int y) {
@@ -62,7 +51,8 @@ public class InfoScreen extends BaseScreen {
     }
 
     public void showAll() {
-        nifty.getScreen("start2").getRootElement().setVisible(true);
+        nifty.getScreen("info").getRootElement().setVisible(true);
+        show();
     }
 
     public void hideAll() {
