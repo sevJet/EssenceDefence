@@ -52,6 +52,7 @@ public class WireframeControl extends BasicControl {
         } else {
             spatial.removeFromParent();
             spatial.removeControl(this);
+            wireframe.destroy();
         }
     }
 

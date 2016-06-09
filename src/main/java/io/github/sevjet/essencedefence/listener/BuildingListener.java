@@ -119,7 +119,7 @@ public class BuildingListener implements ActionListener {
     }
 
     private void onRelease(String name) {
-        if (currentMap.equals(name) && field != null) {
+        if (currentMap.equals(name) && field != null && !wireframe.isDestroyed()) {
             field.removeAll(Wireframe.class);
 
             Building building = choiceBuilding(name);
