@@ -14,10 +14,8 @@ public class StartScreen extends BaseScreen {
 
     public void start() {
         if (state != null) {
-//            state.cleanup();
-            Configuration.getAppState().detach(state);
-//            state.stateDetached(Configuration.getAppState());
-//            state.cleanup();
+//            Configuration.getAppState().detach(state);
+            state.cleanup();
         }
         state = new GamePlayAppState();
 

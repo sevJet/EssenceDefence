@@ -44,7 +44,7 @@ public class MonsterListener implements ActionListener {
                             if (cell.hasContent() && cell.getContent() instanceof Portal) {
                                 Portal portal = (Portal) cell.getContent();
                                 ArrayList<Monster> monsters = new ArrayList<>();
-                                for (int i = 0; i < 15; i++) {
+                                for (int i = 0; i < 20; i++) {
                                     monster = Monster.getDefaultMonster();
                                     monster.upgrade(level++);
                                     monsters.add(monster);
@@ -60,7 +60,7 @@ public class MonsterListener implements ActionListener {
                                 Portal p = (Portal) Getter.getEntity(sp);
 
                                 ArrayList<Monster> monsters = new ArrayList<>();
-                                for (int i = 0; i < 1; i++) {
+                                for (int i = 0; i < 20; i++) {
                                     monster = Monster.getDefaultMonster();
                                     monster.upgrade(level);
                                     monsters.add(monster);

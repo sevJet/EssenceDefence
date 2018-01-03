@@ -83,7 +83,6 @@ public class Tower extends BuyableBuilding {
         }
     }
 
-    // TODO: 12/05/2016 change on BoundSphere
     public List<Monster> getCloseMonsters() {
         if (isEmpty()) {
             return Collections.emptyList();

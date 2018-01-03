@@ -1,5 +1,7 @@
 package io.github.sevjet.essensedefence.field;
 
+import com.jme3.export.JmeExporter;
+import com.jme3.export.JmeImporter;
 import io.github.sevjet.essensedefence.GamePlayAppState;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.entity.Essence;
@@ -9,6 +11,8 @@ import io.github.sevjet.essensedefence.entity.building.Tower;
 import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.gui.GuiControl;
 import io.github.sevjet.essensedefence.util.Configuration;
+
+import java.io.IOException;
 
 public class MapField extends Field<MapCell> {
 
@@ -183,4 +187,16 @@ public class MapField extends Field<MapCell> {
     public boolean wasUpdated(long from) {
         return lastUpdate > from;
     }
+
+    @Override
+    public void write(JmeExporter ex) throws IOException {
+        super.write(ex);
+    }
+
+    @Override
+    public void read(JmeImporter im) throws IOException {
+        super.read(im);
+    }
+
+
 }

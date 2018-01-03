@@ -37,7 +37,7 @@ public class Main extends SimpleApplication {
 
     // TODO: 21/05/2016 fix it
     public static StartScreen start;
-    public static GamePlayAppState state;
+    public static GamePlayAppState state = null;
 
     public static AppSettings mySettings() throws LWJGLException {
         AppSettings settings = new AppSettings(true);
@@ -66,7 +66,7 @@ public class Main extends SimpleApplication {
     }
 
     public static void main(String[] args) throws LWJGLException {
-//        System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
+        System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
         System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
         System.setProperty("apple.awt.UIElement", "true");
         Display.setResizable(true);
@@ -119,8 +119,8 @@ public class Main extends SimpleApplication {
     }
 
     protected void initStartSettings() {
-        setDisplayFps(false);
-        setDisplayStatView(false);
+//        setDisplayFps(false);
+//        setDisplayStatView(false);
 
         NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager,
                 inputManager,

@@ -118,9 +118,6 @@ public abstract class Entity implements Savable {
             if (geometry.getParent().getParent() instanceof Field) {
                 return (Field) geometry.getParent().getParent();
             }
-//            if (geometry.getParent().getParent() instanceof Inventory){
-//                return (Inventory) geometry.getParent().getParent();
-//            }
         }
         return null;
     }

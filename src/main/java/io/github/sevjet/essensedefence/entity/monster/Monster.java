@@ -113,7 +113,7 @@ public class Monster extends Entity3D implements ITextual {
         Configuration.getGamer().incGold(money);
     }
 
-    public void upgrade(int level) {
+    public void upgrade(long level) {
         float k = 1f + (level - 1) / 10f;
         health *= k;
         money *= k;

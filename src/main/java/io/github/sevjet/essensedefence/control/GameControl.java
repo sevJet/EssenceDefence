@@ -6,6 +6,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import io.github.sevjet.essensedefence.entity.building.Portal;
+import io.github.sevjet.essensedefence.entity.monster.Monster;
 import io.github.sevjet.essensedefence.field.MapField;
 
 import java.util.ArrayList;
@@ -56,11 +57,26 @@ public class GameControl extends AbstractControl {
             }
             if (timer <= 0f) {
                 timer = -1f;
-
+                for (Portal portal :portals){
+                    ArrayList<Monster> monsters = new ArrayList<>();
+                    for (int i = 0; i < 20; i++) {
+                        Monster monster = Monster.getDefaultMonster();
+                        monster.upgrade(level);
+                        monsters.add(monster);
+                    }
+                    WaveControl wave = new WaveControl(monsters);
+                    wave.setDelay(3f);
+                    wave.setGap(2f);
+                    portal.addWave(wave);
+//                    level += 3;
+                    level *= 2;
+                    System.out.println(level);
+                }
                 portals.forEach(Portal::pushWave);
             }
         }
     }
+    private long level = 10;
 
     @Override
     protected void controlRender(RenderManager rm, ViewPort vp) {

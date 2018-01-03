@@ -9,13 +9,16 @@ import com.jme3.export.binary.BinaryExporter;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import io.github.sevjet.essensedefence.entity.Entity;
 import io.github.sevjet.essensedefence.util.Configuration;
+import io.github.sevjet.essensedefence.util.Getter;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static io.github.sevjet.essensedefence.util.Creator.gridXY;
@@ -47,6 +50,21 @@ public abstract class Field<T extends Cell> extends Node {
             addObject(cell);
         }
         gridOn();
+    }
+
+    public boolean addObject(final Entity object) {
+        Node node = objects.get(object.getClass());
+        if (node == null) {
+            node = new Node();
+            objects.put(object.getClass(), node);
+            attachChild(node);
+        }
+        if (!node.hasChild(object.getGeometry())) {
+            node.attachChild(object.getGeometry());
+            guiFor(object);
+            return true;
+        }
+        return false;
     }
 
     public static boolean save(Field field, File file) {
@@ -96,20 +114,7 @@ public abstract class Field<T extends Cell> extends Node {
         return objects.get(clazz);
     }
 
-    public boolean addObject(final Entity object) {
-        Node node = objects.get(object.getClass());
-        if (node == null) {
-            node = new Node();
-            objects.put(object.getClass(), node);
-            attachChild(node);
-        }
-        if (!node.hasChild(object.getGeometry())) {
-            node.attachChild(object.getGeometry());
-            guiFor(object);
-            return true;
-        }
-        return false;
-    }
+
 
     protected void guiFor(Entity object) {
 //        if (object instanceof Fortress) {
@@ -186,7 +191,19 @@ public abstract class Field<T extends Cell> extends Node {
     @Override
     public void write(JmeExporter ex) throws IOException {
         // TODO: 20/05/2016 detach grid
+        detachChild(grid);
+        Node parent = getParent();
+        removeFromParent();
+        List<Spatial> children = this.getChildren();
+        this.detachAllChildren();
+
         super.write(ex);
+
+        for (Spatial sp : children)
+            this.attachChild(sp);
+
+        parent.attachChild(this);
+        attachChild(grid);
 
         OutputCapsule capsule = ex.getCapsule(this);
         capsule.write(rows, "rows", 1);
@@ -194,6 +211,28 @@ public abstract class Field<T extends Cell> extends Node {
         capsule.writeSavableArrayList(cells, "cells", null);
         // TODO: 17.05.16 this should be saved too
 //        capsule.writeSavableMap(objects, "objects", null);
+        // TODO: 30/05/2016 change save objects
+        capsule.write(objects.entrySet().size(), "size", 0);
+
+        for (Map.Entry<Class<? extends Entity>, Node> entry : objects.entrySet()) {
+            String nameClass = null;
+            nameClass = entry.getKey().toString().split(" ")[1];
+
+            capsule.write(nameClass, "class", null);
+            capsule.write(entry.getValue(), "node", null);
+
+            try {
+                System.out.println(nameClass);
+                System.out.println(Class.forName(nameClass).toString());
+//                Class.forName(nameClass);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            System.out.println(entry);
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
+            System.out.println("------");
+        }
     }
 
     @Override
@@ -213,7 +252,47 @@ public abstract class Field<T extends Cell> extends Node {
             // TODO: 17.05.16  fix this unchecked cast
 //            if (el instanceof T) {
             cells.add((T) el);
+
 //            }
         }
+
+        // TODO: 30/05/2016 change load object
+        int n;
+        n = capsule.readInt("size", 0);
+        System.out.println(n);
+        if (objects == null)
+            this.objects = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            String nameClass;
+            Class<? extends Entity> clazz = null;
+            Node node;
+
+            nameClass = capsule.readString("class", null);
+            try {
+                clazz = (Class<? extends Entity>) Class.forName(nameClass);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            node = (Node) capsule.readSavable("node", null);
+            System.out.println(nameClass + " " + clazz.toString());
+            System.out.println(node);
+            System.out.println("////");
+
+//            if (clazz != null)
+//                objects.put(clazz, node);
+            if (node != null)
+            for (Spatial ch : node.getChildren()) {
+                addObject(Getter.getEntity(ch));
+            }
+        }
+        gridOn();
+    }
+
+    @Deprecated
+    public void updateObjectParent() {
+        for (Map.Entry<Class<? extends Entity>, Node> entry : objects.entrySet()) {
+            this.attachChild(entry.getValue());
+        }
+        this.attachChild(grid);
     }
 }

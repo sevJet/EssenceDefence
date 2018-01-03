@@ -7,6 +7,7 @@ import com.jme3.input.MouseInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.input.controls.Trigger;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -17,6 +18,7 @@ import io.github.sevjet.essensedefence.field.Cell;
 import io.github.sevjet.essensedefence.field.InventoryCell;
 import io.github.sevjet.essensedefence.field.MapCell;
 import io.github.sevjet.essensedefence.util.Configuration;
+import io.github.sevjet.essensedefence.util.Creator;
 import io.github.sevjet.essensedefence.util.Getter;
 
 
@@ -185,8 +187,53 @@ public final class ListenerManager {
 
         Vector3f dir = Configuration.getCam().getWorldCoordinates(
                 new Vector2f(click2d.getX(), click2d.getY()), 1f).
-                subtract(click3d);
+                subtract(click3d).normalize();
 
+        Vector3f dir2 = Configuration.getCam().getDirection()
+                .subtract(Configuration.getCam().getWorldCoordinates(
+                        new Vector2f(
+                                Configuration.getSettings().getWidth() / 2f,
+                                Configuration.getSettings().getHeight() / 2f),
+                        0f))
+                .add(click3d).normalize();
+
+        System.out.println(click3d);
+//        System.out.println(dir);
+//        System.out.println("--");
+//        System.out.println(dir2.add(click3d).normalize());
+//        System.out.println(dir2.add(click3d.normalize()).normalize());
+//        System.out.println("--");
+//        dir2 = dir2.negate();
+//        System.out.println(dir2.add(click3d).normalize());
+//        System.out.println(dir2.add(click3d.normalize()).normalize());
+//        System.out.println("--");
+//        System.out.println("========");
+//        System.out.println(dir2.subtract(click3d).normalize());
+//        System.out.println(dir2.subtract(click3d.normalize()).normalize());
+//        System.out.println("--");
+//        dir2 = dir2.negate();
+//        System.out.println(dir2.subtract(click3d).normalize());
+//        System.out.println(dir2.subtract(click3d.normalize()).normalize());
+//        System.out.println("--");
+//        System.out.println(Configuration.getCam().getDirection());
+//        System.out.println(Configuration.getCam().getDirection().negate());
+        System.out.println();
+
+
+//        Configuration.getRootNode().attachChild(
+//                Creator.myLine(
+//                        Vector3f.ZERO,
+//                        click3d,
+//                        ColorRGBA.Red,
+//                        5f
+//                ));
+//        Configuration.getRootNode().attachChild(
+//                Creator.myLine(
+//                        Configuration.getCam().getLocation(),
+//                        dir2.mult(100).add(Configuration.getCam().getLocation()),
+//                        ColorRGBA.Blue,
+//                        44f
+//                ));
         return new Ray(click3d, dir);
     }
 }

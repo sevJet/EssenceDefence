@@ -20,6 +20,7 @@
     <orderEntry type="library" name="Gradle: com.jme3:jme3-niftygui:3.0.10" level="project" />
     <orderEntry type="library" name="Gradle: com.jme3:jme3-desktop:3.0.10" level="project" />
     <orderEntry type="library" name="Gradle: com.jme3:jme3-lwjgl:3.0.10" level="project" />
+    <orderEntry type="library" name="Gradle: org.bushe:eventbus:1.4" level="project" />
     <orderEntry type="library" name="Gradle: com.jme3-lib:oggd:1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.jme3-lib:vorbisd:1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.jme3-lib:jbullet:3.0.10-jme" level="project" />
